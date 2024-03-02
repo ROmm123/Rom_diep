@@ -224,8 +224,8 @@ while running:
             a1 = abs(k1 - int(z.x))
             a2 = abs(k2 - int(z.y))
             if a2 < screen_height and a1 < screen_width:
-                weapon_surf = pygame.Surface((numbers[3], numbers[4]), pygame.SRCALPHA)
-                pygame.draw.rect(weapon_surf , RED ,(0 , 0 , numbers[3] , numbers[4]))
+                weapon_surf = pygame.Surface((int(numbers[3]), int(numbers[4])), pygame.SRCALPHA)
+                pygame.draw.rect(weapon_surf , RED ,(0 , 0 , int(numbers[3]) , int(numbers[4])))
                 rotated_weapon = pygame.transform.rotate(weapon_surf, math.degrees(-angle_to_tangent))
                 rect2 = weapon_surf.get_rect(topleft=(350 + b1, 250 + b2))
                 screen.blit(weapon_surf, rect2)
