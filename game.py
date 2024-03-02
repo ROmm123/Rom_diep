@@ -13,6 +13,8 @@ screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 z = pygame.math.Vector2(400, 300)
 
+
+
 # Load the TMX map data from the file 'cubed_map.tmx'
 tmx_data = load_pygame("cubed_map.tmx")
 
@@ -156,9 +158,9 @@ while running:
     rect_center_x += (circle_radius - 15 - offset_distance) * math.cos(angle)
     rect_center_y += (circle_radius - 15 - offset_distance) * math.sin(angle)
 
-    # Create rectangle surface
+    # Create rectangle weapon_surf
     rect_surface = pygame.Surface((rect_width, rect_height), pygame.SRCALPHA)
-    pygame.draw.rect(rect_surface, RED, (0, 0, rect_width, rect_height))  # Draw green rectangle on surface
+    pygame.draw.rect(rect_surface, RED, (0, 0, rect_width, rect_height))  # Draw green rectangle on weapon_surf
     rotated_rect = pygame.transform.rotate(rect_surface, math.degrees(-angle_to_tangent))
     print(rotated_rect)
     # Get rectangle's rect
@@ -168,12 +170,12 @@ while running:
     screen.blit(rotated_rect, rect_rect)
 
     # Sending positional data of circle and rectangle
-    circle_data = f"CIRCLE,{circle_center[0]},{circle_center[1]},{circle_radius}"
+    #circle_data = f"CIRCLE,{circle_center[0]},{circle_center[1]},{circle_radius}"
     rectangle_data = f"RECTANGLE,{rect_center_x},{rect_center_y},{rect_width},{rect_height},{angle_to_tangent}"
-    z_data = f"z_position,{z.x},{z.y}"
+    #z_data = f"z_position,{z.x},{z.y}"
 
     # Concatenate both pieces of data
-    data_to_send = z_data + "," + rectangle_data
+    data_to_send = rectangle_data
 
     # Encode and send the data
 
@@ -196,11 +198,11 @@ while running:
     rect_height = int(rectangle_data[4])
     rotation_angle = int(rectangle_data[5])
 
-    # Create rectangle surface
+    # Create rectangle weapon_surf
     rect_surface = pygame.Surface((rect_width, rect_height), pygame.SRCALPHA)
     pygame.draw.rect(rect_surface, RED, (0, 0, rect_width, rect_height))
 
-    # Rotate the rectangle surface
+    # Rotate the rectangle weapon_surf
     rotated_rect_surface = pygame.transform.rotate(rect_surface, rotation_angle)
 
     # Get rectangle's rect
@@ -208,7 +210,6 @@ while running:
 
     # Draw rotated rectangle onto the screen
     screen.blit(rozztated_rect_surface, rotated_rect)'''
-    datat = str(z)
     try:
         data_to_send = data_to_send.encode()
         client_socket.send(data_to_send)
@@ -223,11 +224,11 @@ while running:
             a1 = abs(k1 - int(z.x))
             a2 = abs(k2 - int(z.y))
             if a2 < screen_height and a1 < screen_width:
-                surface = pygame.Surface((15, 15))
-                surface.fill((255, 0, 0))  # Fill the surface with red color
-                rect2 = surface.get_rect(topleft=(350 + b1, 250 + b2))
-                screen.blit(rotated_rect, rect_rect)
-                screen.blit(surface, rect2)
+                weapon_surf = pygame.Surface((numbers[3], numbers[4]), pygame.SRCALPHA)
+                pygame.draw.rect(weapon_surf , RED ,(0 , 0 , numbers[3] , numbers[4]))
+                rotated_weapon = pygame.transform.rotate(weapon_surf, math.degrees(-angle_to_tangent))
+                rect2 = weapon_surf.get_rect(topleft=(350 + b1, 250 + b2))
+                screen.blit(weapon_surf, rect2)
 
 
     except KeyboardInterrupt:
