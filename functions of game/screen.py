@@ -23,6 +23,15 @@ def load_chunk(chunk_x, chunk_y,tmx_data):
 
     return chunk_group
 
+def setting():
+    pygame.init()
+
+    # Set up the display window
+    screen_width = 800
+    screen_height = 600
+    screen = pygame.display.set_mode((screen_width, screen_height))
+    tmx_data = load_pygame("files and pic/cubed_map.tmx")
+
 def end_tile(screen_position,circle_center,screen_width,screen_height):
     # Calculate the screen's position on the map
     player_x = screen_position[0]

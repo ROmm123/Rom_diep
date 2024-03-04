@@ -6,6 +6,7 @@ import socket
 from game import screen
 
 
+
 class Player():
 
     def __init__(self , x , y , radius , color):
@@ -28,46 +29,44 @@ class Player():
         move_down = False
 
         # Main game loop
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_a:
-                        move_left = True
-                    elif event.key == pygame.K_d:
-                        move_right = True
-                    elif event.key == pygame.K_w:
-                        move_up = True
-                    elif event.key == pygame.K_s:
-                        move_down = True
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_a:
-                        move_left = False
-                    elif event.key == pygame.K_d:
-                        move_right = False
-                    elif event.key == pygame.K_w:
-                        move_up = False
-                    elif event.key == pygame.K_s:
-                        move_down = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    move_left = True
+                elif event.key == pygame.K_d:
+                    move_right = True
+                elif event.key == pygame.K_w:
+                    move_up = True
+                elif event.key == pygame.K_s:
+                    move_down = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    move_left = False
+                elif event.key == pygame.K_d:
+                    move_right = False
+                elif event.key == pygame.K_w:
+                    move_up = False
+                elif event.key == pygame.K_s:
+                    move_down = False
 
-            # Update screen position based on movement direction
-            if move_left:
-                self.x -= self.speed
-                if self.x[0] < 0:
-                    self.x += self.speed
-
-            if move_right:
+        # Update screen position based on movement direction
+        if move_left:
+            self.x -= self.speed
+            if self.x[0] < 0:
                 self.x += self.speed
 
-            if move_up:
-                self.y -= self.speed
-                if self.y < 0:
-                    self.y += self.speed
+        if move_right:
+            self.x += self.speed
 
-            if move_down:
+        if move_up:
+            self.y -= self.speed
+            if self.y < 0:
                 self.y += self.speed
+
+        if move_down:
+            self.y += self.speed
 
 
 
