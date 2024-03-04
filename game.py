@@ -16,7 +16,7 @@ z = pygame.math.Vector2(400, 300)
 
 
 # Load the TMX map data from the file 'cubed_map.tmx'
-tmx_data = load_pygame("cubed_map.tmx")
+tmx_data = load_pygame("files and pic/cubed_map.tmx")
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(("127.0.0.1", 10009))
@@ -162,7 +162,6 @@ while running:
     rect_surface = pygame.Surface((rect_width, rect_height), pygame.SRCALPHA)
     pygame.draw.rect(rect_surface, RED, (0, 0, rect_width, rect_height))  # Draw green rectangle on weapon_surf
     rotated_rect = pygame.transform.rotate(rect_surface, math.degrees(-angle_to_tangent))
-    print(rotated_rect)
     # Get rectangle's rect
     rect_rect = rotated_rect.get_rect(center=(rect_center_x - camera_x, rect_center_y - camera_y))
 
