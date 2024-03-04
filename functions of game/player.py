@@ -3,14 +3,14 @@ import sys
 import math
 from pytmx import load_pygame
 import socket
-from game import screen
+from map import *
 
 
 
 class Player():
 
     def __init__(self , x , y , radius , color):
-        self.surface = screen
+        self.surface = Map.get_screen()
         self.x = x
         self.y = y
         self.radius = radius

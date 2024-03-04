@@ -16,7 +16,7 @@ z = pygame.math.Vector2(400, 300)
 
 
 # Load the TMX map data from the file 'cubed_map.tmx'
-tmx_data = load_pygame("files and pic/cubed_map.tmx")
+tmx_data = load_pygame("cubed_map.tmx")
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(("127.0.0.1", 10009))
@@ -126,6 +126,7 @@ while running:
     # Draw the current chunk at the correct screen position
     COUNT_X = int(player_x // 64)
     COUNT_Y = int(player_y // 64)
+    print(str(COUNT_X))
 
     current_chunk = load_chunk(COUNT_X, COUNT_Y)
 
@@ -215,7 +216,7 @@ while running:
         client2_pos = client_socket.recv(2048).decode("utf-8")
         if client2_pos != '0':
             numbers = client2_pos.split(",")
-            print(numbers)
+            #print(numbers)
             k1 = int(float(numbers[1]))  # Convert float to int
             k2 = int(float(numbers[2]))  # Convert float to int
             b1 = k1 - int(z.x)
