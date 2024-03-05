@@ -3,12 +3,12 @@ from pytmx import load_pygame
 from  settings import *
 
 class Map():
-    def __init__(self , Player , screen_width , screen_height , setting):
+    def __init__(self , Player ,  setting):
         self.map = load_pygame("cubed_map.tmx")
-        self.chunk = pygame.sprite.Group
+        self.chunk = pygame.sprite.Group()
         self.chunk_size = 20
         self.player = Player
-        self.screen = pygame.display.set_mode((screen_width,screen_height))
+        self.screen =setting.surface
         self.setting = setting
 
     def get_screen(self):

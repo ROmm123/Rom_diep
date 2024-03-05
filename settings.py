@@ -10,4 +10,7 @@ class settings():
         self.white = (255, 255, 255)
         self.red = (255, 0, 0)
         self.green_fn = (0 , 255 , 0)
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        self.screen = (800,600)
+        self.surface = pygame.display.set_mode(self.screen)
+
+

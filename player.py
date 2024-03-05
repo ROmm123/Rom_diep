@@ -5,7 +5,7 @@ from map import *
 class Player():
 
     def __init__(self , x , y , radius , color , setting):
-        self.surface = setting.screen
+        self.surface = setting.surface
         self.x = x
         self.y = y
         self.radius = radius
