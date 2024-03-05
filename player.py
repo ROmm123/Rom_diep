@@ -1,16 +1,11 @@
-import pygame
-import sys
-import math
-from pytmx import load_pygame
-import socket
 from map import *
 
 
 
 class Player():
 
-    def __init__(self , x , y , radius , color):
-        self.surface = Map.get_screen()
+    def __init__(self , x , y , radius , color , setting):
+        self.surface = setting.screen
         self.x = x
         self.y = y
         self.radius = radius
@@ -54,7 +49,7 @@ class Player():
         # Update screen position based on movement direction
         if move_left:
             self.x -= self.speed
-            if self.x[0] < 0:
+            if self.x < 0:
                 self.x += self.speed
 
         if move_right:
@@ -67,6 +62,8 @@ class Player():
 
         if move_down:
             self.y += self.speed
+
+        return self.x
 
 
 

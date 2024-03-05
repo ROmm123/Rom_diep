@@ -1,17 +1,18 @@
 import pygame
 from pytmx import load_pygame
+from  settings import *
 
 class Map():
-    def __init__(self , Player , screen_width , screen_height):
+    def __init__(self , Player , screen_width , screen_height , setting):
         self.map = load_pygame("cubed_map.tmx")
         self.chunk = pygame.sprite.Group
         self.chunk_size = 20
         self.player = Player
         self.screen = pygame.display.set_mode((screen_width,screen_height))
+        self.setting = setting
 
     def get_screen(self):
         return self.screen
-
 
 
 
@@ -49,3 +50,6 @@ class Map():
             sprite.rect.x = sprite.rect.x - self.player.x
             sprite.rect.y = sprite.rect.y - self.player.y
             self.screen.blit(sprite.image, sprite.rect)
+
+    def clear(self):
+        self.screen.fill(self.setting.white)
