@@ -48,19 +48,23 @@ class Player():
 
         # Update screen position based on movement direction
         if move_left:
+            print("left")
             self.x -= self.speed
             if self.x < 0:
                 self.x += self.speed
 
         if move_right:
+            print("right")
             self.x += self.speed
 
         if move_up:
+            print("up")
             self.y -= self.speed
             if self.y < 0:
                 self.y += self.speed
 
         if move_down:
+            print("down")
             self.y += self.speed
 
         return self.x

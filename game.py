@@ -18,8 +18,8 @@ z = pygame.math.Vector2(400, 300)
 # Load the TMX map data from the file 'cubed_map.tmx'
 tmx_data = load_pygame("cubed_map.tmx")
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect(("127.0.0.1", 10009))
+#client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#client_socket.connect(("127.0.0.1", 10009))
 
 
 # Define a function to load a chunk of tiles
@@ -51,10 +51,10 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)  # New color for the rectangle
 
 # Define rectangle properties
-rect_width, rect_height = 30, 30  # Adjusted size
+#rect_width, rect_height = 30, 30  # Adjusted size
 circle_radius = 35  # Adjusted radius of the circular path
 circle_center = [screen_width // 2, screen_height // 2]  # Center of the circular path
-offset_distance = 15  # Distance to offset the rectangle from the circle's radius
+#offset_distance = 15  # Distance to offset the rectangle from the circle's radius
 player_circle_color = (RED)
 
 # Initialize variables to track movement direction
@@ -114,19 +114,18 @@ while running:
         z.y += speed
 
     # Clear the screen
-    screen.fill(WHITE)  # Fill screen with white
+    #screen.fill(WHITE)  # Fill screen with white
 
     # Calculate the screen's position on the map
     player_x = screen_position[0]
     player_y = screen_position[1]
 
-    camera_x = circle_center[0] - screen_width // 2
-    camera_y = circle_center[1] - screen_height // 2
+    #camera_x = circle_center[0] - screen_width // 2
+    #camera_y = circle_center[1] - screen_height // 2
 
     # Draw the current chunk at the correct screen position
     COUNT_X = int(player_x // 64)
     COUNT_Y = int(player_y // 64)
-    print(str(COUNT_X))
 
     current_chunk = load_chunk(COUNT_X, COUNT_Y)
 
@@ -139,7 +138,7 @@ while running:
     # Draw red circle representing the player
     pygame.draw.circle(screen, player_circle_color, circle_center, circle_radius)
 
-    mouse_x, mouse_y = pygame.mouse.get_pos()
+    '''mouse_x, mouse_y = pygame.mouse.get_pos()
     dx = mouse_x - (circle_center[0] - camera_x)  # Adjusted mouse position
     dy = mouse_y - (circle_center[1] - camera_y)  # Adjusted mouse position
     angle = math.atan2(dy, dx)
@@ -167,15 +166,15 @@ while running:
     rect_rect = rotated_rect.get_rect(center=(rect_center_x - camera_x, rect_center_y - camera_y))
 
     # Draw rectangle
-    screen.blit(rotated_rect, rect_rect)
+    screen.blit(rotated_rect, rect_rect)'''
 
     # Sending positional data of circle and rectangle
     #circle_data = f"CIRCLE,{circle_center[0]},{circle_center[1]},{circle_radius}"
-    rectangle_data = f"RECTANGLE,{rect_center_x},{rect_center_y},{rect_width},{rect_height},{angle_to_tangent}"
+    #rectangle_data = f"RECTANGLE,{rect_center_x},{rect_center_y},{rect_width},{rect_height},{angle_to_tangent}"
     #z_data = f"z_position,{z.x},{z.y}"
 
     # Concatenate both pieces of data
-    data_to_send = rectangle_data
+    #data_to_send = rectangle_data
 
     # Encode and send the data
 
@@ -210,7 +209,7 @@ while running:
 
     # Draw rotated rectangle onto the screen
     screen.blit(rozztated_rect_surface, rotated_rect)'''
-    try:
+    '''try:
         data_to_send = data_to_send.encode()
         client_socket.send(data_to_send)
         client2_pos = client_socket.recv(2048).decode("utf-8")
@@ -235,7 +234,7 @@ while running:
     except KeyboardInterrupt:
         print("Client interrupted by user.")
         client_socket.close()
-
+'''
     pygame.display.update()
     clock.tick(60)
 

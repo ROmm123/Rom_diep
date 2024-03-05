@@ -5,7 +5,6 @@ from  settings import *
 class Map():
     def __init__(self , Player ,  setting):
         self.map = load_pygame("cubed_map.tmx")
-        self.chunk = pygame.sprite.Group()
         self.chunk_size = 20
         self.player = Player
         self.screen =setting.surface
@@ -17,7 +16,7 @@ class Map():
 
 
     def load_chunk(self , x , y ):
-        self.chunk = pygame.sprite.Group()
+        chunk = pygame.sprite.Group()
 
         # Load tiles in the specified chunk
         chunk_size = self.chunk_size
@@ -30,9 +29,9 @@ class Map():
                     sprite = pygame.sprite.Sprite()
                     sprite.image = tile_image
                     sprite.rect = tile_rect
-                    self.chunk.add(sprite)
+                    chunk.add(sprite)
 
-        return self.chunk
+        return chunk
 
     def wrapper_chunk_loading(self):
         player_x = self.player.x
@@ -48,6 +47,7 @@ class Map():
     def draw_map(self , current_chunk):
         for sprite in current_chunk:
             sprite.rect.x = sprite.rect.x - self.player.x
+            print(sprite.rect.x)
             sprite.rect.y = sprite.rect.y - self.player.y
             self.screen.blit(sprite.image, sprite.rect)
 

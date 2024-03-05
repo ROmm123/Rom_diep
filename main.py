@@ -15,16 +15,12 @@ Map1 = Map(player1, setting)
 
 running = True
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
     # Move player, draw map, and clear screen
-
-    Map1.clear()
-    Map1.draw_map(Map1.wrapper_chunk_loading())
     player1.move()
-    player1.draw()
+    chunk = Map1.wrapper_chunk_loading()
+    Map1.draw_map(chunk)
+    #player1.draw()
 
 
 
