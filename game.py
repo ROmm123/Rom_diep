@@ -11,7 +11,6 @@ pygame.init()
 screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
-z = pygame.math.Vector2(400, 300)
 
 
 
@@ -98,20 +97,20 @@ while running:
         if screen_position[0] < 0:
             screen_position[0] += speed
 
-        z.x -= speed
+
     if move_right:
         screen_position[0] += speed
-        z.x += speed
+
 
     if move_up:
         screen_position[1] -= speed
         if screen_position[1] < 0:
             screen_position[1] += speed
-        z.y -= speed
+
 
     if move_down:
         screen_position[1] += speed
-        z.y += speed
+
 
     # Clear the screen
     #screen.fill(WHITE)  # Fill screen with white
@@ -120,8 +119,6 @@ while running:
     player_x = screen_position[0]
     player_y = screen_position[1]
 
-    #camera_x = circle_center[0] - screen_width // 2
-    #camera_y = circle_center[1] - screen_height // 2
 
     # Draw the current chunk at the correct screen position
     COUNT_X = int(player_x // 64)
