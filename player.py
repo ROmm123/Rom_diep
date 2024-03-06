@@ -44,27 +44,6 @@ class Player():
                     self.Move_button[3] = False
 
     def move(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.Move_button[0] = True
-                elif event.key == pygame.K_RIGHT:
-                    self.Move_button[1] = True
-                elif event.key == pygame.K_UP:
-                     self.Move_button[2] = True
-                elif event.key == pygame.K_DOWN:
-                    self.Move_button[3] = True
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    self.Move_button[0] = False
-                elif event.key == pygame.K_RIGHT:
-                    self.Move_button[1] = False
-                elif event.key == pygame.K_UP:
-                    self.Move_button[2] = False
-                elif event.key == pygame.K_DOWN:
-                    self.Move_button[3] = False
 
         # Update screen position based on movement direction
         if self.Move_button[0]:

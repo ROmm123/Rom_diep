@@ -29,7 +29,7 @@ class Map():
         return chunk
 
     def calc_chunk(self):
-        player_x = self.playerscreen_position[0]
+        player_x = self.player.screen_position[0]
         player_y = self.player.screen_position[1]
 
         # Draw the current chunk at the correct screen position
