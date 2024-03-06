@@ -1,7 +1,6 @@
 import pygame
 from player import Player
 from map import Map
-from screen import setting
 from settings import settings
 
 
@@ -23,6 +22,7 @@ class Game():
 
 
 if __name__ == '__main__':
+    print("sda")
     game = Game()
     game.run()
     pygame.quit()

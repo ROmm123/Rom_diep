@@ -1,5 +1,7 @@
 import sys
 
+import pygame
+
 from map import *
 
 
@@ -25,22 +27,22 @@ class Player():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_a:
                     self.Move_button[0] = True
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_d:
                     self.Move_button[1] = True
-                elif event.key == pygame.K_UP:
+                elif event.key == pygame.K_w:
                     self.Move_button[2] = True
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_s:
                     self.Move_button[3] = True
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_a:
                     self.Move_button[0] = False
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_d:
                     self.Move_button[1] = False
-                elif event.key == pygame.K_UP:
+                elif event.key == pygame.K_w:
                     self.Move_button[2] = False
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_s:
                     self.Move_button[3] = False
 
     def move(self):

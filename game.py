@@ -46,7 +46,7 @@ clock = pygame.time.Clock()
 
 # Initial screen position and speed
 WHITE = (255, 255, 255)
-RED = (255, 0, 0)
+RED = (255, 255, 0)
 GREEN = (0, 255, 0)  # New color for the rectangle
 
 # Define rectangle properties

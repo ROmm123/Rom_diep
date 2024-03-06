@@ -10,13 +10,11 @@ class Map():
         self.screen = setting.surface
         self.setting = setting
 
-    def load_chunk(self , x , y ):
-        chunk = pygame.sprite.Group()
-
-        # Load tiles in the specified chunk
-        chunk_size = self.chunk_size
-        for x in range(x, x + chunk_size):
-            for y in range(y, y + chunk_size):
+    def load_chunk(self, chunk_x, chunk_y):
+        chunk_group = pygame.sprite.Group()
+        chunk_size = 40
+        for x in range(chunk_x, chunk_x + chunk_size):
+            for y in range(chunk_y, chunk_y + chunk_size):
                 tile_image = self.map.get_tile_image(x, y, 0)  # Assuming layer index is 0
                 if tile_image is not None:
                     pos = (x * self.map.tilewidth, y * self.map.tileheight)
@@ -24,9 +22,8 @@ class Map():
                     sprite = pygame.sprite.Sprite()
                     sprite.image = tile_image
                     sprite.rect = tile_rect
-                    chunk.add(sprite)
-
-        return chunk
+                    chunk_group.add(sprite)
+        return chunk_group
 
     def calc_chunk(self):
         player_x = self.player.screen_position[0]
