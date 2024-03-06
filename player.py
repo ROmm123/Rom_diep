@@ -1,3 +1,5 @@
+import sys
+
 from map import *
 
 
@@ -6,68 +8,80 @@ class Player():
 
     def __init__(self , x , y , radius , color , setting):
         self.surface = setting.surface
-        self.x = x
-        self.y = y
+        self.screen_position = [x,y]
         self.radius = radius
         self.color = color
         self.speed = 5
         self.center_x = 400
         self.center_y = 300
+        self.Move_button = [False , False , False , False]
 
     def draw(self):
         pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
 
-    def move(self):
-        move_left = False
-        move_right = False
-        move_up = False
-        move_down = False
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.Move_button[0] = True
+                elif event.key == pygame.K_RIGHT:
+                    self.Move_button[1] = True
+                elif event.key == pygame.K_UP:
+                    self.Move_button[2] = True
+                elif event.key == pygame.K_DOWN:
+                    self.Move_button[3] = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    self.Move_button[0] = False
+                elif event.key == pygame.K_RIGHT:
+                    self.Move_button[1] = False
+                elif event.key == pygame.K_UP:
+                    self.Move_button[2] = False
+                elif event.key == pygame.K_DOWN:
+                    self.Move_button[3] = False
 
-        # Main game loop
+    def move(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    move_left = True
-                elif event.key == pygame.K_d:
-                    move_right = True
-                elif event.key == pygame.K_w:
-                    move_up = True
-                elif event.key == pygame.K_s:
-                    move_down = True
+                if event.key == pygame.K_LEFT:
+                    self.Move_button[0] = True
+                elif event.key == pygame.K_RIGHT:
+                    self.Move_button[1] = True
+                elif event.key == pygame.K_UP:
+                     self.Move_button[2] = True
+                elif event.key == pygame.K_DOWN:
+                    self.Move_button[3] = True
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_a:
-                    move_left = False
-                elif event.key == pygame.K_d:
-                    move_right = False
-                elif event.key == pygame.K_w:
-                    move_up = False
-                elif event.key == pygame.K_s:
-                    move_down = False
+                if event.key == pygame.K_LEFT:
+                    self.Move_button[0] = False
+                elif event.key == pygame.K_RIGHT:
+                    self.Move_button[1] = False
+                elif event.key == pygame.K_UP:
+                    self.Move_button[2] = False
+                elif event.key == pygame.K_DOWN:
+                    self.Move_button[3] = False
 
         # Update screen position based on movement direction
-        if move_left:
-            print("left")
-            self.x -= self.speed
-            if self.x < 0:
-                self.x += self.speed
+        if self.Move_button[0]:
+            self.screen_position[0] -= self.speed
+            if self.screen_position[0] < 0:
+                self.screen_position[0] += self.speed
 
-        if move_right:
-            print("right")
-            self.x += self.speed
+        if self.Move_button[1]:
+            self.screen_position[0] += self.speed
 
-        if move_up:
-            print("up")
-            self.y -= self.speed
-            if self.y < 0:
-                self.y += self.speed
+        if self.Move_button[2]:
+            self.screen_position[1] -= self.speed
+            if self.screen_position[1] < 0:
+                self.screen_position[1] += self.speed
 
-        if move_down:
-            print("down")
-            self.y += self.speed
-
-        return self.x
+        if self.Move_button[3]:
+            self.screen_position[1] += self.speed
 
 
 

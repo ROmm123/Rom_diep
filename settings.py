@@ -13,4 +13,5 @@ class settings():
         self.screen = (800,600)
         self.surface = pygame.display.set_mode(self.screen)
 
-
+    def update(self):
+        pygame.display.update()
