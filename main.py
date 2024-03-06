@@ -1,19 +1,28 @@
 import pygame
 from player import Player
 from map import Map
+from screen import setting
 from settings import settings
 
-pygame.init()
 
-setting = settings()
-Playerr = Player(0,0,35, setting.red , setting)
-MAP = Map(Playerr , setting)
+class Game():
 
-while True:
-    Playerr.handle_events()
-    Playerr.move()
-    chunk = MAP.calc_chunk()
-    MAP.draw_map(chunk)
-    setting.update()
+    def __init__(self):
+        pygame.init()
+        self.setting = settings()
+        self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
+        self.MAP = Map(self.Playerr, self.setting)
 
-pygame.quit()
+    def run(self):
+        while True:
+            self.Playerr.handle_events()
+            self.Playerr.move()
+            chunk = self.MAP.calc_chunk()
+            self.MAP.draw_map(chunk)
+            self.setting.update()
+
+
+if __name__ == '__main__':
+    game = Game()
+    game.run()
+    pygame.quit()
