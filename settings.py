@@ -15,3 +15,4 @@ class settings():
 
     def update(self):
         pygame.display.update()
+        self.clock.tick(60)

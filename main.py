@@ -18,6 +18,7 @@ class Game():
             self.Playerr.move()
             chunk = self.MAP.calc_chunk()
             self.MAP.draw_map(chunk)
+            self.Playerr.draw()
             self.setting.update()
 
 

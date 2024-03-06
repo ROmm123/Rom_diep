@@ -12,7 +12,7 @@ class Map():
 
     def load_chunk(self, chunk_x, chunk_y):
         chunk_group = pygame.sprite.Group()
-        chunk_size = 40
+        chunk_size = 20
         for x in range(chunk_x, chunk_x + chunk_size):
             for y in range(chunk_y, chunk_y + chunk_size):
                 tile_image = self.map.get_tile_image(x, y, 0)  # Assuming layer index is 0

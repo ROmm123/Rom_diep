@@ -179,6 +179,7 @@ def render(screen, player_x, player_y, current_chunk, circle_center, circle_radi
     dx = mouse_x - (circle_center[0] - camera_x)  # Adjusted mouse position
     dy = mouse_y - (circle_center[1] - camera_y)  # Adjusted mouse position
     angle = math.atan2(dy, dx)
+    print(str(angle))
 
     # Calculate the point on the circle tangent to the mouse position
     tangent_x = circle_center[0] + circle_radius * math.cos(angle)
@@ -221,7 +222,7 @@ def main():
     # Set up the display window
     screen = pygame.display.set_mode((screen_width, screen_height))
     # Load the TMX map data from the file 'cubed_map.tmx'
-    tmx_data = load_pygame("C:/Networks/GITproject/diep-2.0/Tiled_map/cubed_map.tmx")
+    tmx_data = load_pygame("cubed_map.tmx")
     # Set up clock for controlling the frame rate
     clock = pygame.time.Clock()
 
