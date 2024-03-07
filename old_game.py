@@ -176,8 +176,8 @@ def render(screen, player_x, player_y, current_chunk, circle_center, circle_radi
     pygame.draw.circle(screen, player_circle_color, circle_center, circle_radius)
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    dx = mouse_x - (circle_center[0] - camera_x)  # Adjusted mouse position
-    dy = mouse_y - (circle_center[1] - camera_y)  # Adjusted mouse position
+    dx = mouse_x - (circle_center[0])  # Adjusted mouse position
+    dy = mouse_y - (circle_center[1])  # Adjusted mouse position
     angle = math.atan2(dy, dx)
     print(str(angle))
 
@@ -202,7 +202,7 @@ def render(screen, player_x, player_y, current_chunk, circle_center, circle_radi
     rotated_rect = pygame.transform.rotate(rect_surface, math.degrees(-angle_to_tangent))
 
     # Get rectangle's rect
-    rect_rect = rotated_rect.get_rect(center=(rect_center_x - camera_x, rect_center_y - camera_y))
+    rect_rect = rotated_rect.get_rect(center=(rect_center_x , rect_center_y))
 
     # Draw rectangle
     screen.blit(rotated_rect, rect_rect)
@@ -245,13 +245,11 @@ def main():
         update_green_circles(screen, green_circles)
         player_x = screen_position[0]
         player_y = screen_position[1]
-        camera_x = circle_center[0] - screen_width // 2
-        camera_y = circle_center[1] - screen_height // 2
         COUNT_X = int(player_x // 64)
         COUNT_Y = int(player_y // 64)
         current_chunk = load_chunk(tmx_data, COUNT_X, COUNT_Y)
         render(screen, player_x, player_y, current_chunk, circle_center, circle_radius, player_circle_color, rect_width,
-               rect_height, offset_distance, tmx_data, camera_x, camera_y, green_circles)
+               rect_height, offset_distance, tmx_data, 0, 0, green_circles)
         clock.tick(90)
 
 
