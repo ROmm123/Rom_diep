@@ -179,7 +179,7 @@ def render(screen, player_x, player_y, current_chunk, circle_center, circle_radi
     dx = mouse_x - (circle_center[0])  # Adjusted mouse position
     dy = mouse_y - (circle_center[1])  # Adjusted mouse position
     angle = math.atan2(dy, dx)
-    print(str(angle))
+
 
     # Calculate the point on the circle tangent to the mouse position
     tangent_x = circle_center[0] + circle_radius * math.cos(angle)
@@ -199,6 +199,7 @@ def render(screen, player_x, player_y, current_chunk, circle_center, circle_radi
     # Create rectangle surface
     rect_surface = pygame.Surface((rect_width, rect_height), pygame.SRCALPHA)
     pygame.draw.rect(rect_surface, GREY, (0, 0, rect_width, rect_height))  # Draw red rectangle on surface
+    print("rotated rect")
     rotated_rect = pygame.transform.rotate(rect_surface, math.degrees(-angle_to_tangent))
 
     # Get rectangle's rect

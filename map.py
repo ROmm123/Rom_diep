@@ -39,6 +39,5 @@ class Map():
     def draw_map(self , current_chunk):
         for sprite in current_chunk:
             sprite.rect.x = sprite.rect.x - self.player.screen_position[0]
-            print(sprite.rect.x)
             sprite.rect.y = sprite.rect.y - self.player.screen_position[1]
             self.screen.blit(sprite.image, sprite.rect)

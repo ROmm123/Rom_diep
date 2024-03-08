@@ -1,47 +1,55 @@
 import math
-
 import pygame
 
 class Weapon():
 
-    def __init__(self , width , height , color , playerr , set):
+    def __init__(self, width, height, color, player, set):
         self.offset_distance = 50
         self.color = color
         self.weapon_surf = pygame.Surface((width, height), pygame.SRCALPHA)
-        self.rect_center_x
-        self.rect_center_y
-        self.mouse_x = 0
-        self.mouse_y = 0
+        self.rect_center_x = 0
+        self.rect_center_y = 0
         self.angle = 0
-        self.dx = self.mouse_x - set.screen[0] // 2
-        self.dy = self.mouse_y - set.screenn[1] // 2
-        self.tangent_x = set.screenn[0] + playerr.radius * math.cos(self.angle)
-        self.tangent_y = set.screenn[1] + playerr.radius * math.sin(self.angle)
+        self.tangent_x = 0
+        self.tangent_y = 0
         self.set = set
-        self.player = playerr
-
-
-    def mouse_pos(self):
-        self.mouse_x , self.mouse_y = pygame.mouse.get_pos()
+        self.player = player
+        self.rect_width = width
+        self.rect_height = height
 
     def calc_angle(self):
-        self.angle = math.atan2(self.dy , self.dx)
+        # Calculate the angle between the player and the mouse
+        dx = pygame.mouse.get_pos()[0] - self.set.screen_width // 2
+        dy = pygame.mouse.get_pos()[1] - self.set.screen_height // 2
+        self.angle = math.atan2(dy, dx)
 
     def calc_tangent_point(self):
-        self.tangent_x = self.set.screen_width // 2  + self.player.radius * math.cos(self.angle)
+        # Calculate the point on the circle tangent to the mouse position
+        self.tangent_x = self.set.screen_width // 2 + self.player.radius * math.cos(self.angle)
         self.tangent_y = self.set.screen_height // 2 + self.player.radius * math.sin(self.angle)
 
-    def calc_angle_to_tangent(self):
-        angle_to_tangent = math.atan2(self.tangent_y - self.set.screen_height // 2, self.tangent_x - self.set.screen_width // 2)
-        return angle_to_tangent
     def calc_rect_pos(self):
-        self.rect_center_x = self.tangent_x + self.offset_distance * math.cos(self.calc_angle_to_tangent())
-        self.rect_center_y = self.tangent_y + self.offset_distance * math.sin(self.calc_angle_to_tangent())
-        self.rect_center_x += (self.player.radius - 15 - self.offset_distance) * math.cos(self.angle)
-        self.rect_center_y += (self.player.radius - 15 - self.offset_distance) * math.sin(self.angle)
+        # Calculate rectangle position on the circular path
+        self.rect_center_x = self.tangent_x + self.offset_distance * math.cos(self.angle)
+        self.rect_center_y = self.tangent_y + self.offset_distance * math.sin(self.angle)
+
+    def draw_rect(self):
+        pygame.draw.rect(self.weapon_surf, self.set.red, (0, 0, self.rect_width, self.rect_height))
 
     def rotate_surf(self):
-        self.weapon_surf = pygame.transform.rotate(self.weapon_surf, math.degrees(-self.calc_angle_to_tangent()))
+        # Rotate the rectangle surface based on the angle
+        self.weapon_surf = pygame.transform.rotate(self.weapon_surf, math.degrees(-self.angle))
 
     def draw_weapon(self):
-        rect = self.weapon_surf.get_rect(center=(self.rect_center_x , self.rect_center_y))
+        # Draw the rotated rectangle
+        rect = self.weapon_surf.get_rect(center=(self.rect_center_x, self.rect_center_y))
+        self.set.surface.blit(self.weapon_surf, rect)
+
+    def run_weapon(self):
+        self.calc_angle()
+        self.calc_tangent_point()
+        self.calc_rect_pos()
+        self.weapon_surf.fill((0, 0, 0, 0))  # Fill the surface with transparent color
+        self.draw_rect()  # Draw the new rectangle
+        self.rotate_surf()
+        self.draw_weapon()
