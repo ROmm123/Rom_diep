@@ -29,12 +29,10 @@ class Game():
             self.Playerr.draw()
             self.WEAPON.run_weapon()
             self.setting.update()
-            self.client.send_data(str(self.Playerr.screen_position))
-
-
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10009)
+        self.client = Client('localhost', 10009)  # Adjust host and port as needed
+        self.client.send_data("Hello from client")
 
     def close_connections(self):
         self.client.close()

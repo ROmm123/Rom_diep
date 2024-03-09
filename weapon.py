@@ -47,7 +47,6 @@ class Weapon():
         # Draw the rotated rectangle
         rect = self.weapon_surf.get_rect(center=(self.rect_center_x, self.rect_center_y))
         self.set.surface.blit(self.weapon_surf, rect)
-        print(str(rect.x))
 
     def run_weapon(self):
         self.calc_angle()
