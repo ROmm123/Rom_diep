@@ -6,7 +6,7 @@ class Weapon():
     def __init__(self, width, height, color, player, set):
         self.offset_distance = 50
         self.color = color
-        self.weapon_surf = pygame.Surface((width, height), pygame.SRCALPHA)
+        self.weapon_surf = None
         self.rect_center_x = 0
         self.rect_center_y = 0
         self.angle = 0
@@ -32,8 +32,11 @@ class Weapon():
         # Calculate rectangle position on the circular path
         self.rect_center_x = self.tangent_x + self.offset_distance * math.cos(self.angle)
         self.rect_center_y = self.tangent_y + self.offset_distance * math.sin(self.angle)
+        self.rect_center_x += (self.player.radius - 15 - self.offset_distance) * math.cos(self.angle)
+        self.rect_center_y += (self.player.radius - 15 - self.offset_distance) * math.sin(self.angle)
 
     def draw_rect(self):
+        self.weapon_surf = pygame.Surface((self.rect_width, self.rect_height), pygame.SRCALPHA)
         pygame.draw.rect(self.weapon_surf, self.set.red, (0, 0, self.rect_width, self.rect_height))
 
     def rotate_surf(self):
@@ -44,12 +47,12 @@ class Weapon():
         # Draw the rotated rectangle
         rect = self.weapon_surf.get_rect(center=(self.rect_center_x, self.rect_center_y))
         self.set.surface.blit(self.weapon_surf, rect)
+        print(str(rect.x))
 
     def run_weapon(self):
         self.calc_angle()
         self.calc_tangent_point()
         self.calc_rect_pos()
-        self.weapon_surf.fill((0, 0, 0, 0))  # Fill the surface with transparent color
         self.draw_rect()  # Draw the new rectangle
         self.rotate_surf()
         self.draw_weapon()
