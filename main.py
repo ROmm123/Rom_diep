@@ -15,11 +15,8 @@ class Game():
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(20 , 20 , self.setting.green_fn , self.Playerr , self.setting )
-        self.server = Server('localhost', 10009)  # Adjust host and port as needed
 
     def run(self):
-        self.server_thread = threading.Thread(target=self.server.start)
-        self.server_thread.start()
 
         while True:
             self.Playerr.handle_events()

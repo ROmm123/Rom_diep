@@ -3,6 +3,7 @@ import threading
 
 class Server:
     def __init__(self, host, port):
+        print("here")
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
         self.server_socket.listen(5)
@@ -39,3 +40,7 @@ class Server:
 
             # Close the server socket
             self.server_socket.close()
+
+if __name__ == '__main__':
+    my_server = Server('localhost', 10009)
+    my_server.start()

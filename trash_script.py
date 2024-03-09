@@ -15,11 +15,8 @@ class Game():
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(20 , 20 , self.setting.green_fn , self.Playerr , self.setting )
-        self.server = Server('localhost', 10009)  # Adjust host and port as needed
 
     def run(self):
-        self.server_thread = threading.Thread(target=self.server.start)
-        self.server_thread.start()
 
         while True:
             self.Playerr.handle_events()
@@ -29,10 +26,12 @@ class Game():
             self.Playerr.draw()
             self.WEAPON.run_weapon()
             self.setting.update()
+            self.client.send_data(str(self.Playerr.screen_position))
+
+
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10009)  # Adjust host and port as needed
-        self.client.send_data("Hello from client")
+        self.client = Client('localhost', 10009)
 
     def close_connections(self):
         self.client.close()
