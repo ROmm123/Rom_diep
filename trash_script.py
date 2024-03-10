@@ -26,7 +26,9 @@ class Game():
             self.Playerr.draw()
             self.WEAPON.run_weapon()
             self.setting.update()
-            self.client.send_data(str(self.Playerr.screen_position))
+            self.client.send_data(f"{self.WEAPON.rect_center_x},{self.WEAPON.rect_center_y},{self.WEAPON.rect_width},{self.WEAPON.rect_height},{self.WEAPON.tangent_x},{self.Playerr.screen_position[0]},{self.Playerr.screen_position[1]},{self.Playerr.color[0]},{self.Playerr.color[1]},{self.Playerr.color[2]}")
+            self.Playerr.draw_client(self.client.receive_data())
+
 
 
 

@@ -13,7 +13,6 @@ class Server:
     def handle_client(self, client_socket, client_number):
         while True:
             data = client_socket.recv(2048).decode("utf-8")
-            print(data)
             if not data:
                 client_socket.close()
                 break
@@ -21,6 +20,10 @@ class Server:
             if len(self.clients) > 1:
                 other_client_socket = self.clients[1 - client_number]
                 other_client_socket.send(data.encode("utf-8"))
+            else:
+                data = "0"
+                client_socket.send(data.encode("utf-8"))
+                print("wssss")
 
     def start(self):
         try:

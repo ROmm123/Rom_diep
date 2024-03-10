@@ -21,6 +21,15 @@ class Player():
     def draw(self):
         pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
 
+    def draw_client(self, data):
+        if data == "0":
+            return
+        else:
+            properties = data.split(',')
+            client_circle_x = properties[5]
+            client_circle_y = properties[6]
+            print(f"{client_circle_x},{client_circle_y}")
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
