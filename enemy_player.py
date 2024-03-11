@@ -47,7 +47,7 @@ class enemy_player():
     def draw(self, color, center_x, center_y, radius):
         center_x = int(center_x)
         center_y = int(center_y)
-        radius = int(radius)
-        pygame.draw.circle(self.Playerrr.surface, color, (center_x, center_y), radius)
+       # radius = int(radius)
+        pygame.draw.circle(self.Playerrr.surface, color, (center_x, center_y), 35)
 
 

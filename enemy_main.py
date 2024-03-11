@@ -20,8 +20,6 @@ class enemy_main():
         if self.data =='0':
             pass
         else:
-            print ("join ")
-            print(self.data)
             Enemy_player = enemy_player(self.data,self.set,self.Playerrr)
             Enemy_player.calculate()
 
