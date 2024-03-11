@@ -21,6 +21,7 @@ class Server:
                 other_client_socket = self.clients[1 - client_number]
                 other_client_socket.send(data.encode("utf-8"))
             else:
+                print('0')
                 data = "0"
                 client_socket.send(data.encode("utf-8"))
 

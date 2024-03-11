@@ -5,7 +5,8 @@ from settings import setting
 from weapon import Weapon
 from Network import Client
 from server_oop import Server
-from test_enemy import *
+from test_enemy import*
+from enemy_main import *
 
 class Game():
 
@@ -28,7 +29,9 @@ class Game():
             self.setting.update()
                                         #0                          #1                          #2                      #3                      #4                          #5                                  #6                              #7                      #8                      #9                          #10
             self.client.send_data(f"{self.WEAPON.rect_center_x};{self.WEAPON.rect_center_y};{self.WEAPON.rect_width};{self.WEAPON.rect_height};{self.WEAPON.tangent_x};{self.Playerr.screen_position[0]};{self.Playerr.screen_position[1]};{self.Playerr.color};{self.Playerr.radius}")
-            self.test_enemy.calculate(self.client.receive_data())
+            data = self.client.receive_data()
+            Enemy_main = enemy_main(data,self.Playerr)
+            Enemy_main.main()
 
 
 
