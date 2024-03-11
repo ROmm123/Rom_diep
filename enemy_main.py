@@ -11,9 +11,10 @@ from enemy_player import *
 
 class enemy_main():
 
-    def __int__(self,dataa,player):
+    def __init__(self,dataa,player,setting):
         self.data = dataa
         self.Playerrr = player
+        self.set = setting
 
     def main(self):
         if self.data =='0':
@@ -21,6 +22,6 @@ class enemy_main():
         else:
             print ("join ")
             print(self.data)
-            #enemy_player = enemy_player
-           # enemy_player.calculate(self)
+            Enemy_player = enemy_player(self.data,self.set,self.Playerrr)
+            Enemy_player.calculate()
 

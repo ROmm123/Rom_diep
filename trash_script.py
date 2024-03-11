@@ -16,7 +16,6 @@ class Game():
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(20 , 20 , self.setting.green_fn , self.Playerr , self.setting )
-
     def run(self):
 
         while True:
@@ -30,8 +29,9 @@ class Game():
                                         #0                          #1                          #2                      #3                      #4                          #5                                  #6                              #7                      #8                      #9                          #10
             self.client.send_data(f"{self.WEAPON.rect_center_x};{self.WEAPON.rect_center_y};{self.WEAPON.rect_width};{self.WEAPON.rect_height};{self.WEAPON.tangent_x};{self.Playerr.screen_position[0]};{self.Playerr.screen_position[1]};{self.Playerr.color};{self.Playerr.radius}")
             data = self.client.receive_data()
-            enemy_main(self,data,self.Playerr)
-            enemy_main.main()
+
+            Enemy_main = enemy_main(data,self.Playerr,self.setting)
+            Enemy_main.main()
 
 
 
