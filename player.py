@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from map import *
+from settings import setting
 
 
 

@@ -1,7 +1,5 @@
 import pygame.time
-
-
-class settings():
+class setting():
 
     def __init__(self):
         self.screen_width = 800

@@ -23,7 +23,6 @@ class Server:
             else:
                 data = "0"
                 client_socket.send(data.encode("utf-8"))
-                print("wssss")
 
     def start(self):
         try:
@@ -45,5 +44,5 @@ class Server:
             self.server_socket.close()
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10009)
+    my_server = Server('localhost', 10022)
     my_server.start()
