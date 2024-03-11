@@ -32,6 +32,7 @@ class enemy_player():
     def check(self,a1,a2,properties):
         if a2 < self.set.screen_height and a1 < self.set.screen_width:
             radius = properties[8]
+            print(radius)
             color_from_packet = properties[7]
             color_from_packet = color_from_packet.replace("("," ")
             color_from_packet = color_from_packet.replace(")", " ")
@@ -44,6 +45,9 @@ class enemy_player():
             print('0')
 
     def draw(self, color, center_x, center_y, radius):
+        center_x = int(center_x)
+        center_y = int(center_y)
+        radius = int(radius)
         pygame.draw.circle(self.Playerrr.surface, color, (center_x, center_y), radius)
 
 
