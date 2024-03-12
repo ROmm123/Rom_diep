@@ -3,19 +3,17 @@ import pygame
 from map import *
 import player
 from settings import setting
+import math
 
 
 
 class enemy_player():
-    def __init__(self,dataa,settings,player):
+    def __init__(self,dataa,settings,player,weapon):
         self.data = dataa
         self.set = settings
         self.surface = settings.surface
         self.Playerrr = player
-        #self.radius = radius
-        #self.color = color
-        #self.center_x = 500
-        #self.center_y = 500
+        self.WEAPON = weapon
 
     def calculate(self):
         properties = self.data.split(';')
@@ -37,15 +35,19 @@ class enemy_player():
             color_from_packet = color_from_packet.split(",")
             color=(255,0,0)
 
-            print(f"{self.Playerrr.screen_position},{self.Playerrr.surface},{self.Playerrr.color},{self.Playerrr.radius}")
-            self.draw(color,b1,b2,radius)
+            self.draw_enemy(color,b1,b2,radius)
+            self.draw_wepon_enemy(properties)
         else:
             print('0')
 
-    def draw(self, color, center_x, center_y, radius):
+    def draw_enemy(self, color, center_x, center_y, radius):
         center_x = int(center_x) + self.Playerrr.center_x
         center_y = int(center_y) + self.Playerrr.center_y
         #radius = int(radius)
         pygame.draw.circle(self.surface, color, (center_x, center_y), 35)
 
+    def draw_wepon_enemy(self,properties):
+        weapon_surf = pygame.Surface((int(properties[11]), int(properties[12])), pygame.SRCALPHA)
+        pygame.draw.rect(weapon_surf, self.WEAPON.color , (0, 0, int(properties[11]), int(properties[12])))
+        rotated_weapon = pygame.transform.rotate(weapon_surf, math.degrees(-properties[13]))
 
