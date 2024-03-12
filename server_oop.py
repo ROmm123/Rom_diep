@@ -3,7 +3,6 @@ import threading
 
 class Server:
     def __init__(self, host, port):
-        print("here")
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
         self.server_socket.listen(5)
@@ -21,7 +20,6 @@ class Server:
                 other_client_socket = self.clients[1 - client_number]
                 other_client_socket.send(data.encode("utf-8"))
             else:
-                print('0')
                 data = "0"
                 client_socket.send(data.encode("utf-8"))
 
@@ -29,7 +27,6 @@ class Server:
         try:
             while True:
                 client_socket, addr = self.server_socket.accept()
-                print("was there")
                 with self.clients_lock:
                     self.clients.append(client_socket)
                 client_thread = threading.Thread(target=self.handle_client, args=(client_socket, len(self.clients) - 1))

@@ -25,7 +25,6 @@ class Game():
             self.MAP.draw_map(chunk)
             self.Playerr.draw()
             self.WEAPON.run_weapon()
-            self.setting.update()
                                         #0                          #1                          #2                      #3                      #4                          #5                                  #6                              #7                      #8                      #9                          #10
             self.client.send_data(f"{self.WEAPON.rect_center_x};{self.WEAPON.rect_center_y};{self.WEAPON.rect_width};{self.WEAPON.rect_height};{self.WEAPON.tangent_x};{self.Playerr.screen_position[0]};{self.Playerr.screen_position[1]};{self.Playerr.color};{self.Playerr.radius}")
             data = self.client.receive_data()
@@ -33,6 +32,7 @@ class Game():
             Enemy_main = enemy_main(data,self.Playerr,self.setting)
             Enemy_main.main()
 
+            self.setting.update()
 
 
 
