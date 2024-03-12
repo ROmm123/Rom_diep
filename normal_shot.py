@@ -1,49 +1,50 @@
-import sys
 import pygame
 import math
 
-import weapon
-from map import *
-
-
 class NormalShot:
-    def __init__(self, radius, color, weapon, setting):
+    def __init__(self, radius, color, setting):
         self.radius = radius
         self.color = color
-        self.weapon = weapon
         self.setting = setting
         self.surface = setting.surface
-        self.speed = 2
+        self.speed = 5
         self.green_circles = []
-        self.circles_to_remove = []
-        self.velocity = (self.speed * weapon.dx, self.speed * weapon.dy)
-        self.direction = (weapon.dx, weapon.dy)
-        self.position = ( + self.setting.screen_width // 2, weapon.rect_center_y + self.setting.screen_height // 2)
-
-        #DIVIDE THE RECTANGLE'S POSITION INTO X AND Y COORDINATES AND SET AS THE STARTING POINT.
 
     def draw(self):
         for circle in self.green_circles:
             pygame.draw.circle(self.surface, self.color, circle["position"], self.radius)
 
-    def update(self):
-        self.green_circles.append({"position": (self.position[0], self.position[1]), "velocity": (self.velocity[0], self.velocity[1])})
-
+    def update(self,  screen_position):
         for circle in self.green_circles:
-            # Update the position of the green circle based on its velocity
-            circle["position"] = (circle["position"][0] + circle["velocity"][0], circle["position"][1] + circle["velocity"][1])
-            pygame.draw.circle(self.surface, self.color, (int(circle["position"][0]), int(circle["position"][1])),self.radius)
+            # Update position of the green circle based on its velocity
+            circle["position"][0] += circle["velocity"][0]
+            circle["position"][1] += circle["velocity"][1]
 
-            # Check if the circle is off the screen
+            # Draw the green circle
+            pygame.draw.circle(self.surface, self.color, (int(circle["position"][0] - screen_position[0]), int(circle["position"][1] - screen_position[1])), self.radius)
+
+            # If the green circle moves off-screen, remove it
             if circle["position"][0] < 0 or circle["position"][0] > self.surface.get_width() or \
                     circle["position"][1] < 0 or circle["position"][1] > self.surface.get_height():
-                # Add the circle to the list of circles to remove
-                self.circles_to_remove.append(circle)
+                self.green_circles.remove(circle)
 
-        # Remove circles that have moved off-screen
-        for circle in self.circles_to_remove:
-            self.green_circles.remove(circle)
+    def shoot(self, player_position):
+        # Calculate the direction towards the mouse position
+        mouse_pos = pygame.mouse.get_pos()
+        direction = (mouse_pos[0] - player_position[0], mouse_pos[1] - player_position[1])
+        # Normalize direction vector
+        magnitude = math.sqrt(direction[0] ** 2 + direction[1] ** 2)
+        if magnitude != 0:
+            direction = (direction[0] / magnitude, direction[1] / magnitude)
+        # Set initial velocity based on direction
+        velocity = (direction[0] * self.speed, direction[1] * self.speed)
+        # Add the green circle to the list with its initial position and velocity
+        self.green_circles.append({"position": list(player_position), "velocity": list(velocity)})
 
-    def run(self):
+    def run(self, player_position, screen_position):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                self.shoot(player_position)
         self.draw()
-        self.update()
+        self.update(screen_position)
+

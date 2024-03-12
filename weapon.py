@@ -36,6 +36,7 @@ class Weapon():
         self.rect_center_y = self.tangent_y + self.offset_distance * math.sin(self.angle)
         self.rect_center_x += (self.player.radius - 15 - self.offset_distance) * math.cos(self.angle)
         self.rect_center_y += (self.player.radius - 15 - self.offset_distance) * math.sin(self.angle)
+        #print(self.rect_center_x, self.rect_center_y)
 
     def draw_rect(self):
         self.weapon_surf = pygame.Surface((self.rect_width, self.rect_height), pygame.SRCALPHA)

@@ -16,7 +16,7 @@ class Game():
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(30 , 30 , self.setting.green_fn , self.Playerr , self.setting )
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green_fn , self.WEAPON , self.setting)
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green_fn, self.setting)
 
     def run(self):
 
@@ -29,7 +29,7 @@ class Game():
 
             self.Playerr.draw()
             self.WEAPON.run_weapon()
-            self.NORMAL_SHOT.run()
+            self.NORMAL_SHOT.run(self.Playerr.position, self.Playerr.screen_position)
 
             self.setting.update()
             self.client.send_data(str(self.Playerr.screen_position))
