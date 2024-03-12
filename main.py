@@ -15,8 +15,8 @@ class Game():
         self.setting = settings()
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
-        self.WEAPON = Weapon(30 , 30 , self.setting.green_fn , self.Playerr , self.setting )
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green_fn, self.setting)
+        self.WEAPON = Weapon(30 , 30 , self.setting.green, self.Playerr , self.setting )
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green, self.setting)
 
     def run(self):
 
@@ -29,7 +29,7 @@ class Game():
 
             self.Playerr.draw()
             self.WEAPON.run_weapon()
-            self.NORMAL_SHOT.run(self.Playerr.position, self.Playerr.screen_position)
+            self.NORMAL_SHOT.run(self.Playerr.position, self.Playerr.center_x, self.Playerr.center_y, self.Playerr.screen_position)
 
             self.setting.update()
             self.client.send_data(str(self.Playerr.screen_position))
@@ -49,3 +49,4 @@ if __name__ == '__main__':
     game.run()
     game.close_connections()
     pygame.quit()
+
