@@ -30,7 +30,7 @@ class Server:
                 client_socket, addr = self.server_socket.accept()
                 with self.clients_lock:
                     self.clients.append(client_socket)
-                client_thread = threading.Thread(target=self.handle_client, args=(client_socket))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
                 client_thread.start()
         except KeyboardInterrupt:
             pass
