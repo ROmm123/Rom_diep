@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="half way to infinity enemy">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="fixed_server (burla is diabollical and acustic)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_player.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_oop.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_oop.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +42,7 @@
     "Python.old_main.executor": "Run",
     "Python.player.executor": "Run",
     "Python.server.executor": "Run",
-    "Python.server_oop.executor": "Debug",
+    "Python.server_oop.executor": "Run",
     "Python.test.executor": "Run",
     "Python.trash_script.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -62,7 +62,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.trash_script">
+  <component name="RunManager" selected="Python.server_oop">
     <configuration name="enemy_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -209,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710152019715</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fixed_server (burla is diabollical and acustic)">
+      <option name="closed" value="true" />
+      <created>1710320935522</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710320935522</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,7 +236,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="half way to infinity enemy" />
-    <option name="LAST_COMMIT_MESSAGE" value="half way to infinity enemy" />
+    <MESSAGE value="fixed_server (burla is diabollical and acustic)" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed_server (burla is diabollical and acustic)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -244,7 +253,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server_oop.py</url>
-          <line>45</line>
+          <line>47</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
