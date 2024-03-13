@@ -22,13 +22,14 @@ class NormalShot:
         for circle in self.green_circles:
             pygame.draw.circle(self.setting.surface, self.setting.green, circle["position"], self.radius)
 
-    def shoot(self, player_position, center_x, center_y,  screen_position):
+    def shoot(self, player_position, center_x, center_y,  screen_position, angle):
         mouse_pos = pygame.mouse.get_pos()
         mouse_x = screen_position[0] + mouse_pos[0]
         mouse_y = screen_position[1] + mouse_pos[1]
 
         self.direction[0] = mouse_x - player_position[0]
         self.direction[1] = mouse_y - player_position[1]
+        print(player_position)
 
         magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
         if magnitude != 0:
@@ -36,8 +37,8 @@ class NormalShot:
             self.direction[1] /= magnitude
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
-        start_x = center_x + self.offset_distance * self.direction[0]
-        start_y = center_y + self.offset_distance * self.direction[1]
+        start_x = center_x + self.offset_distance * math.cos(angle)
+        start_y = center_y + self.offset_distance * math.sin(angle)
         self.green_circles.append({"position": [start_x, start_y], "velocity": self.velocity})
 
     def update(self):
@@ -51,9 +52,9 @@ class NormalShot:
                 self.remove_circles.append(i)
 
 
-    def handle_events(self, key_state, player_position, center_x, center_y, screen_position):
+    def handle_events(self, key_state, player_position, center_x, center_y, screen_position, angle):
         if key_state[pygame.K_SPACE] and not self.shot_button:
-            self.shoot(player_position, center_x, center_y, screen_position)
+            self.shoot(player_position, center_x, center_y, screen_position, angle)
             self.shot_button = True
         elif not key_state[pygame.K_SPACE] and self.prev_key:
             self.shot_button = False

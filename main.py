@@ -28,7 +28,8 @@ class Game():
             self.Playerr.move()
             self.Playerr.draw()
             self.WEAPON.run_weapon()
-            self.NORMAL_SHOT.handle_events(key_state, self.Playerr.position, self.Playerr.center_x, self.Playerr.center_y, self.Playerr.screen_position)
+            #ADD 400,300 TO SHOT POSITION.
+            self.NORMAL_SHOT.handle_events(key_state, self.Playerr.position, self.Playerr.center_x, self.Playerr.center_y, self.Playerr.screen_position, self.WEAPON.angle)
 
             self.NORMAL_SHOT.update()
             self.setting.update()

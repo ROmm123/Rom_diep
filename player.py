@@ -19,7 +19,7 @@ class Player():
         self.speed = 5
         self.center_x = 400
         self.center_y = 300
-        self.position = [(self.screen_position[0] +self.center_x), (self.screen_position[1] + self.center_y)]
+        self.position = [(self.screen_position[0] + self.center_x), (self.screen_position[1] + self.center_y)]
         self.Move_button = [False , False , False , False]
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, self.setting)
 
@@ -67,6 +67,8 @@ class Player():
 
         if self.Move_button[3]:
             self.screen_position[1] += self.speed
+
+        print(self.screen_position)
 
 
 
