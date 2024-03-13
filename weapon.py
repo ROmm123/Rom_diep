@@ -3,7 +3,7 @@ import pygame
 
 class Weapon():
 
-    def __init__(self, width, height, color, player, set):
+    def __init__(self, width, height, color,radius, set,x,y,angle):
         self.offset_distance = 50
         self.color = color
         self.weapon_surf = None
@@ -13,27 +13,32 @@ class Weapon():
         self.tangent_x = 0
         self.tangent_y = 0
         self.set = set
-        self.player = player
+        self.radius = radius
         self.rect_width = width
         self.rect_height = height
+        self.x=x
+        self.y=y
+        self.angle=angle
 
-    def calc_angle(self):
-        # Calculate the angle between the player and the mouse
-        dx = pygame.mouse.get_pos()[0] - self.set.screen_width // 2
-        dy = pygame.mouse.get_pos()[1] - self.set.screen_height // 2
-        self.angle = math.atan2(dy, dx)
+    '''def calc_angle(self):
+            # Calculate the angle between the player and the mouse
+            dx = pygame.mouse.get_pos()[0] - self.set.screen_width // 2
+            dy = pygame.mouse.get_pos()[1] - self.set.screen_height // 2
+            self.angle = math.atan2(dy, dx)
+            '''
 
     def calc_tangent_point(self):
+        print(type(self.x))
         # Calculate the point on the circle tangent to the mouse position
-        self.tangent_x = self.set.screen_width // 2 + self.player.radius * math.cos(self.angle)
-        self.tangent_y = self.set.screen_height // 2 + self.player.radius * math.sin(self.angle)
+        self.tangent_x = self.x + self.radius * math.cos(self.angle)
+        self.tangent_y = self.y + self.radius * math.sin(self.angle)
 
     def calc_rect_pos(self):
         # Calculate rectangle position on the circular path
         self.rect_center_x = self.tangent_x + self.offset_distance * math.cos(self.angle)
         self.rect_center_y = self.tangent_y + self.offset_distance * math.sin(self.angle)
-        self.rect_center_x += (self.player.radius - 15 - self.offset_distance) * math.cos(self.angle)
-        self.rect_center_y += (self.player.radius - 15 - self.offset_distance) * math.sin(self.angle)
+        self.rect_center_x += (self.radius - 15 - self.offset_distance) * math.cos(self.angle)
+        self.rect_center_y += (self.radius - 15 - self.offset_distance) * math.sin(self.angle)
 
     def draw_rect(self):
         self.weapon_surf = pygame.Surface((self.rect_width, self.rect_height), pygame.SRCALPHA)
@@ -49,7 +54,6 @@ class Weapon():
         self.set.surface.blit(self.weapon_surf, rect)
 
     def run_weapon(self):
-        self.calc_angle()
         self.calc_tangent_point()
         self.calc_rect_pos()
         self.draw_rect()  # Draw the new rectangle

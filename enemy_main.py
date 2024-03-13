@@ -7,7 +7,7 @@ from map import Map
 from weapon import Weapon
 from Network import Client
 from server_oop import Server
-from enemy_player import *
+from enemy_calculate import *
 
 class enemy_main():
 
@@ -21,6 +21,6 @@ class enemy_main():
         if self.data =='0':
             pass
         else:
-            Enemy_player = enemy_player(self.data,self.set,self.Playerrr,self.WEAPON)
-            Enemy_player.calculate()
+            Enemy_calculate = enemy_calculate(self.data,self.set,self.Playerrr,self.WEAPON)
+            Enemy_calculate.calculate()
 

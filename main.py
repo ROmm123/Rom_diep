@@ -15,10 +15,13 @@ class Game():
         self.setting = setting()
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
-        self.WEAPON = Weapon(20 , 20 , self.setting.green_fn , self.Playerr , self.setting )
+        self.WEAPON = Weapon(20 , 20 , self.setting.green_fn , self.Playerr.radius , self.setting,self.Playerr.center_x,self.Playerr.center_y,self.Playerr.angle )
     def run(self):
 
         while True:
+            self.Playerr.calc_angle()
+            self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting,
+                                 self.Playerr.center_x, self.Playerr.center_y,self.Playerr.angle)
             self.Playerr.handle_events()
             self.Playerr.move()
             chunk = self.MAP.calc_chunk()
@@ -37,7 +40,7 @@ class Game():
 
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10022)
+        self.client = Client('localhost', 10023)
 
     def close_connections(self):
         self.client.close()

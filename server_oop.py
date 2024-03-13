@@ -18,7 +18,6 @@ class Server:
             # data to another client
             if len(self.clients) > 1:
                 for receiver_socket in self.clients:
-                    print(str(receiver_socket))
                     if receiver_socket != client_socket:
                         receiver_socket.send(data.encode("utf-8"))
             else:
@@ -31,7 +30,6 @@ class Server:
                 client_socket, addr = self.server_socket.accept()
                 with self.clients_lock:
                     self.clients.append(client_socket)
-
                 client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
                 client_thread.start()
         except KeyboardInterrupt:
@@ -45,5 +43,5 @@ class Server:
             self.server_socket.close()
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10022)
+    my_server = Server('localhost', 10023)
     my_server.start()

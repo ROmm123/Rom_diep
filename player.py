@@ -1,5 +1,5 @@
 import sys
-
+import math
 import pygame
 
 from map import *
@@ -11,6 +11,7 @@ class Player():
 
     def __init__(self , x , y , radius , color , setting):
         self.surface = setting.surface
+        self.set=setting
         self.screen_position = [x,y]
         self.radius = radius
         self.color = color
@@ -18,6 +19,7 @@ class Player():
         self.center_x = 400
         self.center_y = 300
         self.Move_button = [False , False , False , False]
+        self.angle=0
 
     def draw(self):
         pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
@@ -74,7 +76,11 @@ class Player():
         if self.Move_button[3]:
             self.screen_position[1] += self.speed
 
-
+    def calc_angle(self):
+            # Calculate the angle between the player and the mouse
+            dx = pygame.mouse.get_pos()[0] - self.set.screen_width // 2
+            dy = pygame.mouse.get_pos()[1] - self.set.screen_height // 2
+            self.angle = math.atan2(dy, dx)
 
 
 
