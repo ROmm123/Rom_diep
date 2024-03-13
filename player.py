@@ -21,6 +21,7 @@ class Player():
         self.center_y = 300
         self.position = [(self.screen_position[0] +self.center_x), (self.screen_position[1] + self.center_y)]
         self.Move_button = [False , False , False , False]
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green, self.setting)
 
 
     def draw(self):
@@ -51,8 +52,6 @@ class Player():
                     self.Move_button[3] = False
 
     def move(self):
-
-        # Update screen position based on movement direction
         if self.Move_button[0]:
             self.screen_position[0] -= self.speed
             if self.screen_position[0] < 0:
@@ -68,6 +67,7 @@ class Player():
 
         if self.Move_button[3]:
             self.screen_position[1] += self.speed
+
 
 
 

@@ -14,7 +14,7 @@ class Game():
         self.setting = settings()
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
-        self.WEAPON = Weapon(20 , 20 , self.setting.green_fn , self.Playerr , self.setting )
+        self.WEAPON = Weapon(20 , 20 , self.setting.green , self.Playerr , self.setting )
 
     def run(self):
 
