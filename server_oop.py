@@ -9,7 +9,7 @@ class Server:
         self.clients = []
         self.clients_lock = threading.Lock()
 
-    def handle_client(self, client_socket, client_number):
+    def handle_client(self, client_socket):
         while True:
             data = client_socket.recv(2048).decode("utf-8")
             if not data:
@@ -17,8 +17,9 @@ class Server:
                 break
             # data to another client
             if len(self.clients) > 1:
-                other_client_socket = self.clients[1 - client_number]
-                other_client_socket.send(data.encode("utf-8"))
+                for receiver_socket in self.clients:
+                    if receiver_socket != client_socket:
+                        receiver_socket.send(data.encode("utf-8"))
             else:
                 data = "0"
                 client_socket.send(data.encode("utf-8"))
@@ -29,7 +30,7 @@ class Server:
                 client_socket, addr = self.server_socket.accept()
                 with self.clients_lock:
                     self.clients.append(client_socket)
-                client_thread = threading.Thread(target=self.handle_client, args=(client_socket, len(self.clients) - 1))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket))
                 client_thread.start()
         except KeyboardInterrupt:
             pass
