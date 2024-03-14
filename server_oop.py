@@ -43,5 +43,5 @@ class Server:
             self.server_socket.close()
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10023)
+    my_server = Server('localhost', 10026)
     my_server.start()

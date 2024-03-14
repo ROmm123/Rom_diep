@@ -28,7 +28,6 @@ class Weapon():
             '''
 
     def calc_tangent_point(self):
-        print(type(self.x))
         # Calculate the point on the circle tangent to the mouse position
         self.tangent_x = self.x + self.radius * math.cos(self.angle)
         self.tangent_y = self.y + self.radius * math.sin(self.angle)

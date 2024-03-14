@@ -40,7 +40,7 @@ class Game():
 
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10023)
+        self.client = Client('localhost', 10026)
 
     def close_connections(self):
         self.client.close()

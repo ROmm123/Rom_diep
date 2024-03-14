@@ -30,7 +30,7 @@ class enemy_calculate():
         if a2 < self.set.screen_height and a1 < self.set.screen_width:
             radius = int(float(properties[8]))
             self.WEAPON.radius = radius
-            self.WEAPON.angle = int(float(properties[13]))
+            self.WEAPON.angle = float(properties[13])
             color_from_packet = properties[7]
             color_from_packet = color_from_packet.replace("("," ")
             color_from_packet = color_from_packet.replace(")", " ")
