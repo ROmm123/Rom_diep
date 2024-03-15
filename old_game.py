@@ -53,6 +53,7 @@ def shoot_green_circle(player_position, green_circles, mouse_x, mouse_y, circle_
     player_x = player_position[0]
     player_y = player_position[1]
 
+
     direction_x = mouse_x - player_x
     direction_y = mouse_y - player_y
 
@@ -130,6 +131,7 @@ def handle_events(circle_center, player_position, green_circles, circle_radius, 
                 mouse_pos = pygame.mouse.get_pos()  # Get the current mouse position
                 mouse_x = screen_position[0] + mouse_pos[0] - circle_center[0]  # Break down mouse position into x and y components
                 mouse_y = screen_position[1] + mouse_pos[1] - circle_center[1]
+                print("center", circle_center)
                 if (mouse_x >= 0 and mouse_y >= 0):
                     print("Mouse position when space bar is pressed - X:", mouse_x, "Y:", mouse_y)
                     print("player - ", player_position)
@@ -199,7 +201,6 @@ def render(screen, player_x, player_y, current_chunk, circle_center, circle_radi
     # Create rectangle surface
     rect_surface = pygame.Surface((rect_width, rect_height), pygame.SRCALPHA)
     pygame.draw.rect(rect_surface, GREY, (0, 0, rect_width, rect_height))  # Draw red rectangle on surface
-    print("rotated rect")
     rotated_rect = pygame.transform.rotate(rect_surface, math.degrees(-angle_to_tangent))
 
     # Get rectangle's rect

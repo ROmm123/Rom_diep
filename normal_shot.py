@@ -24,12 +24,17 @@ class NormalShot:
 
     def shoot(self, player_position, center_x, center_y,  screen_position, angle):
         mouse_pos = pygame.mouse.get_pos()
-        mouse_x = screen_position[0] + mouse_pos[0]
-        mouse_y = screen_position[1] + mouse_pos[1]
+        mouse_x = screen_position[0] + mouse_pos[0] - player_position[0]  # Break down mouse position into x and y components
+        mouse_y = screen_position[1] + mouse_pos[1] - player_position[1]
 
-        self.direction[0] = mouse_x - player_position[0]
-        self.direction[1] = mouse_y - player_position[1]
-        print(player_position)
+        self.direction[0] = mouse_x - screen_position[0]
+        self.direction[1] = mouse_y - screen_position[1]
+
+
+        print("direction", self.direction)
+        print("mouse", mouse_x, mouse_y)
+        print("screen", screen_position)
+
 
         magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
         if magnitude != 0:
