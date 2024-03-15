@@ -15,26 +15,25 @@ class NormalShot:
         self.green_circles = []
         self.remove_circles = []
         self.offset_distance = 50
-        self.shot_button = [False]
+        self.shot_button = [False, False]
         self.prev_key = False
 
     def draw(self):
         for circle in self.green_circles:
-            pygame.draw.circle(self.setting.surface, self.setting.green, circle["position"], self.radius)
+            pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
 
-    def shoot(self, player_position, center_x, center_y,  screen_position, angle):
+    def shoot(self, player_position, screen_position, angle):
         mouse_pos = pygame.mouse.get_pos()
-        mouse_x = mouse_pos[0] - player_position[0]  # Break down mouse position into x and y components
-        mouse_y = mouse_pos[1] - player_position[1]
+        self.direction[0] = mouse_pos[0] - player_position[0]  # Break down mouse position into x and y components
+        self.direction[1] = mouse_pos[1] - player_position[1]
 
-        self.direction[0] = mouse_x
-        self.direction[1] = mouse_y
-
+        mouse_x = screen_position[0] + self.direction[0]
+        mouse_y = screen_position[1] + self.direction[1]
 
         print("direction", self.direction)
         print("mouse", mouse_x, mouse_y)
         print("screen", screen_position)
-
+        print("center", player_position)
 
         magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
         if magnitude != 0:
@@ -42,8 +41,9 @@ class NormalShot:
             self.direction[1] /= magnitude
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
-        start_x = center_x + self.offset_distance * math.cos(angle)
-        start_y = center_y + self.offset_distance * math.sin(angle)
+        start_x = player_position[0] + self.offset_distance * math.cos(angle)
+        start_y = player_position[1] + self.offset_distance * math.sin(angle)
+        print("start pos:", start_x, start_y)
         self.green_circles.append({"position": [start_x, start_y], "velocity": self.velocity})
 
     def update(self):
@@ -57,13 +57,7 @@ class NormalShot:
                 self.remove_circles.append(i)
 
 
-    def handle_events(self, key_state, player_position, center_x, center_y, screen_position, angle):
-        if key_state[pygame.K_SPACE] and not self.shot_button:
-            self.shoot(player_position, center_x, center_y, screen_position, angle)
-            self.shot_button = True
-        elif not key_state[pygame.K_SPACE] and self.prev_key:
-            self.shot_button = False
-        self.prev_key = key_state[pygame.K_SPACE]
+
 
 
 
