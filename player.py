@@ -51,6 +51,7 @@ class Player():
                 elif event.key == pygame.K_s:
                     self.Move_button[3] = False
 
+
     def move(self):
         if self.Move_button[0]:
             self.screen_position[0] -= self.speed

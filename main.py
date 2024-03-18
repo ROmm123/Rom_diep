@@ -13,9 +13,9 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = settings()
-        self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
+        self.Playerr = Player(0, 0, 30, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
-        self.WEAPON = Weapon(30 , 30 , self.setting.grey, self.Playerr , self.setting)
+        self.WEAPON = Weapon(25 , 25 , self.setting.grey, self.Playerr , self.setting)
 
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, self.setting)
         self.BIG_SHOT = NormalShot(10, self.setting.blue, self.setting)
@@ -23,12 +23,24 @@ class Game():
 
     def run(self):
         while True:
+            self.shot_relative_vector = [0, 0]
             key_state = pygame.key.get_pressed()  # Get the state of all keyboard keys
             mouse_state = pygame.mouse.get_pressed()
             chunk = self.MAP.calc_chunk()
             self.MAP.draw_map(chunk)
 
+
             self.Playerr.handle_events()
+            if self.Playerr.Move_button[0]:
+                self.shot_relative_vector[0] = 2
+            if self.Playerr.Move_button[1]:
+                self.shot_relative_vector[0] = -2
+            if self.Playerr.Move_button[2]:
+                self.shot_relative_vector[1] = 2
+            if self.Playerr.Move_button[3]:
+                self.shot_relative_vector[1] = -2
+
+
             self.Playerr.move()
             self.Playerr.draw()
             self.WEAPON.run_weapon()
@@ -36,8 +48,8 @@ class Game():
 
             self.handle_events_shots(key_state, mouse_state)
 
-            self.NORMAL_SHOT.update()
-            self.BIG_SHOT.update()
+            self.NORMAL_SHOT.update(self.shot_relative_vector)
+            self.BIG_SHOT.update(self.shot_relative_vector)
 
             self.setting.update()
 
@@ -51,7 +63,7 @@ class Game():
         self.server.close()
 
 
-    def handle_events_shots(self, key_state, mouse_state):
+    def handle_events_shots(self, key_state, mouse_state):      # NOT FINISHED?
         if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
             self.NORMAL_SHOT.shoot(self.Playerr.position, self.Playerr.screen_position, self.WEAPON.angle)
             self.NORMAL_SHOT.shot_button[0] = True

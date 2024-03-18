@@ -50,9 +50,7 @@ def load_chunk(tmx_data, chunk_x, chunk_y):
 
 def shoot_green_circle(player_position, green_circles, mouse_x, mouse_y, circle_center):
     # Calculate the direction towards the mouse position
-    player_x = player_position[0]
-    player_y = player_position[1]
-
+    player_x, player_y = player_position
 
     direction_x = mouse_x - player_x
     direction_y = mouse_y - player_y
@@ -65,30 +63,22 @@ def shoot_green_circle(player_position, green_circles, mouse_x, mouse_y, circle_
         direction_x /= magnitude
         direction_y /= magnitude
 
+    # Store the direction vector for the shot
+    velocity = [2 * direction_x, 2 * direction_y]
 
-    #Green circles' velocity
-    velocity = [2 * direction_x,2 * direction_y]
-
-    #Calculate the starting position
-    angle_with_x_axis = math.atan2(direction_y, direction_x)
-    angle_degrees = math.degrees(angle_with_x_axis)
-    print("Angle with x-axis (degrees):", angle_degrees)
-
-    start_x = circle_center[0] + offset_distance * math.cos(angle_with_x_axis)
-    start_y = circle_center[1] + offset_distance * math.sin(angle_with_x_axis)
-
-    print(start_x, start_y)
+    # Calculate the starting position
+    start_x = circle_center[0] + offset_distance * math.cos(math.atan2(direction_y, direction_x))
+    start_y = circle_center[1] + offset_distance * math.sin(math.atan2(direction_y, direction_x))
 
     # Add the green circle to the list with its initial position and velocity
+
     green_circles.append({"position": [start_x, start_y], "velocity": velocity})
-
-
+    print("pos", green_circles[-1]["position"])
 
 
 def update_green_circles(screen, green_circles):
     # List to store indices of circles to remove
     remove_indices = []
-
 
     for i, circle in enumerate(green_circles):
         # Update the position of the green circle based on its velocity
@@ -96,8 +86,7 @@ def update_green_circles(screen, green_circles):
         circle["position"][1] += circle["velocity"][1]
 
         # Draw the green circle
-        pygame.draw.circle(screen, GREEN, (
-            int(circle["position"][0]), int(circle["position"][1])), 5)
+        pygame.draw.circle(screen, GREEN, (int(circle["position"][0]), int(circle["position"][1])), 5)
 
         # If the green circle moves off-screen, mark it for removal
         if circle["position"][0] < 0 or circle["position"][0] > screen.get_width() or \
@@ -107,6 +96,9 @@ def update_green_circles(screen, green_circles):
     # Remove circles that have moved off-screen
     for index in remove_indices[::-1]:
         del green_circles[index]
+
+
+
 
 
 def handle_events(circle_center, player_position, green_circles, circle_radius, screen_position, rect_width, rect_height):
@@ -218,7 +210,7 @@ def render(screen, player_x, player_y, current_chunk, circle_center, circle_radi
 
 
 def main():
-    global running, move_left, move_right, move_up, move_down, screen_position, speed
+    global running, screen_position, speed
     # Initialize pygame
     pygame.init()
     # Set up the display window
@@ -228,31 +220,36 @@ def main():
     # Set up clock for controlling the frame rate
     clock = pygame.time.Clock()
 
-
-
     running = True
     while running:
         # Handle events and retrieve mouse position
-        # Handle events and retrieve mouse position
         mouse_x, mouse_y = pygame.mouse.get_pos()
+
         # Calculate the player's position relative to the game world
         player_position = [circle_center[0] + screen_position[0] - 400, circle_center[1] + screen_position[1] - 300]
-
-        handle_events(circle_center, player_position,
-                      green_circles, circle_radius, screen_position, rect_width, rect_height)
-
         player_x = screen_position[0]
         player_y = screen_position[1]
+
+        handle_events(circle_center, player_position, green_circles, circle_radius, screen_position, rect_width, rect_height)
+
+        # Update the screen position based on movement keys
         update_screen_position()
+
+        # Update green circles
         update_green_circles(screen, green_circles)
-        player_x = screen_position[0]
-        player_y = screen_position[1]
+
+        # Load and render current chunk
         COUNT_X = int(player_x // 64)
         COUNT_Y = int(player_y // 64)
         current_chunk = load_chunk(tmx_data, COUNT_X, COUNT_Y)
-        render(screen, player_x, player_y, current_chunk, circle_center, circle_radius, player_circle_color, rect_width,
-               rect_height, offset_distance, tmx_data, 0, 0, green_circles)
-        clock.tick(90)
+        render(screen, screen_position[0], screen_position[1], current_chunk, circle_center, circle_radius, player_circle_color, rect_width, rect_height, offset_distance, tmx_data, 0, 0, green_circles)
+
+        # Control the frame rate
+        clock.tick(60)
+
+    pygame.quit()
+    sys.exit()
+
 
 
 if __name__ == "__main__":
