@@ -16,13 +16,12 @@ class Player():
         self.radius = radius
         self.color = color
         self.setting = setting
-        self.speed = 5
+        self.speed = 4
         self.acceleration = 0.1
         self.center_x = setting.screen_width / 2
         self.center_y = setting.screen_height / 2
         self.position = [(self.screen_position[0] + self.center_x), (self.screen_position[1] + self.center_y)]
         self.move_button = [False , False , False , False]
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green, self.setting)
 
 
     def draw(self):

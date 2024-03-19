@@ -4,27 +4,31 @@ import sys
 import settings
 
 class NormalShot:
-    def __init__(self, radius, color, setting):
+    def __init__(self, radius, color, deceleration, setting):
         self.radius = radius
         self.color = color
+        self.deceleration = deceleration
         self.setting = setting
         self.surface = self.setting.surface
+        self.ellipse_size = [30, 10]
+        self.offset_distance = 50
         self.speed = 5
         self.speed_multiplier = 2
-        self.erase_speed = 0.3
-        self.deceleration = 0.98
+        self.remove_speed = 0.3
         self.direction = [0, 0]
-        self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
-        self.shots = []
-        self.remove_shots = []
-        self.offset_distance = 50
         self.shot_button = [False, False]
         self.prev_key = False
+        self.shots = []
+        self.remove_shots = []
 
     def draw(self):
         # Draw the shot circle
         for circle in self.shots:
             pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
+
+    def draw_ellipse(self):
+        for circle in self.shots:
+            pygame.draw.ellipse(self.setting.surface, (255, 255, 0), (circle["position"], self.ellipse_size))
 
     def shoot(self, player_position, screen_position, angle):
         # calculate the starting position and direction of the shot
@@ -34,7 +38,6 @@ class NormalShot:
         mouse_x = screen_position[0] + self.direction[0]
         mouse_y = screen_position[1] + self.direction[1]
 
-        print("direction", self.direction)
         print("mouse", mouse_x, mouse_y)
         print("screen", screen_position)
         print("center", player_position)
@@ -43,6 +46,8 @@ class NormalShot:
         if magnitude != 0:  # checks if zero vector
             self.direction[0] /= magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= magnitude
+
+        print("direction", self.direction)
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
@@ -63,13 +68,18 @@ class NormalShot:
 
             self.draw()
 
-            if abs(circle["velocity"][0]) < self.erase_speed and abs(circle["velocity"][1] < self.erase_speed):
-                self.remove_shots.append(i)     # SHOTS TO REMOVE - NOT FINISHED
+            if abs(circle["velocity"][0]) < self.remove_speed and abs(circle["velocity"][1] < self.remove_speed):
+                print(circle["velocity"])
+                self.remove_shots.append(i)
 
-            # remove shots that have stopped moving
-            for index in reversed(self.remove_shots):
-                del self.shots[index]
-            self.remove_shots.clear()
+        self.remove()
+
+
+    def remove(self):
+        # remove shots that have stopped moving
+        for index in reversed(self.remove_shots):
+            del self.shots[index]
+        self.remove_shots.clear()
 
 
 

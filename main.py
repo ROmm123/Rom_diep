@@ -17,8 +17,8 @@ class Game():
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(25 , 25 , self.setting.grey, self.Playerr , self.setting)
 
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green, self.setting)
-        self.BIG_SHOT = NormalShot(10, self.setting.blue, self.setting)
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.99, self.setting)
+        self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, self.setting)
 
 
     def run(self):
@@ -32,14 +32,17 @@ class Game():
 
             self.Playerr.handle_events()
 
-            if self.Playerr.move_button[0]:
-                self.shot_relative_vector[0] = 5
-            if self.Playerr.move_button[1]:
-                self.shot_relative_vector[0] = -5
-            if self.Playerr.move_button[2]:
-                self.shot_relative_vector[1] = 5
-            if self.Playerr.move_button[3]:
-                self.shot_relative_vector[1] = -5
+            if self.Playerr.screen_position[0] > 0:
+                if self.Playerr.move_button[0]:
+                    self.shot_relative_vector[0] = 5
+                if self.Playerr.move_button[1]:
+                    self.shot_relative_vector[0] = -5
+
+            if self.Playerr.screen_position[1] > 0:
+                if self.Playerr.move_button[2]:
+                    self.shot_relative_vector[1] = 5
+                if self.Playerr.move_button[3]:
+                    self.shot_relative_vector[1] = -5
 
 
             self.Playerr.move()

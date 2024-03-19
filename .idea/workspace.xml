@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="colors fixed and big shot added">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="shot speed accel, decel fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/map.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +155,7 @@
       <workItem from="1710523702277" duration="7666000" />
       <workItem from="1710600876246" duration="2905000" />
       <workItem from="1710783915669" duration="6100000" />
-      <workItem from="1710861384798" duration="4009000" />
+      <workItem from="1710861384798" duration="6064000" />
     </task>
     <task id="LOCAL-00001" summary="normal shot draft">
       <option name="closed" value="true" />
@@ -215,7 +213,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710530221556</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="shot speed accel, decel fixed">
+      <option name="closed" value="true" />
+      <created>1710865495900</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1710865495900</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,7 +244,8 @@
     <MESSAGE value="shot angle need to be fixed" />
     <MESSAGE value="shot angle fixed, shot vector needs to be fixed.&#10;(shot goes down with the player)" />
     <MESSAGE value="colors fixed and big shot added" />
-    <option name="LAST_COMMIT_MESSAGE" value="colors fixed and big shot added" />
+    <MESSAGE value="shot speed accel, decel fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="shot speed accel, decel fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -257,7 +264,7 @@
     <SUITE FILE_PATH="coverage/Rom_diep$weapon.coverage" NAME="weapon Coverage Results" MODIFIED="1710098976856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Rom_diep$old_game.coverage" NAME="old_game Coverage Results" MODIFIED="1710603701615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Rom_diep$test.coverage" NAME="test Coverage Results" MODIFIED="1710784909051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Rom_diep$main.coverage" NAME="main Coverage Results" MODIFIED="1710865361503" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Rom_diep$main.coverage" NAME="main Coverage Results" MODIFIED="1710867437539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Rom_diep$server_oop.coverage" NAME="server_oop Coverage Results" MODIFIED="1710861542131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Rom_diep$trash_script.coverage" NAME="trash_script Coverage Results" MODIFIED="1710023475088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Rom_diep$map.coverage" NAME="map Coverage Results" MODIFIED="1710785171870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
