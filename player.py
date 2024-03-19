@@ -1,71 +1,86 @@
+import sys
+import math
+import pygame
+
 from map import *
+from settings import setting
 
 
 
 class Player():
 
     def __init__(self , x , y , radius , color , setting):
-        self.surface = setting.screen
-        self.x = x
-        self.y = y
+        self.surface = setting.surface
+        self.set=setting
+        self.screen_position = [x,y]
         self.radius = radius
         self.color = color
         self.speed = 5
         self.center_x = 400
         self.center_y = 300
+        self.Move_button = [False , False , False , False]
+        self.angle=0
 
     def draw(self):
         pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
 
-    def move(self):
-        move_left = False
-        move_right = False
-        move_up = False
-        move_down = False
+    def draw_client(self, data):
+        if data == "0":
+            return
+        else:
+            properties = data.split(',')
+            client_circle_x = properties[5]
+            client_circle_y = properties[6]
+            print(f"{client_circle_x},{client_circle_y}")
 
-        # Main game loop
+    def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
-                    move_left = True
+                    self.Move_button[0] = True
                 elif event.key == pygame.K_d:
-                    move_right = True
+                    self.Move_button[1] = True
                 elif event.key == pygame.K_w:
-                    move_up = True
+                    self.Move_button[2] = True
                 elif event.key == pygame.K_s:
-                    move_down = True
+                    self.Move_button[3] = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
-                    move_left = False
+                    self.Move_button[0] = False
                 elif event.key == pygame.K_d:
-                    move_right = False
+                    self.Move_button[1] = False
                 elif event.key == pygame.K_w:
-                    move_up = False
+                    self.Move_button[2] = False
                 elif event.key == pygame.K_s:
-                    move_down = False
+                    self.Move_button[3] = False
+
+    def move(self):
 
         # Update screen position based on movement direction
-        if move_left:
-            self.x -= self.speed
-            if self.x < 0:
-                self.x += self.speed
+        if self.Move_button[0]:
+            self.screen_position[0] -= self.speed
+            if self.screen_position[0] < 0:
+                self.screen_position[0] += self.speed
 
-        if move_right:
-            self.x += self.speed
+        if self.Move_button[1]:
+            self.screen_position[0] += self.speed
 
-        if move_up:
-            self.y -= self.speed
-            if self.y < 0:
-                self.y += self.speed
+        if self.Move_button[2]:
+            self.screen_position[1] -= self.speed
+            if self.screen_position[1] < 0:
+                self.screen_position[1] += self.speed
 
-        if move_down:
-            self.y += self.speed
+        if self.Move_button[3]:
+            self.screen_position[1] += self.speed
 
-        return self.x
-
-
+    def calc_angle(self):
+            # Calculate the angle between the player and the mouse
+            dx = pygame.mouse.get_pos()[0] - self.set.screen_width // 2
+            dy = pygame.mouse.get_pos()[1] - self.set.screen_height // 2
+            self.angle = math.atan2(dy, dx)
 
 
 

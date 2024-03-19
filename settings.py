@@ -1,7 +1,5 @@
 import pygame.time
-
-
-class settings():
+class setting():
 
     def __init__(self):
         self.screen_width = 800
@@ -9,5 +7,11 @@ class settings():
         self.clock = pygame.time.Clock()
         self.white = (255, 255, 255)
         self.red = (255, 0, 0)
+        self.green = (0,255,00)
         self.green_fn = (0 , 255 , 0)
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        self.screen = (800, 600)
+        self.surface = pygame.display.set_mode(self.screen)
+
+    def update(self):
+        pygame.display.update()
+        self.clock.tick(60)

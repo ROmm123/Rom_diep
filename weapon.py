@@ -1,0 +1,60 @@
+import math
+import pygame
+
+class Weapon():
+
+    def __init__(self, width, height, color,radius, set,x,y,angle):
+        self.offset_distance = 50
+        self.color = color
+        self.weapon_surf = None
+        self.rect_center_x = 0
+        self.rect_center_y = 0
+        self.angle = 0
+        self.tangent_x = 0
+        self.tangent_y = 0
+        self.set = set
+        self.radius = radius
+        self.rect_width = width
+        self.rect_height = height
+        self.x=x
+        self.y=y
+        self.angle=angle
+
+    '''def calc_angle(self):
+            # Calculate the angle between the player and the mouse
+            dx = pygame.mouse.get_pos()[0] - self.set.screen_width // 2
+            dy = pygame.mouse.get_pos()[1] - self.set.screen_height // 2
+            self.angle = math.atan2(dy, dx)
+            '''
+
+    def calc_tangent_point(self):
+        # Calculate the point on the circle tangent to the mouse position
+        self.tangent_x = self.x + self.radius * math.cos(self.angle)
+        self.tangent_y = self.y + self.radius * math.sin(self.angle)
+
+    def calc_rect_pos(self):
+        # Calculate rectangle position on the circular path
+        self.rect_center_x = self.tangent_x + self.offset_distance * math.cos(self.angle)
+        self.rect_center_y = self.tangent_y + self.offset_distance * math.sin(self.angle)
+        self.rect_center_x += (self.radius - 15 - self.offset_distance) * math.cos(self.angle)
+        self.rect_center_y += (self.radius - 15 - self.offset_distance) * math.sin(self.angle)
+
+    def draw_rect(self):
+        self.weapon_surf = pygame.Surface((self.rect_width, self.rect_height), pygame.SRCALPHA)
+        pygame.draw.rect(self.weapon_surf, self.set.red, (0, 0, self.rect_width, self.rect_height))
+
+    def rotate_surf(self):
+        # Rotate the rectangle surface based on the angle
+        self.weapon_surf = pygame.transform.rotate(self.weapon_surf, math.degrees(-self.angle))
+
+    def draw_weapon(self):
+        # Draw the rotated rectangle
+        rect = self.weapon_surf.get_rect(center=(self.rect_center_x, self.rect_center_y))
+        self.set.surface.blit(self.weapon_surf, rect)
+
+    def run_weapon(self):
+        self.calc_tangent_point()
+        self.calc_rect_pos()
+        self.draw_rect()  # Draw the new rectangle
+        self.rotate_surf()
+        self.draw_weapon()
