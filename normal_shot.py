@@ -9,7 +9,8 @@ class NormalShot:
         self.color = color
         self.setting = setting
         self.surface = self.setting.surface
-        self.speed = 3
+        self.speed = 5
+        self.speed_multiplier = 2
         self.direction = [0, 0]
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         self.shots = []
@@ -41,17 +42,22 @@ class NormalShot:
             self.direction[0] /= magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= magnitude
 
-        velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
+        self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
         start_y = player_position[1] + self.offset_distance * math.sin(angle)
 
         print("start pos:", start_x, start_y)
 
-        self.shots.append({"position": [start_x, start_y], "velocity": velocity})   #adds a shot to an array for it to print on the screen
+        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
 
     def update(self, shot_relative_vector):
         # updates the shots' position
         for i, circle in enumerate(self.shots):
+            if circle["velocity"][0] > self.velocity[0] and circle["velocity"][1] > self.velocity[1]:
+                print(circle["velocity"])   #NEED TO MAKE SURE NEGATIVE X AND Y WORK (NEW DEF)
+                print(self.velocity)
+                circle["velocity"][0] -= (self.direction[0] * 1)
+                circle["velocity"][1] -= (self.direction[1] * 1)
             circle["position"][0] += circle["velocity"][0] + shot_relative_vector[0]
             circle["position"][1] += circle["velocity"][1] + shot_relative_vector[1]
             self.draw()
