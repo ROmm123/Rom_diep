@@ -11,6 +11,8 @@ class NormalShot:
         self.surface = self.setting.surface
         self.speed = 5
         self.speed_multiplier = 2
+        self.erase_speed = 0.3
+        self.deceleration = 0.98
         self.direction = [0, 0]
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         self.shots = []
@@ -53,21 +55,21 @@ class NormalShot:
     def update(self, shot_relative_vector):
         # updates the shots' position
         for i, circle in enumerate(self.shots):
-            if circle["velocity"][0] > self.velocity[0] and circle["velocity"][1] > self.velocity[1]:
-                print(circle["velocity"])   #NEED TO MAKE SURE NEGATIVE X AND Y WORK (NEW DEF)
-                print(self.velocity)
-                circle["velocity"][0] -= (self.direction[0] * 1)
-                circle["velocity"][1] -= (self.direction[1] * 1)
+            circle["velocity"][0] *= self.deceleration
+            circle["velocity"][1] *= self.deceleration
+
             circle["position"][0] += circle["velocity"][0] + shot_relative_vector[0]
             circle["position"][1] += circle["velocity"][1] + shot_relative_vector[1]
+
             self.draw()
 
-            if circle["position"][0] < 0 or circle["position"][0] > self.setting.screen[0] or \
-                    circle["position"][1] < 0 or circle["position"][1] > self.setting.screen[1]:
+            if abs(circle["velocity"][0]) < self.erase_speed and abs(circle["velocity"][1] < self.erase_speed):
                 self.remove_shots.append(i)     # SHOTS TO REMOVE - NOT FINISHED
 
-
-
+            # remove shots that have stopped moving
+            for index in reversed(self.remove_shots):
+                del self.shots[index]
+            self.remove_shots.clear()
 
 
 

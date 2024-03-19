@@ -5,16 +5,15 @@ from  settings import *
 class Map():
     def __init__(self , Player1 ,  setting):
         self.map = load_pygame("cubed_map.tmx")
-        self.chunk_size = 20
+        self.chunk_size = 40
         self.player = Player1
         self.screen = setting.surface
         self.setting = setting
 
     def load_chunk(self, chunk_x, chunk_y):
         chunk_group = pygame.sprite.Group()
-        chunk_size = 20
-        for x in range(chunk_x, chunk_x + chunk_size):
-            for y in range(chunk_y, chunk_y + chunk_size):
+        for x in range(chunk_x, chunk_x + self.chunk_size):
+            for y in range(chunk_y, chunk_y + self.chunk_size):
                 tile_image = self.map.get_tile_image(x, y, 0)  # Assuming layer index is 0
                 if tile_image is not None:
                     pos = (x * self.map.tilewidth, y * self.map.tileheight)

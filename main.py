@@ -31,14 +31,15 @@ class Game():
 
 
             self.Playerr.handle_events()
-            if self.Playerr.Move_button[0]:
-                self.shot_relative_vector[0] = 2
-            if self.Playerr.Move_button[1]:
-                self.shot_relative_vector[0] = -2
-            if self.Playerr.Move_button[2]:
-                self.shot_relative_vector[1] = 2
-            if self.Playerr.Move_button[3]:
-                self.shot_relative_vector[1] = -2
+
+            if self.Playerr.move_button[0]:
+                self.shot_relative_vector[0] = 5
+            if self.Playerr.move_button[1]:
+                self.shot_relative_vector[0] = -5
+            if self.Playerr.move_button[2]:
+                self.shot_relative_vector[1] = 5
+            if self.Playerr.move_button[3]:
+                self.shot_relative_vector[1] = -5
 
 
             self.Playerr.move()
@@ -80,6 +81,9 @@ class Game():
         elif not mouse_state[0] and self.BIG_SHOT.prev_key:
             self.NORMAL_SHOT.shot_button[1] = False
         self.BIG_SHOT.prev_key = mouse_state[0]
+
+        #if key_state[pygame.K_x]:
+
 
 if __name__ == '__main__':
     game = Game()
