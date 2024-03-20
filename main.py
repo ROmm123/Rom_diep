@@ -30,13 +30,14 @@ class Game():
             chunk = self.MAP.calc_chunk()
             self.MAP.draw_map(chunk)
 
-            if self.Playerr.screen_position[0] > 0 or self.Playerr.screen_position[1] > 0:
+            if self.Playerr.screen_position[0] > 0:
                 if self.Playerr.move_button[0]:
                     self.shot_relative_vector[0] = self.Playerr.speed
 
                 if self.Playerr.move_button[1]:
                     self.shot_relative_vector[0] = -self.Playerr.speed
 
+            if  self.Playerr.screen_position[1] > 0:
                 if self.Playerr.move_button[2]:
                     self.shot_relative_vector[1] = self.Playerr.speed
 

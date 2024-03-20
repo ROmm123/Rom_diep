@@ -43,11 +43,13 @@ class NormalShot:
         print("center", player_position)
 
         magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
+        print(magnitude)
         if magnitude != 0:  # checks if zero vector
             self.direction[0] /= magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= magnitude
 
         print("direction", self.direction)
+
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
@@ -67,7 +69,7 @@ class NormalShot:
             circle["position"][1] += circle["velocity"][1] + shot_relative_vector[1]
 
             self.draw()
-            print(self.shots)
+            #print(self.shots)
 
 
             # check shots to remove (if below the remove_speed)
