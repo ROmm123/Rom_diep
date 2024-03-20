@@ -30,22 +30,20 @@ class Game():
             chunk = self.MAP.calc_chunk()
             self.MAP.draw_map(chunk)
 
+            if self.Playerr.screen_position[0] > 0 or self.Playerr.screen_position[1] > 0:
+                if self.Playerr.move_button[0]:
+                    self.shot_relative_vector[0] = self.Playerr.speed
+
+                if self.Playerr.move_button[1]:
+                    self.shot_relative_vector[0] = -self.Playerr.speed
+
+                if self.Playerr.move_button[2]:
+                    self.shot_relative_vector[1] = self.Playerr.speed
+
+                if self.Playerr.move_button[3]:
+                    self.shot_relative_vector[1] = -self.Playerr.speed
 
             self.Playerr.handle_events()
-
-            if self.Playerr.screen_position[0] > 0:
-                if self.Playerr.move_button[0]:
-                    self.shot_relative_vector[0] = 5
-                if self.Playerr.move_button[1]:
-                    self.shot_relative_vector[0] = -5
-
-            if self.Playerr.screen_position[1] > 0:
-                if self.Playerr.move_button[2]:
-                    self.shot_relative_vector[1] = 5
-                if self.Playerr.move_button[3]:
-                    self.shot_relative_vector[1] = -5
-
-
             self.Playerr.move()
             self.Playerr.draw()
             self.handle_events_shapes(key_state)
@@ -94,6 +92,8 @@ class Game():
     def handle_events_shapes(self, key_state):
         if key_state[pygame.K_b]:
             self.Playerr.shape = "triangle"
+        if key_state[pygame.K_n]:
+            self.Playerr.shape = "circle"
 
 
 if __name__ == '__main__':

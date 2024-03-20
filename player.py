@@ -29,10 +29,10 @@ class Player():
     def draw(self):
         if self.shape == "circle":
             pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
+            self.speed = 5
 
         if self.shape == "triangle":
             pygame.draw.polygon(self.surface , self.color ,[self.triangle_points[0], self.triangle_points[1], self.triangle_points[2]])
-            
             self.speed = 3
 
 
