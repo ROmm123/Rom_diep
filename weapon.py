@@ -58,3 +58,6 @@ class Weapon():
         self.draw_rect()  # Draw the new rectangle
         self.rotate_surf()
         self.draw_weapon()
+
+    def remove(self):
+        self.weapon_surf = None

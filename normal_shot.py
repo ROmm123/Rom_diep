@@ -68,6 +68,7 @@ class NormalShot:
 
             self.draw()
 
+            # check shots to remove (if below the remove_speed)
             if abs(circle["velocity"][0]) < self.remove_speed and abs(circle["velocity"][1] < self.remove_speed):
                 print(circle["velocity"])
                 self.remove_shots.append(i)

@@ -1,3 +1,4 @@
+
 import pygame
 import threading
 from player import Player
@@ -13,7 +14,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = settings()
-        self.Playerr = Player(0, 0, 30, self.setting.red, self.setting)
+        self.Playerr = Player(0, 0, 30, "circle", self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(25 , 25 , self.setting.grey, self.Playerr , self.setting)
 
@@ -47,10 +48,14 @@ class Game():
 
             self.Playerr.move()
             self.Playerr.draw()
-            self.WEAPON.run_weapon()
+            self.handle_events_shapes(key_state)
 
+            if self.Playerr.shape == "circle":
+                self.WEAPON.run_weapon()
+                self.handle_events_shots(key_state, mouse_state)
 
-            self.handle_events_shots(key_state, mouse_state)
+            else:
+                self.WEAPON.remove()
 
             self.NORMAL_SHOT.update(self.shot_relative_vector)
             self.BIG_SHOT.update(self.shot_relative_vector)
@@ -85,7 +90,10 @@ class Game():
             self.NORMAL_SHOT.shot_button[1] = False
         self.BIG_SHOT.prev_key = mouse_state[0]
 
-        #if key_state[pygame.K_x]:
+
+    def handle_events_shapes(self, key_state):
+        if key_state[pygame.K_b]:
+            self.Playerr.shape = "triangle"
 
 
 if __name__ == '__main__':

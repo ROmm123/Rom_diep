@@ -10,22 +10,32 @@ from weapon import Weapon
 
 class Player():
 
-    def __init__(self , x , y , radius , color , setting):
+    def __init__(self , x , y , radius , shape, color , setting):
         self.surface = setting.surface
         self.screen_position = [x,y]
         self.radius = radius
+        self.shape = shape
         self.color = color
         self.setting = setting
-        self.speed = 4
+        self.speed = 5
         self.acceleration = 0.1
         self.center_x = setting.screen_width / 2
         self.center_y = setting.screen_height / 2
+        self.triangle_points = (self.center_x, self.center_y - self.radius * 1.5), (self.center_x - self.radius, self.center_y), (self.center_x + self.radius, self.center_y)
         self.position = [(self.screen_position[0] + self.center_x), (self.screen_position[1] + self.center_y)]
         self.move_button = [False , False , False , False]
 
 
     def draw(self):
-        pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
+        if self.shape == "circle":
+            pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
+
+        if self.shape == "triangle":
+            pygame.draw.polygon(self.surface , self.color ,[self.triangle_points[0], self.triangle_points[1], self.triangle_points[2]])
+            
+            self.speed = 3
+
+
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -53,7 +63,6 @@ class Player():
 
 
     def move(self):
-        self.speed = 5
         if self.move_button[0]:
             self.screen_position[0] -= self.speed
             if self.screen_position[0] < 0:
