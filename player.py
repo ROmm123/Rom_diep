@@ -79,12 +79,3 @@ class Player():
         if self.move_button[3]:
             self.screen_position[1] += self.speed
 
-
-
-
-
-
-
-
-
-

@@ -94,6 +94,14 @@ class Game():
             self.Playerr.shape = "triangle"
         if key_state[pygame.K_n]:
             self.Playerr.shape = "circle"
+        if key_state[pygame.K_v]:
+            self.WEAPON.rect_height = 40
+        if key_state[pygame.K_g]:
+            self.WEAPON.rect_width = 40
+            self.WEAPON.offset_distance += 20
+        if key_state[pygame.K_h]:
+            self.WEAPON.rect_height = 25
+            self.WEAPON.rect_width = 25
 
 
 if __name__ == '__main__':
