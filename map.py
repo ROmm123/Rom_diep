@@ -5,7 +5,7 @@ from  settings import *
 class Map():
     def __init__(self , Player1 ,  setting):
         self.map = load_pygame("cubed_map.tmx")
-        self.chunk_size = 40
+        self.chunk_size = 30
         self.player = Player1
         self.screen = setting.surface
         self.setting = setting
