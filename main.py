@@ -46,6 +46,10 @@ class Game():
         self.client.close()
         self.server.close()
 
+    #def update_enemies(self):
+
+
+
 if __name__ == '__main__':
     game = Game()
     game.connect_to_server()
