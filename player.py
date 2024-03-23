@@ -75,6 +75,8 @@ class Player():
                     self.move_button[2] = False
                 elif event.key == pygame.K_s:
                     self.move_button[3] = False
+                elif event.key == pygame.K_x:
+                    self.hurt()
 
 
 
