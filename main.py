@@ -46,6 +46,7 @@ class Game():
 
             self.Playerr.handle_events()
             self.Playerr.move()
+            self.Playerr.isAlive()
             self.Playerr.draw()
             self.handle_events_shapes(key_state)
 

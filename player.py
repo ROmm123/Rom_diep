@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from map import *
+from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
 
@@ -24,6 +25,20 @@ class Player():
         self.triangle_points = (self.center_x, self.center_y - self.radius * 1.5), (self.center_x - self.radius, self.center_y), (self.center_x + self.radius, self.center_y)
         self.position = [(self.screen_position[0] + self.center_x), (self.screen_position[1] + self.center_y)]
         self.move_button = [False , False , False , False]
+        self.hp = HP(self.center_x, self.center_y, radius, setting)
+
+    def hurt(self):
+        if self.hp.Damage >= self.radius * 2:
+            self.hp.ISAlive = False
+        else:
+            self.hp.Damage += 5
+
+        print(self.hp.Damage)
+
+    def isAlive(self):
+        if not self.hp.ISAlive:
+            pygame.quit()
+            sys.exit()
 
 
     def draw(self):
@@ -60,6 +75,7 @@ class Player():
                     self.move_button[2] = False
                 elif event.key == pygame.K_s:
                     self.move_button[3] = False
+
 
 
     def move(self):
