@@ -10,7 +10,6 @@ class NormalShot:
         self.deceleration = deceleration
         self.setting = setting
         self.surface = self.setting.surface
-        self.ellipse_size = [30, 10]
         self.offset_distance = 50
         self.speed = 5
         self.speed_multiplier = 2
@@ -25,10 +24,6 @@ class NormalShot:
         # Draw the shot circle
         for circle in self.shots:
             pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
-
-    def draw_ellipse(self):
-        for circle in self.shots:
-            pygame.draw.ellipse(self.setting.surface, (255, 255, 0), (circle["position"], self.ellipse_size))
 
     def shoot(self, player_position, screen_position, angle):
         # calculate the starting position and direction of the shot

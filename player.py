@@ -32,8 +32,8 @@ class Player():
             self.hp.ISAlive = False
         else:
             self.hp.Damage += 5
-
         print(self.hp.Damage)
+
 
     def isAlive(self):
         if not self.hp.ISAlive:
