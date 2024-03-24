@@ -20,6 +20,7 @@ class Player():
         self.center_y = 300
         self.Move_button = [False , False , False , False]
         self.angle=0
+        self.enemies = 0
 
     def draw(self):
         pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)

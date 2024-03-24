@@ -1,3 +1,5 @@
+from socket import socket
+
 import pygame
 from player import Player
 from map import Map
@@ -16,6 +18,7 @@ class Game():
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(20 , 20 , self.setting.green_fn , self.Playerr.radius , self.setting,self.Playerr.center_x,self.Playerr.center_y,self.Playerr.angle )
+        self.udp_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     def run(self):
 
         while True:
@@ -46,7 +49,14 @@ class Game():
         self.client.close()
         self.server.close()
 
-    #def update_enemies(self):
+    def update_enemies(self):
+
+        # recfrom....
+
+        # calc difference between current enemy number (client) and actual enemies
+
+        # open or close threads accordingly / call a function that does it
+
 
 
 
