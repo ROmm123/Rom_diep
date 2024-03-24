@@ -26,6 +26,9 @@ class Player():
         self.position = [(self.screen_position[0] + self.center_x), (self.screen_position[1] + self.center_y)]
         self.move_button = [False , False , False , False]
         self.hp = HP(self.center_x, self.center_y, radius, setting)
+        self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.99, self.setting)
+        self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, self.setting)
 
     def hurt(self):
         if self.hp.Damage >= self.radius * 2:
