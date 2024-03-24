@@ -44,7 +44,9 @@ class Game:
             self.Playerr.move()
             self.Playerr.draw()
             self.Playerr.isAlive()
-            self.handle_events_shapes(key_state)
+            self.Playerr.handle_events_shapes(key_state)
+
+
 
             if self.Playerr.shape == "circle":
                 self.Playerr.WEAPON.run_weapon()

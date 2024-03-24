@@ -82,8 +82,25 @@ class Player():
                     self.move_button[2] = False
                 elif event.key == pygame.K_s:
                     self.move_button[3] = False
+
+            # HITS
                 elif event.key == pygame.K_x:
                     self.hurt()
+
+            # SHAPES
+    def handle_events_shapes(self, key_state):
+        if key_state[pygame.K_b]:
+            self.shape = "triangle"
+        elif key_state[pygame.K_n]:
+            self.shape = "circle"
+        elif key_state[pygame.K_v]:
+            self.WEAPON.rect_height = 40
+        elif key_state[pygame.K_g]:
+            self.WEAPON.rect_width = 40
+            self.WEAPON.offset_distance += 20
+        elif key_state[pygame.K_h]:
+            self.WEAPON.rect_height = 25
+            self.WEAPON.rect_width = 25
 
 
 
