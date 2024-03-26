@@ -16,13 +16,13 @@ class EnemyThread(threading.Thread):
         self.setting = setting
         self.weapon = weapon
         self.running = True
+        self.data=0
 
     def run(self):
         while self.running:
             try:
-                data = self.client.receive_data()
-                if data != '0' and data:
-                    enemy_main = enemy_main(data, self.player, self.setting, self.weapon)
+                if self.data != '0' and self.data:
+                    enemy_main = enemy_main(self.data, self.player, self.setting, self.weapon)
                     enemy_main.main()
             except Exception as e:
                 print(f"Error in EnemyThread: {e}")
@@ -35,7 +35,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10026)
+        self.client = Client('localhost', 10025)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -63,8 +63,17 @@ class Game():
     def start_enemy_threads(self):
         while self.running:
             try:
-                packet = self.client.receive_data()
-                print(str(packet))
+                packet1 = self.client.receive_data()
+                packet2= self.client.receive_data()
+
+                if ';' in packet1:
+                    self.data=packet1
+                    packet=packet2
+                else:
+                    self.data=packet2
+                    packet=packet1
+                    print(packet)
+
                 self.num_enemies = int(packet)
                 diff = self.num_enemies - len(self.enemy_threads)
                 if diff > 0:
@@ -79,6 +88,8 @@ class Game():
                         thread.join()
             except Exception as e:
                 print(f"Error in start_enemy_threads: {e}")
+        
+
 
     def stop(self):
         self.running = False

@@ -1,79 +1,106 @@
-from socket import socket
-
+import socket
+import threading
 import pygame
 from player import Player
 from map import Map
 from settings import setting
 from weapon import Weapon
 from Network import Client
-from server_oop import Server
-from test_enemy import *
 from enemy_main import *
 
+class EnemyThread(threading.Thread):
+    def __init__(self, client, player, setting, weapon):
+        super().__init__()
+        self.client = client
+        self.player = player
+        self.setting = setting
+        self.weapon = weapon
+        self.running = True
+        self.data=0
+
+    def run(self):
+        while self.running:
+            try:
+                if self.data != '0' and self.data:
+                    enemy_main = enemy_main(self.data, self.player, self.setting, self.weapon)
+                    enemy_main.main()
+            except Exception as e:
+                print(f"Error in EnemyThread: {e}")
 
 class Game():
-
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
-        self.MAP = Map(self.Playerr, self.setting)
-        self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting, self.Playerr.center_x,
-                             self.Playerr.center_y, self.Playerr.angle)
-        # self.udp_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.player = Player(0, 0, 35, self.setting.red, self.setting)
+        self.map = Map(self.player, self.setting)
+        self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
+                             self.player.center_y, self.player.angle)
+        self.client = Client('localhost', 10025)
+        self.num_enemies = 0
+        self.enemy_threads = []
+        self.running = True
 
     def run(self):
+        while self.running:
+            self.player.calc_angle()
+            self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting,
+                                 self.player.center_x, self.player.center_y, self.player.angle)
+            self.player.handle_events()
+            self.player.move()
+            chunk = self.map.calc_chunk()
+            self.map.draw_map(chunk)
+            self.player.draw()
+            self.weapon.run_weapon()
 
-        while True:
-            self.Playerr.calc_angle()
-            self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting,
-                                 self.Playerr.center_x, self.Playerr.center_y, self.Playerr.angle)
-            self.Playerr.handle_events()
-            self.Playerr.move()
-            chunk = self.MAP.calc_chunk()
-            self.MAP.draw_map(chunk)
-            self.Playerr.draw()
-            self.WEAPON.run_weapon()
-
-            print(
-                "here1")  # 0                          #1                          #2                      #3                      #4                          #5                                  #6                              #7                      #8                      #9                          #10                          #11                        #12                  #13
-            self.client.send_data(
-                f"{self.WEAPON.rect_center_x};{self.WEAPON.rect_center_y};{self.WEAPON.rect_width};{self.WEAPON.rect_height};{self.WEAPON.tangent_x};{self.Playerr.screen_position[0]};{self.Playerr.screen_position[1]};{self.Playerr.color};{self.Playerr.radius};{self.WEAPON.rect_center_x};{self.WEAPON.rect_center_y};{self.WEAPON.rect_width};{self.WEAPON.rect_height};{self.WEAPON.angle}")
-            print(
-                "here2")  # 0                          #1                          #2                      #3                      #4                          #5                                  #6                              #7                      #8                      #9                          #10                          #11                        #12                  #13
-            try:
-                data = self.client.receive_data()
-            except:
-                print("eroor")
-
-            print(data)
-            if data == '0' or not data:
-                pass
-            else:
-                Enemy_main = enemy_main(data, self.Playerr, self.setting, self.WEAPON)
-                Enemy_main.main()
+            data = f"{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.tangent_x};{self.player.screen_position[0]};{self.player.screen_position[1]};{self.player.color};{self.player.radius};{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.angle}"
+            self.client.send_data(data)
 
             self.setting.update()
 
-    def connect_to_server(self):
-        self.client = Client('localhost', 10026)
-
     def close_connections(self):
         self.client.close()
-        self.server.close()
 
-    def update_enemies(self):
-        pass
-        # recfrom....
+    def start_enemy_threads(self):
+        while self.running:
+            try:
+                packet1 = self.client.receive_data()
+                packet2= self.client.receive_data()
 
-        # calc difference between current enemy number (client) and actual enemies
+                if ';' in packet1:
+                    self.data=packet1
+                    packet=packet2
+                else:
+                    self.data=packet2
+                    packet=packet1
+                    print(packet)
+                #self.num_enemies = int(packet)
+                diff = self.num_enemies - len(self.enemy_threads)
+                if diff > 0:
+                    for _ in range(diff):
+                        enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon)
+                        enemy_thread.start()
+                        self.enemy_threads.append(enemy_thread)
+                elif diff < 0:
+                    for _ in range(-diff):
+                        thread = self.enemy_threads.pop()
+                        thread.running = False
+                        thread.join()
+            except Exception as e:
+                print(f"Error in start_enemy_threads: {e}")
 
-        # open or close threads accordingly / call a function that does it
-
+    def stop(self):
+        self.running = False
+        for thread in self.enemy_threads:
+            thread.running = False
+            thread.join()
 
 if __name__ == '__main__':
     game = Game()
-    game.connect_to_server()
-    game.run()
-    game.close_connections()
-    pygame.quit()
+    enemy_thread_handler = threading.Thread(target=game.start_enemy_threads)
+    enemy_thread_handler.start()
+    try:
+        game.run()
+    finally:
+        game.stop()
+        game.close_connections()
+        pygame.quit()

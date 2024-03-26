@@ -25,8 +25,6 @@ class Server:
                             receiver_socket.send(data.encode("utf-8"))
                 client_socket.close()
                 break
-
-            print(self.clients)
             data = data.decode("utf-8")
             if len(self.clients) > 1:
                 for receiver_socket, addr in self.clients:
@@ -67,6 +65,6 @@ class Server:
             print("Server cannot send packet")
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10026)
+    my_server = Server('localhost', 10025)
     print("Starting server...")
     my_server.start()
