@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="weapon+circle enemy client with main client">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enemy_calculate.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_calculate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server_oop.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_oop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script2.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +40,7 @@
     "Python.enemy_main.executor": "Run",
     "Python.enemy_player.executor": "Run",
     "Python.main (1).executor": "Run",
-    "Python.main.executor": "Run",
+    "Python.main.executor": "Debug",
     "Python.old_main.executor": "Run",
     "Python.player.executor": "Run",
     "Python.server.executor": "Run",
@@ -66,7 +66,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.trash_script2">
+  <component name="RunManager" selected="Python.main">
     <configuration name="enemy_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -180,9 +180,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.trash_script2" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.server_oop" />
+        <item itemvalue="Python.trash_script2" />
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.enemy_main" />
       </list>
@@ -191,7 +191,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-d68999036c7f-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.14475.56" />
+        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
       </set>
     </attachedChunks>
   </component>
@@ -284,8 +284,9 @@
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/enemy_calculate.py</url>
-          <option name="timeStamp" value="11" />
+          <url>file://$PROJECT_DIR$/server_oop.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

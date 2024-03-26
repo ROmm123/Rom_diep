@@ -18,9 +18,7 @@ class enemy_main():
         self.WEAPON = weapon
 
     def main(self):
-        if self.data =='0':
-            pass
-        else:
-            Enemy_calculate = enemy_calculate(self.data,self.set,self.Playerrr,self.WEAPON)
-            Enemy_calculate.calculate()
+
+        Enemy_calculate = enemy_calculate(self.data,self.set,self.Playerrr,self.WEAPON)
+        Enemy_calculate.calculate()
 

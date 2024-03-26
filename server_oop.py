@@ -2,7 +2,7 @@ import socket
 import threading
 
 class Server:
-    def __init__(self, host, port, udp_port):
+    def __init__(self, host, port):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
         self.server_socket.listen(5)
@@ -44,6 +44,7 @@ class Server:
                 print(f"New client connected: {addr}")
                 with self.clients_lock:
                     self.clients.append((client_socket, addr))
+                    self.added_client()
                 client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
                 client_thread.start()
         except KeyboardInterrupt:
@@ -60,12 +61,12 @@ class Server:
     def added_client(self):
         try:
             enemies = len(self.clients) - 1
-            for client in self.clients:
-                self.udp_socket.sendto(str(enemies).encode(), client[1])
+            for client , addr in self.clients:
+                client.send(str(enemies).encode())
         except:
             print("Server cannot send packet")
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10026, 10030)
+    my_server = Server('localhost', 10026)
     print("Starting server...")
     my_server.start()
