@@ -10,11 +10,11 @@ class Server:
         self.clients_lock = threading.Lock()
         print("Server initialized")
 
-    def handle_client(self, client_socket):
+    def handle_client(self, client_socket,num):
         while True:
             try:
                 data = client_socket.recv(2048)
-                print(data)
+                print("("+str(num)+")"+data)
             except:
                 print(f"Client {client_socket.getpeername()} disconnected")
                 with self.clients_lock:
@@ -38,13 +38,15 @@ class Server:
 
     def start(self):
         try:
+            count=0
             while True:
                 print("Waiting for new client...")
                 client_socket, addr = self.server_socket.accept()
                 print(f"New client connected: {addr}")
                 with self.clients_lock:
                     self.clients.append((client_socket, addr))
-                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
+                    count = count + 1
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,count))
                 client_thread.start()
         except KeyboardInterrupt:
             print("Server stopped")
