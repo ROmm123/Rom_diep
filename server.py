@@ -1,81 +1,67 @@
 import socket
 import threading
 
-# Define the handle_client function
+class Server:
+    def __init__(self, host, port):
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.bind((host, port))
+        self.server_socket.listen(5)
+        self.clients = []
+        self.clients_lock = threading.Lock()
+        print("Server initialized")
 
-def print_data(data):
-    # Process received data
-    '''
-    z_info, rectangle_info = data.split(",")
-    # Process circle info
-    circle_data = circle_info.split()
-    circle_center_x = float(circle_data[1])
-    circle_center_y = float(circle_data[2])
-    circle_radius = float(circle_data[3])
-    print("circle_x :" + str(circle_center_x) + " circle_y :" + str(circle_center_y) + " circle_radius :" + str(circle_radius))
+    def handle_client(self, client_socket):
+        while True:
+            try:
+                data = client_socket.recv(2048)
+            except:
+                print(f"Client {client_socket.getpeername()} disconnected")
+                with self.clients_lock:
+                    self.clients.remove((client_socket, client_socket.getpeername()))
+                    data = '0'
+                    for receiver_socket, addr in self.clients:
+                        if receiver_socket != client_socket:
+                            receiver_socket.send(data.encode("utf-8"))
+                client_socket.close()
+                break
 
-    # Process rectangle info
-    rectangle_data = rectangle_info.split()
-    rect_center_x = float(rectangle_data[1])
-    rect_center_y = float(rectangle_data[2])
-    rect_width = float(rectangle_data[3])
-    rect_height = float(rectangle_data[4])
-    rotation_angle = float(rectangle_data[5])
-    print("rect_x:" + str(rect_center_x) + " rect_y :" + str(rect_center_y) + " rect_width :" + str(rect_width) + " rect_height: "
-          + str(rect_height) + " rotation_angle: " + str(rotation_angle))
-'''
+            data = self.add_count_client_to_my_packet(data)
+            print(data)
+            if len(self.clients) > 1:
+                for receiver_socket, addr in self.clients:
+                    if receiver_socket != client_socket:
+                        receiver_socket.send(data.encode("utf-8"))
+            else:
+                data = "0"
+                client_socket.send(data.encode())
 
+    def start(self):
+        try:
+            while True:
+                print("Waiting for new client...")
+                client_socket, addr = self.server_socket.accept()
+                print(f"New client connected: {addr}")
+                with self.clients_lock:
+                    self.clients.append((client_socket, addr))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
+                client_thread.start()
+        except KeyboardInterrupt:
+            print("Server stopped")
+        finally:
+            print("Closing client sockets...")
+            with self.clients_lock:
+                for client_socket, _ in self.clients:
+                    client_socket.close()
 
-def handle_client(client_socket, client_number):
-    print("entered thread")
-    while True:
-        data = client_socket.recv(2048).decode("utf-8")
-        print_data(data)
-        #print("data: " + data)
-        if not data:
-            print(f"Client {client_number} disconnected.")
-            client_socket.close()
-            break
-        #print(f"Received position from client {client_number}: {data}")
-        # Forward data to the other client
-        num ='0'
-        if len(clients) > 1:
+            self.server_socket.close()
+            print("Server socket closed")
 
-            other_client_socket = clients[1 - client_number]
-            other_client_socket.send(data.encode("utf-8"))
-            #print("packet is sent")
-        else:
-            print ("ho yeah")
-            num_data = num.encode()
-            client_socket.send(num_data)
-            #print ("sent!")
-# Create the server socket
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('0.0.0.0', 10023))
-server_socket.listen(5)
-print("Server listening ")
+    def add_count_client_to_my_packet(self, data):
+        count = len(self.clients)
+        packet = data.decode() + "&" + str(count)
+        return packet
 
-# Initialize the clients list
-clients = []
-clients_lock = threading.Lock()  # Create a lock for thread safety
-
-try:
-    while True:
-        client_socket, addr = server_socket.accept()
-        print(f"Connection from {addr} has been established.")
-        with clients_lock:
-            clients.append(client_socket)
-        client_thread = threading.Thread(target=handle_client, args=(client_socket, len(clients) - 1))
-        client_thread.start()
-
-except KeyboardInterrupt:
-    print("Server interrupted by user.")
-
-finally:
-    # Close all client sockets
-    with clients_lock:
-        for client_socket in clients:
-            client_socket.close()
-
-    # Close the server socket
-    server_socket.close()
+if __name__ == '__main__':
+    my_server = Server('localhost', 10021)
+    print("Starting server...")
+    my_server.start()

@@ -9,7 +9,6 @@ class Client:
 
     def receive_data(self):
         data=self.client_socket.recv(2048).decode("utf-8")
-        self.client_socket.setblocking(1)
         return data
     def close(self):
         self.client_socket.close()

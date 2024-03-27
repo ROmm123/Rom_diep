@@ -38,7 +38,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10026)
+        self.client = Client('localhost', 10021)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -54,7 +54,7 @@ class Game():
             self.map.draw_map(chunk)
             self.player.draw()
             self.weapon.run_weapon()
-
+                        #0                           #1                          #4                     #5                          #6                      #7                              #8                              #9                      #10                 #11                         #12                         #13                     #14                         #15               #16
             data = f"{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.tangent_x};{self.player.screen_position[0]};{self.player.screen_position[1]};{self.player.color};{self.player.radius};{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.angle}"
             self.client.send_data(data)
 
@@ -66,34 +66,28 @@ class Game():
     def start_enemy_threads(self):
         while self.running:
             packet1 = self.client.receive_data()
-            packet2 = self.client.receive_data()
+            if packet1!="0":
 
-            if ';' in packet1:
-                self.data = packet1
-                packet = packet2
-            else:
-                self.data = packet2
-                packet = packet1
-
-            print("this is packet:"+packet)
-            print("this is data:"+self.data)
-
-            self.num_enemies = int(packet)
-            diff = self.num_enemies - len(self.enemy_threads)
-            if diff > 0:
-                for _ in range(diff):
-                    enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon)
-                    enemy_thread.start()
-                    self.enemy_threads.append(enemy_thread)
-            elif diff < 0:
-                for _ in range(-diff):
-                    thread = self.enemy_threads.pop()
-                    thread.running = False
-                    thread.join()
+                a=packet1.split('&')
+                print(packet1)
+                self.data=a[0]
+                packet=a[1]
+                self.num_enemies = int(packet)
+                diff = self.num_enemies - len(self.enemy_threads)
+                if diff > 0:
+                    for _ in range(diff):
+                        enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon)
+                        enemy_thread.start()
+                        self.enemy_threads.append(enemy_thread)
+                elif diff < 0:
+                    for _ in range(-diff):
+                        thread = self.enemy_threads.pop()
+                        thread.running = False
+                        thread.join()
+                        '''
+                except Exception as e:
+                    print(f"Error in start_enemy_threads: {e}")
                     '''
-            except Exception as e:
-                print(f"Error in start_enemy_threads: {e}")
-                '''
 
     def stop(self):
         self.running = False

@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="weapon+circle enemy client with main client">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="liddor idea">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server_oop.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_oop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script2.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +67,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.trash_script2">
+  <component name="RunManager" selected="Python.main">
     <configuration name="Network" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -181,9 +182,9 @@
       <list>
         <item itemvalue="Python.trash_script2" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.server" />
         <item itemvalue="Python.server_oop" />
         <item itemvalue="Python.Network" />
-        <item itemvalue="Python.server" />
       </list>
     </recent_temporary>
   </component>
@@ -236,7 +237,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710373733949</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="liddor idea">
+      <option name="closed" value="true" />
+      <created>1711567733189</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1711567733189</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,7 +267,8 @@
     <MESSAGE value="fixed_server (burla is diabollical and acustic)" />
     <MESSAGE value="fixed_server (burla is diabollical and acustic)2" />
     <MESSAGE value="weapon+circle enemy client with main client" />
-    <option name="LAST_COMMIT_MESSAGE" value="weapon+circle enemy client with main client" />
+    <MESSAGE value="liddor idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="liddor idea" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
