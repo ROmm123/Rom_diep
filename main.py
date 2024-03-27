@@ -10,7 +10,7 @@ from enemy_main import *
 
 
 class EnemyThread(threading.Thread):
-    def __init__(self, client, player, setting, weapon):
+    def __init__(self, client, player, setting, weapon,data):
         super().__init__()
         self.client = client
         self.player = player
@@ -38,7 +38,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10021)
+        self.client = Client('localhost', 10023)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -76,7 +76,7 @@ class Game():
                 diff = self.num_enemies - len(self.enemy_threads)
                 if diff > 0:
                     for _ in range(diff):
-                        enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon)
+                        enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon,self.data)
                         enemy_thread.start()
                         self.enemy_threads.append(enemy_thread)
                 elif diff < 0:

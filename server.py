@@ -62,6 +62,6 @@ class Server:
         return packet
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10021)
+    my_server = Server('localhost', 10023)
     print("Starting server...")
     my_server.start()
