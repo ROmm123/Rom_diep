@@ -14,7 +14,7 @@ class Server:
         while True:
             try:
                 data = client_socket.recv(2048)
-                print("("+str(num)+")"+data)
+                print(num)
             except:
                 print(f"Client {client_socket.getpeername()} disconnected")
                 with self.clients_lock:
@@ -46,7 +46,7 @@ class Server:
                 with self.clients_lock:
                     self.clients.append((client_socket, addr))
                     count = count + 1
-                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,count))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,count,))
                 client_thread.start()
         except KeyboardInterrupt:
             print("Server stopped")
