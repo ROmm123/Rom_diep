@@ -14,6 +14,7 @@ class Server:
         while True:
             try:
                 data = client_socket.recv(2048)
+                print(data)
             except:
                 print(f"Client {client_socket.getpeername()} disconnected")
                 with self.clients_lock:
@@ -26,7 +27,7 @@ class Server:
                 break
 
             data = self.add_count_client_to_my_packet(data)
-            print(data)
+
             if len(self.clients) > 1:
                 for receiver_socket, addr in self.clients:
                     if receiver_socket != client_socket:
