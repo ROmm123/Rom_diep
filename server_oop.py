@@ -65,6 +65,6 @@ class Server:
             print("Server cannot send packet")
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10025)
+    my_server = Server('localhost', 10026)
     print("Starting server...")
     my_server.start()
