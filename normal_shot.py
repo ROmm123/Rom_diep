@@ -4,12 +4,14 @@ import sys
 import settings
 
 class NormalShot:
-    def __init__(self, radius, color, deceleration, setting):
+    def __init__(self, radius, color, deceleration, damage, setting):
         self.radius = radius
         self.color = color
         self.deceleration = deceleration
+        self.damage = damage
         self.setting = setting
         self.surface = self.setting.surface
+        self.rect = self.surface.get_rect()
         self.offset_distance = 50
         self.speed = 5
         self.speed_multiplier = 2
@@ -63,6 +65,7 @@ class NormalShot:
             circle["position"][0] += circle["velocity"][0] + shot_relative_vector[0]
             circle["position"][1] += circle["velocity"][1] + shot_relative_vector[1]
 
+
             self.draw()
             #print(self.shots)
 
@@ -81,7 +84,16 @@ class NormalShot:
             del self.shots[index]
         self.remove_shots.clear()
 
+    def get_shot_rect(self, circle_position):
+        rect_width = self.radius * 2
+        rect_height = self.radius * 2
+        rect_x = circle_position[0] - self.radius
+        rect_y = circle_position[1] - self.radius
+        return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
+
+    def get_shot_rects(self):
+        return [self.get_shot_rect(circle["position"]) for circle in self.shots]
 
 
 

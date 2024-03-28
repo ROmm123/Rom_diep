@@ -18,17 +18,25 @@ class Player():
         self.shape = shape
         self.color = color
         self.setting = setting
+        self.rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
         self.speed = 5
         self.acceleration = 0.1
-        self.center_x = setting.screen_width / 2
-        self.center_y = setting.screen_height / 2
-        self.triangle_points = (self.center_x, self.center_y - self.radius * 1.5), (self.center_x - self.radius, self.center_y), (self.center_x + self.radius, self.center_y)
-        self.position = [(self.screen_position[0] + self.center_x), (self.screen_position[1] + self.center_y)]
+        self.center = [setting.screen_width / 2, setting.screen_height / 2]
+        self.triangle_points = (self.center[0], self.center[1] - self.radius * 1.5), (self.center[0] - self.radius, self.center[1]), (self.center[0] + self.radius, self.center[1])
+        self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
         self.move_button = [False , False , False , False]
-        self.hp = HP(self.center_x, self.center_y, radius, setting)
+        self.hp = HP(self.center[0], self.center[1], radius, setting)
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.99, self.setting)
-        self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, self.setting)
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.99, 2, self.setting)
+        self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)
+
+
+    def get_rect_player(self):
+        rect_width = self.radius * 2
+        rect_height = self.radius * 2
+        rect_x = self.position[0] - self.radius
+        rect_y = self.position[1] - self.radius
+        return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self):
         if self.hp.Damage >= self.radius * 2:
@@ -37,6 +45,10 @@ class Player():
             self.hp.Damage += 5
         print(self.hp.Damage)
 
+    def hit(self):
+        for _ in self.NORMAL_SHOT.shots:
+            if self.get_rect_player().colliderect(self.NORMAL_SHOT.get_shot_rects()):
+                print("collision")
 
     def isAlive(self):
         if not self.hp.ISAlive:
@@ -46,7 +58,7 @@ class Player():
 
     def draw(self):
         if self.shape == "circle":
-            pygame.draw.circle(self.surface , self.color ,(self.center_x , self.center_y) , self.radius)
+            pygame.draw.circle(self.surface , self.color ,(self.center[0] , self.center[1]) , self.radius)
             self.speed = 5
 
         elif self.shape == "triangle":
@@ -55,7 +67,7 @@ class Player():
 
         pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
         pygame.draw.rect(self.surface, self.hp.DamageColor,
-                        (self.center_x - self.radius, self.center_y + self.radius + 10, self.hp.Damage, 10))
+                        (self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
 
 
@@ -120,4 +132,6 @@ class Player():
 
         if self.move_button[3]:
             self.screen_position[1] += self.speed
+
+        self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
 

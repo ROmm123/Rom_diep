@@ -45,6 +45,8 @@ class Game:
             self.Playerr.draw()
             self.Playerr.isAlive()
             self.Playerr.handle_events_shapes(key_state)
+            #self.Playerr.hit()
+
 
 
 
@@ -71,7 +73,7 @@ class Game:
 
     def handle_events_shots(self, key_state, mouse_state):  # NOT FINISHED?
         if key_state[pygame.K_SPACE] and not self.Playerr.NORMAL_SHOT.shot_button[0]:
-            self.Playerr.NORMAL_SHOT.shoot(self.Playerr.position, self.Playerr.screen_position, self.Playerr.WEAPON.angle)
+            self.Playerr.NORMAL_SHOT.shoot(self.Playerr.center, self.Playerr.screen_position, self.Playerr.WEAPON.angle)
             self.Playerr.NORMAL_SHOT.shot_button[0] = True
         # IF SPACE PRESSED, NORMAL SHOT
         elif not key_state[pygame.K_SPACE] and self.Playerr.NORMAL_SHOT.prev_key:
@@ -79,7 +81,7 @@ class Game:
         self.Playerr.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
 
         if mouse_state[0] and not self.Playerr.NORMAL_SHOT.shot_button[1]:
-            self.Playerr.BIG_SHOT.shoot(self.Playerr.position, self.Playerr.screen_position, self.Playerr.WEAPON.angle)
+            self.Playerr.BIG_SHOT.shoot(self.Playerr.center, self.Playerr.screen_position, self.Playerr.WEAPON.angle)
             self.Playerr.NORMAL_SHOT.shot_button[1] = True
         # IF LEFT MOUSE BUTTON PRESSED, BIG SHOT
         elif not mouse_state[0] and self.Playerr.BIG_SHOT.prev_key:
