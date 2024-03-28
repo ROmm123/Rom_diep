@@ -87,13 +87,14 @@ class NormalShot:
     def get_shot_rect(self, circle_position):
         rect_width = self.radius * 2
         rect_height = self.radius * 2
-        rect_x = circle_position[0] - self.radius
-        rect_y = circle_position[1] - self.radius
+        rect_x = int(circle_position[0] - self.radius)
+        rect_y = int(circle_position[1] - self.radius)
+
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
 
     def get_shot_rects(self):
-        return [self.get_shot_rect(circle["position"]) for circle in self.shots]
+        return [self.get_shot_rect((int(circle["position"][0]), int(circle["position"][1]))) for circle in self.shots]
 
 
 

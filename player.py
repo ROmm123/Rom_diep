@@ -34,8 +34,8 @@ class Player():
     def get_rect_player(self):
         rect_width = self.radius * 2
         rect_height = self.radius * 2
-        rect_x = self.position[0] - self.radius
-        rect_y = self.position[1] - self.radius
+        rect_x = int(self.center[0] - self.radius)
+        rect_y = int(self.center[1] - self.radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self):
@@ -46,9 +46,23 @@ class Player():
         print(self.hp.Damage)
 
     def hit(self):
-        for _ in self.NORMAL_SHOT.shots:
-            if self.get_rect_player().colliderect(self.NORMAL_SHOT.get_shot_rects()):
-                print("collision")
+        # check collision with normal shots
+        player_rect = self.get_rect_player()
+        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects()):
+            shot_rect = self.NORMAL_SHOT.get_shot_rects()[i]
+            if player_rect.colliderect(shot_rect):
+                print("Index of shot:", i)
+                self.NORMAL_SHOT.remove_shots.append(i)
+
+        # check collision with big shots
+        for i, _ in enumerate(self.BIG_SHOT.get_shot_rects()):
+            shot_rect = self.BIG_SHOT.get_shot_rects()[i]
+            if player_rect.colliderect(shot_rect):
+                print("Index of shot:", i)
+                self.BIG_SHOT.remove_shots.append(i)
+
+        self.NORMAL_SHOT.remove()
+        self.BIG_SHOT.remove()
 
     def isAlive(self):
         if not self.hp.ISAlive:
@@ -68,7 +82,6 @@ class Player():
         pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
         pygame.draw.rect(self.surface, self.hp.DamageColor,
                         (self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
-
 
 
     def handle_events(self):
