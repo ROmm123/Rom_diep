@@ -17,7 +17,7 @@ class Game:
         self.Playerr = Player(0, 0, 30, "circle", self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
 
-
+    #
 
     def run(self):
         while True:
