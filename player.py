@@ -26,7 +26,7 @@ class Player():
         pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
         pygame.draw.rect(self.surface, self.hp.DamageColor,
                          (self.center_x - self.radius, self.center_y + self.radius + 10, self.hp.Damage, 10))
-
+        print(self.screen_position)
     def hurted(self):
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False

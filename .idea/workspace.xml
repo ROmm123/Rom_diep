@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="weapon+circle enemy client with main client">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/statobs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Rom_diep.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Rom_diep.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HP.py" beforeDir="false" afterPath="$PROJECT_DIR$/HP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/staticObjrcts.py" beforeDir="false" afterPath="$PROJECT_DIR$/staticObjrcts.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +66,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.statobs">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -187,9 +183,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.statobs" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.server_oop" />
+        <item itemvalue="Python.statobs" />
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.trash_script2" />
       </list>
