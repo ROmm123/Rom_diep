@@ -39,11 +39,11 @@ class Player():
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self):
+        self.hp.Damage += 5
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
-        else:
-            self.hp.Damage += 5
-        print(self.hp.Damage)
+        print("damage done:", self.hp.Damage)
+
 
     def hit(self):
         # check collision with normal shots
@@ -53,6 +53,7 @@ class Player():
             if player_rect.colliderect(shot_rect):
                 print("Index of shot:", i)
                 self.NORMAL_SHOT.remove_shots.append(i)
+                self.hurt()
 
         # check collision with big shots
         for i, _ in enumerate(self.BIG_SHOT.get_shot_rects()):
@@ -60,9 +61,11 @@ class Player():
             if player_rect.colliderect(shot_rect):
                 print("Index of shot:", i)
                 self.BIG_SHOT.remove_shots.append(i)
+                self.hurt()
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()
+
 
     def isAlive(self):
         if not self.hp.ISAlive:
@@ -108,11 +111,7 @@ class Player():
                 elif event.key == pygame.K_s:
                     self.move_button[3] = False
 
-            # HITS
-                elif event.key == pygame.K_x:
-                    self.hurt()
 
-            # SHAPES
     def handle_events_shapes(self, key_state):
         if key_state[pygame.K_b]:
             self.shape = "triangle"
