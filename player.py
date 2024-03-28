@@ -29,6 +29,10 @@ class Player():
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.99, 2, self.setting)
         self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)
+        self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
+        self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
+        self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
+        self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
 
 
     def get_rect_player(self):
@@ -126,6 +130,32 @@ class Player():
             self.WEAPON.rect_height = 25
             self.WEAPON.rect_width = 25
 
+
+    def handle_events_shots(self, key_state, mouse_state):
+        current_time = pygame.time.get_ticks()
+
+        if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
+            if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
+                self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
+                self.NORMAL_SHOT.shot_button[0] = True
+                self.last_normal_shot_time = current_time  # update last shot time
+
+        # IF SPACE PRESSED, NORMAL SHOT
+        elif not key_state[pygame.K_SPACE] and self.NORMAL_SHOT.prev_key:
+            self.NORMAL_SHOT.shot_button[0] = False
+        self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
+
+
+        if mouse_state[0] and not self.NORMAL_SHOT.shot_button[1]:
+            if current_time - self.last_big_shot_time >= self.big_shot_cooldown:
+                self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
+                self.NORMAL_SHOT.shot_button[1] = True
+                self.last_big_shot_time = current_time  # update last shot time
+
+        # IF LEFT MOUSE BUTTON PRESSED, BIG SHOT
+        elif not mouse_state[0] and self.BIG_SHOT.prev_key:
+            self.NORMAL_SHOT.shot_button[1] = False
+        self.BIG_SHOT.prev_key = mouse_state[0]
 
 
     def move(self):

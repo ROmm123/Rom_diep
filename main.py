@@ -16,15 +16,13 @@ class Game:
         self.setting = settings()
         self.Playerr = Player(0, 0, 30, "circle", self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
-        self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
-        self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
-        self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
-        self.last_big_shot_time = pygame.time.get_ticks()   # get the time the moment a big shot is fired
+
 
 
     def run(self):
         while True:
             self.shot_relative_vector = [0, 0]
+
             key_state = pygame.key.get_pressed()  # Get the state of all keyboard keys
             mouse_state = pygame.mouse.get_pressed()
             chunk = self.MAP.calc_chunk()
@@ -55,7 +53,7 @@ class Game:
 
             if self.Playerr.shape == "circle":
                 self.Playerr.WEAPON.run_weapon()
-                self.handle_events_shots(key_state, mouse_state)
+                self.Playerr.handle_events_shots(key_state, mouse_state)
 
             else:
                 self.Playerr.WEAPON.remove()
@@ -74,33 +72,7 @@ class Game:
         self.client.close()
         self.server.close()
 
-    def handle_events_shots(self, key_state, mouse_state):  # NOT FINISHED?
-        current_time = pygame.time.get_ticks()
 
-        if key_state[pygame.K_SPACE] and not self.Playerr.NORMAL_SHOT.shot_button[0]:
-            if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
-                self.Playerr.NORMAL_SHOT.shoot(self.Playerr.center, self.Playerr.screen_position,
-                                               self.Playerr.WEAPON.angle)
-                self.Playerr.NORMAL_SHOT.shot_button[0] = True
-                self.last_normal_shot_time = current_time  # update last shot time
-
-        # IF SPACE PRESSED, NORMAL SHOT
-        elif not key_state[pygame.K_SPACE] and self.Playerr.NORMAL_SHOT.prev_key:
-            self.Playerr.NORMAL_SHOT.shot_button[0] = False
-        self.Playerr.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
-
-
-        if mouse_state[0] and not self.Playerr.NORMAL_SHOT.shot_button[1]:
-            if current_time - self.last_big_shot_time >= self.big_shot_cooldown:
-                self.Playerr.BIG_SHOT.shoot(self.Playerr.center, self.Playerr.screen_position,
-                                            self.Playerr.WEAPON.angle)
-                self.Playerr.NORMAL_SHOT.shot_button[1] = True
-                self.last_big_shot_time = current_time  # Update last shot time
-
-        # IF LEFT MOUSE BUTTON PRESSED, BIG SHOT
-        elif not mouse_state[0] and self.Playerr.BIG_SHOT.prev_key:
-            self.Playerr.NORMAL_SHOT.shot_button[1] = False
-        self.Playerr.BIG_SHOT.prev_key = mouse_state[0]
 
 
 if __name__ == '__main__':
