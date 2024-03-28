@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class settings:
     def __init__(self):
@@ -10,8 +11,19 @@ class settings:
         self.green = (0, 255, 0)
         self.blue = (0, 0, 255)
         self.grey = (47, 47, 47)
+        self.rand_color = self.random_color()
         self.screen = (self.screen_width, self.screen_height)
         self.surface = pygame.display.set_mode((self.screen_width, self.screen_height))
+
+    def random_color(self):
+        red = random.randint(0, 255)
+        green = random.randint(0, 255)
+        blue = random.randint(0, 255)
+
+        if red == 255 and green == 255 and blue == 255:
+            return self.random_color
+
+        return (red, green, blue)  # Return the tuple representing the RGB color
 
     def update(self):
         pygame.display.update()

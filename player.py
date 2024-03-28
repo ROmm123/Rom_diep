@@ -11,13 +11,14 @@ from weapon import Weapon
 
 class Player():
 
-    def __init__(self , x , y , radius , shape, color , setting):
+    def __init__(self , player_id, x , y , radius , shape, color , setting):
         self.surface = setting.surface
         self.screen_position = [x,y]
         self.radius = radius
         self.shape = shape
         self.color = color
         self.setting = setting
+        self.player_id = player_id
         self.rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
         self.speed = 5
         self.acceleration = 0.1
@@ -27,8 +28,8 @@ class Player():
         self.move_button = [False , False , False , False]
         self.hp = HP(self.center[0], self.center[1], radius, setting)
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.99, 2, self.setting)
-        self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)
+        self.NORMAL_SHOT = NormalShot(self.player_id, 5, self.setting.green, 0.99, 2, self.setting)
+        self.BIG_SHOT = NormalShot(self.player_id,10, self.setting.blue, 0.97, 5, self.setting)
         self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
         self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
@@ -54,18 +55,22 @@ class Player():
         player_rect = self.get_rect_player()
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects()):
             shot_rect = self.NORMAL_SHOT.get_shot_rects()[i]
-            if player_rect.colliderect(shot_rect):
-                print("Index of shot:", i)
-                self.NORMAL_SHOT.remove_shots.append(i)
-                self.hurt()
+            shot_owner_id = self.NORMAL_SHOT.get_shot_owner_id()
+            if shot_owner_id != self.player_id:
+                if player_rect.colliderect(shot_rect):
+                    print("Index of shot:", i)
+                    self.NORMAL_SHOT.remove_shots.append(i)
+                    self.hurt()
 
         # check collision with big shots
         for i, _ in enumerate(self.BIG_SHOT.get_shot_rects()):
             shot_rect = self.BIG_SHOT.get_shot_rects()[i]
-            if player_rect.colliderect(shot_rect):
-                print("Index of shot:", i)
-                self.BIG_SHOT.remove_shots.append(i)
-                self.hurt()
+            shot_owner_id = self.NORMAL_SHOT.get_shot_owner_id()
+            if shot_owner_id != self.player_id:
+                if player_rect.colliderect(shot_rect):
+                    print("Index of shot:", i)
+                    self.BIG_SHOT.remove_shots.append(i)
+                    self.hurt()
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()

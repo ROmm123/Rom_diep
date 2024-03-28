@@ -4,7 +4,8 @@ import sys
 import settings
 
 class NormalShot:
-    def __init__(self, radius, color, deceleration, damage, setting):
+    def __init__(self, player_id, radius, color, deceleration, damage, setting):
+        self.player_id = player_id
         self.radius = radius
         self.color = color
         self.deceleration = deceleration
@@ -21,6 +22,10 @@ class NormalShot:
         self.prev_key = False
         self.shots = []
         self.remove_shots = []
+
+    def get_shot_owner_id(self):
+        return self.player_id
+
 
     def draw(self):
         # Draw the shot circle

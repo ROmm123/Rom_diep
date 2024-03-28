@@ -14,12 +14,15 @@ class Game:
     def __init__(self):
         pygame.init()
         self.setting = settings()
-        self.Playerr = Player(0, 0, 30, "circle", self.setting.red, self.setting)
-        self.MAP = Map(self.Playerr, self.setting)
+        self.players = []  # list of all the players
+        self.player_id_counter = 0
+        self.Map = None
 
-    #
 
     def run(self):
+        player1 = self.add_player()
+        self.initialize_map(player1)
+
         while True:
             self.shot_relative_vector = [0, 0]
 
@@ -71,6 +74,18 @@ class Game:
     def close_connections(self):
         self.client.close()
         self.server.close()
+
+
+    def add_player(self):
+        # add a player to the game with a unique id
+        player_id = self.player_id_counter
+        self.player_id_counter += 1
+        self.Playerr = Player(player_id, 0, 0, 30, "circle", self.setting.rand_color, self.setting)
+        self.players.append(self.Playerr)
+        return self.Playerr
+
+    def initialize_map(self, player):
+        self.MAP = Map(player, self.setting)
 
 
 
