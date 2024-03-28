@@ -1,5 +1,7 @@
+
 import socket
 import threading
+
 
 class Server:
     def __init__(self, host, port):
@@ -8,45 +10,33 @@ class Server:
         self.server_socket.listen(5)
         self.clients = []
         self.clients_lock = threading.Lock()
+        self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("Server initialized")
 
-    def handle_client(self, client_socket,num):
+    def handle_client(self, client_socket):
         while True:
-            try:
-                data = client_socket.recv(2048)
-                print(num)
-            except:
-                print(f"Client {client_socket.getpeername()} disconnected")
-                with self.clients_lock:
-                    self.clients.remove((client_socket, client_socket.getpeername()))
-                    data = '0'
-                    for receiver_socket, addr in self.clients:
-                        if receiver_socket != client_socket:
-                            receiver_socket.send(data.encode("utf-8"))
-                client_socket.close()
-                break
 
-            data = self.add_count_client_to_my_packet(data)
+            data = client_socket.recv(2048)
+            # data to another client
 
+            packet = self.added_client(data)
             if len(self.clients) > 1:
                 for receiver_socket, addr in self.clients:
                     if receiver_socket != client_socket:
-                        receiver_socket.send(data.encode("utf-8"))
+                        receiver_socket.send(packet.encode("utf-8"))
             else:
                 data = "0"
                 client_socket.send(data.encode())
 
     def start(self):
         try:
-            count=0
             while True:
                 print("Waiting for new client...")
                 client_socket, addr = self.server_socket.accept()
                 print(f"New client connected: {addr}")
                 with self.clients_lock:
                     self.clients.append((client_socket, addr))
-                    count = count + 1
-                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,count,))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
                 client_thread.start()
         except KeyboardInterrupt:
             print("Server stopped")
@@ -56,13 +46,16 @@ class Server:
                 for client_socket, _ in self.clients:
                     client_socket.close()
 
+            # Close the server socket
             self.server_socket.close()
+
             print("Server socket closed")
 
-    def add_count_client_to_my_packet(self, data):
+    def added_client(self, data):
         count = len(self.clients)
-        packet = data.decode() + "&" + str(count)
+        packet = data.decode("utf-8") + "&" + str(count)
         return packet
+
 
 if __name__ == '__main__':
     my_server = Server('localhost', 10023)
