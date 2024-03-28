@@ -7,7 +7,7 @@ from Network import Client
 from server_oop import Server
 from test_enemy import *
 from enemy_main import *
-
+from staticObjrcts import StaticObject
 
 class Game():
 
@@ -18,9 +18,11 @@ class Game():
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting, self.Playerr.center_x,
                              self.Playerr.center_y, self.Playerr.angle)
+        self.staticobj = StaticObject(300, 200, 20, self.setting.red, setting)
 
     def run(self):
         while True:
+            self.staticobj.draw()
             self.Playerr.calc_angle()
             self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting,
                                  self.Playerr.center_x, self.Playerr.center_y, self.Playerr.angle)
