@@ -14,6 +14,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
+        self.static_object = StaticObjects(setting, map_width, map_height)
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting, self.Playerr.center_x,

@@ -1,20 +1,36 @@
 import pygame
 import random
-from player import Player
+from HP import HP
 
-class StaticObject(Player):  # Inherits from Player
-    def __init__(self, setting, map_width, map_height, side_length, color):
+
+class StaticObject():
+    def __init__(self, setting, map_width, map_height):
         # Generate random coordinates of x,y pos in the map range
-        x = random.randint(0, map_width - side_length)
-        y = random.randint(0, map_height - side_length)
-        print("pos of obs is" + str(x) + " " + str(y))
-        super().__init__(x, y, side_length, color, setting)  # Pass setting as the last argument
+        self.width = 50  # Width of the rectangle
+        self.height = 50  # Height of the rectangle
+        self.color = random.choice([setting.red, setting.green, setting.blue])  # random col
+        self.position = (random.randint(0, map_width - 20)  # Random x-coordinate
+                         , random.randint(0, map_height - 20))  # Random y-coordinate
+        self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
+                     setting)
+        # pass the.... center.... pos of the obj ,halfbase , setting object
+        self.Rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
+
+
+class StaticObjects():
+
+    def __init__(self,setting, map_width, map_height):
+        self.surface = setting.surface
+        self.Static_objects = []    #the static object list
+        for _ in range(10):
+            obj = StaticObject(setting, map_width, map_height)
+            self.Static_objects.append(obj)
 
     def draw(self):
-        # Draw the square for the static object
-        pygame.draw.rect(self.surface, self.color, (
-            self.center_x - self.side_length // 2, self.center_y - self.side_length // 2, self.side_length,
-            self.side_length))
+
+        for static_obj in self.Static_objects:
+            pygame.draw.rect(self.surface, static_obj.color, static_obj.Rect_static_obj)
+            pygame.draw.rect(self.surface, static_obj.HP.LifeColor, static_obj.HP.HealthBar)
 
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
