@@ -63,16 +63,15 @@ class Player():
             if player_id != self.player_id:
                 if player_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
-                    self.hurt()
+                    return "normal shot"
 
         # check collision with big shots
         for i, _ in enumerate(self.BIG_SHOT.get_shot_rects()):
             shot_rect = self.BIG_SHOT.get_shot_rects()[i]
-            shot_owner_id = self.NORMAL_SHOT.get_shot_owner_id()
-            if shot_owner_id != self.player_id:
+            if player_id != self.player_id:
                 if player_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
-                    self.hurt()
+                    return "big shot"
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()

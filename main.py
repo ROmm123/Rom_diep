@@ -1,11 +1,14 @@
 import pygame
 import threading
+
+from enemy import Enemy
 from player import Player
 from map import Map
 from settings import settings
 from weapon import Weapon
 from normal_shot import NormalShot
 from Network import Client
+import random
 from server_oop import Server
 
 
@@ -25,6 +28,7 @@ class Game:
         # main game loop
 
         player1 = self.add_player()  # adds a player to the game
+        enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
 
         while True:
@@ -53,6 +57,11 @@ class Game:
             self.Playerr.move()
             self.Playerr.draw()
             self.Playerr.handle_events_shapes(key_state)
+
+            print("Checking if enemy is drawn...")
+            enemy1.center = [self.setting.screen_width / 2 + 300, self.setting.screen_height / 2 + 200]
+            enemy1.draw()
+
             player_status = self.Playerr.isAlive()  # checks if the player is dead
             if player_status:  # if the player is dead, respawn
                 game = Game()
@@ -65,7 +74,11 @@ class Game:
             for player in self.players:  # checks if the shot hit any of the players
                 player_rect = player.get_rect_player()
                 player_id = player.player_id
-                player.hit(player_rect, player_id)
+                check_hit = player1.hit(player_rect, player_id)
+                if check_hit == "normal shot":
+                    player.hurt()
+                if check_hit == "big shot":
+                    player.hurt()
 
             if self.Playerr.shape == "circle":  # if the player is a circle, it draws the weapon and allows to shoot
                 self.Playerr.WEAPON.run_weapon()
@@ -95,6 +108,14 @@ class Game:
         self.Playerr = Player(player_id, 0, 0, 30, "circle", self.setting.rand_color, self.setting)
         self.players.append(self.Playerr)
         return self.Playerr
+
+    def add_enemy(self):
+        enemy_id = self.player_id_counter
+        self.player_id_counter += 1
+        # Adjust the initial position of the enemy to be different from the player
+        self.Enemy = Enemy(enemy_id, 0, 0, 30, "circle", self.setting.rand_color, self.setting)
+        self.players.append(self.Enemy)
+        return self.Enemy
 
     def initialize_map(self, player):
         # initializes the map
