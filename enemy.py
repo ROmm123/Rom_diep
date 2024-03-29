@@ -9,11 +9,10 @@ from weapon import Weapon
 
 class Enemy():
 
-    def __init__(self, player_id, x, y, radius, shape, color, setting):
+    def __init__(self, player_id, x, y, radius,color, setting):
         self.surface = setting.surface  # player surface
         self.map_position = [x, y]  # top left screen position
         self.radius = radius  # player radius
-        self.shape = shape  # player shape
         self.color = setting.red  # player color
         self.setting = setting  # game settings
         self.player_id = player_id  # player id

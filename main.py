@@ -68,7 +68,6 @@ class Game:
                 self.players.remove(enemy1)
 
 
-
             player_status = self.Playerr.isAlive()  # checks if the player is dead
             if player_status:  # if the player is dead, respawn
                 game = Game()
@@ -88,7 +87,7 @@ class Game:
                     enemy1.hit_damage = 15
                     player.hurt()
 
-            if self.Playerr.shape == "circle":  # if the player is a circle, it draws the weapon and allows to shoot
+
                 self.Playerr.WEAPON.run_weapon()
                 self.Playerr.handle_events_shots(key_state, mouse_state)
 
@@ -113,7 +112,7 @@ class Game:
         # adds a player to the game with a unique id
         player_id = self.player_id_counter
         self.player_id_counter += 1
-        self.Playerr = Player(player_id, 0, 0, 30, "circle", self.setting.rand_color, self.setting)
+        self.Playerr = Player(player_id, 0, 0, 30, self.setting.rand_color, self.setting)
         self.players.append(self.Playerr)
         return self.Playerr
 
@@ -121,7 +120,7 @@ class Game:
         enemy_id = self.player_id_counter
         self.player_id_counter += 1
         # Adjust the initial position of the enemy to be different from the player
-        self.Enemy = Enemy(enemy_id, 0, 0, 30, "circle", self.setting.rand_color, self.setting)
+        self.Enemy = Enemy(enemy_id, 0, 0, 30, self.setting.rand_color, self.setting)
         self.players.append(self.Enemy)
         return self.Enemy
 
