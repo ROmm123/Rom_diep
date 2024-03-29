@@ -80,8 +80,9 @@ class Player():
     def isAlive(self):
         # exits the game if the player dies (NEEDS TO RESPAWN INSTEAD)
         if not self.hp.ISAlive:
-            pygame.quit()
-            sys.exit()
+            return True
+        else:
+            return False
 
     def draw(self):
         # draws the player according to its shape, and the hp bar

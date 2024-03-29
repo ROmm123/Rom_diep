@@ -49,12 +49,18 @@ class Game:
                 if self.Playerr.move_button[3]:
                     self.shot_relative_vector[1] = -self.Playerr.speed
 
-
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
             self.Playerr.handle_events_shapes(key_state)
-            self.Playerr.isAlive()
+            player_status = self.Playerr.isAlive()  # checks if the player is dead
+            if player_status:  # if the player is dead, respawn
+                game = Game()
+                game.connect_to_server()
+                game.run()
+                game.close_connections()
+                pygame.quit()
+
 
             for player in self.players:  # checks if the shot hit any of the players
                 player_rect = player.get_rect_player()
