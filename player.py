@@ -44,9 +44,18 @@ class Player():
 
     def hurt(self):
         self.hp.Damage += 5
+        self.hp.FullHP = False
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
         print("damage done:", self.hp.Damage)
+
+    def heal(self):
+        self.hp.Damage -= 2
+        if self.hp.Damage <= 0:
+            self.hp.FullHP = True
+            print("Full HP")
+            # HP REGEN NEEDS WORK
+
 
     def hit(self, player_rect, player_id):
         # check collision with normal shots
