@@ -54,10 +54,10 @@ class Game():
             self.map.draw_map(chunk)
             self.player.draw()
             self.weapon.run_weapon()
-                        #0                           #1                          #4                     #5                          #6                      #7                              #8                              #9                      #10                 #11                         #12                         #13                     #14                         #15               #16
-            data = f"-{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.tangent_x};{self.player.screen_position[0]};{self.player.screen_position[1]};{self.player.color};{self.player.radius};{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.angle}"
+        #0                           #1                          #4                     #5                          #6                      #7                              #8                              #9                      #10                 #11                         #12                         #13                     #14                         #15               #16
+            data = f";{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.tangent_x};{self.player.screen_position[0]};{self.player.screen_position[1]};{self.player.color};{self.player.radius};{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.angle}"
             self.client.send_data(data)
-            #print("data to send: "+data)
+            print("data to send: "+data)
 
             self.setting.update()
 
@@ -67,14 +67,12 @@ class Game():
     def start_enemy_threads(self):
         while self.running:
             packet1 = self.client.receive_data()
-            #print(packet1)
             if packet1!="0":
 
-                a=packet1.split('&')
+                a=packet1.split(';')
                 #(packet1)
                 self.data=a[0]
                 packet=a[1]
-                print(packet)
                 self.num_enemies = int(packet)
                 diff = self.num_enemies - len(self.enemy_threads)
                 if diff > 0:
