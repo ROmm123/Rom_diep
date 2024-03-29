@@ -10,6 +10,7 @@ from normal_shot import NormalShot
 from Network import Client
 import random
 from server_oop import Server
+from inventory import *
 
 
 class Game:
@@ -20,7 +21,7 @@ class Game:
         self.players = []  # list of all the players in the game
         self.player_id_counter = 0  # player id counter
         self.Map = None  # first map initialization
-
+        self.inventory=inventory(self.setting)
         #ADD HP REGENERATION
 
 
@@ -68,7 +69,6 @@ class Game:
                 self.players.remove(enemy1)
 
 
-
             player_status = self.Playerr.isAlive()  # checks if the player is dead
             if player_status:  # if the player is dead, respawn
                 game = Game()
@@ -103,7 +103,7 @@ class Game:
             self.client.send_data(str(self.Playerr.screen_position))
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10009)
+        self.client = Client('localhost', 10008)
 
     def close_connections(self):
         self.client.close()

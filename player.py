@@ -6,6 +6,7 @@ from map import *
 from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
+from inventory import *
 
 class Player():
 
@@ -22,7 +23,7 @@ class Player():
         self.center = [setting.screen_width / 2, setting.screen_height / 2]  #player's center relative to the screen
         self.triangle_points = (self.center[0], self.center[1] - self.radius * 1.5), (self.center[0] - self.radius, self.center[1]), (self.center[0] + self.radius, self.center[1])  # triangle player shape points on screen
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]  # player position relative to the map
-        self.move_button = [False , False , False , False]  # movement buttons (a, d, w, s)
+        self.move_button = [False , False , False , False, False]  # movement buttons (a, d, w, s)
         self.hp = HP(self.center[0], self.center[1], radius, setting)  # initialize hp
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting) # initialize the weapon
         self.NORMAL_SHOT = NormalShot(self.player_id, 5, self.setting.green, 0.99, 2, self.setting)  # initialize normal shot
@@ -31,7 +32,7 @@ class Player():
         self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
-
+        self.inventory=inventory(self.setting)
     def get_rect_player(self):
         # gets and returns the player's rect
         rect_width = self.radius * 2
@@ -112,6 +113,8 @@ class Player():
                     self.move_button[2] = True
                 elif event.key == pygame.K_s:
                     self.move_button[3] = True
+                if event.key==pygame.K_i:
+                    self.move_button[4]=True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     self.move_button[0] = False
@@ -121,6 +124,8 @@ class Player():
                     self.move_button[2] = False
                 elif event.key == pygame.K_s:
                     self.move_button[3] = False
+                if event.key==pygame.K_i:
+                    self.move_button[4]=False
 
     def handle_events_shapes(self, key_state):
         # checks for if any of the shapeshift keys are pressed
@@ -179,6 +184,9 @@ class Player():
 
         if self.move_button[3]:
             self.screen_position[1] += self.speed
+
+        if self.move_button[4]:
+            self.inventory.draw_inventory()
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
 
