@@ -11,30 +11,31 @@ class Enemy():
 
     def __init__(self, player_id, x, y, radius, shape, color, setting):
         self.surface = setting.surface  # player surface
-        self.screen_position = [x,y]  # top left screen position
+        self.map_position = [x, y]  # top left screen position
         self.radius = radius  # player radius
         self.shape = shape  # player shape
-        self.color = color  # player color
+        self.color = setting.red  # player color
         self.setting = setting  # game settings
         self.player_id = player_id  # player id
         self.speed = 5  # player speed
         self.acceleration = 0.1  # player acceleration (NOT USED)
-        self.center = [setting.screen_width / 2 + 300, setting.screen_height / 2 + 200]  #player's center relative to the screen
-        self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]  # player position relative to the map
-        self.hp = HP(self.center[0], self.center[1], radius, setting)  # initialize hp
+        self.center = [(setting.screen_width / 2) + 300, (setting.screen_height / 2) + 200]  # player's center relative to the screen
+        self.position = [self.center[0], self.center[1]]  # player position relative to the map
+        self.hp = HP(self.position[0], self.position[1], radius, setting)  # initialize hp
+        self.hit_damage = 0
 
 
     def get_rect_player(self):
         # gets and returns the player's rect
         rect_width = self.radius * 2
         rect_height = self.radius * 2
-        rect_x = int(self.center[0] - self.radius)
-        rect_y = int(self.center[1] - self.radius)
+        rect_x = int(self.position[0] - self.radius)
+        rect_y = int(self.position[1] - self.radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self):
         # reduces the player's HP and checks if he's dead
-        self.hp.Damage += 5
+        self.hp.Damage += self.hit_damage
         self.hp.FullHP = False
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
@@ -57,13 +58,14 @@ class Enemy():
 
     def draw(self):
         # draws the player according to its shape, and the hp bar
-        pygame.draw.circle(self.surface , self.color ,(self.center[0] , self.center[1]) , self.radius)
+        pygame.draw.circle(self.surface, self.color,(int(self.position[0]), int(self.position[1])), self.radius)
         self.speed = 5
 
-        pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
+        pygame.draw.rect(self.surface, self.hp.LifeColor,
+                         (self.position[0] - self.radius, self.position[1] + self.radius + 10, 2 * self.radius, 10))
         pygame.draw.rect(self.surface, self.hp.DamageColor,
-                        (self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
+                        (self.position[0] - self.radius, self.position[1] + self.radius + 10, self.hp.Damage, 10))
 
-        print("Enemy drawn at position:", self.screen_position)
+
 
 

@@ -58,9 +58,16 @@ class Game:
             self.Playerr.draw()
             self.Playerr.handle_events_shapes(key_state)
 
-            print("Checking if enemy is drawn...")
-            enemy1.center = [self.setting.screen_width / 2 + 300, self.setting.screen_height / 2 + 200]
-            enemy1.draw()
+
+            enemy_status = enemy1.isAlive()
+            if not enemy_status:
+                enemy1.position[0] = (enemy1.center[0] - self.Playerr.screen_position[0])
+                enemy1.position[1] = (enemy1.center[1] - self.Playerr.screen_position[1])
+                enemy1.draw()
+            else:
+                self.players.remove(enemy1)
+
+
 
             player_status = self.Playerr.isAlive()  # checks if the player is dead
             if player_status:  # if the player is dead, respawn
@@ -70,14 +77,15 @@ class Game:
                 game.close_connections()
                 pygame.quit()
 
-
             for player in self.players:  # checks if the shot hit any of the players
                 player_rect = player.get_rect_player()
                 player_id = player.player_id
                 check_hit = player1.hit(player_rect, player_id)
                 if check_hit == "normal shot":
+                    enemy1.hit_damage = 5
                     player.hurt()
                 if check_hit == "big shot":
+                    enemy1.hit_damage = 15
                     player.hurt()
 
             if self.Playerr.shape == "circle":  # if the player is a circle, it draws the weapon and allows to shoot
