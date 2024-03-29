@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="to do:&#10;&#10;don't deal damage to the player if the bullets are his&#10;&#10;check other players' bullets">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -11,6 +12,9 @@
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
     </list>
+=======
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="liddor idea" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -244,6 +248,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710521915340</updated>
     </task>
+<<<<<<< Updated upstream
     <task id="LOCAL-00007" summary="colors fixed and big shot added">
       <option name="closed" value="true" />
       <created>1710530221556</created>
@@ -341,6 +346,17 @@
       <updated>1711644880794</updated>
     </task>
     <option name="localTasksCounter" value="19" />
+=======
+    <task id="LOCAL-00007" summary="liddor idea">
+      <option name="closed" value="true" />
+      <created>1711574311983</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1711574311983</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
