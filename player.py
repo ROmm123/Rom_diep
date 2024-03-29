@@ -35,7 +35,6 @@ class Player():
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
 
-
     def get_rect_player(self):
         rect_width = self.radius * 2
         rect_height = self.radius * 2
@@ -49,16 +48,12 @@ class Player():
             self.hp.ISAlive = False
         print("damage done:", self.hp.Damage)
 
-
-    def hit(self):
+    def hit(self, player_rect, player_id):
         # check collision with normal shots
-        player_rect = self.get_rect_player()
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects()):
             shot_rect = self.NORMAL_SHOT.get_shot_rects()[i]
-            shot_owner_id = self.NORMAL_SHOT.get_shot_owner_id()
-            if shot_owner_id != self.player_id:
+            if player_id != self.player_id:
                 if player_rect.colliderect(shot_rect):
-                    print("Index of shot:", i)
                     self.NORMAL_SHOT.remove_shots.append(i)
                     self.hurt()
 
@@ -68,19 +63,16 @@ class Player():
             shot_owner_id = self.NORMAL_SHOT.get_shot_owner_id()
             if shot_owner_id != self.player_id:
                 if player_rect.colliderect(shot_rect):
-                    print("Index of shot:", i)
                     self.BIG_SHOT.remove_shots.append(i)
                     self.hurt()
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()
 
-
     def isAlive(self):
         if not self.hp.ISAlive:
             pygame.quit()
             sys.exit()
-
 
     def draw(self):
         if self.shape == "circle":
@@ -135,10 +127,8 @@ class Player():
             self.WEAPON.rect_height = 25
             self.WEAPON.rect_width = 25
 
-
-    def handle_events_shots(self, key_state, mouse_state):
+    def handle_events_shots(self, key_state, mouse_state, players):
         current_time = pygame.time.get_ticks()
-
         if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
             if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
                 self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
@@ -150,7 +140,6 @@ class Player():
             self.NORMAL_SHOT.shot_button[0] = False
         self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-
         if mouse_state[0] and not self.NORMAL_SHOT.shot_button[1]:
             if current_time - self.last_big_shot_time >= self.big_shot_cooldown:
                 self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
@@ -161,7 +150,6 @@ class Player():
         elif not mouse_state[0] and self.BIG_SHOT.prev_key:
             self.NORMAL_SHOT.shot_button[1] = False
         self.BIG_SHOT.prev_key = mouse_state[0]
-
 
     def move(self):
         if self.move_button[0]:

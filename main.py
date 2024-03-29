@@ -18,6 +18,8 @@ class Game:
         self.player_id_counter = 0
         self.Map = None
 
+        #ADD HP REGENERATION
+
 
     def run(self):
         player1 = self.add_player()
@@ -49,14 +51,16 @@ class Game:
             self.Playerr.move()
             self.Playerr.draw()
             self.Playerr.handle_events_shapes(key_state)
-            self.Playerr.hit()
             self.Playerr.isAlive()
 
-
+            for player in self.players:
+                player_rect = player.get_rect_player()
+                player_id = player.player_id
+                player.hit(player_rect, player_id)
 
             if self.Playerr.shape == "circle":
                 self.Playerr.WEAPON.run_weapon()
-                self.Playerr.handle_events_shots(key_state, mouse_state)
+                self.Playerr.handle_events_shots(key_state, mouse_state, self.players)
 
             else:
                 self.Playerr.WEAPON.remove()
@@ -74,7 +78,6 @@ class Game:
     def close_connections(self):
         self.client.close()
         self.server.close()
-
 
     def add_player(self):
         # add a player to the game with a unique id
