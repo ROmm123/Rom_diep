@@ -142,7 +142,7 @@ class Player():
     def handle_events_shots(self, key_state, mouse_state):
         # checks for if any of the attack keys are pressed
         current_time = pygame.time.get_ticks()
-        if self.WEAPON.rect_width >= 25 and self.WEAPON.rect_height == 25:
+        if self.WEAPON.rect_width >= 25 and self.WEAPON.rect_height == 25:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
                     self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
@@ -154,7 +154,7 @@ class Player():
                 self.NORMAL_SHOT.shot_button[0] = False
             self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-        if self.WEAPON.rect_width == 25 and self.WEAPON.rect_height >= 25:
+        if self.WEAPON.rect_width == 25 and self.WEAPON.rect_height >= 25:  # only if wide or regular weapon
             if mouse_state[0] and not self.NORMAL_SHOT.shot_button[1]:
                 if current_time - self.last_big_shot_time >= self.big_shot_cooldown:
                     self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
