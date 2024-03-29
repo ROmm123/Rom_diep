@@ -23,7 +23,7 @@ class Game():
 
     def run(self):
         while True:
-            self.static_object.draw()
+
             self.Playerr.calc_angle()
             self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting,
                                  self.Playerr.center_x, self.Playerr.center_y, self.Playerr.angle)
@@ -33,6 +33,7 @@ class Game():
             self.Playerr.move()
             chunk = self.MAP.calc_chunk()
             self.MAP.draw_map(chunk)
+            self.static_object.draw(self.Playerr.screen_position[0],self.Playerr.screen_position[1],self.setting)
             self.Playerr.draw()
             self.Playerr.IsAlive()
             self.WEAPON.run_weapon()
