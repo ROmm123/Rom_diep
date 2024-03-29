@@ -7,4 +7,5 @@ class HP():
         self.DamageBar = pygame.Rect(x - radius, (y+radius+10), 2*radius, self.Damage)
         self.DamageColor = setting.red
         self.ISAlive = True
+        self.FullHP = True
 

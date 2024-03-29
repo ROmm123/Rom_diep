@@ -97,7 +97,6 @@ class NormalShot:
 
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
-
     def get_shot_rects(self):
         return [self.get_shot_rect((int(circle["position"][0]), int(circle["position"][1]))) for circle in self.shots]
 
