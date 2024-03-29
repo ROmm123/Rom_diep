@@ -14,24 +14,26 @@ class Game:
     def __init__(self):
         pygame.init()
         self.setting = settings()
-        self.players = []  # list of all the players
-        self.player_id_counter = 0
-        self.Map = None
+        self.players = []  # list of all the players in the game
+        self.player_id_counter = 0  # player id counter
+        self.Map = None  # first map initialization
 
         #ADD HP REGENERATION
 
 
     def run(self):
-        player1 = self.add_player()
-        self.initialize_map(player1)
+        # main game loop
+
+        player1 = self.add_player()  # adds a player to the game
+        self.initialize_map(player1)  # initializes the map
 
         while True:
-            self.shot_relative_vector = [0, 0]
-
-            key_state = pygame.key.get_pressed()  # Get the state of all keyboard keys
-            mouse_state = pygame.mouse.get_pressed()
-            chunk = self.MAP.calc_chunk()
-            self.MAP.draw_map(chunk)
+            key_state = pygame.key.get_pressed()  # gets the state of all keyboard keys
+            mouse_state = pygame.mouse.get_pressed()  # gets the state of the mouse
+            chunk = self.MAP.calc_chunk()  # loads a chunk of the map
+            self.MAP.draw_map(chunk)  # draws chunk
+            self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
+            # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMENT
 
             if self.Playerr.screen_position[0] > 0:
                 if self.Playerr.move_button[0]:
@@ -47,28 +49,29 @@ class Game:
                 if self.Playerr.move_button[3]:
                     self.shot_relative_vector[1] = -self.Playerr.speed
 
-            self.Playerr.handle_events()
+
+            self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
             self.Playerr.handle_events_shapes(key_state)
             self.Playerr.isAlive()
 
-            for player in self.players:
+            for player in self.players:  # checks if the shot hit any of the players
                 player_rect = player.get_rect_player()
                 player_id = player.player_id
                 player.hit(player_rect, player_id)
 
-            if self.Playerr.shape == "circle":
+            if self.Playerr.shape == "circle":  # if the player is a circle, it draws the weapon and allows to shoot
                 self.Playerr.WEAPON.run_weapon()
-                self.Playerr.handle_events_shots(key_state, mouse_state, self.players)
+                self.Playerr.handle_events_shots(key_state, mouse_state)
 
             else:
                 self.Playerr.WEAPON.remove()
 
-            self.Playerr.NORMAL_SHOT.update(self.shot_relative_vector)
-            self.Playerr.BIG_SHOT.update(self.shot_relative_vector)
+            self.Playerr.NORMAL_SHOT.update(self.shot_relative_vector)  # updates the normal shots
+            self.Playerr.BIG_SHOT.update(self.shot_relative_vector)  # updates the big shots
 
-            self.setting.update()
+            self.setting.update()  # updates the settings (timer)
 
             self.client.send_data(str(self.Playerr.screen_position))
 
@@ -80,7 +83,7 @@ class Game:
         self.server.close()
 
     def add_player(self):
-        # add a player to the game with a unique id
+        # adds a player to the game with a unique id
         player_id = self.player_id_counter
         self.player_id_counter += 1
         self.Playerr = Player(player_id, 0, 0, 30, "circle", self.setting.rand_color, self.setting)
@@ -88,6 +91,7 @@ class Game:
         return self.Playerr
 
     def initialize_map(self, player):
+        # initializes the map
         self.MAP = Map(player, self.setting)
 
 
