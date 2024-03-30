@@ -2,13 +2,19 @@ import socket
 import threading
 
 class Server:
-    def __init__(self, host, port):
+    def __init__(self, host, port, udp_port):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
         self.server_socket.listen(5)
         self.clients = []
         self.clients_lock = threading.Lock()
+
+        # UDP socket setup
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.udp_socket.bind((host, udp_port))
+        self.udp_thread = threading.Thread(target=self.handle_udp)
+        self.udp_thread.start()
+        self.udp_list = []
         print("Server initialized")
 
     def handle_client(self, client_socket):
@@ -29,7 +35,6 @@ class Server:
                 client_socket.close()
                 break
 
-            data = self.add_enemies_to_packet(data)
 
             if len(self.clients) > 1:
                 for receiver_socket, addr in self.clients:
@@ -38,6 +43,18 @@ class Server:
             else:
                 data = "0"
                 client_socket.send(data.encode())
+
+    def handle_udp(self):
+        while True:
+            try:
+                data, addr = self.udp_socket.recvfrom(1024)
+                client_count = str(len(self.clients)-1)
+                print("recived from "+ addr +" enemies: "+ client_count)
+
+                for addr in self.udp_list:
+                    self.udp_socket.sendto(client_count.encode(), addr)
+            except:
+                pass
 
     def start(self):
         try:
@@ -60,13 +77,11 @@ class Server:
             self.server_socket.close()
             print("Server socket closed")
 
-    def add_enemies_to_packet(self, data):
-        enemies = len(self.clients)
-        enemies = enemies.encode("utf-8")
-        for client , addr in self.clients:
+
 
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10023)
+    my_server = Server('localhost', 10023, 10050)
     print("Starting server...")
-    my_server.start()
+    #my_server.start()
+    my_server.handle_udp()
