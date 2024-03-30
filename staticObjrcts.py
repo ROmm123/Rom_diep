@@ -8,7 +8,7 @@ class StaticObject():
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
-        self.color = (3,3,3)
+        self.color = (3, 3, 3)
         self.position = (random.randint(0, map_width - 20)  # Random x-coordinate
                          , random.randint(0, map_height - 20))  # Random y-coordinate
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
@@ -37,6 +37,16 @@ class StaticObjects():
                 pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
                                  (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                   (2 * static_obj.width), 10))
+                pygame.draw.rect(self.surface, static_obj.HP.DamageColor,
+                                 (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
+                                  static_obj.HP.Damage, 10))
+
+    def hurted(self, static_obj):
+        if static_obj in self.Static_objects:
+            if static_obj.HP.Damage >= 2 * static_obj.width:
+                static_obj.HP.ISAlive = False
+            else:
+                static_obj.HP.Damage += 5
 
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
