@@ -38,7 +38,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10023, 10050)
+        self.client = Client('localhost', 10023, 10054)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -89,10 +89,9 @@ class Game():
                 except Exception as e:
                     print(f"Error in start_enemy_threads: {e}")
                     '''"""
-    def udp_handling(self):
-        data = "0".encode("utf-8")
-        self.client.send_data_udp(data)
-        enemies = self.client.receive_data_udp()
+    def EnemiesAm_handling(self):
+        self.client.send_to_Enemies_Am()
+        enemies = self.client.receive_data_EnemiesAm()
 
 
     def stop(self):
@@ -106,7 +105,7 @@ if __name__ == '__main__':
     game = Game()
     #enemy_thread_handler = threading.Thread(target=game.start_enemy_threads)
     #enemy_thread_handler.start()
-    game.udp_handling()
+    game.EnemiesAm_handling()
     try:
         game.run()
     finally:

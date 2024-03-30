@@ -10,11 +10,14 @@ class Server:
         self.clients_lock = threading.Lock()
 
         # UDP socket setup
-        self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.udp_socket.bind((host, udp_port))
-        self.udp_thread = threading.Thread(target=self.handle_udp)
+        self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.Enemies_Am_socket.bind((host, udp_port))
+        self.Enemies_Am_socket.listen(5)
+        self.udp_thread = threading.Thread(target=self.handle_Enemies_Am)
         self.udp_thread.start()
         self.udp_list = []
+        self.enemies = -1
+        self.enemies_am_list = []
         print("Server initialized")
 
     def handle_client(self, client_socket):
@@ -29,7 +32,7 @@ class Server:
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
                     data = '0'
-                    for receiver_socket, addr in self.clients:
+                    for receiver_socket in self.clients:
                         if receiver_socket != client_socket:
                             receiver_socket.send(data.encode("utf-8"))
                 client_socket.close()
@@ -37,22 +40,23 @@ class Server:
 
 
             if len(self.clients) > 1:
-                for receiver_socket, addr in self.clients:
+                for receiver_socket  in self.clients:
                     if receiver_socket != client_socket:
                         receiver_socket.send(data.encode("utf-8"))
             else:
                 data = "0"
                 client_socket.send(data.encode())
 
-    def handle_udp(self):
+    def handle_Enemies_Am(self):
         while True:
             try:
-                data, addr = self.udp_socket.recvfrom(1024)
-                client_count = str(len(self.clients)-1)
-                print("recived from "+ addr +" enemies: "+ client_count)
+                client_socket, addr = self.Enemies_Am_socket.accept()
+                self.enemies_am_list.append(client_socket)
+                self.enemies+=1
+                print("recived from "+ addr +" enemies: "+ self.enemies)
 
-                for addr in self.udp_list:
-                    self.udp_socket.sendto(client_count.encode(), addr)
+                for client_socket in self.enemies_am_list:
+                    client_socket.send(str(self.enemies).encode())
             except:
                 pass
 
@@ -81,7 +85,7 @@ class Server:
 
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10023, 10050)
+    my_server = Server('localhost', 10023, 10054)
     print("Starting server...")
     #my_server.start()
-    my_server.handle_udp()
+    my_server.handle_Enemies_Am()

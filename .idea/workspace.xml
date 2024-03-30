@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="liddor idea">
-      <change afterPath="$PROJECT_DIR$/test_game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_server_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_server_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trash_script2.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +27,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -303,12 +309,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_server_new.py</url>
-          <line>83</line>
+          <line>87</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_game.py</url>
-          <line>105</line>
+          <line>104</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
