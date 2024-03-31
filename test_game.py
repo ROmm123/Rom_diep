@@ -38,7 +38,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10023, 10054)
+        self.client = Client('localhost', 10022, 10020)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -90,7 +90,8 @@ class Game():
                     print(f"Error in start_enemy_threads: {e}")
                     '''"""
     def EnemiesAm_handling(self):
-        self.client.send_to_Enemies_Am()
+        data="0"
+        self.client.send_to_Enemies_Am(data)
         enemies = self.client.receive_data_EnemiesAm()
 
 

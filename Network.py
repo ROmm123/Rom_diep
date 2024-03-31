@@ -2,17 +2,15 @@ import socket
 
 class Client:
     def __init__(self, host, port, enemies_Am_port):
+        self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.Enemies_Am_socket.connect((host, enemies_Am_port))
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((host, port))
-        self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.host = host
-        self.Enemie_Am_port = enemies_Am_port
-        self.Enemies_Am_socket.connect((self.host, self.Enemie_Am_port))
     def send_data(self, data):
         self.client_socket.send(data.encode())
 
-    def send_to_Enemies_Am(self):
-        self.Enemies_Am_socket.send('0'.encode("utf-8"))
+    def send_to_Enemies_Am(self,data):
+        self.Enemies_Am_socket.send(data.encode())
 
 
     def receive_data(self):

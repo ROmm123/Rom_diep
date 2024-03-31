@@ -2,7 +2,7 @@ import socket
 import threading
 
 class Server:
-    def __init__(self, host, port, udp_port):
+    def __init__(self, host, port, tcp_port):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
         self.server_socket.listen(5)
@@ -11,7 +11,7 @@ class Server:
 
         # UDP socket setup
         self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.Enemies_Am_socket.bind((host, udp_port))
+        self.Enemies_Am_socket.bind((host, tcp_port))
         self.Enemies_Am_socket.listen(5)
         self.udp_thread = threading.Thread(target=self.handle_Enemies_Am)
         self.udp_thread.start()
@@ -48,17 +48,17 @@ class Server:
                 client_socket.send(data.encode())
 
     def handle_Enemies_Am(self):
-        while True:
-            try:
+        try:
+            while True:
                 client_socket, addr = self.Enemies_Am_socket.accept()
                 self.enemies_am_list.append(client_socket)
                 self.enemies+=1
-                print("recived from "+ addr +" enemies: "+ self.enemies)
+                print("recived from "+ str(addr) +" enemies: "+ str(self.enemies))
 
                 for client_socket in self.enemies_am_list:
                     client_socket.send(str(self.enemies).encode())
-            except:
-                pass
+        except:
+            print("hello")
 
     def start(self):
         try:
@@ -85,7 +85,7 @@ class Server:
 
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10023, 10054)
+    my_server = Server('localhost', 10022, 10020)
     print("Starting server...")
     #my_server.start()
     my_server.handle_Enemies_Am()
