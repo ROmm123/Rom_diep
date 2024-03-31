@@ -101,5 +101,5 @@ if __name__ == '__main__':
     enemies_T = threading.Thread(target = my_server.handle_Enemies_Am)
     enemies_T.start()
     my_server.s()
-    #קגכגכדגגג
+    #קגכגכדגגגיי
 
