@@ -1,5 +1,7 @@
 import socket
 import threading
+import time
+
 import pygame
 from player import Player
 from map import Map
@@ -10,24 +12,25 @@ from enemy_main import *
 
 
 class EnemyThread(threading.Thread):
-    def __init__(self, client, player, setting, weapon,data):
+    def __init__(self, client, player, setting, weapon):
         super().__init__()
         self.client = client
         self.player = player
         self.setting = setting
         self.weapon = weapon
         self.running = True
-        self.data = 0
 
     def run(self):
-        while self.running:
-            try:
-                if self.data != '0' and self.data:
-                    enemy_main = enemy_main(self.data, self.player, self.setting, self.weapon)
-                    enemy_main.main()
-            except Exception as e:
-
-                print(f"Error in EnemyThread: {e}")
+        print("in draw thread")
+        try:
+            while self.running:
+                data = self.client.receive_data()
+                print(data)
+                if data != '0' and data:
+                    enemy_mainn = enemy_main(data, self.player, self.setting, self.weapon)
+                    enemy_mainn.main()
+        except Exception as e:
+            print(f"Error in EnemyThread: {e}")
 
 
 class Game():
@@ -38,7 +41,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10023, 10054)
+        self.client = Client('localhost', 10022, 10020)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -57,41 +60,34 @@ class Game():
         #0                           #1                          #4                     #5                          #6                      #7                              #8                              #9                      #10                 #11                         #12                         #13                     #14                         #15               #16
             data = f";{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.tangent_x};{self.player.screen_position[0]};{self.player.screen_position[1]};{self.player.color};{self.player.radius};{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.angle}"
             self.client.send_data(data)
-            print("data to send: "+data)
+            #print("data to send: "+data)
 
             self.setting.update()
 
     def close_connections(self):
         self.client.close()
 
-    """def start_enemy_threads(self):
-        while self.running:
-            packet1 = self.client.receive_data()
-            if packet1!="0":
-
-                a=packet1.split(';')
-                #(packet1)
-                self.data=a[0]
-                packet=a[1]
-                self.num_enemies = int(packet)
-                diff = self.num_enemies - len(self.enemy_threads)
-                if diff > 0:
-                    for _ in range(diff):
-                        enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon,self.data)
-                        enemy_thread.start()
-                        self.enemy_threads.append(enemy_thread)
-                elif diff < 0:
-                    for _ in range(-diff):
-                        thread = self.enemy_threads.pop()
-                        thread.running = False
-                        thread.join()
-                        '''
-                except Exception as e:
-                    print(f"Error in start_enemy_threads: {e}")
-                    '''"""
     def EnemiesAm_handling(self):
         self.client.send_to_Enemies_Am()
-        enemies = self.client.receive_data_EnemiesAm()
+        while True:
+            enemies = self.client.receive_data_EnemiesAm()
+            print(enemies)
+            enemies = int(enemies)
+            diff = enemies - self.num_enemies
+            self.num_enemies = enemies
+            if diff > 0:
+                for _ in range(diff):
+                    enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon)
+                    enemy_thread.start()
+                    self.enemy_threads.append(enemy_thread)
+            elif diff < 0:
+                for _ in range(-diff):
+                    # CHANGE!!!! LIDOR IDEA
+                    thread = self.enemy_threads.pop()
+                    thread.running = False
+                    thread.join()
+
+
 
 
     def stop(self):
@@ -103,10 +99,12 @@ class Game():
 
 if __name__ == '__main__':
     game = Game()
-    #enemy_thread_handler = threading.Thread(target=game.start_enemy_threads)
-    #enemy_thread_handler.start()
-    game.EnemiesAm_handling()
+
+    threading.Thread(target=game.EnemiesAm_handling).start()
+    time.sleep(0.2)
+
     try:
+        print("starting game.run")
         game.run()
     finally:
         game.stop()

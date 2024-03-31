@@ -17,8 +17,8 @@ class enemy_calculate():
 
     def calculate(self):
         properties = self.data.split(';')
-        k1 = int(float(properties[5]))  # Convert float to int
-        k2 = int(float(properties[6]))  # Convert float to int
+        k1 = int(float(properties[6]))  # Convert float to int
+        k2 = int(float(properties[7]))  # Convert float to int
         b1 = k1 - self.Playerrr.screen_position[0]
         b2 = k2 - self.Playerrr.screen_position[1]
         a1 = abs(k1 - int(self.Playerrr.screen_position[0]))
@@ -28,11 +28,11 @@ class enemy_calculate():
 
     def check(self,a1,a2,b1,b2,properties):
         if a2 < self.set.screen_height and a1 < self.set.screen_width:
-            radius = int(float(properties[8]))
+            radius = int(float(properties[9]))
             self.WEAPON.radius = radius
-            angle_str = re.sub(r'[^0-9\.\-]', '', properties[13])
+            angle_str = re.sub(r'[^0-9\.\-]', '', properties[14])
             self.WEAPON.angle = float(angle_str)
-            color_from_packet = properties[7]
+            color_from_packet = properties[8]
             color_from_packet = color_from_packet.replace("("," ")
             color_from_packet = color_from_packet.replace(")", " ")
             color_from_packet = color_from_packet.split(",")

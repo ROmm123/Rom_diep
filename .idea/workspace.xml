@@ -4,8 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="fix accept in handle_enemies_am">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets">
+      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_calculate.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_calculate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+>>>>>>> 411d9155ac1f327098f7332f61ba463fa5697709
       <change beforePath="$PROJECT_DIR$/test_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,45 +44,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.$RS1TBVV.executor": "Run",
-    "Python.Network.executor": "Run",
-    "Python.enemy_main.executor": "Run",
-    "Python.enemy_player.executor": "Run",
-    "Python.game_to_funcs.executor": "Run",
-    "Python.main (1).executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.main_to_funcs.executor": "Run",
-    "Python.old_main.executor": "Run",
-    "Python.player.executor": "Run",
-    "Python.server.executor": "Run",
-    "Python.server_oop.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test_game.executor": "Run",
-    "Python.test_server_new.executor": "Debug",
-    "Python.trash_script.executor": "Run",
-    "Python.trash_script2.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Rom",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.$RS1TBVV.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Network.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enemy_main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enemy_player.executor&quot;: &quot;Run&quot;,
+    &quot;Python.game_to_funcs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_to_funcs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.old_main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.player.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server_oop.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_game.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_server_new.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.trash_script.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trash_script2.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Rom&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep" />
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.$RS1TBVV">
+  <component name="RunManager" selected="Python.test_game">
     <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -118,7 +127,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main_to_funcs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -131,7 +140,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_to_funcs.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -187,10 +196,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.test_game" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.test_server_new" />
         <item itemvalue="Python.game_to_funcs" />
-        <item itemvalue="Python.main_to_funcs" />
       </list>
     </recent_temporary>
   </component>
@@ -267,6 +276,7 @@
       <option name="project" value="LOCAL‎" />
       <updated>1711636453729</updated>
     </task>
+<<<<<<< HEAD
     <task id="LOCAL-00008" summary="fix accept in handle_enemies_am">
       <option name="closed" value="true" />
       <created>1711897701719</created>
@@ -274,6 +284,15 @@
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
       <updated>1711897701719</updated>
+=======
+    <task id="LOCAL‎-00008" summary="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets">
+      <option name="closed" value="true" />
+      <created>1711897449700</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL‎-00008" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1711897449700</updated>
+>>>>>>> 411d9155ac1f327098f7332f61ba463fa5697709
     </task>
     <option name="localTasksCounter" value="9" />
     <servers />
@@ -298,8 +317,13 @@
     <MESSAGE value="fixed_server (burla is diabollical and acustic)2" />
     <MESSAGE value="weapon+circle enemy client with main client" />
     <MESSAGE value="liddor idea" />
+<<<<<<< HEAD
     <MESSAGE value="fix accept in handle_enemies_am" />
     <option name="LAST_COMMIT_MESSAGE" value="fix accept in handle_enemies_am" />
+=======
+    <MESSAGE value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
+    <option name="LAST_COMMIT_MESSAGE" value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
+>>>>>>> 411d9155ac1f327098f7332f61ba463fa5697709
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -315,8 +339,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_game.py</url>
-          <line>105</line>
+          <line>100</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/$RS1TBVV.py</url>
+          <line>87</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
