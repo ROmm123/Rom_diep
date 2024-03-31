@@ -112,3 +112,4 @@ if __name__ == '__main__':
         game.stop()
         game.close_connections()
         pygame.quit()
+        #דגכעדע
