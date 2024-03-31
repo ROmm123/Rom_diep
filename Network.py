@@ -9,8 +9,8 @@ class Client:
     def send_data(self, data):
         self.client_socket.send(data.encode())
 
-    def send_to_Enemies_Am(self,data):
-        self.Enemies_Am_socket.send(data.encode())
+    def send_to_Enemies_Am(self):
+        self.Enemies_Am_socket.send("0".encode())
 
 
     def receive_data(self):
