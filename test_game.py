@@ -22,10 +22,12 @@ class EnemyThread(threading.Thread):
 
     def run(self):
         print("in draw thread")
+        count=1
         try:
             while self.running:
                 data = self.client.receive_data()
-                print(data)
+                print(str(count)+" : "+data)
+                count+=1
                 if data != '0' and data:
                     enemy_mainn = enemy_main(data, self.player, self.setting, self.weapon)
                     enemy_mainn.main()
