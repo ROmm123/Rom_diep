@@ -21,4 +21,5 @@ class enemy_main():
 
         Enemy_calculate = enemy_calculate(self.data,self.set,self.Playerrr,self.WEAPON)
         Enemy_calculate.calculate()
+        self.set.update()
 

@@ -22,13 +22,21 @@ class EnemyThread(threading.Thread):
 
     def run(self):
         print("in draw thread")
+        count=1
+        data2 = None
         try:
             while self.running:
                 data = self.client.receive_data()
-                print(data)
+
+                if data2 != None:
+                    if len(data) > len(data2) + 10:
+                        data = data2
+                print(str(count) + " : " + data)
+                count += 1
                 if data != '0' and data:
                     enemy_mainn = enemy_main(data, self.player, self.setting, self.weapon)
                     enemy_mainn.main()
+                    data2 = data
         except Exception as e:
             print(f"Error in EnemyThread: {e}")
 

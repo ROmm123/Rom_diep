@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets">
       <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enemy_calculate.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_calculate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +74,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_game">
+  <component name="RunManager" selected="Python.main">
     <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -190,8 +187,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_game" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.test_game" />
         <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.test_server_new" />
         <item itemvalue="Python.game_to_funcs" />
@@ -303,7 +300,8 @@
     <MESSAGE value="weapon+circle enemy client with main client" />
     <MESSAGE value="liddor idea" />
     <MESSAGE value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
-    <option name="LAST_COMMIT_MESSAGE" value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
+    <MESSAGE value="excecutables : main , test_game, $R..." />
+    <option name="LAST_COMMIT_MESSAGE" value="excecutables : main , test_game, $R..." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -324,7 +322,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/$RS1TBVV.py</url>
-          <line>87</line>
+          <line>78</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
