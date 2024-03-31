@@ -20,7 +20,8 @@ class Server:
         self.enemies_am_list = []
         print("Server initialized")
 
-    def handle_client(self, client_socket):
+    def handle_client(self, client_socket , count):
+        c=0
         while True:
             try:
                 data = client_socket.recv(2048)
@@ -34,6 +35,8 @@ class Server:
                     data = '0'
                     for receiver_socket , addr in self.clients:
                         if receiver_socket != client_socket:
+                            if count == 1:
+                                print(data)
                             receiver_socket.send(data.encode("utf-8"))
                 client_socket.close()
                 break
@@ -42,9 +45,15 @@ class Server:
             if len(self.clients) > 1:
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
+                        if count == 1:
+                            print(data)
                         receiver_socket.send(data.encode("utf-8"))
             else:
                 data = "0"
+                if count == 1:
+                    #print(data)
+                    c+=1
+                    print(str(c))
                 client_socket.send(data.encode())
 
     def handle_Enemies_Am(self):
@@ -61,14 +70,16 @@ class Server:
             print("hello")
 
     def s(self):
+        count = 0
         try:
             while True:
                 print("Waiting for new client...")
                 client_socket, addr = self.server_socket.accept()
+                count+=1
                 print(f"New client connected: {addr}")
                 with self.clients_lock:
                     self.clients.append((client_socket, addr))
-                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,count))
                 client_thread.start()
         except KeyboardInterrupt:
             print("Server stopped")
