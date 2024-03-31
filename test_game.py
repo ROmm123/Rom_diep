@@ -107,9 +107,9 @@ if __name__ == '__main__':
     #enemy_thread_handler = threading.Thread(target=game.start_enemy_threads)
     #enemy_thread_handler.start()
     game.EnemiesAm_handling()
-    try:
+    '''try:
         game.run()
     finally:
         game.stop()
         game.close_connections()
-        pygame.quit()
+        pygame.quit()'''
