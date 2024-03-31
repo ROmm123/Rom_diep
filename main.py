@@ -39,6 +39,7 @@ class Game:
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
             # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMENT
 
+            '''
             if self.Playerr.screen_position[0] > 0:
                 if self.Playerr.move_button[0]:
                     self.shot_relative_vector[0] = self.Playerr.speed
@@ -52,12 +53,13 @@ class Game:
 
                 if self.Playerr.move_button[3]:
                     self.shot_relative_vector[1] = -self.Playerr.speed
+            '''
+
 
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
             self.Playerr.handle_events_shapes(key_state)
-
 
             enemy_status = enemy1.isAlive()
             if not enemy_status:

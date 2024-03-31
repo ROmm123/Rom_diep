@@ -22,6 +22,7 @@ class NormalShot:
         self.prev_key = False
         self.shots = []
         self.remove_shots = []
+        self.screen_position_shot = [0,0]
 
     def get_shot_owner_id(self):
         return self.player_id
@@ -32,6 +33,14 @@ class NormalShot:
         for circle in self.shots:
             pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
 
+    def shoot(self, player_position, screen_position, angle):
+        start_x = player_position[0] + self.offset_distance * math.cos(angle)  # calculates the starting position - the middle of the weapon
+        start_y = player_position[1] + self.offset_distance * math.sin(angle)
+        self.velocity = [self.speed * math.cos(angle), self.speed * math.sin(angle)]
+        self.surface = pygame.display.set_mode((self.setting.screen_width, self.setting.screen_height))
+        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier], "screen position": [screen_position[0], screen_position[1]]})
+
+    '''
     def shoot(self, player_position, screen_position, angle):
         # calculate the starting position and direction of the shot
         mouse_pos = pygame.mouse.get_pos()
@@ -60,6 +69,7 @@ class NormalShot:
         print("start pos:", start_x, start_y)
 
         self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
+        '''
 
     def update(self, shot_relative_vector):
         # updates the shots' position
