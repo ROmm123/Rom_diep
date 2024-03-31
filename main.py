@@ -1,5 +1,7 @@
 import socket
 import threading
+import time
+
 import pygame
 from player import Player
 from map import Map
@@ -25,8 +27,8 @@ class EnemyThread(threading.Thread):
                 data = self.client.receive_data()
                 print(data)
                 if data != '0' and data:
-                    enemy_main = enemy_main(data, self.player, self.setting, self.weapon)
-                    enemy_main.main()
+                    enemy_mainn = enemy_main(data, self.player, self.setting, self.weapon)
+                    enemy_mainn.main()
         except Exception as e:
             print(f"Error in EnemyThread: {e}")
 
@@ -80,6 +82,7 @@ class Game():
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:
                 for _ in range(-diff):
+                    # CHANGE!!!! LIDOR IDEA
                     thread = self.enemy_threads.pop()
                     thread.running = False
                     thread.join()
@@ -98,6 +101,7 @@ if __name__ == '__main__':
     game = Game()
 
     threading.Thread(target=game.EnemiesAm_handling).start()
+    time.sleep(0.2)
 
     try:
         print("starting game.run")

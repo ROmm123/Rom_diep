@@ -32,7 +32,7 @@ class Server:
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
                     data = '0'
-                    for receiver_socket in self.clients:
+                    for receiver_socket , addr in self.clients:
                         if receiver_socket != client_socket:
                             receiver_socket.send(data.encode("utf-8"))
                 client_socket.close()
@@ -40,7 +40,7 @@ class Server:
 
 
             if len(self.clients) > 1:
-                for receiver_socket  in self.clients:
+                for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
                         receiver_socket.send(data.encode("utf-8"))
             else:
@@ -60,7 +60,7 @@ class Server:
         except:
             print("hello")
 
-    def start(self):
+    def s(self):
         try:
             while True:
                 print("Waiting for new client...")
@@ -89,5 +89,5 @@ if __name__ == '__main__':
     print("Starting server...")
     enemies_T = threading.Thread(target = my_server.handle_Enemies_Am)
     enemies_T.start()
-    my_server.start()
+    my_server.s()
 
