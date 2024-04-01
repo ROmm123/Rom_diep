@@ -103,7 +103,7 @@ class Game:
             self.client.send_data(str(self.Playerr.screen_position))
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10008)
+        self.client = Client('localhost', 10009)
 
     def close_connections(self):
         self.client.close()
