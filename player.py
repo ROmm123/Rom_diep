@@ -32,6 +32,9 @@ class Player():
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
         self.inventory=inventory(self.setting)
+        self.big_weapon = False
+        self.mid_weapon = False
+        self.small_weapon = True
     def get_rect_player(self):
         # gets and returns the player's rect
         rect_width = self.radius * 2
@@ -126,18 +129,27 @@ class Player():
         if key_state[pygame.K_v]:
             self.WEAPON.rect_height = 40
             self.WEAPON.rect_width = 25
+            self.big_weapon = True
+            self.mid_weapon = False
+            self.small_weapon = False
         elif key_state[pygame.K_g]:
             self.WEAPON.rect_width = 40
             self.WEAPON.rect_height = 25
             self.WEAPON.offset_distance += 20
+            self.big_weapon = False
+            self.mid_weapon = True
+            self.small_weapon = False
         elif key_state[pygame.K_h]:
             self.WEAPON.rect_height = 25
             self.WEAPON.rect_width = 25
+            self.big_weapon = False
+            self.mid_weapon = False
+            self.small_weapon = True
 
     def handle_events_shots(self, key_state, mouse_state):
         # checks for if any of the attack keys are pressed
         current_time = pygame.time.get_ticks()
-        if self.WEAPON.rect_width == 25 and self.WEAPON.rect_height == 25:  # only if long or regular weapon
+        if self.small_weapon==True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
                     self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
@@ -149,17 +161,17 @@ class Player():
                 self.NORMAL_SHOT.shot_button[0] = False
             self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-        if self.WEAPON.rect_width == 25 and self.WEAPON.rect_height > 25:  # only if wide or regular weapon
-            if mouse_state[0] and not self.NORMAL_SHOT.shot_button[1]:
+        if self.big_weapon==True:  # only if wide or regular weapon
+            if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[1]:
                 if current_time - self.last_big_shot_time >= self.big_shot_cooldown:
                     self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[1] = True
                     self.last_big_shot_time = current_time  # update last shot time
 
             # IF LEFT MOUSE BUTTON PRESSED, BIG SHOT
-            elif not mouse_state[0] and self.BIG_SHOT.prev_key:
+            elif not key_state[pygame.K_SPACE] and self.BIG_SHOT.prev_key:
                 self.NORMAL_SHOT.shot_button[1] = False
-            self.BIG_SHOT.prev_key = mouse_state[0]
+            self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
     def move(self):
         # moves the player according to the data in handle_events_movement and updates his position
