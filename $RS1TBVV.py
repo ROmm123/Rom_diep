@@ -9,7 +9,6 @@ class Server:
         self.clients = []
         self.clients_lock = threading.Lock()
 
-        # UDP socket setup
         self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.Enemies_Am_socket.bind((host, tcp_port))
         self.Enemies_Am_socket.listen(5)
@@ -24,6 +23,7 @@ class Server:
         while True:
             try:
                 data = client_socket.recv(2048)
+                print(data)
                 if not data:
                     break
                 data = data.decode()
