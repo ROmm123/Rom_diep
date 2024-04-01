@@ -21,13 +21,11 @@ class EnemyThread(threading.Thread):
         self.running = True
 
     def run(self):
-        print("in draw thread")
-        count=1
+        count = 1
         try:
             while self.running:
                 data = self.client.receive_data()
-                print(str(count)+" : "+data)
-                count+=1
+                count += 1
                 if data != '0' and data:
                     enemy_mainn = enemy_main(data, self.player, self.setting, self.weapon)
                     enemy_mainn.main()
@@ -47,6 +45,7 @@ class Game():
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
+        self.lock = threading.Lock()  # Create a threading lock
 
     def run(self):
         while self.running:
@@ -55,15 +54,18 @@ class Game():
                                  self.player.center_x, self.player.center_y, self.player.angle)
             self.player.handle_events()
             self.player.move()
-            chunk = self.map.calc_chunk()
-            self.map.draw_map(chunk)
-            self.player.draw()
-            self.weapon.run_weapon()
-        #0                           #1                          #4                     #5                          #6                      #7                              #8                              #9                      #10                 #11                         #12                         #13                     #14                         #15               #16
-            data = f";{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.tangent_x};{self.player.screen_position[0]};{self.player.screen_position[1]};{self.player.color};{self.player.radius};{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.angle}"
-            self.client.send_data(data)
-            #print("data to send: "+data)
 
+            # Synchronize draw_map and enemy_main using the lock
+            with self.lock:
+                chunk = self.map.calc_chunk()
+                self.map.draw_map(chunk)
+                self.player.draw()
+                self.weapon.run_weapon()
+
+                data = f";{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.tangent_x};{self.player.screen_position[0]};{self.player.screen_position[1]};{self.player.color};{self.player.radius};{self.weapon.rect_center_x};{self.weapon.rect_center_y};{self.weapon.rect_width};{self.weapon.rect_height};{self.weapon.angle}"
+                self.client.send_data(data)
+
+            # Process enemies outside the lock
             self.setting.update()
 
     def close_connections(self):
@@ -84,13 +86,9 @@ class Game():
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:
                 for _ in range(-diff):
-                    # CHANGE!!!! LIDOR IDEA
                     thread = self.enemy_threads.pop()
                     thread.running = False
                     thread.join()
-
-
-
 
     def stop(self):
         self.running = False
@@ -112,4 +110,3 @@ if __name__ == '__main__':
         game.stop()
         game.close_connections()
         pygame.quit()
-        #דגכעדעכחטי5
