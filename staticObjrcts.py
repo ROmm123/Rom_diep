@@ -6,11 +6,11 @@ from HP import HP
 class StaticObject():
     def __init__(self, setting, map_width, map_height):
         # Generate random coordinates of x,y pos in the map range
-        self.width = 30  # Width of the rectangle
-        self.height = 30  # Height of the rectangle
+        self.width = 30
+        self.height = 30
         self.color = (3, 3, 3)
-        self.position = (random.randint(0, map_width - 20)  # Random x-coordinate
-                         , random.randint(0, map_height - 20))  # Random y-coordinate
+        self.position = (random.randint(0, map_width - 20)
+                         , random.randint(0, map_height - 20))
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
                      setting)
         # pass the.... center.... pos of the obj ,halfbase , setting object
