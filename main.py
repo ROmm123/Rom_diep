@@ -6,10 +6,11 @@ from player import Player
 from map import Map
 from settings import settings
 from weapon import Weapon
-from normal_shot import NormalShot
+from normal_shot import *
 from Network import Client
 import random
 from server_oop import Server
+from inventory import *
 
 
 class Game:
@@ -20,7 +21,7 @@ class Game:
         self.players = []  # list of all the players in the game
         self.player_id_counter = 0  # player id counter
         self.Map = None  # first map initialization
-
+        self.inventory=inventory(self.setting)
         #ADD HP REGENERATION
 
 
@@ -37,29 +38,13 @@ class Game:
             chunk = self.MAP.calc_chunk()  # loads a chunk of the map
             self.MAP.draw_map(chunk)  # draws chunk
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
-            # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMENT
-
-            '''
-            if self.Playerr.screen_position[0] > 0:
-                if self.Playerr.move_button[0]:
-                    self.shot_relative_vector[0] = self.Playerr.speed
-
-                if self.Playerr.move_button[1]:
-                    self.shot_relative_vector[0] = -self.Playerr.speed
-
-            if self.Playerr.screen_position[1] > 0:
-                if self.Playerr.move_button[2]:
-                    self.shot_relative_vector[1] = self.Playerr.speed
-
-                if self.Playerr.move_button[3]:
-                    self.shot_relative_vector[1] = -self.Playerr.speed
-            '''
-
+            # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMEN
 
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
             self.Playerr.handle_events_shapes(key_state)
+
 
             enemy_status = enemy1.isAlive()
             if not enemy_status:
@@ -95,16 +80,17 @@ class Game:
 
             else:
                 self.Playerr.WEAPON.remove()
+            self.Playerr.NORMAL_SHOT.calc_reltiv(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
+            self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
 
-            self.Playerr.NORMAL_SHOT.update(self.shot_relative_vector)  # updates the normal shots
-            self.Playerr.BIG_SHOT.update(self.shot_relative_vector)  # updates the big shots
+            self.Playerr.BIG_SHOT.update()  # updates the big shots
 
             self.setting.update()  # updates the settings (timer)
 
             self.client.send_data(str(self.Playerr.screen_position))
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10009)
+        self.client = Client('localhost', 10008)
 
     def close_connections(self):
         self.client.close()
