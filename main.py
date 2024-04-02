@@ -45,7 +45,10 @@ class Game:
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
-            self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting, player_rect)
+            collision = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
+                                    player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
+            if collision:
+                self.Playerr.hurt()
             self.Playerr.handle_events_shapes(key_state)
 
 

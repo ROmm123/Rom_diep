@@ -62,16 +62,16 @@ class Player():
 
     def hit(self, player_rect, player_id):
         # check collision with normal shots
-        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects()):
-            shot_rect = self.NORMAL_SHOT.get_shot_rects()[i]
+        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+            shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
             if player_id != self.player_id:
                 if player_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
                     return "normal shot"
 
         # check collision with big shots
-        for i, _ in enumerate(self.BIG_SHOT.get_shot_rects()):
-            shot_rect = self.BIG_SHOT.get_shot_rects()[i]
+        for i, _ in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
+            shot_rect = self.BIG_SHOT.get_shot_rects(self.screen_position)[i]
             if player_id != self.player_id:
                 if player_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)

@@ -28,8 +28,8 @@ class StaticObjects():
             print(obj.position)
             self.Static_objects.append(obj)
 
-    def draw(self, viewport_x, viewport_y, setting, player_rect):
-
+    def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
+        player_hit = False
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
             obj_y = static_obj.position[1] - viewport_y
@@ -37,7 +37,7 @@ class StaticObjects():
 
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
-                    print(static_obj.rect_static_obj)
+                    print("obj rects", static_obj.rect_static_obj)
                     pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
                     pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
@@ -49,6 +49,14 @@ class StaticObjects():
                     if static_obj.rect_static_obj.colliderect(player_rect):
                         print("Collision detected")
                         self.hurt(static_obj)
+                        player_hit = True
+
+                    for shot_rect in shots_rects:
+                        print("shots rect", shot_rect)
+                        if static_obj.rect_static_obj.colliderect(shot_rect):
+                            self.hurt(static_obj)
+
+        return player_hit
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:

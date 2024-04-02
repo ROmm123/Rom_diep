@@ -89,7 +89,7 @@ class NormalShot:
             circle["position"][1] += circle["velocity"][1] + self.shot_relative_vector[1]
 
             self.draw()
-            print("vel", abs(circle["velocity"][1]))
+            #print("vel", abs(circle["velocity"][1]))
 
             # check shots to remove (if below the remove_speed)
             if (abs(circle["velocity"][0]) < self.remove_speed) and (abs(circle["velocity"][1]) < self.remove_speed):
@@ -112,8 +112,8 @@ class NormalShot:
 
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
-    def get_shot_rects(self):
-        return [self.get_shot_rect((int(circle["position"][0]), int(circle["position"][1]))) for circle in self.shots]
+    def get_shot_rects(self, screen_position):
+        return [self.get_shot_rect((int(circle["position"][0]) + screen_position[0], int(circle["position"][1]) + screen_position[1])) for circle in self.shots]
 
 
 
