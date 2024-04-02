@@ -6,7 +6,7 @@ from player import Player
 from map import Map
 from settings import settings
 from weapon import Weapon
-from normal_shot import NormalShot
+from normal_shot import *
 from Network import Client
 import random
 from server_oop import Server
@@ -38,21 +38,7 @@ class Game:
             chunk = self.MAP.calc_chunk()  # loads a chunk of the map
             self.MAP.draw_map(chunk)  # draws chunk
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
-            # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMENT
-
-            if self.Playerr.screen_position[0] > 0:
-                if self.Playerr.move_button[0]:
-                    self.shot_relative_vector[0] = self.Playerr.speed
-
-                if self.Playerr.move_button[1]:
-                    self.shot_relative_vector[0] = -self.Playerr.speed
-
-            if self.Playerr.screen_position[1] > 0:
-                if self.Playerr.move_button[2]:
-                    self.shot_relative_vector[1] = self.Playerr.speed
-
-                if self.Playerr.move_button[3]:
-                    self.shot_relative_vector[1] = -self.Playerr.speed
+            # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMEN
 
             self.Playerr.handle_events_movement()
             self.Playerr.move()
@@ -94,9 +80,10 @@ class Game:
 
             else:
                 self.Playerr.WEAPON.remove()
+            self.Playerr.NORMAL_SHOT.calc_reltiv(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
+            self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
 
-            self.Playerr.NORMAL_SHOT.update(self.shot_relative_vector)  # updates the normal shots
-            self.Playerr.BIG_SHOT.update(self.shot_relative_vector)  # updates the big shots
+            self.Playerr.BIG_SHOT.update()  # updates the big shots
 
             self.setting.update()  # updates the settings (timer)
 

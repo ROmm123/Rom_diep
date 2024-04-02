@@ -60,15 +60,34 @@ class NormalShot:
         print("start pos:", start_x, start_y)
 
         self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
+    def calc_reltiv(self,screen_position,move_button,speed):
+        self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
+        # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMENT
 
-    def update(self, shot_relative_vector):
+        if screen_position[0] > 0:
+
+            if move_button[0] and not move_button[1]:
+
+                self.shot_relative_vector[0] = speed
+
+            if move_button[1] and not move_button[0]:
+                self.shot_relative_vector[0] = -speed
+
+        if screen_position[1] > 0:
+            if move_button[2] and not move_button[3]:
+                self.shot_relative_vector[1] = speed
+
+            if move_button[3] and not move_button[2]:
+                self.shot_relative_vector[1] = -speed
+    def update(self):
+
         # updates the shots' position
         for i, circle in enumerate(self.shots):
             circle["velocity"][0] *= self.deceleration
             circle["velocity"][1] *= self.deceleration
 
-            circle["position"][0] += circle["velocity"][0] + shot_relative_vector[0]
-            circle["position"][1] += circle["velocity"][1] + shot_relative_vector[1]
+            circle["position"][0] += circle["velocity"][0] + self.shot_relative_vector[0]
+            circle["position"][1] += circle["velocity"][1] + self.shot_relative_vector[1]
 
             self.draw()
             print("vel", abs(circle["velocity"][1]))
