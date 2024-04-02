@@ -21,7 +21,7 @@ class Game:
         self.players = []  # list of all the players in the game
         self.player_id_counter = 0  # player id counter
         self.Map = None  # first map initialization
-        self.inventory=inventory(self.setting)
+        self.inventory = inventory(self.setting)
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
         #ADD HP REGENERATION
 

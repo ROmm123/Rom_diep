@@ -9,7 +9,7 @@ class StaticObject():
 
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
-        self.color  = random.choice([setting.red, setting.green, setting.blue])
+        self.color = random.choice([setting.red, setting.green, setting.blue])
         self.position = (random.randint(0, map_width - 20)  # Random x-coordinate
                          , random.randint(0, map_height - 20))  # Random y-coordinate
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
@@ -35,19 +35,20 @@ class StaticObjects():
             obj_y = static_obj.position[1] - viewport_y
             static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width, static_obj.height)
 
-            if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
-                print(static_obj.rect_static_obj)
-                pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
-                pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
-                                 (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
-                                  (2 * static_obj.width), 10))
-                pygame.draw.rect(self.surface, static_obj.HP.DamageColor,
-                                 (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
-                                  static_obj.HP.Damage, 10))
+            if (static_obj.HP.ISAlive == True):
+                if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
+                    print(static_obj.rect_static_obj)
+                    pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
+                    pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
+                                     (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
+                                      (2 * static_obj.width), 10))
+                    pygame.draw.rect(self.surface, static_obj.HP.DamageColor,
+                                     (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
+                                      static_obj.HP.Damage, 10))
 
-                if static_obj.rect_static_obj.colliderect(player_rect):
-                    print("Collision detected")
-                    self.hurt(static_obj)
+                    if static_obj.rect_static_obj.colliderect(player_rect):
+                        print("Collision detected")
+                        self.hurt(static_obj)
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
