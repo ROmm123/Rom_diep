@@ -35,12 +35,13 @@ class Player():
         self.big_weapon = False
         self.mid_weapon = False
         self.small_weapon = True
+
     def get_rect_player(self):
         # gets and returns the player's rect
         rect_width = self.radius * 2
         rect_height = self.radius * 2
-        rect_x = int(self.center[0] - self.radius)
-        rect_y = int(self.center[1] - self.radius)
+        rect_x = int(self.position[0] - self.radius)
+        rect_y = int(self.position[1] - self.radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self):

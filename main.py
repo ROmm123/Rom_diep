@@ -41,10 +41,11 @@ class Game:
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
             # NEED TO CHANGE THE LOGIC OF THE SHOTS'
 
+            player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
-            self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting)
+            self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting, player_rect)
             self.Playerr.handle_events_shapes(key_state)
 
 
