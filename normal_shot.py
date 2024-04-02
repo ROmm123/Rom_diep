@@ -22,7 +22,6 @@ class NormalShot:
         self.prev_key = False
         self.shots = []
         self.remove_shots = []
-        self.screen_position_shot = [0,0]
 
     def get_shot_owner_id(self):
         return self.player_id
@@ -33,14 +32,6 @@ class NormalShot:
         for circle in self.shots:
             pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
 
-    def shoot(self, player_position, screen_position, angle):
-        start_x = player_position[0] + self.offset_distance * math.cos(angle)  # calculates the starting position - the middle of the weapon
-        start_y = player_position[1] + self.offset_distance * math.sin(angle)
-        self.velocity = [self.speed * math.cos(angle), self.speed * math.sin(angle)]
-        self.surface = pygame.display.set_mode((self.setting.screen_width, self.setting.screen_height))
-        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier], "screen position": [screen_position[0], screen_position[1]]})
-
-    '''
     def shoot(self, player_position, screen_position, angle):
         # calculate the starting position and direction of the shot
         mouse_pos = pygame.mouse.get_pos()
@@ -69,22 +60,40 @@ class NormalShot:
         print("start pos:", start_x, start_y)
 
         self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
-        '''
+    def calc_reltiv(self,screen_position,move_button,speed):
+        self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
+        # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMENT
 
-    def update(self, shot_relative_vector):
+        if screen_position[0] > 0:
+
+            if move_button[0] and not move_button[1]:
+
+                self.shot_relative_vector[0] = speed
+
+            if move_button[1] and not move_button[0]:
+                self.shot_relative_vector[0] = -speed
+
+        if screen_position[1] > 0:
+            if move_button[2] and not move_button[3]:
+                self.shot_relative_vector[1] = speed
+
+            if move_button[3] and not move_button[2]:
+                self.shot_relative_vector[1] = -speed
+    def update(self):
+
         # updates the shots' position
         for i, circle in enumerate(self.shots):
             circle["velocity"][0] *= self.deceleration
             circle["velocity"][1] *= self.deceleration
 
-            circle["position"][0] += circle["velocity"][0] + shot_relative_vector[0]
-            circle["position"][1] += circle["velocity"][1] + shot_relative_vector[1]
+            circle["position"][0] += circle["velocity"][0] + self.shot_relative_vector[0]
+            circle["position"][1] += circle["velocity"][1] + self.shot_relative_vector[1]
 
             self.draw()
+            print("vel", abs(circle["velocity"][1]))
 
             # check shots to remove (if below the remove_speed)
-            if abs(circle["velocity"][0]) < self.remove_speed and abs(circle["velocity"][1] < self.remove_speed):
-                print(circle["velocity"])
+            if (abs(circle["velocity"][0]) < self.remove_speed) and (abs(circle["velocity"][1]) < self.remove_speed):
                 self.remove_shots.append(i)
 
         self.remove()
