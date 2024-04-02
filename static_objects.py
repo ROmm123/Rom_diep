@@ -35,7 +35,7 @@ class StaticObjects():
             obj_y = static_obj.position[1] - viewport_y
             static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width, static_obj.height)
 
-            if (static_obj.HP.ISAlive == True):
+            if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
                     print(static_obj.rect_static_obj)
                     pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
