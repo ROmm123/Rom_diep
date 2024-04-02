@@ -60,9 +60,8 @@ class NormalShot:
         print("start pos:", start_x, start_y)
 
         self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
-    def calc_reltiv(self,screen_position,move_button,speed):
+    def calc_relative(self,screen_position,move_button,speed):
         self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
-        # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMENT
 
         if screen_position[0] > 0:
 

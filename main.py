@@ -39,7 +39,7 @@ class Game:
             chunk = self.MAP.calc_chunk()  # loads a chunk of the map
             self.MAP.draw_map(chunk)  # draws chunk
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
-            # NEED TO CHANGE THE LOGIC OF THE SHOTS'
+
 
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
@@ -77,15 +77,14 @@ class Game:
                     enemy1.hit_damage = 15
                     player.hurt()
 
-
                 self.Playerr.WEAPON.run_weapon()
                 self.Playerr.handle_events_shots(key_state, mouse_state)
 
+
             else:
                 self.Playerr.WEAPON.remove()
-            self.Playerr.NORMAL_SHOT.calc_reltiv(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
+            self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
             self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
-
             self.Playerr.BIG_SHOT.update()  # updates the big shots
 
             self.setting.update()  # updates the settings (timer)
