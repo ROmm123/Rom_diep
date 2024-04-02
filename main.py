@@ -12,7 +12,6 @@ import random
 from server_oop import Server
 from inventory import *
 
-
 class Game:
 
     def __init__(self):
@@ -38,7 +37,7 @@ class Game:
             chunk = self.MAP.calc_chunk()  # loads a chunk of the map
             self.MAP.draw_map(chunk)  # draws chunk
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
-            # NEED TO CHANGE THE LOGIC OF THE SHOTS' MOVEMEN
+            # NEED TO CHANGE THE LOGIC OF THE SHOTS'
 
             self.Playerr.handle_events_movement()
             self.Playerr.move()
@@ -90,7 +89,7 @@ class Game:
             self.client.send_data(str(self.Playerr.screen_position))
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10008)
+        self.client = Client('localhost', 10009)
 
     def close_connections(self):
         self.client.close()
