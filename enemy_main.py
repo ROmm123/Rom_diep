@@ -1,23 +1,16 @@
 import pygame
 import threading
+import re  # Import re module for regular expressions
 
-import main
-from player import Player
-from map import Map
-from weapon import Weapon
-from Network import Client
-from server_oop import Server
-from enemy_calculate import *
 
 class enemy_main():
-
-    def __init__(self,dataa,player,setting,weapon):
-        self.data = dataa
+    def __init__(self, data, player, setting, weapon, draw_event):
+        self.data = data
         self.set = setting
         self.surface = setting.surface
         self.Playerrr = player
         self.WEAPON = weapon
-
+        self.draw_event = draw_event  # Event to synchronize drawing
 
     def calculate(self):
         k1 = int(float(self.data["player_position_x"]))  # Convert float to int
@@ -30,9 +23,7 @@ class enemy_main():
 
     def check(self, a1, a2, b1, b2, data):
         if a2 < self.set.screen_height and a1 < self.set.screen_width:
-            print("here")
             radius = int(float(data["player_radius"]))
-            print(radius)
             self.WEAPON.radius = radius
 
             weapon_angle = data.get("weapon_angle", "")
@@ -52,7 +43,6 @@ class enemy_main():
             print('0')
 
     def draw_enemy(self, color, center_x, center_y, radius):
-        print()
         center_x = int(center_x) + self.Playerrr.center_x
         center_y = int(center_y) + self.Playerrr.center_y
         self.WEAPON.x = center_x
@@ -61,6 +51,10 @@ class enemy_main():
         pygame.draw.circle(self.surface, color, (center_x, center_y), radius)
 
         self.WEAPON.run_weapon()
+
+        # Set the event to signal completion of drawing
+        self.draw_event.set()
+
     def main(self):
         self.calculate()
-        self.set.update()
+        print("enemy")
