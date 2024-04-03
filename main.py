@@ -14,7 +14,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.static_object = StaticObjects(self.setting, 600*64, 675*64)
+        self.static_objects = StaticObjects(self.setting, 600*64, 675*64)
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
         self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting, self.Playerr.center_x,
@@ -33,7 +33,7 @@ class Game():
             self.Playerr.move()
             chunk = self.MAP.calc_chunk()
             self.MAP.draw_map(chunk)
-            self.static_object.draw(self.Playerr.screen_position[0],self.Playerr.screen_position[1],self.setting)
+            self.static_objects.draw(self.Playerr.screen_position[0],self.Playerr.screen_position[1],self.setting)
             self.Playerr.draw()
             self.Playerr.IsAlive()
             self.WEAPON.run_weapon()
