@@ -48,6 +48,7 @@ class enemy_calculate():
             print('0')
 
     def draw_enemy(self, color, center_x, center_y, radius):
+        print("yes")
         center_x = int(center_x) + self.Playerrr.center_x
         center_y = int(center_y) + self.Playerrr.center_y
         self.WEAPON.x=center_x
