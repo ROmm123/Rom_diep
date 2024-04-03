@@ -25,6 +25,7 @@ class EnemyThread(threading.Thread):
     def run(self):
         print("in draw thread")
 
+
         while True:
             data = self.client.receive_data()
             #print(data)

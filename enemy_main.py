@@ -13,6 +13,7 @@ class enemy_main():
         self.draw_event = draw_event  # Event to synchronize drawing
 
     def calculate(self):
+        print(self.data)
         k1 = int(float(self.data["player_position_x"]))  # Convert float to int
         k2 = int(float(self.data["player_position_y"]))  # Convert float to int
         b1 = k1 - self.Playerrr.screen_position[0]

@@ -82,7 +82,7 @@ class Game():
             self.setting.update()
 
 
-    def close_connections(self):
+    def clossse_connections(self):
         self.client.close()
 
     def EnemiesAm_handling(self):
