@@ -51,7 +51,7 @@ def handle_client(client_socket, client_number):
             #print ("sent!")
 # Create the server socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('0.0.0.0', 10008))
+server_socket.bind(('0.0.0.0', 1009))
 server_socket.listen(5)
 print("Server listening ")
 
