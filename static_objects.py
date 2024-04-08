@@ -6,7 +6,6 @@ from HP import HP
 class StaticObject():
     def __init__(self, setting, map_width, map_height):
         # Generate random coordinates of x,y pos in the map range
-
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
         self.color = random.choice([setting.red, setting.green, setting.blue])
@@ -37,7 +36,7 @@ class StaticObjects():
 
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
-                    print("obj rects", static_obj.rect_static_obj)
+                    #print("obj rects", static_obj.rect_static_obj)
                     pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
                     pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
@@ -49,14 +48,13 @@ class StaticObjects():
                     if static_obj.rect_static_obj.colliderect(player_rect):
                         print("Collision detected")
                         self.hurt(static_obj)
-                        player_hit = True
+                        return player_hit
 
-                    for shot_rect in shots_rects:
+                    for index, shot_rect in enumerate(shots_rects):
                         print("shots rect", shot_rect)
                         if static_obj.rect_static_obj.colliderect(shot_rect):
                             self.hurt(static_obj)
-
-        return player_hit
+                            return "shot index ",index
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:

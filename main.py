@@ -47,9 +47,17 @@ class Game:
             self.Playerr.draw()
             collision = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
-            if collision:
+            print(collision)
+
+            '''
+            if collision != None:
                 self.Playerr.hurt()
             self.Playerr.handle_events_shapes(key_state)
+            '''
+
+            if collision != None:
+                self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
+                self.Playerr.NORMAL_SHOT.remove()
 
 
             enemy_status = enemy1.isAlive()
