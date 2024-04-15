@@ -49,16 +49,12 @@ class Game:
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
             print(collision)
 
-            '''
             if collision != None:
-                self.Playerr.hurt()
-            self.Playerr.handle_events_shapes(key_state)
-            '''
-
-            if collision != None:
-                self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
-                self.Playerr.NORMAL_SHOT.remove()
-
+                if "shot index" in collision:
+                    self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
+                    self.Playerr.NORMAL_SHOT.remove()
+                if "player hit" in collision:
+                    self.Playerr.hurt()
 
             enemy_status = enemy1.isAlive()
             if not enemy_status:

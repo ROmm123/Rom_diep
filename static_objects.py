@@ -48,13 +48,13 @@ class StaticObjects():
                     if static_obj.rect_static_obj.colliderect(player_rect):
                         print("Collision detected")
                         self.hurt(static_obj)
-                        return player_hit
+                        return "player hit", player_hit
 
                     for index, shot_rect in enumerate(shots_rects):
-                        print("shots rect", shot_rect)
+                        #print("shots rect", shot_rect)
                         if static_obj.rect_static_obj.colliderect(shot_rect):
                             self.hurt(static_obj)
-                            return "shot index ",index
+                            return "shot index", index
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
