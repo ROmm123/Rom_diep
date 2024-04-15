@@ -3,12 +3,21 @@ import random
 from HP import HP
 
 
-class StaticObject():
+class StaticObject:
     def __init__(self, setting, map_width, map_height):
         # Generate random coordinates of x,y pos in the map range
         self.width = 30
         self.height = 30
-        self.color = (3, 3, 3)
+        self.HoldedAbiliy = random.choice(setting.ability)
+        if self.HoldedAbiliy == "Size":
+            self.color = setting.blue
+        elif self.HoldedAbiliy == "Speed":
+            self.color = setting.yellow
+        elif self.HoldedAbiliy == "damage":
+            self.color = setting.red
+        else:
+            self.color = setting.green
+
         self.position = (random.randint(0, map_width - 20)
                          , random.randint(0, map_height - 20))
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,

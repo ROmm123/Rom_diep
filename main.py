@@ -9,35 +9,32 @@ from test_enemy import *
 from enemy_main import *
 from staticObjrcts import StaticObjects
 
+
 class Game():
 
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.static_objects = StaticObjects(self.setting, 600*64, 675*64)
+        self.static_objects = StaticObjects(self.setting, 600 * 64, 675 * 64)
         self.Playerr = Player(0, 0, 35, self.setting.red, self.setting)
         self.MAP = Map(self.Playerr, self.setting)
-        self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting, self.Playerr.center_x,
+        self.WEAPON = Weapon(20, 20, self.setting.green, self.Playerr.radius, self.setting, self.Playerr.center_x,
                              self.Playerr.center_y, self.Playerr.angle)
-
 
     def run(self):
         while True:
-
             self.Playerr.calc_angle()
-            self.WEAPON = Weapon(20, 20, self.setting.green_fn, self.Playerr.radius, self.setting,
+            self.WEAPON = Weapon(20, 20, self.setting.green, self.Playerr.radius, self.setting,
                                  self.Playerr.center_x, self.Playerr.center_y, self.Playerr.angle)
             self.Playerr.handle_events()
-
 
             self.Playerr.move()
             chunk = self.MAP.calc_chunk()
             self.MAP.draw_map(chunk)
-            self.static_objects.draw(self.Playerr.screen_position[0],self.Playerr.screen_position[1],self.setting)
+            self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting)
             self.Playerr.draw()
             self.Playerr.IsAlive()
             self.WEAPON.run_weapon()
-
 
             # 0                          #1                          #2                      #3                      #4                          #5                                  #6                              #7                      #8                      #9                          #10                          #11                        #12                  #13
             self.client.send_data(
