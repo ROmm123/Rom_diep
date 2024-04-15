@@ -47,7 +47,7 @@ class Game:
             self.Playerr.draw()
             collision = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
-            print(collision)
+            #print(collision)
 
             if collision != None:
                 if "shot index" in collision:
@@ -55,6 +55,7 @@ class Game:
                     self.Playerr.NORMAL_SHOT.remove()
                 if "player hit" in collision:
                     self.Playerr.hurt()
+                    self.Playerr.speed = 0
 
             enemy_status = enemy1.isAlive()
             if not enemy_status:

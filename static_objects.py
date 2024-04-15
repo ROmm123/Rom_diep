@@ -15,6 +15,7 @@ class StaticObject():
                      setting)
         # pass the.... center.... pos of the obj ,halfbase , setting object
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
+        self.collision_flag = False
 
 
 class StaticObjects():
@@ -28,7 +29,6 @@ class StaticObjects():
             self.Static_objects.append(obj)
 
     def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
-        player_hit = False
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
             obj_y = static_obj.position[1] - viewport_y
@@ -36,7 +36,6 @@ class StaticObjects():
 
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
-                    #print("obj rects", static_obj.rect_static_obj)
                     pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
                     pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
@@ -46,15 +45,20 @@ class StaticObjects():
                                       static_obj.HP.Damage, 10))
 
                     if static_obj.rect_static_obj.colliderect(player_rect):
-                        print("Collision detected")
-                        self.hurt(static_obj)
-                        return "player hit", player_hit
+                        if not static_obj.collision_flag:
+                            static_obj.collision_flag = True
+                            self.hurt(static_obj)
+                            return "player hit"
+
+                    else:
+                        static_obj.collision_flag = False
 
                     for index, shot_rect in enumerate(shots_rects):
-                        #print("shots rect", shot_rect)
                         if static_obj.rect_static_obj.colliderect(shot_rect):
                             self.hurt(static_obj)
                             return "shot index", index
+
+
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
