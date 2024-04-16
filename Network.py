@@ -9,6 +9,10 @@ class Client:
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((host, port))
 
+    def __init__(self, host, port):
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.connect((host, port))
+
     def send_data(self, data_dict):
         data_str = json.dumps(data_dict)  # Convert dictionary to JSON-formatted string
         self.client_socket.send(data_str.encode("utf-8"))  # Encode string to bytes and send

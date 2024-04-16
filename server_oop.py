@@ -1,5 +1,7 @@
 import socket
 import threading
+from Network import Client
+
 
 from static_objects import StaticObjects
 from settings import settings
@@ -13,6 +15,7 @@ class Server:
         self.server_socket.listen(5)
         self.clients = []
         self.clients_lock = threading.Lock()
+        client = Client('localhost', 33333)
 
         self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.Enemies_Am_socket.bind((host, tcp_port))
@@ -28,7 +31,6 @@ class Server:
         while True:
             try:
                 data = client_socket.recv(2048)
-                print(data)
                 if not data:
                     break
                 data = data.decode()
@@ -71,6 +73,8 @@ class Server:
             while True:
                 print("Waiting for new client...")
                 client_socket, addr = self.server_socket.accept()
+                print(addr)
+
                 count+=1
                 print(f"New client connected: {addr}")
                 with self.clients_lock:
