@@ -1,5 +1,5 @@
 import pygame
-class HP():
+class HP:
     def __init__(self, x, y, radius, setting):
         self.HealthBar = pygame.Rect(x - radius, (y+radius+10), 2 * radius, 10)
         self.LifeColor = setting.green

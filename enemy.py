@@ -7,7 +7,7 @@ from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
 
-class Enemy():
+class Enemy:
 
     def __init__(self, player_id, x, y, radius,color, setting):
         self.surface = setting.surface  # player surface
@@ -22,8 +22,12 @@ class Enemy():
         self.position = [self.center[0], self.center[1]]  # player position relative to the map
         self.hp = HP(self.position[0], self.position[1], radius, setting)  # initialize hp
         self.hit_damage = 0
+        self.moveIndex = 0
 
-
+    def get_position_x(self):
+        return self.position
+    def get_position_y(self):
+        return self.position[1]
     def get_rect_player(self):
         # gets and returns the player's rect
         rect_width = self.radius * 2
@@ -48,7 +52,7 @@ class Enemy():
             print("Full HP")
             # HP REGEN NEEDS WORK
 
-    def isAlive(self):
+    def isntAlive(self):
         # exits the game if the player dies (NEEDS TO RESPAWN INSTEAD)
         if not self.hp.ISAlive:
             return True
@@ -58,13 +62,26 @@ class Enemy():
     def draw(self):
         # draws the player according to its shape, and the hp bar
         pygame.draw.circle(self.surface, self.color,(int(self.position[0]), int(self.position[1])), self.radius)
-        self.speed = 5
 
         pygame.draw.rect(self.surface, self.hp.LifeColor,
                          (self.position[0] - self.radius, self.position[1] + self.radius + 10, 2 * self.radius, 10))
         pygame.draw.rect(self.surface, self.hp.DamageColor,
                         (self.position[0] - self.radius, self.position[1] + self.radius + 10, self.hp.Damage, 10))
 
+    #move the enemy in diagonals
+    def move(self):
+        if self.moveIndex < 400:
+            self.speed = 2 #(self.moveIndex / 25)
+            self.center[0] += self.speed
+            self.center[1] += self.speed
+            self.moveIndex+=1
+        elif self.moveIndex < 800:
+            self.speed = -2 #-((self.moveIndex-100) / 25)
+            self.center[0] += self.speed
+            self.center[1] += self.speed
+            self.moveIndex +=1
+        else:
+            self.moveIndex = 0
 
 
 

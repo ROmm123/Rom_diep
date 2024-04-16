@@ -8,7 +8,7 @@ from normal_shot import NormalShot
 from weapon import Weapon
 from inventory import *
 
-class Player():
+class Player:
 
     def __init__(self, player_id, x, y, radius, color, setting):
         self.surface = setting.surface  # player surface

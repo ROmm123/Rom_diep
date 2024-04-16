@@ -1,7 +1,7 @@
 import math
 import pygame
 
-class Weapon():
+class Weapon:
 
     def __init__(self, width, height, color, player, set):
         self.offset_distance = 50

@@ -1,6 +1,8 @@
 import pygame
 import threading
 
+import enemy
+from npc import NPC
 from enemy import Enemy
 from player import Player
 from map import Map
@@ -20,6 +22,8 @@ class Game:
         self.setting = settings()
         self.players = []  # list of all the players in the game
         self.player_id_counter = 0  # player id counter
+        self.npc_id_counter = 0
+        self.npcs = []  # list of all the npc in the game
         self.Map = None  # first map initialization
         self.inventory = inventory(self.setting)
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
@@ -31,6 +35,7 @@ class Game:
 
         player1 = self.add_player()  # adds a player to the game
         enemy1 = self.add_enemy()
+        npc1 = self.add_npc(enemy1)
         self.initialize_map(player1)  # initializes the map
 
         while True:
@@ -45,6 +50,7 @@ class Game:
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
+            self.NPC.run(self.Playerr.screen_position[0], self.Playerr.screen_position[1])
             collision = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
             print(collision)
@@ -59,9 +65,13 @@ class Game:
                 self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
                 self.Playerr.NORMAL_SHOT.remove()
 
+            #if self.npcs = None:
+               # npc1.run()
 
-            enemy_status = enemy1.isAlive()
+
+            enemy_status = enemy1.isntAlive()
             if not enemy_status:
+                enemy1.move()
                 enemy1.position[0] = (enemy1.center[0] - self.Playerr.screen_position[0])
                 enemy1.position[1] = (enemy1.center[1] - self.Playerr.screen_position[1])
                 enemy1.draw()
@@ -125,6 +135,12 @@ class Game:
         self.Enemy = Enemy(enemy_id, 0, 0, 30, self.setting.rand_color, self.setting)
         self.players.append(self.Enemy)
         return self.Enemy
+
+    def add_npc(self, enemy):
+        self.npc_id_counter += 1
+        self.NPC = NPC(0, 0, 30, self.setting.red, self.setting, 50, Enemy.get_position_x(enemy))
+        self.npcs.append(self.NPC)
+        return self.NPC
 
     def initialize_map(self, player):
         # initializes the map
