@@ -31,7 +31,7 @@ class EnemyThread(threading.Thread):
             #print(data)
 
             if data != '0' and data:
-                enemy_instance = enemy_main(data, self.player, self.setting, self.weapon, self.enemy_event)
+                enemy_instance = enemy_main(data, self.player, self.setting, self.weapon)
                 enemy_instance.main()
 
 class Game():

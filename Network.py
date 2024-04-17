@@ -18,14 +18,17 @@ class Client:
         self.Enemies_Am_socket.send("0".encode())  # Send encoded bytes
 
     def receive_data(self):
-        self.client_socket.setblocking(False)
+        data = self.client_socket.recv(2048).decode("utf-8")
+        return data
+
+        '''self.client_socket.setblocking(False, timeout TODO)
         try:
             data_str = self.client_socket.recv(2048).decode("utf-8")
             self.prev_data = data_str
         except BlockingIOError:
             data_str = self.prev_data
             # No data available, return None or handle it as needed
-            return None
+            return data_str
         except Exception as e:
             # Handle other exceptions
             print(f"Error receiving data: {e}")
@@ -48,7 +51,7 @@ class Client:
                 return None
         else:
             # No data received, return None
-            return None
+            return None'''
 
     def receive_data_EnemiesAm(self):
         data_str = self.Enemies_Am_socket.recv(2048).decode("utf-8")  # Receive bytes, decode to string

@@ -4,13 +4,13 @@ import re  # Import re module for regular expressions
 
 
 class enemy_main():
-    def __init__(self, data, player, setting, weapon, draw_event):
+    def __init__(self, data, player, setting, weapon):
         self.data = data
         self.set = setting
         self.surface = setting.surface
         self.Playerrr = player
         self.WEAPON = weapon
-        self.draw_event = draw_event  # Event to synchronize drawing
+
 
     def calculate(self):
         print(self.data)
@@ -53,8 +53,7 @@ class enemy_main():
 
         self.WEAPON.run_weapon()
 
-        # Set the event to signal completion of drawing
-        self.draw_event.set()
+
 
     def main(self):
         self.calculate()

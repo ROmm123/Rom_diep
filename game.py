@@ -3,7 +3,7 @@ import json
 import socket
 import threading
 import time
-import multiprocessing
+
 
 import pygame
 from player import Player
@@ -31,7 +31,7 @@ class EnemyThread(threading.Thread):
             #print(data)
 
             if data != '0' and data:
-                enemy_instance = enemy_main(data, self.player, self.setting, self.weapon, self.enemy_event)
+                enemy_instance = enemy_main(data, self.player, self.setting, self.weapon)
                 enemy_instance.main()
 
 class Game():
@@ -46,7 +46,6 @@ class Game():
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
-        self.enemy_event = multiprocessing.Event()  # Initialize the multiprocessing event
 
     def run(self):
         while self.running:
