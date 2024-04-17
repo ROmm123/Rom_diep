@@ -69,7 +69,7 @@ class StaticObjects():
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
-            if static_obj.HP.Damage == 2 * static_obj.width:
+            if static_obj.HP.Damage >= 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
             else:
                 static_obj.HP.Damage += 10
