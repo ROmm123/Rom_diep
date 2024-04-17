@@ -44,28 +44,35 @@ class StaticObjects():
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                       static_obj.HP.Damage, 10))
 
-                    if static_obj.rect_static_obj.colliderect(player_rect):
-                        if not static_obj.collision_flag:
-                            static_obj.collision_flag = True
-                            self.hurt(static_obj)
-                            return "player hit"
+                    return self.collisions(static_obj, player_rect, shots_rects)
 
-                    else:
-                        static_obj.collision_flag = False
 
-                    for index, shot_rect in enumerate(shots_rects):
-                        if static_obj.rect_static_obj.colliderect(shot_rect):
-                            self.hurt(static_obj)
-                            return "shot index", index
+
+    def collisions(self, static_obj, player_rect, shots_rects):
+        if static_obj.rect_static_obj.colliderect(player_rect):
+            if not static_obj.collision_flag:
+                static_obj.collision_flag = True
+                self.hurt(static_obj)
+                return "player hit"
+            else:
+                return "player been hit"
+        else:
+            static_obj.collision_flag = False
+
+        for index, shot_rect in enumerate(shots_rects):
+            if static_obj.rect_static_obj.colliderect(shot_rect):
+                self.hurt(static_obj)
+                return "shot index", index
+
 
 
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
-            if static_obj.HP.Damage >= 2 * static_obj.width:
+            if static_obj.HP.Damage == 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
             else:
-                static_obj.HP.Damage += 5
+                static_obj.HP.Damage += 10
 
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
