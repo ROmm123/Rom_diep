@@ -34,6 +34,11 @@ class StaticObjects():
             obj_y = static_obj.position[1] - viewport_y
             static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width, static_obj.height)
 
+            for index, shot_rect in enumerate(shots_rects):
+                if static_obj.rect_static_obj.colliderect(shot_rect):
+                    self.hurt(static_obj)
+                    return "shot index", index
+
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
                     pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
@@ -44,14 +49,9 @@ class StaticObjects():
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                       static_obj.HP.Damage, 10))
 
-                    return self.collisions(static_obj, player_rect, shots_rects)
+                    return self.player_collisions(static_obj, player_rect, shots_rects)
 
-    def collisions(self, static_obj, player_rect, shots_rects):
-        for index, shot_rect in enumerate(shots_rects):
-            if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj)
-                return "shot index", index
-
+    def player_collisions(self, static_obj, player_rect, shots_rects):
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
@@ -59,21 +59,23 @@ class StaticObjects():
                 # Determine collision side with player_rect
                 if player_rect.bottom >= static_obj.rect_static_obj.top and player_rect.top <= static_obj.rect_static_obj.bottom:
                     if player_rect.center[1] > static_obj.rect_static_obj.center[1]:
-                        print("Static object hit from bottom")
+                        print("bottom")
                     else:
-                        print("Static object hit from top")
+                        print("top")
                 elif player_rect.right >= static_obj.rect_static_obj.left and player_rect.left <= static_obj.rect_static_obj.right:
                     if player_rect.center[0] > static_obj.rect_static_obj.center[0]:
-                        print("Static object hit from right")
+                        print("right")
                     else:
-                        print("Static object hit from left")
+                        print("left")
                 else:
-                    print("Static object been hit")
+                    print("hit")
                 return "player hit"
             else:
                 return "player been hit"
         else:
             static_obj.collision_flag = False
+
+
 
 
     def hurt(self, static_obj):
