@@ -1,11 +1,12 @@
 import pygame
 import threading
 import re  # Import re module for regular expressions
+import json
 
 
 class enemy_main():
     def __init__(self, data, player, setting, weapon):
-        self.data = data
+        self.data = json.loads(data)
         self.set = setting
         self.surface = setting.surface
         self.Playerrr = player
@@ -13,7 +14,7 @@ class enemy_main():
 
 
     def calculate(self):
-        print(self.data)
+        print(self.data["player_position_x"])
         k1 = int(float(self.data["player_position_x"]))  # Convert float to int
         k2 = int(float(self.data["player_position_y"]))  # Convert float to int
         b1 = k1 - self.Playerrr.screen_position[0]
