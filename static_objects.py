@@ -46,33 +46,42 @@ class StaticObjects():
 
                     return self.collisions(static_obj, player_rect, shots_rects)
 
-
-
     def collisions(self, static_obj, player_rect, shots_rects):
+        for index, shot_rect in enumerate(shots_rects):
+            if static_obj.rect_static_obj.colliderect(shot_rect):
+                self.hurt(static_obj)
+                return "shot index", index
+
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
                 self.hurt(static_obj)
+                # Determine collision side with player_rect
+                if player_rect.bottom >= static_obj.rect_static_obj.top and player_rect.top <= static_obj.rect_static_obj.bottom:
+                    if player_rect.center[1] > static_obj.rect_static_obj.center[1]:
+                        print("Static object hit from bottom")
+                    else:
+                        print("Static object hit from top")
+                elif player_rect.right >= static_obj.rect_static_obj.left and player_rect.left <= static_obj.rect_static_obj.right:
+                    if player_rect.center[0] > static_obj.rect_static_obj.center[0]:
+                        print("Static object hit from right")
+                    else:
+                        print("Static object hit from left")
+                else:
+                    print("Static object been hit")
                 return "player hit"
             else:
                 return "player been hit"
         else:
             static_obj.collision_flag = False
 
-        for index, shot_rect in enumerate(shots_rects):
-            if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj)
-                return "shot index", index
-
-
-
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
+            static_obj.HP.Damage += 10
             if static_obj.HP.Damage >= 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
-            else:
-                static_obj.HP.Damage += 10
+
 
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
