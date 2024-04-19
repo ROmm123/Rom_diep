@@ -8,8 +8,8 @@ class StaticObject():
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
-        self.position = (random.randint(0, map_width - 20)  # Random x-coordinate
-                         , random.randint(0, map_height - 20))  # Random y-coordinate
+        self.position = [random.randint(0, map_width - 20)  # Random x-coordinate
+                         , random.randint(0, map_height - 20)]  # Random y-coordinate
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
                      setting)
         # pass the.... center.... pos of the obj ,halfbase , setting object
@@ -24,6 +24,8 @@ class StaticObject():
             self.color = setting.red
         else:
             self.color = setting.green
+        self.move_button = [False, False, False, False]
+        self.speed = 5
 
 
 class StaticObjects():
@@ -51,7 +53,7 @@ class StaticObjects():
             # checks if the object needs to be drawn
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
-                    print("obj_x_y ", obj_x, obj_y)
+                    #print("obj_x_y ", obj_x, obj_y)
                     pygame.draw.rect(self.surface, static_obj.color,
                                      (obj_x, obj_y, static_obj.width, static_obj.height))
                     pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
@@ -73,24 +75,37 @@ class StaticObjects():
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
                 self.hurt(static_obj)
-                # Determine collision side with player_rect
-                if player_rect.bottom >= static_obj.rect_static_obj.top and player_rect.top <= static_obj.rect_static_obj.bottom:
-                    if player_rect.center[1] > static_obj.rect_static_obj.center[1]:
-                        print("bottom")
-                    else:
-                        print("top")
-                elif player_rect.right >= static_obj.rect_static_obj.left and player_rect.left <= static_obj.rect_static_obj.right:
-                    if player_rect.center[0] > static_obj.rect_static_obj.center[0]:
-                        print("right")
-                    else:
+                # Calculate the centers of both the player's and static object's rectangles
+                player_center_x, player_center_y = player_rect.center
+                static_obj_center_x, static_obj_center_y = static_obj.rect_static_obj.center
+
+                # Calculate the horizontal and vertical distances between the centers
+                dx = static_obj_center_x - player_center_x
+                dy = static_obj_center_y - player_center_y
+
+                # Determine the side of collision based on the sign of the horizontal and vertical distances
+                if abs(dx) > abs(dy):
+                    if dx > 0:
                         print("left")
+                        static_obj.move_button[0] = True
+                    else:
+                        print("right")
+                        static_obj.move_button[1] = True
                 else:
-                    print("hit")
+                    if dy > 0:
+                        print("top")
+                        static_obj.move_button[2] = True
+                    else:
+                        print("bottom")
+                        static_obj.move_button[3] = True
+
                 return "player hit"
             else:
                 return "player been hit"
         else:
             static_obj.collision_flag = False
+
+
 
     def shot_collisions(self, shots_rects, static_obj):
         for index, shot_rect in enumerate(shots_rects):
@@ -98,13 +113,50 @@ class StaticObjects():
                 self.hurt(static_obj)
                 return "shot index", index
 
-
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
             static_obj.HP.Damage += 10
             if static_obj.HP.Damage >= 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
 
+    def move(self, static_obj):
+        # Check if the speed condition is met
+        if static_obj.speed > 0.3:
+            # Apply movement based on the direction
+            if static_obj.move_button[0]:
+                static_obj.position[0] += static_obj.speed
+            elif static_obj.move_button[1]:
+                static_obj.position[0] -= static_obj.speed
+            elif static_obj.move_button[2]:
+                static_obj.position[1] += static_obj.speed
+            elif static_obj.move_button[3]:
+                static_obj.position[1] -= static_obj.speed
+
+            # Decrease the speed
+            static_obj.speed *= 0.99
+
+        # Check if there was a collision
+        if static_obj.collision_flag:
+            # Reset the collision flag to avoid re-checking in subsequent frames
+            static_obj.collision_flag = False
+
+            # Apply movement based on the direction
+            if static_obj.move_button[0]:
+                static_obj.position[0] += static_obj.speed
+            elif static_obj.move_button[1]:
+                static_obj.position[0] -= static_obj.speed
+            elif static_obj.move_button[2]:
+                static_obj.position[1] += static_obj.speed
+            elif static_obj.move_button[3]:
+                static_obj.position[1] -= static_obj.speed
+
+            # Decrease the speed
+            static_obj.speed *= 0.99
+
+            # Check if the speed condition is no longer met
+            if static_obj.speed <= 0.3:
+                # Reset the speed to avoid slowing down further
+                static_obj.speed = 7
 
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface

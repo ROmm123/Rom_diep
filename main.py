@@ -22,7 +22,7 @@ class Game:
         self.player_id_counter = 0  # player id counter
         self.Map = None  # first map initialization
         self.inventory = inventory(self.setting)
-        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
+        self.static_objects = StaticObjects(self.setting, 600 * 64, 675 * 64)
         #ADD HP REGENERATION
 
 
@@ -45,7 +45,10 @@ class Game:
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
-            collisions = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
+            for static_obj in self.static_objects.Static_objects:
+                self.static_objects.move(static_obj)
+
+            collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
             #print(collision)
 

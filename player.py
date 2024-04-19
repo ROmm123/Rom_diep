@@ -46,7 +46,7 @@ class Player():
 
     def hurt(self):
         # reduces the player's HP and checks if he's dead
-        self.hp.Damage += 5
+        self.hp.Damage += 1
         self.hp.FullHP = False
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
