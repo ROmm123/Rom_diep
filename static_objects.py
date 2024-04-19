@@ -41,16 +41,18 @@ class StaticObjects():
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
             obj_y = static_obj.position[1] - viewport_y
-            static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width, static_obj.height)
+            static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width,
+                                                     static_obj.height)
 
-            collision_result = self.shot_collisions(shots_rects, static_obj)
-            if collision_result is not None:
-                return collision_result
+            shot_collision_result = self.shot_collisions(shots_rects, static_obj)
+            if shot_collision_result is not None:
+                collision_list.append(shot_collision_result)
 
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
                     print("obj_x_y ", obj_x, obj_y)
-                    pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
+                    pygame.draw.rect(self.surface, static_obj.color,
+                                     (obj_x, obj_y, static_obj.width, static_obj.height))
                     pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                       (2 * static_obj.width), 10))
@@ -58,7 +60,9 @@ class StaticObjects():
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                       static_obj.HP.Damage, 10))
 
-                    collision_list = collision_list.append(self.player_collisions(static_obj, player_rect))
+                    player_collision_result = self.player_collisions(static_obj, player_rect)
+                    if player_collision_result is not None:
+                        collision_list.append(player_collision_result)
 
         return collision_list
 
