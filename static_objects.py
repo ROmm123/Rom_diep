@@ -43,11 +43,12 @@ class StaticObjects():
             obj_y = static_obj.position[1] - viewport_y
             static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width,
                                                      static_obj.height)
-
+            # checks collision with the shots
             shot_collision_result = self.shot_collisions(shots_rects, static_obj)
             if shot_collision_result is not None:
                 collision_list.append(shot_collision_result)
 
+            # checks if the object needs to be drawn
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
                     print("obj_x_y ", obj_x, obj_y)
@@ -60,6 +61,7 @@ class StaticObjects():
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                       static_obj.HP.Damage, 10))
 
+                    # checks collision with the player
                     player_collision_result = self.player_collisions(static_obj, player_rect)
                     if player_collision_result is not None:
                         collision_list.append(player_collision_result)
