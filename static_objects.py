@@ -8,7 +8,6 @@ class StaticObject():
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
-        self.color = random.choice([setting.red, setting.green, setting.blue])
         self.position = (random.randint(0, map_width - 20)  # Random x-coordinate
                          , random.randint(0, map_height - 20))  # Random y-coordinate
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
@@ -16,6 +15,15 @@ class StaticObject():
         # pass the.... center.... pos of the obj ,halfbase , setting object
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
         self.collision_flag = False
+        self.HeldAbility = random.choice(setting.ability)
+        if self.HeldAbility == "Size":
+            self.color = setting.blue
+        elif self.HeldAbility == "Speed":
+            self.color = setting.yellow
+        elif self.HeldAbility == "Damage":
+            self.color = setting.red
+        else:
+            self.color = setting.green
 
 
 class StaticObjects():
@@ -25,22 +33,23 @@ class StaticObjects():
         self.Static_objects = []  # the static object list
         for _ in range(2000):
             obj = StaticObject(setting, map_width, map_height)
-            print(obj.position)
+            #print(obj.position)
             self.Static_objects.append(obj)
 
     def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
+        collision_list = []
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
             obj_y = static_obj.position[1] - viewport_y
             static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width, static_obj.height)
 
-            for index, shot_rect in enumerate(shots_rects):
-                if static_obj.rect_static_obj.colliderect(shot_rect):
-                    self.hurt(static_obj)
-                    return "shot index", index
+            collision_result = self.shot_collisions(shots_rects, static_obj)
+            if collision_result is not None:
+                return collision_result
 
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
+                    print("obj_x_y ", obj_x, obj_y)
                     pygame.draw.rect(self.surface, static_obj.color, (obj_x, obj_y, static_obj.width, static_obj.height))
                     pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
@@ -49,9 +58,11 @@ class StaticObjects():
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                       static_obj.HP.Damage, 10))
 
-                    return self.player_collisions(static_obj, player_rect, shots_rects)
+                    collision_list = collision_list.append(self.player_collisions(static_obj, player_rect))
 
-    def player_collisions(self, static_obj, player_rect, shots_rects):
+        return collision_list
+
+    def player_collisions(self, static_obj, player_rect):
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
@@ -75,7 +86,11 @@ class StaticObjects():
         else:
             static_obj.collision_flag = False
 
-
+    def shot_collisions(self, shots_rects, static_obj):
+        for index, shot_rect in enumerate(shots_rects):
+            if static_obj.rect_static_obj.colliderect(shot_rect):
+                self.hurt(static_obj)
+                return "shot index", index
 
 
     def hurt(self, static_obj):

@@ -97,12 +97,12 @@ class NormalShot:
 
         self.remove()
 
-
     def remove(self):
         # remove shots that have stopped moving
-        for index in reversed(self.remove_shots):
-            del self.shots[index]
-        self.remove_shots.clear()
+        if self.shots:
+            for index in reversed(self.remove_shots):
+                del self.shots[index]
+            self.remove_shots.clear()
 
     def get_shot_rect(self, circle_position):
         rect_width = self.radius * 2

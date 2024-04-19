@@ -45,20 +45,20 @@ class Game:
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
-            collision = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
+            collisions = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
             #print(collision)
 
             # collisions
-            if collision != None:
-                if "shot index" in collision:
-                    self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
-                    self.Playerr.NORMAL_SHOT.remove()
-                if "player hit" in collision:
-                    self.Playerr.hurt()
-                if "player been hit" in collision:
-                    self.Playerr.speed = 3
-
+            if collisions is not None:
+                for collision in collisions:
+                    if "shot index" in collision:
+                        self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
+                        self.Playerr.NORMAL_SHOT.remove()
+                    if "player hit" in collision:
+                        self.Playerr.hurt()
+                    if "player been hit" in collision:
+                        self.Playerr.speed = 3
 
             enemy_status = enemy1.isAlive()
             if not enemy_status:
