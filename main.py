@@ -7,6 +7,7 @@ from settings import settings
 from weapon import Weapon
 from normal_shot import *
 from Network import Client
+from Network_main import Client_main
 import random
 from server_oop import Server
 from inventory import *
@@ -46,6 +47,8 @@ class Game:
         self.num_enemies = 0
         self.enemy_threads = []
         self.client = Client('localhost', 10022, 10020)
+        self.client_mian = Client_main('localhost', 33333)
+
         #ADD HP REGENERATION
 
 
@@ -122,7 +125,15 @@ class Game:
             self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
             self.Playerr.BIG_SHOT.update()  # updates the big shots
 
-            self.setting.update()  # updates the settings (timer)
+            data_for_main_server = {
+                "player_position_x": self.Playerr.screen_position[0],
+                "player_position_y": self.Playerr.screen_position[1]
+            }
+
+            self.client_mian.send_data(data_for_main_server)
+            print(self.client_mian.receive_data())
+
+
             data = {
                 "rect_center_x": self.Playerr.WEAPON.rect_center_x,
                 "rect_center_y": self.Playerr.WEAPON.rect_center_y,
@@ -136,6 +147,8 @@ class Game:
                 "weapon_angle": self.Playerr.WEAPON.angle
             }
             self.client.send_data(data)
+            self.setting.update()  # updates the settings (timer)
+
 
 
 
@@ -147,7 +160,7 @@ class Game:
         # adds a player to the game with a unique id
         self.player_id_counter = self.num_enemies
         player_id = self.player_id_counter
-        self.Playerr = Player(player_id, 0, 0, 30, self.setting.rand_color, self.setting)
+        self.Playerr = Player(player_id, random.randint(0, 30000), random.randint(0, 37000), 30, self.setting.rand_color, self.setting)
         self.players.append(self.Playerr)
         return self.Playerr
 

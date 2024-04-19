@@ -15,7 +15,6 @@ class Server:
         self.server_socket.listen(5)
         self.clients = []
         self.clients_lock = threading.Lock()
-        client = Client('localhost', 33333)
 
         self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.Enemies_Am_socket.bind((host, tcp_port))

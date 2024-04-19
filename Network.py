@@ -3,15 +3,13 @@ import json
 
 
 class Client:
-    def __init__(self, host, port, enemies_Am_port):
-        self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.Enemies_Am_socket.connect((host, enemies_Am_port))
+    def __init__(self, host, port, enemies_Am_port=None):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((host, port))
 
-    def __init__(self, host, port):
-        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.connect((host, port))
+        if enemies_Am_port is not None:
+            self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.Enemies_Am_socket.connect((host, enemies_Am_port))
 
     def send_data(self, data_dict):
         data_str = json.dumps(data_dict)  # Convert dictionary to JSON-formatted string
