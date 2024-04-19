@@ -24,7 +24,7 @@ class settings:
 
         if red == 255 and green == 255 and blue == 255:
             return self.random_color
-        return (red, green, blue)  # Return the tuple representing the RGB color
+        return red, green, blue  # Return the tuple representing the RGB color
 
     def update(self):
         pygame.display.update()

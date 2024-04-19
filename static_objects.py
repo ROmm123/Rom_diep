@@ -8,8 +8,8 @@ class StaticObject():
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
-        self.position = [random.randint(0, map_width - 20)  # Random x-coordinate
-                         , random.randint(0, map_height - 20)]  # Random y-coordinate
+        self.position = [random.randint(400, map_width - 20)  # Random x-coordinate
+                         , random.randint(300, map_height - 20)]  # Random y-coordinate
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
                      setting)
         # pass the.... center.... pos of the obj ,halfbase , setting object
