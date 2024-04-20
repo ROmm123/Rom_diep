@@ -76,7 +76,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10022, 10020)
+        self.client = Client('localhost', 10021, 10022)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -93,8 +93,10 @@ class Game():
                                  self.player.center_x, self.player.center_y, self.player.angle)
             self.player.handle_events()
             self.player.move()
-            chunk = self.map.calc_chunk()
-            self.map.draw_map(chunk)
+
+            for layer in range(2):
+                chunk = self.map.calc_chunk(layer)
+                self.map.draw_map(chunk)
             self.player.draw()
 
             self.weapon.run_weapon()
