@@ -46,7 +46,6 @@ class Game:
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client = Client('localhost', 10122, 10120)
         self.client_mian = Client_main('localhost', 55555)
 
         #ADD HP REGENERATION
@@ -146,16 +145,28 @@ class Game:
 
 
             self.client_mian.send_data(data_for_main_server)
+            print(self.client.receive_data())
 
-            if self.client_mian.receive_data().decoded() == "1":
+            if self.client_mian.receive_data() == "1":
+                self.client = Client('localhost', 11111, 11112)
+                self.client.send_data(data)
+
+            if self.client_mian.receive_data() == "2":
+                self.client = Client('localhost', 22222, 22223)
+                self.client.send_data(data)
+
+            if self.client_mian.receive_data() == "3":
+                self.client = Client('localhost', 33333, 33334)
+                self.client.send_data(data)
+
+            if self.client_mian.receive_data() == "4":
+                self.client = Client('localhost', 44444, 44445)
                 self.client.send_data(data)
 
 
 
     def close_connections(self):
         self.client.close()
-        self.server.close()
-
     def generate_random_with_condition_x(self):
         while True:
             random_number_x = random.randint(0, 30000)
@@ -223,7 +234,8 @@ if __name__ == '__main__':
     game = Game()
 
     # Start enemy handling thread
-    threading.Thread(target=game.EnemiesAm_handling).start()
+    #threading.Thread(target=game.EnemiesAm_handling).start()
+    flag_thread = False
 
     try:
         print("starting game.run")
