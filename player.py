@@ -70,6 +70,8 @@ class Player():
 
         if self.Move_button[1]:
             self.screen_position[0] += self.speed
+            if self.screen_position[0] > 500*64:
+                self.screen_position[0] -= self.speed
 
             if self.screen_position[0]<320*64 and self.screen_position[0]>277*64:
                 self.screen_position[0] -= 2*self.speed
@@ -84,6 +86,8 @@ class Player():
 
         if self.Move_button[3]:
             self.screen_position[1] += self.speed
+            if self.screen_position[1] > 375*64:
+                self.screen_position[1] -= self.speed
 
             if self.screen_position[1]<398*64 and self.screen_position[1]>(294*64+32):
                 self.screen_position[1] -= 2*self.speed

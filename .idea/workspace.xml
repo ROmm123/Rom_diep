@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="still vibrates a bit">
-      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="change map">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cubed_map.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/cubed_map.tmx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/map.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +78,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.trash_script">
-    <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+    <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="true" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -204,8 +199,8 @@
       <list>
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.$RS1TBVV" />
-        <item itemvalue="Python.server" />
         <item itemvalue="Python.trash_scripts" />
+        <item itemvalue="Python.server" />
         <item itemvalue="Python.example" />
       </list>
     </recent_temporary>
@@ -307,7 +302,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1712161079714</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="change map">
+      <option name="closed" value="true" />
+      <created>1713606911081</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1713606911081</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -332,7 +335,8 @@
     <MESSAGE value="liddor idea" />
     <MESSAGE value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
     <MESSAGE value="still vibrates a bit" />
-    <option name="LAST_COMMIT_MESSAGE" value="still vibrates a bit" />
+    <MESSAGE value="change map" />
+    <option name="LAST_COMMIT_MESSAGE" value="change map" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
