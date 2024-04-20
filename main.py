@@ -46,8 +46,8 @@ class Game:
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client = Client('localhost', 10022, 10020)
-        self.client_mian = Client_main('localhost', 33333)
+        self.client = Client('localhost', 10122, 10120)
+        self.client_mian = Client_main('localhost', 55555)
 
         #ADD HP REGENERATION
 
@@ -124,14 +124,17 @@ class Game:
             self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
             self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
             self.Playerr.BIG_SHOT.update()  # updates the big shots
+            self.setting.update()  # updates the settings (timer)
 
             data_for_main_server = {
                 "player_position_x": self.Playerr.screen_position[0],
                 "player_position_y": self.Playerr.screen_position[1]
             }
 
+
             self.client_mian.send_data(data_for_main_server)
             print(self.client_mian.receive_data())
+
 
 
             data = {
@@ -147,8 +150,6 @@ class Game:
                 "weapon_angle": self.Playerr.WEAPON.angle
             }
             self.client.send_data(data)
-            self.setting.update()  # updates the settings (timer)
-
 
 
 
@@ -156,11 +157,26 @@ class Game:
         self.client.close()
         self.server.close()
 
+    def generate_random_with_condition_x(self):
+        while True:
+            random_number_x = random.randint(0, 30000)
+            if random_number_x < 267*64 or random_number_x > 320*64:
+                return random_number_x
+
+    def generate_random_with_condition_y(self):
+        while True:
+            random_number_y = random.randint(0, 37000)
+            if random_number_y < (294*64+32) or random_number_y > 398*64:
+                return random_number_y
+
     def add_player(self):
         # adds a player to the game with a unique id
         self.player_id_counter = self.num_enemies
         player_id = self.player_id_counter
-        self.Playerr = Player(player_id, random.randint(0, 30000), random.randint(0, 37000), 30, self.setting.rand_color, self.setting)
+
+        #self.Playerr = Player(player_id, self.generate_random_with_condition_x(), self.generate_random_with_condition_y(), 30, self.setting.rand_color, self.setting)
+        self.Playerr = Player(player_id, 0, 0, 30, self.setting.rand_color, self.setting)
+
         self.players.append(self.Playerr)
         return self.Playerr
 

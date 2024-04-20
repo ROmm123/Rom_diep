@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="half way to infinity enemy">
-      <change afterPath="$PROJECT_DIR$/Network_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Rom_diep.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MAIN_SERVER.py" beforeDir="false" afterPath="$PROJECT_DIR$/MAIN_SERVER.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server_oop.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_oop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,8 +186,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.server_oop" />
         <item itemvalue="Python.MAIN_SERVER" />
+        <item itemvalue="Python.server_oop" />
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.enemy_main" />
       </list>
