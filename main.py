@@ -131,12 +131,6 @@ class Game:
                 "player_position_y": self.Playerr.screen_position[1]
             }
 
-
-            self.client_mian.send_data(data_for_main_server)
-            print(self.client_mian.receive_data())
-
-
-
             data = {
                 "rect_center_x": self.Playerr.WEAPON.rect_center_x,
                 "rect_center_y": self.Playerr.WEAPON.rect_center_y,
@@ -149,7 +143,12 @@ class Game:
                 "player_radius": self.Playerr.radius,
                 "weapon_angle": self.Playerr.WEAPON.angle
             }
-            self.client.send_data(data)
+
+
+            self.client_mian.send_data(data_for_main_server)
+
+            if self.client_mian.receive_data().decoded() == "1":
+                self.client.send_data(data)
 
 
 
