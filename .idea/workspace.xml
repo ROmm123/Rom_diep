@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="change map3">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="change tiled">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tile2.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cubed_map2.tmx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/map.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shmulik.tsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -326,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713632780669</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="change tiled">
+      <option name="closed" value="true" />
+      <created>1713638653805</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1713638653805</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +365,8 @@
     <MESSAGE value="change map" />
     <MESSAGE value="change map2" />
     <MESSAGE value="change map3" />
-    <option name="LAST_COMMIT_MESSAGE" value="change map3" />
+    <MESSAGE value="change tiled" />
+    <option name="LAST_COMMIT_MESSAGE" value="change tiled" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
