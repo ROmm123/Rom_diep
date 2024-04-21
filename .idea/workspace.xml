@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="change tiled11">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/map.tmx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,11 +189,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.server" />
-      <item itemvalue="Python.trash_scripts" />
-      <item itemvalue="Python.example" />
       <item itemvalue="Python.$RS1TBVV" />
+      <item itemvalue="Python.example" />
+      <item itemvalue="Python.server" />
       <item itemvalue="Python.trash_script" />
+      <item itemvalue="Python.trash_scripts" />
     </list>
     <recent_temporary>
       <list>
