@@ -76,7 +76,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
                              self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10021, 10022)
+        self.client = Client('localhost', 10019, 10023)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -88,6 +88,8 @@ class Game():
 
     def run(self):
         while self.running:
+            key_state = pygame.key.get_pressed()
+            mouse_state = pygame.mouse.get_pressed()
             self.player.calc_angle()
             self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting,
                                  self.player.center_x, self.player.center_y, self.player.angle)
