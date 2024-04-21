@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="change tiled11" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="normal shot">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -378,7 +381,8 @@
     <MESSAGE value="change tiled" />
     <MESSAGE value="change tiled10" />
     <MESSAGE value="change tiled11" />
-    <option name="LAST_COMMIT_MESSAGE" value="change tiled11" />
+    <MESSAGE value="normal shot" />
+    <option name="LAST_COMMIT_MESSAGE" value="normal shot" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
