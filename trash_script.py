@@ -100,6 +100,7 @@ class Game():
             self.player.draw()
 
             self.weapon.run_weapon()
+            self.Playerr.handle_events_shots(key_state, mouse_state)
             data = {
                 "rect_center_x": self.weapon.rect_center_x,
                 "rect_center_y": self.weapon.rect_center_y,
