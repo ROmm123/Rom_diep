@@ -18,7 +18,7 @@ class Player():
         self.color = color  # player color
         self.setting = setting  # game settings
         self.player_id = 0  # player id
-        self.speed = 100  # player speed
+        self.speed = 5  # player speed
         self.acceleration = 0.1  # player acceleration (NOT USED)
         self.center = [setting.screen_width / 2, setting.screen_height / 2]  # player's center relative to the screen
         self.triangle_points = (self.center[0], self.center[1] - self.radius * 1.5), (
