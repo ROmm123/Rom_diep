@@ -74,9 +74,8 @@ class Game():
         self.setting = setting()
         self.player = Player(0, 0, 35, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
-        self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting, self.player.center_x,
-                             self.player.center_y, self.player.angle)
-        self.client = Client('localhost', 10019, 10023)
+        self.weapon = Weapon(20, 20, self.setting.green, self.player, self.setting)
+        self.client = Client('localhost', 10018, 10023)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -90,10 +89,8 @@ class Game():
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
-            self.player.calc_angle()
-            self.weapon = Weapon(20, 20, self.setting.green_fn, self.player.radius, self.setting,
-                                 self.player.center_x, self.player.center_y, self.player.angle)
-            self.player.handle_events()
+            self.weapon = Weapon(20, 20, self.setting.green, self.player, self.setting)
+            self.player.handle_events_movement()
             self.player.move()
 
             for layer in range(2):
@@ -102,7 +99,7 @@ class Game():
             self.player.draw()
 
             self.weapon.run_weapon()
-            self.Playerr.handle_events_shots(key_state, mouse_state)
+            self.player.handle_events_shots(key_state, mouse_state)
             data = {
                 "rect_center_x": self.weapon.rect_center_x,
                 "rect_center_y": self.weapon.rect_center_y,
