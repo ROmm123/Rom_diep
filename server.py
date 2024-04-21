@@ -1,81 +1,96 @@
 import socket
 import threading
 
-# Define the handle_client function
+class Server:
+    def __init__(self, host, port, tcp_port):
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.bind((host, port))
+        self.server_socket.listen(5)
+        self.clients = []
+        self.clients_lock = threading.Lock()
 
-def print_data(data):
-    # Process received data
-    '''
-    z_info, rectangle_info = data.split(",")
-    # Process circle info
-    circle_data = circle_info.split()
-    circle_center_x = float(circle_data[1])
-    circle_center_y = float(circle_data[2])
-    circle_radius = float(circle_data[3])
-    print("circle_x :" + str(circle_center_x) + " circle_y :" + str(circle_center_y) + " circle_radius :" + str(circle_radius))
+        self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.Enemies_Am_socket.bind((host, tcp_port))
+        self.Enemies_Am_socket.listen(5)
+        self.udp_thread = threading.Thread(target=self.handle_Enemies_Am)
+        self.udp_thread.start()
+        self.udp_list = []
+        self.enemies = -1
+        self.enemies_am_list = []
+        print("Server initialized")
 
-    # Process rectangle info
-    rectangle_data = rectangle_info.split()
-    rect_center_x = float(rectangle_data[1])
-    rect_center_y = float(rectangle_data[2])
-    rect_width = float(rectangle_data[3])
-    rect_height = float(rectangle_data[4])
-    rotation_angle = float(rectangle_data[5])
-    print("rect_x:" + str(rect_center_x) + " rect_y :" + str(rect_center_y) + " rect_width :" + str(rect_width) + " rect_height: "
-          + str(rect_height) + " rotation_angle: " + str(rotation_angle))
-'''
+    def handle_client(self, client_socket):
+        while True:
+            try:
+                data = client_socket.recv(2048)
+                print(data)
+                if not data:
+                    break
+                data = data.decode()
+            except:
+                print(f"Client {client_socket.getpeername()} disconnected")
+                with self.clients_lock:
+                    self.clients.remove((client_socket, client_socket.getpeername()))
+                    data = '0'
+                    for receiver_socket , addr in self.clients:
+                        if receiver_socket != client_socket:
+                            receiver_socket.send(data.encode("utf-8"))
+                client_socket.close()
+                break
 
 
-def handle_client(client_socket, client_number):
-    print("entered thread")
-    while True:
-        data = client_socket.recv(2048).decode("utf-8")
-        print_data(data)
-        #print("data: " + data)
-        if not data:
-            print(f"Client {client_number} disconnected.")
-            client_socket.close()
-            break
-        #print(f"Received position from client {client_number}: {data}")
-        # Forward data to the other client
-        num ='0'
-        if len(clients) > 1:
+            if len(self.clients) > 1:
+                for receiver_socket , addr  in self.clients:
+                    if receiver_socket != client_socket:
+                        receiver_socket.send(data.encode("utf-8"))
+            '''else:
+                data = "0"
+                client_socket.send(data.encode())'''
 
-            other_client_socket = clients[1 - client_number]
-            other_client_socket.send(data.encode("utf-8"))
-            #print("packet is sent")
-        else:
-            print ("ho yeah")
-            num_data = num.encode()
-            client_socket.send(num_data)
-            #print ("sent!")
-# Create the server socket
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('0.0.0.0', 1009))
-server_socket.listen(5)
-print("Server listening ")
+    def handle_Enemies_Am(self):
+        try:
+            while True:
+                client_socket, addr = self.Enemies_Am_socket.accept()
+                self.enemies_am_list.append(client_socket)
+                self.enemies+=1
+                print("recived from "+ str(addr) +" enemies: "+ str(self.enemies))
 
-# Initialize the clients list
-clients = []
-clients_lock = threading.Lock()  # Create a lock for thread safety
+                for client_socket in self.enemies_am_list:
+                    client_socket.send(str(self.enemies).encode())
+        except:
+            print("hello")
 
-try:
-    while True:
-        client_socket, addr = server_socket.accept()
-        print(f"Connection from {addr} has been established.")
-        with clients_lock:
-            clients.append(client_socket)
-        client_thread = threading.Thread(target=handle_client, args=(client_socket, len(clients) - 1))
-        client_thread.start()
+    def s(self):
+        count = 0
+        try:
+            while True:
+                print("Waiting for new client...")
+                client_socket, addr = self.server_socket.accept()
+                count+=1
+                print(f"New client connected: {addr}")
+                with self.clients_lock:
+                    self.clients.append((client_socket, addr))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
+                client_thread.start()
+        except KeyboardInterrupt:
+            print("Server stopped")
+        finally:
+            print("Closing client sockets...")
+            with self.clients_lock:
+                for client_socket, _ in self.clients:
+                    client_socket.close()
 
-except KeyboardInterrupt:
-    print("Server interrupted by user.")
+            self.server_socket.close()
+            print("Server socket closed")
 
-finally:
-    # Close all client sockets
-    with clients_lock:
-        for client_socket in clients:
-            client_socket.close()
 
-    # Close the server socket
-    server_socket.close()
+
+
+if __name__ == '__main__':
+    my_server = Server('localhost', 10021, 10022)
+    print("Starting server...")
+    enemies_T = threading.Thread(target = my_server.handle_Enemies_Am)
+    enemies_T.start()
+    my_server.s()
+
+#dgdgdgd
