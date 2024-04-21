@@ -32,6 +32,7 @@ class Game:
         player1 = self.add_player()  # adds a player to the game
         enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
+        radius = self.Playerr.radius
 
         while True:
             key_state = pygame.key.get_pressed()  # gets the state of all keyboard keys
@@ -43,10 +44,32 @@ class Game:
 
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
-            self.Playerr.move()
-            self.Playerr.draw()
+            speed = self.Playerr.speed
+
+            if "Speed" in self.Playerr.ability:
+                self.Playerr.move(speed*1.2)
+            else:
+                self.Playerr.move(speed)
+
+            if "Health" in self.Playerr.ability:
+                self.Playerr.ability.remove("Health")
+                self.Playerr.hp.Damage = 0
+
+            if "Size" in self.Playerr.ability:
+                self.Playerr.ability.remove("Size")
+                radius *= 0.64
+                self.Playerr.WEAPON.rect_width *= 0.64
+                self.Playerr.WEAPON.rect_height *= 0.64
+
+            self.Playerr.draw(radius)
             for static_obj in self.static_objects.Static_objects:
                 self.static_objects.move(static_obj)
+
+            ability = self.static_objects.give_ability()
+            if ability is not None:
+                self.Playerr.ability.append(ability)
+            if self.Playerr.ability:
+                print(self.Playerr.ability)
 
             collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
@@ -62,6 +85,8 @@ class Game:
                         self.Playerr.hurt()
                     if "player been hit" in collision:
                         self.Playerr.speed = 3
+
+
 
             enemy_status = enemy1.isAlive()
             if not enemy_status:

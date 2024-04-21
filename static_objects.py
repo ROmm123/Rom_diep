@@ -70,6 +70,8 @@ class StaticObjects():
 
         return collision_list
 
+
+
     def player_collisions(self, static_obj, player_rect):
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
@@ -118,6 +120,12 @@ class StaticObjects():
             static_obj.HP.Damage += 10
             if static_obj.HP.Damage >= 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
+
+    def give_ability(self):
+        for static_obj in self.Static_objects:
+            if not static_obj.HP.ISAlive:
+                self.Static_objects.remove(static_obj)
+                return static_obj.HeldAbility
 
     def move(self, static_obj):
         # Check if the speed condition is met
