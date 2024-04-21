@@ -26,7 +26,7 @@ class Player():
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]  # player position relative to the map
         self.move_button = [False , False , False , False, False]  # movement buttons (a, d, w, s)
         #self.hp = HP(self.center[0], self.center[1], radius, setting)  # initialize hp
-        self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting, self.center_x, self.center_y ) # initialize the weapon
+        self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting) # initialize the weapon
         self.NORMAL_SHOT = NormalShot( 5, self.setting.green, 0.99, 2, self.setting)  # initialize normal shot
         self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)  # initialize big shot
         self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
