@@ -18,7 +18,7 @@ class Player():
         self.color = color  # player color
         self.setting = setting  # game settings
         self.player_id = player_id  # player id
-        self.speed = 5  # player speed
+        self.speed = 15  # player speed
         self.acceleration = 0.1  # player acceleration (NOT USED)
         self.center_x = 400
         self.center_y = 300
