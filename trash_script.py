@@ -11,7 +11,6 @@ from weapon import Weapon
 from Network import Client
 from enemy_main import *
 
-
 '''class DrawingThread(threading.Thread):
     def __init__(self, draw_queue, map, player):
         super().__init__()
@@ -38,39 +37,28 @@ from enemy_main import *
 
 
 class EnemyThread(threading.Thread):
-    def __init__(self, client, player, setting, weapon, threading_event ,  draw_queue , index ):
-        super().__init__()
-        self.client = client
-        self.player = player
-        self.setting = setting
-        self.weapon = weapon
-        self.running = True
-        self.threading_event = threading_event
-        self.draw_queue = draw_queue
-        self.index = index
+    def __init__(self, client, player, setting, weapon, draw_event):  # draw_queue
+            super().__init__()
+            self.client = client
+            self.player = player
+            self.setting = setting
+            self.weapon = weapon
+            self.running = True
+            self.draw_event = draw_event
+            # self.draw_queue = draw_queue
 
     def run(self):
         print("in draw thread")
-        self.draw_queue.put((0, str(self.index)))
         while self.running:
             data = self.client.receive_data()
-            #print(data)
+            # print(data)
 
             if data:
                 enemy_instance = enemy_main(data, self.player, self.setting, self.weapon)
                 enemy_instance.main()
-                self.draw_queue.task_done()
-                print("waiting")
-                self.threading_event.wait()
-                print("finished waiting")
-                self.draw_queue.put((0, str(self.index)))
-
-
+                self.draw_event.set()
                 # Enqueue drawing task for the enemy
-                #self.draw_queue.put((1, [data , self.player , self.setting , self.weapon]))  # Wrap enemy_mainn in a tuple
-
-
-
+                # self.draw_queue.put((1, [data , self.player , self.setting , self.weapon]))  # Wrap enemy_mainn in a tuple
 
 
 class Game():
@@ -85,22 +73,11 @@ class Game():
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
-        self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
-        #self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
+        # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
+        # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
         self.draw_event = threading.Event()  # Create an event for synchronization
         self.draw_event.set()  # Set the event initially
-        self.threading_event = threading.Event()
-        #self.drawing_thread.start()  # Start the drawing thread
-
-    def finished_enemy_drawing(self):
-        print(self.draw_queue.qsize())
-        while True:
-            if self.num_enemies>0 and self.draw_queue.empty():
-                self.draw_event.set()
-                print("signaled main to continue")
-                self.threading_event.set()
-                self.threading_event.clear()
-
+        # self.drawing_thread.start()  # Start the drawing thread
 
 
     def run(self):
@@ -128,10 +105,10 @@ class Game():
                 "weapon_angle": self.weapon.angle
             }
             self.client.send_data(data)
-            if self.num_enemies>0:
+            if self.num_enemies > 0:
                 self.draw_event.wait()
                 self.setting.update()
-            # Reset the event for the next iteration
+                # Reset the event for the next iteration
                 self.draw_event.clear()
             else:
                 self.setting.update()
@@ -149,7 +126,7 @@ class Game():
             self.num_enemies = enemies
             if diff > 0:
                 for _ in range(diff):
-                    enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon , self.threading_event ,  self.draw_queue , self.num_enemies-1 )
+                    enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon, self.draw_event)
                     enemy_thread.start()
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:
@@ -172,7 +149,6 @@ class Game():
 if __name__ == '__main__':
     game = Game()
     threading.Thread(target=game.EnemiesAm_handling).start()
-    threading.Thread(target=game.finished_enemy_drawing).start()
     try:
         print("starting game.run")
         game.run()
