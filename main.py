@@ -40,13 +40,14 @@ class Game:
         pygame.init()
         self.setting = settings()
         self.players = []  # list of all the players in the game
-        self.player_id_counter = -1  # player id counter
+        self.player_id_counter = 0  # player id counter
         self.Map = None  # first map initialization
         self.inventory = inventory(self.setting)
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
         self.num_enemies = 0
         self.enemy_threads = []
         self.client_mian = Client_main('localhost', 55555)
+        self.client = Client('localhost', 10133, 10132)
 
         #ADD HP REGENERATION
 
@@ -57,6 +58,7 @@ class Game:
         player1 = self.add_player()  # adds a player to the game
         enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
+        radius = self.Playerr.radius
 
         while True:
             key_state = pygame.key.get_pressed()  # gets the state of all keyboard keys
@@ -68,11 +70,41 @@ class Game:
 
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
-            self.Playerr.move()
-            self.Playerr.draw()
-            collision = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
-                                    player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
-            print(collision)
+            speed = self.Playerr.speed
+
+
+
+            if "Speed" in self.Playerr.ability:
+                self.Playerr.move(speed*1.2)
+            else:
+                self.Playerr.move(speed)
+
+            if "Health" in self.Playerr.ability:
+                self.Playerr.ability.remove("Health")
+                self.Playerr.hp.Damage = 0
+
+
+
+            if "Size" in self.Playerr.ability:
+                self.Playerr.ability.remove("Size")
+                radius *= 0.64
+                self.Playerr.WEAPON.rect_width *= 0.64
+                self.Playerr.WEAPON.rect_height *= 0.64
+
+            self.Playerr.draw(radius)
+            for static_obj in self.static_object.Static_objects:
+                self.static_object.move(static_obj)
+
+            ability = self.static_object.give_ability()
+            if ability is not None:
+                self.Playerr.ability.append(ability)
+            if self.Playerr.ability:
+                print(self.Playerr.ability)
+
+            collisions = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
+                        player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
+
+            #print(collision)
 
             '''
             if collision != None:
@@ -80,9 +112,17 @@ class Game:
             self.Playerr.handle_events_shapes(key_state)
             '''
 
-            if collision != None:
-                self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
-                self.Playerr.NORMAL_SHOT.remove()
+            # collisions
+
+            if collisions is not None:
+                for collision in collisions:
+                    if "shot index" in collision:
+                        self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
+                        self.Playerr.NORMAL_SHOT.remove()
+                    if "player hit" in collision:
+                        self.Playerr.hurt()
+                    if "player been hit" in collision:
+                        self.Playerr.speed = 3
 
 
             enemy_status = enemy1.isAlive()
@@ -143,11 +183,10 @@ class Game:
                 "weapon_angle": self.Playerr.WEAPON.angle
             }
 
+            self.client.send_data(data)
 
-            self.client_mian.send_data(data_for_main_server)
-            print(self.client.receive_data())
 
-            if self.client_mian.receive_data() == "1":
+            """if self.client_mian.receive_data() == "1":
                 self.client = Client('localhost', 11111, 11112)
                 self.client.send_data(data)
 
@@ -161,7 +200,7 @@ class Game:
 
             if self.client_mian.receive_data() == "4":
                 self.client = Client('localhost', 44444, 44445)
-                self.client.send_data(data)
+                self.client.send_data(data)"""
 
 
 
@@ -234,8 +273,7 @@ if __name__ == '__main__':
     game = Game()
 
     # Start enemy handling thread
-    #threading.Thread(target=game.EnemiesAm_handling).start()
-    flag_thread = False
+    threading.Thread(target=game.EnemiesAm_handling).start()
 
     try:
         print("starting game.run")

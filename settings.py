@@ -11,9 +11,11 @@ class settings:
         self.green = (0, 255, 0)
         self.blue = (0, 0, 255)
         self.grey = (47, 47, 47)
+        self.yellow = (255, 255, 0)
         self.rand_color = self.random_color()
         self.screen = (self.screen_width, self.screen_height)
         self.surface = pygame.display.set_mode((self.screen_width, self.screen_height))
+        self.ability = ["Speed", "Size", "Health", "Damage"]
 
     def random_color(self):
         red = random.randint(0, 255)
@@ -22,10 +24,8 @@ class settings:
 
         if red == 255 and green == 255 and blue == 255:
             return self.random_color
-
-        return (red, green, blue)  # Return the tuple representing the RGB color
+        return red, green, blue  # Return the tuple representing the RGB color
 
     def update(self):
         pygame.display.update()
         self.clock.tick(60)
-
