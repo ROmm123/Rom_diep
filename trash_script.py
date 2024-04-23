@@ -55,6 +55,7 @@ class EnemyThread(threading.Thread):
             #print(data)
 
             if data:
+                print("yes")
                 enemy_instance = enemy_main(data, self.player, self.setting, self.weapon)
                 enemy_instance.main()
                 self.draw_event.set()
