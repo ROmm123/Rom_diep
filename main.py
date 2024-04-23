@@ -55,18 +55,25 @@ class Game:
 
             ability = self.static_objects.give_ability()
             if ability is not None:
-                self.Playerr.add_ability(ability)
+                self.Playerr.stored_abilities.append(ability)
+                print(ability)
+                self.inventory.update_inventory(ability)
+
+                '''
                 if ability == "Speed":
                     self.speed_start_time = pygame.time.get_ticks()
                 elif ability == "Size":
                     self.size_start_time = pygame.time.get_ticks()
                 elif ability == "Shield":
                     self.shield_start_time = pygame.time.get_ticks()
+                
 
             print(self.Playerr.ability)
             if "Health" in self.Playerr.ability:
                 del self.Playerr.ability["Health"]
                 self.Playerr.hp.Damage = 0
+                
+                '''
 
             self.Playerr.update_ability()  # Update ability timers
 
@@ -105,11 +112,9 @@ class Game:
                     enemy1.hit_damage = 15
                     player.hurt()
 
-                self.Playerr.WEAPON.run_weapon()
-                self.Playerr.handle_events_shots(key_state, mouse_state)
-
-            else:
-                self.Playerr.WEAPON.remove()
+            self.Playerr.WEAPON.run_weapon()
+            self.Playerr.handle_events_shots(key_state, mouse_state)
+            self.Playerr.handle_events_abilities(key_state)
 
             self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
                                                    self.Playerr.speed)

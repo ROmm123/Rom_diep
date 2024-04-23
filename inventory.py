@@ -4,6 +4,8 @@ from settings import *
 
 class inventory():
     def __init__(self, settings):
+        self.speed_count, self.health_count, self.size_count, self.shield_count = 0, 0, 0, 0
+        self.a = None
         self.settings = settings
 
     def draw_inventory(self):
@@ -22,16 +24,25 @@ class inventory():
         self.settings.surface.blit(red, background_rect)
 
         text_front = pygame.font.Font('Power Smash.ttf', 15)
-        t = "True"
-        f = "0"
-        a = [None, None, None, None, None, None, None]
-        a[0] = '(1) Speed:' + " " + f
-        a[2] = '(2) Health:' + " " + f
-        a[4] = '(3) Shield:' + " " + f
-        a[6] = '(4) Size:' + " " + f
+
+        self.a = [None, None, None, None, None, None, None]
+        self.a[0] = '(1) Speed:' + " " + str(self.speed_count)
+        self.a[2] = '(2) Health:' + " " + str(self.health_count)
+        self.a[4] = '(3) Shield:' + " " + str(self.shield_count)
+        self.a[6] = '(4) Size:' + " " + str(self.size_count)
         x = 10
         y = 0
-        for i in range(len(a)):
+        for i in range(len(self.a)):
             y += 20
-            text_surface = text_front.render(a[i], False, 'Black')
+            text_surface = text_front.render(self.a[i], False, 'Black')
             self.settings.surface.blit(text_surface, (x, y))
+
+    def update_inventory(self, ability):
+        if ability == "Speed":
+            self.speed_count += 1
+        elif ability == "Size":
+            self.size_count += 1
+        elif ability == "Shield":
+            self.shield_count += 1
+        else:
+            self.health_count += 1

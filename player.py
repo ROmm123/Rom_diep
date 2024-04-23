@@ -35,7 +35,8 @@ class Player:
         self.big_weapon = False
         self.mid_weapon = False
         self.small_weapon = True
-        self.ability = {}  # dictionary to store ability and its expiration time
+        self.stored_abilities = []
+        self.ability = {}  # dictionary to stored ability and its expiration time
 
     def get_rect_player(self):
         # gets and returns the player's rect
@@ -214,8 +215,8 @@ class Player:
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
     def handle_events_abilities(self, key_state):
-        if key_state[pygame.K_1]:
-            print()
+        if key_state[pygame.K_1] and "Size" in self.stored_abilities:
+            self.add_ability("Size")
 
 
 
@@ -248,5 +249,6 @@ class Player:
 
         if self.move_button[4]:
             self.inventory.draw_inventory()
+            print(self.inventory.speed_count)
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
