@@ -47,7 +47,6 @@ class Game:
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
 
-            self.Playerr.move()
 
             self.Playerr.draw(self.size_start_time)
             for static_obj in self.static_objects.Static_objects:
@@ -56,25 +55,9 @@ class Game:
             ability = self.static_objects.give_ability()
             if ability is not None:
                 self.Playerr.stored_abilities.append(ability)
-                print(ability)
-                self.inventory.update_inventory(ability)
+            print(self.Playerr.stored_abilities)
 
-                '''
-                if ability == "Speed":
-                    self.speed_start_time = pygame.time.get_ticks()
-                elif ability == "Size":
-                    self.size_start_time = pygame.time.get_ticks()
-                elif ability == "Shield":
-                    self.shield_start_time = pygame.time.get_ticks()
-                
-
-            print(self.Playerr.ability)
-            if "Health" in self.Playerr.ability:
-                del self.Playerr.ability["Health"]
-                self.Playerr.hp.Damage = 0
-                
-                '''
-
+            self.Playerr.move(ability)
             self.Playerr.update_ability()  # Update ability timers
 
             collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],

@@ -37,6 +37,7 @@ class Player:
         self.small_weapon = True
         self.stored_abilities = []
         self.ability = {}  # dictionary to stored ability and its expiration time
+        self.ability_key_state = None
 
     def get_rect_player(self):
         # gets and returns the player's rect
@@ -50,7 +51,7 @@ class Player:
         small_hit_damage = self.setting.hit_damage["small hit"]
         big_hit_damage = self.setting.hit_damage["big hit"]
         coll_hit_damage = self.setting.hit_damage["coll"]
-        shield_effect = 0.5 if "Shield" in self.ability else 1
+        shield_effect = 0.3 if "Shield" in self.ability else 1
 
         # reduces the player's HP and checks if he's dead
         if hit_type == "small hit":
@@ -215,14 +216,31 @@ class Player:
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
     def handle_events_abilities(self, key_state):
-        if key_state[pygame.K_1] and "Size" in self.stored_abilities:
+        to_remove = []
+        if key_state[pygame.K_1] and "Speed" in self.stored_abilities and not self.ability_key_state[pygame.K_1]:
+            self.add_ability("Speed")
+            self.stored_abilities.remove("Speed")
+            to_remove.append("Speed")
+        elif key_state[pygame.K_2] and "Health" in self.stored_abilities and not self.ability_key_state[pygame.K_2]:
+            self.add_ability("Health")
+            self.stored_abilities.remove("Health")
+            self.hp.Damage = 0
+            to_remove.append("Health")
+        elif key_state[pygame.K_3] and "Shield" in self.stored_abilities and not self.ability_key_state[pygame.K_3]:
+            self.add_ability("Shield")
+            self.stored_abilities.remove("Shield")
+            to_remove.append("Shield")
+        elif key_state[pygame.K_4] and "Size" in self.stored_abilities and not self.ability_key_state[pygame.K_4]:
             self.add_ability("Size")
+            self.stored_abilities.remove("Size")
+            to_remove.append("Size")
+
+        self.ability_key_state = key_state
+        self.inventory.remove_from_inventory(to_remove)
 
 
 
-
-
-    def move(self):
+    def move(self, ability):
         speed = self.speed
         if "Speed" in self.ability:
             if (pygame.time.get_ticks() - self.ability["Speed"]) >= self.setting.ability_duration:
@@ -249,6 +267,6 @@ class Player:
 
         if self.move_button[4]:
             self.inventory.draw_inventory()
-            print(self.inventory.speed_count)
+        self.inventory.add_to_inventory(ability)
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]

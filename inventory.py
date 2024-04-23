@@ -37,12 +37,27 @@ class inventory():
             text_surface = text_front.render(self.a[i], False, 'Black')
             self.settings.surface.blit(text_surface, (x, y))
 
-    def update_inventory(self, ability):
-        if ability == "Speed":
-            self.speed_count += 1
-        elif ability == "Size":
-            self.size_count += 1
-        elif ability == "Shield":
-            self.shield_count += 1
-        else:
-            self.health_count += 1
+    def add_to_inventory(self, ability):
+        if ability is not None:
+            if ability == "Speed":
+                self.speed_count += 1
+            elif ability == "Size":
+                self.size_count += 1
+            elif ability == "Shield":
+                self.shield_count += 1
+            else:
+                self.health_count += 1
+
+    def remove_from_inventory(self, to_remove):
+        if to_remove:
+            if "Speed" in to_remove:
+                self.speed_count -= 1
+            elif "Size" in to_remove:
+                self.size_count -= 1
+            elif "Shield" in to_remove:
+                self.shield_count -= 1
+            else:
+                self.health_count -= 1
+
+
+
