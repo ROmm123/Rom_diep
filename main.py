@@ -33,6 +33,7 @@ class Game:
         enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
         radius = self.Playerr.radius
+        self.speed_start_time = 0
 
         while True:
             key_state = pygame.key.get_pressed()  # gets the state of all keyboard keys
@@ -44,12 +45,8 @@ class Game:
 
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
-            speed = self.Playerr.speed
 
-            if "Speed" in self.Playerr.ability:
-                self.Playerr.move(speed*1.2)
-            else:
-                self.Playerr.move(speed)
+            self.Playerr.move(self.speed_start_time)
 
             if "Health" in self.Playerr.ability:
                 self.Playerr.ability.remove("Health")
@@ -68,8 +65,10 @@ class Game:
             ability = self.static_objects.give_ability()
             if ability is not None:
                 self.Playerr.ability.append(ability)
-            if self.Playerr.ability:
-                print(self.Playerr.ability)
+                self.speed_start_time = pygame.time.get_ticks()
+
+
+
 
             collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
@@ -132,7 +131,7 @@ class Game:
             self.client.send_data(str(self.Playerr.screen_position))
 
     def connect_to_server(self):
-        self.client = Client('localhost', 10021)
+        self.client = Client('localhost', 10009)
 
     def close_connections(self):
         self.client.close()

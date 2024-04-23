@@ -37,7 +37,6 @@ class Player():
         self.speed_duration = 10000  # 10 seconds in milliseconds
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
-        self.speed_start_time = pygame.time.get_ticks()
         self.inventory = inventory(self.setting)
         self.big_weapon = False
         self.mid_weapon = False
@@ -180,7 +179,15 @@ class Player():
                 self.NORMAL_SHOT.shot_button[1] = False
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-    def move(self, speed):
+    def move(self, speed_start_time):
+        speed = self.speed
+        if "Speed" in self.ability:
+            print(pygame.time.get_ticks() - speed_start_time)
+            if "Speed" in self.ability and (pygame.time.get_ticks() - speed_start_time) >= self.speed_duration:
+                self.ability.remove("Speed")
+            else:
+                speed = speed * 1.2
+
         # moves the player according to the data in handle_events_movement and updates his position
         if self.move_button[0]:
             self.screen_position[0] -= speed
@@ -202,3 +209,4 @@ class Player():
             self.inventory.draw_inventory()
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
+
