@@ -7,12 +7,12 @@ from settings import settings
 from weapon import Weapon
 from normal_shot import *
 from Network import Client
-from Network_main import Client_main
 import random
 from server_oop import Server
 from inventory import *
-from static_objects import StaticObjects
+from stat_obj import StaticObjects
 from enemy_main import Enemy_main
+
 
 class EnemyThread(threading.Thread):
     def __init__(self, client, player, setting, weapon):
@@ -27,7 +27,7 @@ class EnemyThread(threading.Thread):
 
         while True:
             data = self.client.receive_data()
-            #print(data)
+            # print(data)
 
             if data != '0' and data:
                 enemy_instance = Enemy_main(data, self.player, self.setting, self.weapon)
@@ -46,11 +46,11 @@ class Game:
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client_mian = Client_main('localhost', 55555)
-        self.client = Client('localhost', 10133, 10132)
+        self.client_main = Client('localhost', 55555)
+        self.client_main.connect()
+        self.client = Client(None,None)#defult
 
-        #ADD HP REGENERATION
-
+        # ADD HP REGENERATION
 
     def run(self):
         # main game loop
@@ -67,23 +67,18 @@ class Game:
             self.MAP.draw_map(chunk)  # draws chunk
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
 
-
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
             speed = self.Playerr.speed
 
-
-
             if "Speed" in self.Playerr.ability:
-                self.Playerr.move(speed*1.2)
+                self.Playerr.move(speed * 1.2)
             else:
                 self.Playerr.move(speed)
 
             if "Health" in self.Playerr.ability:
                 self.Playerr.ability.remove("Health")
                 self.Playerr.hp.Damage = 0
-
-
 
             if "Size" in self.Playerr.ability:
                 self.Playerr.ability.remove("Size")
@@ -101,10 +96,12 @@ class Game:
             if self.Playerr.ability:
                 print(self.Playerr.ability)
 
-            collisions = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
-                        player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
+            collisions = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],
+                                                 self.setting,
+                                                 player_rect,
+                                                 self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
 
-            #print(collision)
+            # print(collision)
 
             '''
             if collision != None:
@@ -124,7 +121,6 @@ class Game:
                     if "player been hit" in collision:
                         self.Playerr.speed = 3
 
-
             enemy_status = enemy1.isAlive()
             if not enemy_status:
                 enemy1.position[0] = (enemy1.center[0] - self.Playerr.screen_position[0])
@@ -132,7 +128,6 @@ class Game:
                 enemy1.draw()
             else:
                 self.players.remove(enemy1)
-
 
             player_status = self.Playerr.isAlive()  # checks if the player is dead
             if player_status:  # if the player is dead, respawn
@@ -159,8 +154,10 @@ class Game:
 
             else:
                 self.Playerr.WEAPON.remove()
-            self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
-            self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
+            self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
+                                                   self.Playerr.speed)
+            self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
+                                                self.Playerr.speed)
             self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
             self.Playerr.BIG_SHOT.update()  # updates the big shots
             self.setting.update()  # updates the settings (timer)
@@ -183,39 +180,48 @@ class Game:
                 "weapon_angle": self.Playerr.WEAPON.angle
             }
 
-            self.client.send_data(data)
+            self.client_main.send_data(data_for_main_server)
+            print(self.client_main.receive_data())
 
+            if self.client_main.receive_data() == "1":
+                self.client.host = 'localhost'
+                self.client.port = 11111
+                self.client.enemies_Am_port == 11112
+                self.client.connect()
+                self.client.send_data(data)
+                print(data)
 
-            """if self.client_mian.receive_data() == "1":
-                self.client = Client('localhost', 11111, 11112)
+            if self.client_main.receive_data() == "2":
+                self.client.host = 'localhost'
+                self.client.port = 22222
+                self.client.connect()
                 self.client.send_data(data)
 
-            if self.client_mian.receive_data() == "2":
-                self.client = Client('localhost', 22222, 22223)
+            if self.client_main.receive_data() == "3":
+                self.client.host = 'localhost'
+                self.client.port = 33333
+                self.client.connect()
                 self.client.send_data(data)
 
-            if self.client_mian.receive_data() == "3":
-                self.client = Client('localhost', 33333, 33334)
+            if self.client_main.receive_data() == "4":
+                self.client.host = 'localhost'
+                self.client.port = 44444
+                self.client.connect()
                 self.client.send_data(data)
-
-            if self.client_mian.receive_data() == "4":
-                self.client = Client('localhost', 44444, 44445)
-                self.client.send_data(data)"""
-
-
 
     def close_connections(self):
         self.client.close()
+
     def generate_random_with_condition_x(self):
         while True:
             random_number_x = random.randint(0, 30000)
-            if random_number_x < 267*64 or random_number_x > 320*64:
+            if random_number_x < 267 * 64 or random_number_x > 320 * 64:
                 return random_number_x
 
     def generate_random_with_condition_y(self):
         while True:
             random_number_y = random.randint(0, 37000)
-            if random_number_y < (294*64+32) or random_number_y > 398*64:
+            if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
 
     def add_player(self):
@@ -223,7 +229,7 @@ class Game:
         self.player_id_counter = self.num_enemies
         player_id = self.player_id_counter
 
-        #self.Playerr = Player(player_id, self.generate_random_with_condition_x(), self.generate_random_with_condition_y(), 30, self.setting.rand_color, self.setting)
+        # self.Playerr = Player(player_id, self.generate_random_with_condition_x(), self.generate_random_with_condition_y(), 30, self.setting.rand_color, self.setting)
         self.Playerr = Player(player_id, 0, 0, 30, self.setting.rand_color, self.setting)
 
         self.players.append(self.Playerr)
@@ -240,7 +246,6 @@ class Game:
     def initialize_map(self, player):
         # initializes the map
         self.MAP = Map(player, self.setting)
-
 
     def EnemiesAm_handling(self):
         self.client.send_to_Enemies_Am()
@@ -261,19 +266,17 @@ class Game:
                     if self.enemy_threads:
                         thread = self.enemy_threads.pop()
                         thread.join()
+
     def stop(self):
         self.running = False
         for thread in self.enemy_threads:
             thread.join()
 
 
-
-
 if __name__ == '__main__':
     game = Game()
-
     # Start enemy handling thread
-    threading.Thread(target=game.EnemiesAm_handling).start()
+    #threading.Thread(target=game.EnemiesAm_handling).start()
 
     try:
         print("starting game.run")
@@ -282,4 +285,3 @@ if __name__ == '__main__':
         game.stop()
         game.close_connections()
         pygame.quit()
-

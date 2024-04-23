@@ -1,12 +1,17 @@
 import socket
 import json
 import threading
+from static_objects import StaticObjects
+from settings import settings
+
 
 class main_server:
     def __init__(self, host, port):
         self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.main_server_socket.bind((host, port))
         self.main_server_socket.listen(10000)
+        self.static_objects = StaticObjects(600 * 64, 675 * 64)
+
 
     def handle_client_main(self, client_socket):
         try:
@@ -20,6 +25,7 @@ class main_server:
 
                 pos_x = int(data_dict["player_position_x"])
                 pos_y = int(data_dict["player_position_y"])
+
 
                 # Check which server the client should be on based on their position
                 if pos_y < (294*64+32) and pos_x < 267*64:
@@ -40,6 +46,8 @@ class main_server:
             client_socket.close()
 
     def main(self):
+        print(self.static_objects.crate_position_dst_data())
+
         while True:
             print("Waiting for new client...")
             client_socket, addr = self.main_server_socket.accept()
