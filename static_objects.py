@@ -20,7 +20,7 @@ class StaticObject():
             self.color = setting.blue
         elif self.HeldAbility == "Speed":
             self.color = setting.yellow
-        elif self.HeldAbility == "Damage":
+        elif self.HeldAbility == "Shield":
             self.color = setting.red
         else:
             self.color = setting.green
@@ -31,6 +31,7 @@ class StaticObject():
 class StaticObjects():
 
     def __init__(self, setting, map_width, map_height):
+        self.setting = setting
         self.surface = setting.surface
         self.Static_objects = []  # the static object list
         for _ in range(2000):
@@ -76,7 +77,7 @@ class StaticObjects():
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
-                self.hurt(static_obj)
+                self.hurt(static_obj, self.setting.hit_type[2])
                 # Calculate the centers of both the player's and static object's rectangles
                 player_center_x, player_center_y = player_rect.center
                 static_obj_center_x, static_obj_center_y = static_obj.rect_static_obj.center
@@ -108,16 +109,21 @@ class StaticObjects():
             static_obj.collision_flag = False
 
 
-
     def shot_collisions(self, shots_rects, static_obj):
         for index, shot_rect in enumerate(shots_rects):
             if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj)
+                self.hurt(static_obj, self.setting.hit_type[0])
                 return "shot index", index
 
-    def hurt(self, static_obj):
+    def hurt(self, static_obj, hit_type):
         if static_obj in self.Static_objects:
-            static_obj.HP.Damage += 10
+            if hit_type == "small hit":
+                static_obj.HP.Damage += 5
+            elif hit_type == "big hit":
+                static_obj.HP.Damage += 10
+            elif hit_type == "coll":
+                static_obj.HP.Damage += 10
+
             if static_obj.HP.Damage >= 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
 

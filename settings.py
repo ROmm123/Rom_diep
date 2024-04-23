@@ -1,6 +1,7 @@
 import pygame
 import random
 
+
 class settings:
     def __init__(self):
         self.screen_width = 1024
@@ -15,7 +16,12 @@ class settings:
         self.rand_color = self.random_color()
         self.screen = (self.screen_width, self.screen_height)
         self.surface = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.ability = ["Speed", "Size", "Health", "Damage"]
+        self.ability = ["Speed", "Size", "Health", "Shield"]
+        self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
+        self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
+        self.ability_duration = 10000  # 10 seconds in milliseconds
+        self.hit_damage = {"small hit": 3, "big hit": 5, "coll": 3}
+        self.hit_type = ("small hit", "big hit", "coll")
 
     def random_color(self):
         red = random.randint(0, 255)

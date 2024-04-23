@@ -19,11 +19,10 @@ class Player():
         self.setting = setting  # game settings
         self.player_id = player_id  # player id
         self.speed = 5  # player speed
-        self.acceleration = 0.1  # player acceleration (NOT USED)
         self.center = [setting.screen_width / 2, setting.screen_height / 2]  # player's center relative to the screen
         self.triangle_points = (self.center[0], self.center[1] - self.radius * 1.5), (
-        self.center[0] - self.radius, self.center[1]), (
-        self.center[0] + self.radius, self.center[1])  # triangle player shape points on screen
+            self.center[0] - self.radius, self.center[1]), (
+            self.center[0] + self.radius, self.center[1])  # triangle player shape points on screen
         self.position = [(self.screen_position[0] + self.center[0]),
                          (self.screen_position[1] + self.center[1])]  # player position relative to the map
         self.move_button = [False, False, False, False, False]  # movement buttons (a, d, w, s)
@@ -32,9 +31,6 @@ class Player():
         self.NORMAL_SHOT = NormalShot(self.player_id, 5, self.setting.green, 0.99, 2,
                                       self.setting)  # initialize normal shot
         self.BIG_SHOT = NormalShot(self.player_id, 10, self.setting.blue, 0.97, 5, self.setting)  # initialize big shot
-        self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
-        self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
-        self.speed_duration = 10000  # 10 seconds in milliseconds
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
         self.inventory = inventory(self.setting)
@@ -51,9 +47,27 @@ class Player():
         rect_y = int(self.position[1] - self.radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
-    def hurt(self):
+    def hurt(self, hit_type, shield_start_time):
+        small_hit_damage = self.setting.hit_damage["small hit"]
+        big_hit_damage = self.setting.hit_damage["big hit"]
+        coll_hit_damage = self.setting.hit_damage["coll"]
+        if "Shield" in self.ability:
+            print(pygame.time.get_ticks() - shield_start_time)
+            if (pygame.time.get_ticks() - shield_start_time) >= self.setting.ability_duration:
+                self.ability.remove("Shield")
+            else:
+                small_hit_damage *= 0.5
+                big_hit_damage *= 0.5
+                coll_hit_damage *= 0.5
+
         # reduces the player's HP and checks if he's dead
-        self.hp.Damage += 1
+        if hit_type == "small hit":
+            self.hp.Damage += small_hit_damage
+        if hit_type == "big hit":
+            self.hp.Damage += big_hit_damage
+        if hit_type == "coll":
+            self.hp.Damage += coll_hit_damage
+
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
         print("damage done:", self.hp.Damage)
@@ -93,7 +107,22 @@ class Player():
         else:
             return False
 
-    def draw(self, radius):
+    def draw(self, size_start_time):
+        radius = self.radius
+        self.WEAPON.rect_width = 25
+        self.WEAPON.rect_height = 25
+        self.WEAPON.offset_distance = 50
+
+        if "Size" in self.ability:
+            #print(pygame.time.get_ticks() - size_start_time)
+            if (pygame.time.get_ticks() - size_start_time) >= self.setting.ability_duration:
+                self.ability.remove("Size")
+            else:
+                radius *= 0.64
+                self.WEAPON.rect_width *= 0.64
+                self.WEAPON.rect_height *= 0.64
+                self.WEAPON.offset_distance *= 0.64
+
         # draws the player according to its shape, and the hp bar
         pygame.draw.circle(self.surface, self.color, (self.center[0], self.center[1]), radius)
 
@@ -157,7 +186,7 @@ class Player():
         current_time = pygame.time.get_ticks()
         if self.small_weapon == True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
-                if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
+                if current_time - self.last_normal_shot_time >= self.setting.normal_shot_cooldown:
                     self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_normal_shot_time = current_time  # update last shot time
@@ -169,7 +198,7 @@ class Player():
 
         if self.big_weapon == True:  # only if wide or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[1]:
-                if current_time - self.last_big_shot_time >= self.big_shot_cooldown:
+                if current_time - self.last_big_shot_time >= self.setting.big_shot_cooldown:
                     self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[1] = True
                     self.last_big_shot_time = current_time  # update last shot time
@@ -182,11 +211,11 @@ class Player():
     def move(self, speed_start_time):
         speed = self.speed
         if "Speed" in self.ability:
-            print(pygame.time.get_ticks() - speed_start_time)
-            if "Speed" in self.ability and (pygame.time.get_ticks() - speed_start_time) >= self.speed_duration:
+            # print(pygame.time.get_ticks() - speed_start_time)
+            if (pygame.time.get_ticks() - speed_start_time) >= self.setting.ability_duration:
                 self.ability.remove("Speed")
             else:
-                speed = speed * 1.2
+                speed = speed * 1.6
 
         # moves the player according to the data in handle_events_movement and updates his position
         if self.move_button[0]:
@@ -209,4 +238,3 @@ class Player():
             self.inventory.draw_inventory()
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
-

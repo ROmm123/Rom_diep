@@ -13,6 +13,7 @@ from server_oop import Server
 from inventory import *
 from static_objects import StaticObjects
 
+
 class Game:
 
     def __init__(self):
@@ -23,8 +24,7 @@ class Game:
         self.Map = None  # first map initialization
         self.inventory = inventory(self.setting)
         self.static_objects = StaticObjects(self.setting, 600 * 64, 675 * 64)
-        #ADD HP REGENERATION
-
+        # ADD HP REGENERATION
 
     def run(self):
         # main game loop
@@ -34,6 +34,8 @@ class Game:
         self.initialize_map(player1)  # initializes the map
         radius = self.Playerr.radius
         self.speed_start_time = 0
+        self.size_start_time = 0
+        self.shield_start_time = 0
 
         while True:
             key_state = pygame.key.get_pressed()  # gets the state of all keyboard keys
@@ -42,37 +44,36 @@ class Game:
             self.MAP.draw_map(chunk)  # draws chunk
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
 
-
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
 
             self.Playerr.move(self.speed_start_time)
 
-            if "Health" in self.Playerr.ability:
-                self.Playerr.ability.remove("Health")
-                self.Playerr.hp.Damage = 0
-
-            if "Size" in self.Playerr.ability:
-                self.Playerr.ability.remove("Size")
-                radius *= 0.64
-                self.Playerr.WEAPON.rect_width *= 0.64
-                self.Playerr.WEAPON.rect_height *= 0.64
-
-            self.Playerr.draw(radius)
+            self.Playerr.draw(self.size_start_time)
             for static_obj in self.static_objects.Static_objects:
                 self.static_objects.move(static_obj)
 
             ability = self.static_objects.give_ability()
             if ability is not None:
                 self.Playerr.ability.append(ability)
-                self.speed_start_time = pygame.time.get_ticks()
+                if ability == "Speed":
+                    self.speed_start_time = pygame.time.get_ticks()
+                elif ability == "Size":
+                    self.size_start_time = pygame.time.get_ticks()
+                elif ability == "Shield":
+                    self.shield_start_time = pygame.time.get_ticks()
+
+            #print(self.Playerr.ability)
+            if "Health" in self.Playerr.ability:
+                self.Playerr.ability.remove("Health")
+                self.Playerr.hp.Damage = 0
 
 
 
-
-            collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
-                                    player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
-            #print(collision)
+            collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],
+                                                  self.setting,
+                                                  player_rect,
+                                                  self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
 
             # collisions
             if collisions is not None:
@@ -81,11 +82,9 @@ class Game:
                         self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
                         self.Playerr.NORMAL_SHOT.remove()
                     if "player hit" in collision:
-                        self.Playerr.hurt()
+                        self.Playerr.hurt(self.setting.hit_type[2], self.shield_start_time) #!!!!!!!!!!!!!!!!!!!
                     if "player been hit" in collision:
                         self.Playerr.speed = 3
-
-
 
             enemy_status = enemy1.isAlive()
             if not enemy_status:
@@ -94,7 +93,6 @@ class Game:
                 enemy1.draw()
             else:
                 self.players.remove(enemy1)
-
 
             player_status = self.Playerr.isAlive()  # checks if the player is dead
             if player_status:  # if the player is dead, respawn
@@ -121,8 +119,10 @@ class Game:
 
             else:
                 self.Playerr.WEAPON.remove()
-            self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
-            self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
+            self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
+                                                   self.Playerr.speed)
+            self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
+                                                self.Playerr.speed)
             self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
             self.Playerr.BIG_SHOT.update()  # updates the big shots
 
@@ -156,8 +156,6 @@ class Game:
     def initialize_map(self, player):
         # initializes the map
         self.MAP = Map(player, self.setting)
-
-
 
 
 if __name__ == '__main__':
