@@ -6,19 +6,22 @@ class Client:
         self.host = host
         self.port = port
         self.enemies_Am_port = enemies_Am_port
-
+        self.client_socket = None  # Initialize client socket
+        self.enemies_Am_socket = None  # Initialize enemies' socket
 
     def connect(self):
         try:
+            # Connect to the main server
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client_socket.connect((self.host, self.port))
+
+            # If enemies_Am_port is provided, connect to the enemies' server
             if self.enemies_Am_port is not None:
                 self.enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                
+                self.enemies_Am_socket.connect((self.host, self.enemies_Am_port))
         except ConnectionRefusedError:
             print("Connection refused.")
             # Handle the error as needed
-
 
     def send_data(self, data_dict):
         try:
@@ -27,7 +30,7 @@ class Client:
         except Exception as e:
             print(f"Error sending data: {e}")
 
-    def send_to_enemies_Am(self):
+    def send_to_Enemies_Am(self):
         try:
             self.enemies_Am_socket.send("0".encode())
         except Exception as e:

@@ -27,7 +27,7 @@ class EnemyThread(threading.Thread):
 
         while True:
             data = self.client.receive_data()
-            # print(data)
+            print("here")
 
             if data != '0' and data:
                 enemy_instance = Enemy_main(data, self.player, self.setting, self.weapon)
@@ -48,7 +48,11 @@ class Game:
         self.enemy_threads = []
         self.client_main = Client('localhost', 55555)
         self.client_main.connect()
-        self.client = Client(None,None)#defult
+        self.client = Client(None, None)  # defult
+        self.FLAG_SERVER_1 = False
+        self.FLAG_SERVER_2 = False
+        self.FLAG_SERVER_3 = False
+        self.FLAG_SERVER_4 = False
 
         # ADD HP REGENERATION
 
@@ -93,8 +97,8 @@ class Game:
             ability = self.static_object.give_ability()
             if ability is not None:
                 self.Playerr.ability.append(ability)
-            if self.Playerr.ability:
-                print(self.Playerr.ability)
+            # if self.Playerr.ability:
+            # print(self.Playerr.ability)
 
             collisions = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],
                                                  self.setting,
@@ -181,76 +185,142 @@ class Game:
             }
 
             self.client_main.send_data(data_for_main_server)
-            print(self.client_main.receive_data())
+            number_of_server = self.client_main.receive_data()
+            print(str (self.Playerr.screen_position[0])+" , "+str(number_of_server))
 
-            if self.client_main.receive_data() == "1":
-                self.client.host = 'localhost'
-                self.client.port = 11111
-                self.client.enemies_Am_port == 11112
-                self.client.connect()
-                self.client.send_data(data)
-                print(data)
+            if number_of_server == 1:
+                if self.FLAG_SERVER_1 == False:
+                    # Connect to server 1 if not already connected
+                    self.client.host = 'localhost'
+                    self.client.port = 11111
+                    self.client.enemies_Am_port = 11112
+                    self.client.connect()
+                    # Set flags
+                    self.FLAG_SERVER_1 = True
+                    self.FLAG_SERVER_2 = False
+                    self.FLAG_SERVER_3 = False
+                    self.FLAG_SERVER_4 = False
 
-            if self.client_main.receive_data() == "2":
-                self.client.host = 'localhost'
-                self.client.port = 22222
-                self.client.connect()
-                self.client.send_data(data)
+                    # Start handling enemies for server 1
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
-            if self.client_main.receive_data() == "3":
-                self.client.host = 'localhost'
-                self.client.port = 33333
-                self.client.connect()
-                self.client.send_data(data)
+                    # Send player data to server
+                    self.client.send_data(data)
+                else:
+                    # Already connected to server 1, just send player data
+                    self.client.send_data(data)
 
-            if self.client_main.receive_data() == "4":
-                self.client.host = 'localhost'
-                self.client.port = 44444
-                self.client.connect()
-                self.client.send_data(data)
+            elif number_of_server == 2:
+                if self.FLAG_SERVER_2 == False:
+                    # Connect to server 1 if not already connected
+                    self.client.host = 'localhost'
+                    self.client.port = 22222
+                    self.client.enemies_Am_port = 22223
+                    self.client.connect()
+                    # Set flags
+                    self.FLAG_SERVER_1 = False
+                    self.FLAG_SERVER_2 = True
+                    self.FLAG_SERVER_3 = False
+                    self.FLAG_SERVER_4 = False
+
+                    # Start handling enemies for server 2
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+
+                    # Send player data to server
+                    self.client.send_data(data)
+                else:
+                    # Already connected to server 2, just send player data
+                    self.client.send_data(data)
+
+            elif number_of_server == 3:
+                if self.FLAG_SERVER_3 == False:
+                    # Connect to server 1 if not already connected
+                    self.client.host = 'localhost'
+                    self.client.port = 33333
+                    self.client.enemies_Am_port = 33334
+                    self.client.connect()
+                    # Set flags
+                    self.FLAG_SERVER_1 = False
+                    self.FLAG_SERVER_2 = False
+                    self.FLAG_SERVER_3 = True
+                    self.FLAG_SERVER_4 = False
+
+                    # Start handling enemies for server 3
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+
+                    # Send player data to server
+                    self.client.send_data(data)
+                else:
+                    # Already connected to server 3, just send player data
+                    self.client.send_data(data)
+
+            elif number_of_server == 4:
+                if self.FLAG_SERVER_4 == False:
+                    # Connect to server 1 if not already connected
+                    self.client.host = 'localhost'
+                    self.client.port = 44444
+                    self.client.enemies_Am_port = 44445
+                    self.client.connect()
+                    # Set flags
+                    self.FLAG_SERVER_1 = False
+                    self.FLAG_SERVER_2 = False
+                    self.FLAG_SERVER_3 = False
+                    self.FLAG_SERVER_4 = True
+
+                    # Start handling enemies for server 4
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+
+                    # Send player data to server
+                    self.client.send_data(data)
+                else:
+                    # Already connected to server 4, just send player data
+                    self.client.send_data(data)
 
     def close_connections(self):
-        self.client.close()
+        # Close the connection to the main server
+        self.client_main.close()
 
     def generate_random_with_condition_x(self):
+        # Generate a random x position for player/enemy with specific condition
         while True:
             random_number_x = random.randint(0, 30000)
             if random_number_x < 267 * 64 or random_number_x > 320 * 64:
                 return random_number_x
 
     def generate_random_with_condition_y(self):
+        # Generate a random y position for player/enemy with specific condition
         while True:
             random_number_y = random.randint(0, 37000)
             if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
 
     def add_player(self):
-        # adds a player to the game with a unique id
+        # Add a player to the game
         self.player_id_counter = self.num_enemies
         player_id = self.player_id_counter
 
-        # self.Playerr = Player(player_id, self.generate_random_with_condition_x(), self.generate_random_with_condition_y(), 30, self.setting.rand_color, self.setting)
-        self.Playerr = Player(player_id, 0, 0, 30, self.setting.rand_color, self.setting)
-
+        self.Playerr = Player(player_id, 17000, 0, 30, self.setting.rand_color, self.setting)
         self.players.append(self.Playerr)
         return self.Playerr
 
     def add_enemy(self):
+        # Add an enemy to the game
         self.player_id_counter = self.num_enemies
         enemy_id = self.player_id_counter
-        # Adjust the initial position of the enemy to be different from the player
         self.Enemy = Enemy(enemy_id, 0, 0, 60, self.setting.rand_color, self.setting)
         self.players.append(self.Enemy)
         return self.Enemy
 
     def initialize_map(self, player):
-        # initializes the map
+        # Initialize the game map
         self.MAP = Map(player, self.setting)
 
-    def EnemiesAm_handling(self):
-        self.client.send_to_Enemies_Am()
+    def EnemiesAm_handling(self, client):
+        # Thread function to handle enemies received from server
+        print("sos")
+        client.send_to_Enemies_Am()
         while True:
-            enemies = self.client.receive_data_EnemiesAm()
+            enemies = client.receive_data_EnemiesAm()
             print(enemies)
             enemies = int(enemies)
             diff = enemies - self.num_enemies
@@ -258,7 +328,7 @@ class Game:
 
             if diff > 0:
                 for _ in range(diff):
-                    enemy_thread = EnemyThread(self.client, self.Playerr, self.setting, self.Playerr.WEAPON)
+                    enemy_thread = EnemyThread(client, self.Playerr, self.setting, self.Playerr.WEAPON)
                     enemy_thread.start()
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:
@@ -275,8 +345,6 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    # Start enemy handling thread
-    #threading.Thread(target=game.EnemiesAm_handling).start()
 
     try:
         print("starting game.run")

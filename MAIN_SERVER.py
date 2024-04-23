@@ -26,15 +26,15 @@ class main_server:
                 pos_x = int(data_dict["player_position_x"])
                 pos_y = int(data_dict["player_position_y"])
 
-
+                print(pos_x)
                 # Check which server the client should be on based on their position
                 if pos_y < (294*64+32) and pos_x < 267*64:
                     client_socket.send("1".encode())
-                elif pos_y < (294*64+32) and pos_x > 320*64:
+                elif pos_y < (294*64+32) and pos_x > 267*64:
                     client_socket.send("2".encode())
-                elif pos_y > 398*64 and pos_x < 267*64:
+                elif pos_y > (294*64+32) and pos_x < 267*64:
                     client_socket.send("3".encode())
-                elif pos_y > 398*64 and pos_x > 320*64:
+                elif pos_y > (294*64+32) and pos_x > 267*64:
                     client_socket.send("4".encode())
 
         except json.JSONDecodeError:
