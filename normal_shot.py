@@ -3,6 +3,7 @@ import math
 import sys
 import settings
 
+
 class NormalShot:
     def __init__(self, player_id, radius, color, deceleration, damage, setting):
         self.player_id = player_id
@@ -26,7 +27,6 @@ class NormalShot:
     def get_shot_owner_id(self):
         return self.player_id
 
-
     def draw(self):
         # Draw the shot circle
         for circle in self.shots:
@@ -37,36 +37,26 @@ class NormalShot:
         mouse_pos = pygame.mouse.get_pos()
         self.direction[0] = mouse_pos[0] - player_position[0]  # break down mouse position into x and y components
         self.direction[1] = mouse_pos[1] - player_position[1]
-        mouse_x = screen_position[0] + self.direction[0]
-        mouse_y = screen_position[1] + self.direction[1]
-
-        print("mouse", mouse_x, mouse_y)
-        print("screen", screen_position)
-        print("center", player_position)
 
         magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
-        print(magnitude)
         if magnitude != 0:  # checks if zero vector
             self.direction[0] /= magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= magnitude
 
-        print("direction", self.direction)
-
-
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
-        start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
+        start_x = player_position[0] + self.offset_distance * math.cos(
+            angle)  # calculates the starting position - the middle of the weapon
         start_y = player_position[1] + self.offset_distance * math.sin(angle)
+        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier,
+                                                                        self.velocity[
+                                                                            1] * self.speed_multiplier]})  # adds a shot to an array for it to print on the screen
 
-        print("start pos:", start_x, start_y)
-
-        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
-    def calc_relative(self,screen_position,move_button,speed):
+    def calc_relative(self, screen_position, move_button, speed):
         self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
 
         if screen_position[0] > 0:
 
             if move_button[0] and not move_button[1]:
-
                 self.shot_relative_vector[0] = speed
 
             if move_button[1] and not move_button[0]:
@@ -78,6 +68,7 @@ class NormalShot:
 
             if move_button[3] and not move_button[2]:
                 self.shot_relative_vector[1] = -speed
+
     def update(self):
 
         # updates the shots' position
@@ -89,7 +80,7 @@ class NormalShot:
             circle["position"][1] += circle["velocity"][1] + self.shot_relative_vector[1]
 
             self.draw()
-            #print("vel", abs(circle["velocity"][1]))
+            # print("vel", abs(circle["velocity"][1]))
 
             # check shots to remove (if below the remove_speed)
             if (abs(circle["velocity"][0]) < self.remove_speed) and (abs(circle["velocity"][1]) < self.remove_speed):
@@ -113,8 +104,6 @@ class NormalShot:
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def get_shot_rects(self, screen_position):
-        return [self.get_shot_rect((int(circle["position"][0]) + screen_position[0], int(circle["position"][1]) + screen_position[1])) for circle in self.shots]
-
-
-
-
+        return [self.get_shot_rect(
+            (int(circle["position"][0]) + screen_position[0], int(circle["position"][1]) + screen_position[1])) for
+                circle in self.shots]

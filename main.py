@@ -86,14 +86,6 @@ class Game:
                     if "player been hit" in collision:
                         self.Playerr.speed = 3
 
-            enemy_status = enemy1.isAlive()
-            if not enemy_status:
-                enemy1.position[0] = (enemy1.center[0] - self.Playerr.screen_position[0])
-                enemy1.position[1] = (enemy1.center[1] - self.Playerr.screen_position[1])
-                enemy1.draw()
-            else:
-                self.players.remove(enemy1)
-
             player_status = self.Playerr.isAlive()  # checks if the player is dead
             if player_status:  # if the player is dead, respawn
                 game = Game()
@@ -118,6 +110,7 @@ class Game:
 
             else:
                 self.Playerr.WEAPON.remove()
+
             self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
                                                    self.Playerr.speed)
             self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
