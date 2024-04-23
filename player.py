@@ -61,7 +61,7 @@ class Player:
             # HP REGEN NEEDS WORK
 
     def hit(self, player_rect, player_id):
-        # check collision with normal shots
+        # check collision with normal shot
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
             shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
             if player_id != self.player_id:
