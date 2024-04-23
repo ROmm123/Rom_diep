@@ -22,6 +22,11 @@ class NormalShot:
         self.prev_key = False
         self.shots = []
         self.remove_shots = []
+        self.mouse_x=0
+        self.mouse_y=0
+        self.magnitude=0.0
+        self.start_x=0
+        self.start_y=0
 
     def get_shot_owner_id(self):
         return self.player_id
@@ -37,18 +42,18 @@ class NormalShot:
         mouse_pos = pygame.mouse.get_pos()
         self.direction[0] = mouse_pos[0] - player_position[0]  # break down mouse position into x and y components
         self.direction[1] = mouse_pos[1] - player_position[1]
-        mouse_x = screen_position[0] + self.direction[0]
-        mouse_y = screen_position[1] + self.direction[1]
+        self.mouse_x = screen_position[0] + self.direction[0]
+        self.mouse_y = screen_position[1] + self.direction[1]
 
-        print("mouse", mouse_x, mouse_y)
+        print("mouse", self.mouse_x, self.mouse_y)
         print("screen", screen_position)
         print("center", player_position)
 
-        magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
-        print(magnitude)
-        if magnitude != 0:  # checks if zero vector
-            self.direction[0] /= magnitude  # normalize the direction vector (0-1)
-            self.direction[1] /= magnitude
+        self.magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
+        print(self.magnitude)
+        if self.magnitude != 0:  # checks if zero vector
+            self.direction[0] /= self.magnitude  # normalize the direction vector (0-1)
+            self.direction[1] /= self.magnitude
 
         print("direction", self.direction)
 
@@ -57,9 +62,10 @@ class NormalShot:
         start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
         start_y = player_position[1] + self.offset_distance * math.sin(angle)
 
-        print("start pos:", start_x, start_y)
+        print("start pos:", self.start_x, self.start_y)
 
         self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
+
     def calc_relative(self,screen_position,move_button,speed):
         self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
 

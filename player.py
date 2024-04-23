@@ -29,8 +29,7 @@ class Player():
         self.move_button = [False, False, False, False, False]  # movement buttons (a, d, w, s)
         #self.hp = HP(self.center[0], self.center[1], radius, setting)  # initialize hp
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon
-        self.NORMAL_SHOT = NormalShot( 5, self.setting.green, 0.99, 2,
-                                      self.setting)  # initialize normal shot
+        self.NORMAL_SHOT = NormalShot( 5, self.setting.green, 0.99, 2,self.setting)  # initialize normal shot
         self.BIG_SHOT = NormalShot( 10, self.setting.blue, 0.97, 5, self.setting)  # initialize big shot
         self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
         self.big_shot_cooldown = 3000  # 3 seconds in milliseconds

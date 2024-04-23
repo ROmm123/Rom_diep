@@ -111,7 +111,16 @@ class Game():
                 "player_position_y": self.player.screen_position[1],
                 "player_color": self.player.color,
                 "player_radius": self.player.radius,
-                "weapon_angle": self.weapon.angle
+                "weapon_angle": self.weapon.angle,
+                "shot_mouse_x":self.player.NORMAL_SHOT.mouse_x,
+                "shot_mouse_y": self.player.NORMAL_SHOT.mouse_y,
+                "shot_magnitude":self.player.NORMAL_SHOT.magnitude,
+                "shot_direction":self.player.NORMAL_SHOT.direction,
+                "shot_start_x":self.player.NORMAL_SHOT.start_x,
+                "shot_start_y": self.player.NORMAL_SHOT.start_y,
+
+
+
             }
             self.client.send_data(data)
             if self.num_enemies>0:
