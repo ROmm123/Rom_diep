@@ -17,11 +17,11 @@ class StaticObject():
         self.collision_flag = False
         self.HeldAbility = random.choice(setting.ability)
         if self.HeldAbility == "Size":
-            self.color = setting.blue
+            self.color = setting.red
         elif self.HeldAbility == "Speed":
             self.color = setting.yellow
         elif self.HeldAbility == "Shield":
-            self.color = setting.red
+            self.color = setting.blue
         else:
             self.color = setting.green
         self.move_button = [False, False, False, False]

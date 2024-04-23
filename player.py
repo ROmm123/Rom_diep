@@ -150,7 +150,7 @@ class Player:
                     self.move_button[2] = True
                 elif event.key == pygame.K_s:
                     self.move_button[3] = True
-                if event.key == pygame.K_i:
+                if event.key == pygame.K_t:
                     self.move_button[4] = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
@@ -161,7 +161,7 @@ class Player:
                     self.move_button[2] = False
                 elif event.key == pygame.K_s:
                     self.move_button[3] = False
-                if event.key == pygame.K_i:
+                if event.key == pygame.K_t:
                     self.move_button[4] = False
 
     def handle_events_shapes(self, key_state):
@@ -212,6 +212,14 @@ class Player:
             elif not key_state[pygame.K_SPACE] and self.BIG_SHOT.prev_key:
                 self.NORMAL_SHOT.shot_button[1] = False
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
+
+    def handle_events_abilities(self, key_state):
+        if key_state[pygame.K_1]:
+            print()
+
+
+
+
 
     def move(self):
         speed = self.speed
