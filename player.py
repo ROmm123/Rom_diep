@@ -1,6 +1,5 @@
-import sys
-
 import pygame
+import sys
 
 from map import *
 from HP import *
@@ -9,8 +8,7 @@ from weapon import Weapon
 from inventory import *
 
 
-class Player():
-
+class Player:
     def __init__(self, player_id, x, y, radius, color, setting):
         self.surface = setting.surface  # player surface
         self.screen_position = [x, y]  # top left screen position
@@ -37,7 +35,7 @@ class Player():
         self.big_weapon = False
         self.mid_weapon = False
         self.small_weapon = True
-        self.ability = []  # list of Strings
+        self.ability = {}  # dictionary to store ability and its expiration time
 
     def get_rect_player(self):
         # gets and returns the player's rect
@@ -47,30 +45,38 @@ class Player():
         rect_y = int(self.position[1] - self.radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
-    def hurt(self, hit_type, shield_start_time):
+    def hurt(self, hit_type):
         small_hit_damage = self.setting.hit_damage["small hit"]
         big_hit_damage = self.setting.hit_damage["big hit"]
         coll_hit_damage = self.setting.hit_damage["coll"]
-        if "Shield" in self.ability:
-            print(pygame.time.get_ticks() - shield_start_time)
-            if (pygame.time.get_ticks() - shield_start_time) >= self.setting.ability_duration:
-                self.ability.remove("Shield")
-            else:
-                small_hit_damage *= 0.5
-                big_hit_damage *= 0.5
-                coll_hit_damage *= 0.5
+        shield_effect = 0.5 if "Shield" in self.ability else 1
 
         # reduces the player's HP and checks if he's dead
         if hit_type == "small hit":
-            self.hp.Damage += small_hit_damage
+            self.hp.Damage += small_hit_damage * shield_effect
         if hit_type == "big hit":
-            self.hp.Damage += big_hit_damage
+            self.hp.Damage += big_hit_damage * shield_effect
         if hit_type == "coll":
-            self.hp.Damage += coll_hit_damage
+            self.hp.Damage += coll_hit_damage * shield_effect
 
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
-        print("damage done:", self.hp.Damage)
+
+    def update_ability(self):
+        # update the ability timer
+        to_remove = []
+        current_time = pygame.time.get_ticks()
+        for ability, end_time in self.ability.items():
+            if current_time >= end_time:
+                to_remove.append(ability)
+
+        for ability in to_remove:
+            del self.ability[ability]
+
+    def add_ability(self, ability):
+        # sets the end time of the ability
+        current_time = pygame.time.get_ticks()
+        self.ability[ability] = current_time + self.setting.ability_duration
 
     def heal(self):
         # increases the player's HP and checks if the HP is full
@@ -114,14 +120,13 @@ class Player():
         self.WEAPON.offset_distance = 50
 
         if "Size" in self.ability:
-            #print(pygame.time.get_ticks() - size_start_time)
-            if (pygame.time.get_ticks() - size_start_time) >= self.setting.ability_duration:
-                self.ability.remove("Size")
+            if (pygame.time.get_ticks() - self.ability["Size"]) >= self.setting.ability_duration:
+                del self.ability["Size"]
             else:
                 radius *= 0.64
                 self.WEAPON.rect_width *= 0.64
                 self.WEAPON.rect_height *= 0.64
-                self.WEAPON.offset_distance *= 0.64
+                self.WEAPON.offset_distance *= 0.1
 
         # draws the player according to its shape, and the hp bar
         pygame.draw.circle(self.surface, self.color, (self.center[0], self.center[1]), radius)
@@ -184,7 +189,7 @@ class Player():
     def handle_events_shots(self, key_state, mouse_state):
         # checks for if any of the attack keys are pressed
         current_time = pygame.time.get_ticks()
-        if self.small_weapon == True:  # only if long or regular weapon
+        if self.small_weapon:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_normal_shot_time >= self.setting.normal_shot_cooldown:
                     self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
@@ -196,7 +201,7 @@ class Player():
                 self.NORMAL_SHOT.shot_button[0] = False
             self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-        if self.big_weapon == True:  # only if wide or regular weapon
+        if self.big_weapon:  # only if wide or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[1]:
                 if current_time - self.last_big_shot_time >= self.setting.big_shot_cooldown:
                     self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
@@ -208,12 +213,11 @@ class Player():
                 self.NORMAL_SHOT.shot_button[1] = False
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-    def move(self, speed_start_time):
+    def move(self):
         speed = self.speed
         if "Speed" in self.ability:
-            # print(pygame.time.get_ticks() - speed_start_time)
-            if (pygame.time.get_ticks() - speed_start_time) >= self.setting.ability_duration:
-                self.ability.remove("Speed")
+            if (pygame.time.get_ticks() - self.ability["Speed"]) >= self.setting.ability_duration:
+                del self.ability["Speed"]
             else:
                 speed = speed * 1.6
 

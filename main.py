@@ -32,7 +32,7 @@ class Game:
         player1 = self.add_player()  # adds a player to the game
         enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
-        radius = self.Playerr.radius
+        radius = player1.radius
         self.speed_start_time = 0
         self.size_start_time = 0
         self.shield_start_time = 0
@@ -47,7 +47,7 @@ class Game:
             player_rect = self.Playerr.get_rect_player()
             self.Playerr.handle_events_movement()
 
-            self.Playerr.move(self.speed_start_time)
+            self.Playerr.move()
 
             self.Playerr.draw(self.size_start_time)
             for static_obj in self.static_objects.Static_objects:
@@ -55,7 +55,7 @@ class Game:
 
             ability = self.static_objects.give_ability()
             if ability is not None:
-                self.Playerr.ability.append(ability)
+                self.Playerr.add_ability(ability)
                 if ability == "Speed":
                     self.speed_start_time = pygame.time.get_ticks()
                 elif ability == "Size":
@@ -63,12 +63,12 @@ class Game:
                 elif ability == "Shield":
                     self.shield_start_time = pygame.time.get_ticks()
 
-            #print(self.Playerr.ability)
+            print(self.Playerr.ability)
             if "Health" in self.Playerr.ability:
-                self.Playerr.ability.remove("Health")
+                del self.Playerr.ability["Health"]
                 self.Playerr.hp.Damage = 0
 
-
+            self.Playerr.update_ability()  # Update ability timers
 
             collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],
                                                   self.setting,
@@ -82,7 +82,7 @@ class Game:
                         self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
                         self.Playerr.NORMAL_SHOT.remove()
                     if "player hit" in collision:
-                        self.Playerr.hurt(self.setting.hit_type[2], self.shield_start_time) #!!!!!!!!!!!!!!!!!!!
+                        self.Playerr.hurt(self.setting.hit_type[2])
                     if "player been hit" in collision:
                         self.Playerr.speed = 3
 
@@ -105,7 +105,7 @@ class Game:
             for player in self.players:  # checks if the shot hit any of the players
                 player_rect = player.get_rect_player()
                 player_id = player.player_id
-                check_hit = player1.hit(player_rect, player_id)
+                check_hit = self.Playerr.hit(player_rect, player_id)
                 if check_hit == "normal shot":
                     enemy1.hit_damage = 5
                     player.hurt()
@@ -115,7 +115,6 @@ class Game:
 
                 self.Playerr.WEAPON.run_weapon()
                 self.Playerr.handle_events_shots(key_state, mouse_state)
-
 
             else:
                 self.Playerr.WEAPON.remove()
@@ -149,9 +148,9 @@ class Game:
         enemy_id = self.player_id_counter
         self.player_id_counter += 1
         # Adjust the initial position of the enemy to be different from the player
-        self.Enemy = Enemy(enemy_id, 0, 0, 30, self.setting.rand_color, self.setting)
-        self.players.append(self.Enemy)
-        return self.Enemy
+        enemy = Enemy(enemy_id, 0, 0, 30, self.setting.rand_color, self.setting)
+        self.players.append(enemy)
+        return enemy
 
     def initialize_map(self, player):
         # initializes the map
