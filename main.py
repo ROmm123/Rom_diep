@@ -65,6 +65,8 @@ class Game:
         enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
         radius = self.Playerr.radius
+        obj_list = self.client_main.receive_list_obj()
+        print(obj_list)
 
         while True:
             key_state = pygame.key.get_pressed()  # gets the state of all keyboard keys

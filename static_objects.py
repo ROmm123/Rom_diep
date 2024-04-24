@@ -42,7 +42,6 @@ class StaticObjects():
         locations = {}
         i = 0
         for obj in self.Static_objects:
-            print(obj.position)
             locations.update({'pos_' + str(i): obj.position})
             i = i +1
         return locations

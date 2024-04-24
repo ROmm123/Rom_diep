@@ -36,6 +36,19 @@ class Client:
         except Exception as e:
             print(f"Error sending to enemy: {e}")
 
+    def receive_list_obj(self):
+        try:
+            chunk = self.client_socket.recv(2**20)  # Receive a chunk of data
+            data_str = chunk.decode("utf-8")  # Decode the byte string to UTF-8 string
+            last_bracket_index = data_str.rfind('}')
+            if last_bracket_index != -1:
+                data_str = data_str[:last_bracket_index + 1]
+            data_dict = json.loads(data_str)  # Parse the JSON string into a dictionary
+            return data_dict
+        except Exception as e:
+            print(f"Error receiving data: {e}")
+            return None
+
     def receive_data(self):
         try:
             data_str = self.client_socket.recv(2048).decode("utf-8")

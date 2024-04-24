@@ -12,7 +12,6 @@ class main_server:
         self.main_server_socket.listen(10000)
         self.static_objects = StaticObjects(600 * 64, 675 * 64)
 
-
     def handle_client_main(self, client_socket):
         try:
             while True:
@@ -26,15 +25,14 @@ class main_server:
                 pos_x = int(data_dict["player_position_x"])
                 pos_y = int(data_dict["player_position_y"])
 
-                print(pos_x)
                 # Check which server the client should be on based on their position
-                if pos_y < (294*64+32) and pos_x < 267*64:
+                if pos_y < (294 * 64 + 32) and pos_x < 267 * 64:
                     client_socket.send("1".encode())
-                elif pos_y < (294*64+32) and pos_x > 267*64:
+                elif pos_y < (294 * 64 + 32) and pos_x > 267 * 64:
                     client_socket.send("2".encode())
-                elif pos_y > (294*64+32) and pos_x < 267*64:
+                elif pos_y > (294 * 64 + 32) and pos_x < 267 * 64:
                     client_socket.send("3".encode())
-                elif pos_y > (294*64+32) and pos_x > 267*64:
+                elif pos_y > (294 * 64 + 32) and pos_x > 267 * 64:
                     client_socket.send("4".encode())
 
         except json.JSONDecodeError:
@@ -46,14 +44,31 @@ class main_server:
             client_socket.close()
 
     def main(self):
-        print(self.static_objects.crate_position_dst_data())
-
         while True:
             print("Waiting for new client...")
             client_socket, addr = self.main_server_socket.accept()
             print(f"New client connected: {addr}")
+
+            # Retrieve the crate position destination data
+            positions_data = self.static_objects.crate_position_dst_data()
+            # Construct the data to send to the client
+            data_to_send = {
+                "crate_positions": positions_data
+            }
+            print(data_to_send)  # Print the data to send
+
+            # Convert the dictionary to a JSON string
+            json_data = json.dumps(data_to_send)
+            # Encode the JSON string to bytes
+            encoded_data = json_data.encode()
+
+            # Send the encoded data to the clientll
+            client_socket.send(encoded_data)
+
+            # Start a new thread to handle the client
             client_thread = threading.Thread(target=self.handle_client_main, args=(client_socket,))
             client_thread.start()
+
 
 if __name__ == '__main__':
     my_server = main_server('localhost', 55555)
