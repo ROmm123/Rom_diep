@@ -1,5 +1,6 @@
 import socket
 import json
+import errno
 
 class Client:
     def __init__(self, host, port, enemies_Am_port=None):
@@ -14,7 +15,6 @@ class Client:
             # Connect to the main server
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client_socket.connect((self.host, self.port))
-
             # If enemies_Am_port is provided, connect to the enemies' server
             if self.enemies_Am_port is not None:
                 self.enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -68,3 +68,5 @@ class Client:
             self.enemies_Am_socket.close()
         except Exception as e:
             print(f"Error closing enemy socket: {e}")
+
+

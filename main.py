@@ -26,8 +26,10 @@ class EnemyThread(threading.Thread):
         print("in draw thread")
 
         while True:
+            if self.client.client_socket is None:
+                print("Client disconnected")
+                break
             data = self.client.receive_data()
-            print("here")
 
             if data != '0' and data:
                 enemy_instance = Enemy_main(data, self.player, self.setting, self.weapon)
@@ -72,7 +74,7 @@ class Game:
             self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
 
             player_rect = self.Playerr.get_rect_player()
-            self.Playerr.handle_events_movement()
+            self.Playerr.handle_events_movement(self.client)
             speed = self.Playerr.speed
 
             if "Speed" in self.Playerr.ability:
@@ -326,6 +328,7 @@ class Game:
             diff = enemies - self.num_enemies
             self.num_enemies = enemies
 
+            print("diff "+ str(diff))
             if diff > 0:
                 for _ in range(diff):
                     enemy_thread = EnemyThread(client, self.Playerr, self.setting, self.Playerr.WEAPON)
@@ -333,6 +336,7 @@ class Game:
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:
                 for _ in range(-diff):
+                    print("join th")
                     if self.enemy_threads:
                         thread = self.enemy_threads.pop()
                         thread.join()

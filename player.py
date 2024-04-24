@@ -1,3 +1,4 @@
+import socket
 import sys
 
 import pygame
@@ -104,10 +105,11 @@ class Player():
         pygame.draw.rect(self.surface, self.hp.DamageColor,
                          (self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
-    def handle_events_movement(self):
+    def handle_events_movement(self,socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                socket.close()
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:

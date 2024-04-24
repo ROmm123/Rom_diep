@@ -31,17 +31,14 @@ class Server:
             try:
                 data = client_socket.recv(2048)
                 if not data:
+                    print("no data")
                     break
                 data = data.decode()
             except:
+                self.enemies = self.enemies - 1
                 print(f"Client {client_socket.getpeername()} disconnected")
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
-                    data = '0'
-                    for receiver_socket , addr in self.clients:
-                        if receiver_socket != client_socket:
-                            receiver_socket.send(data.encode("utf-8"))
-                client_socket.close()
                 break
 
 
