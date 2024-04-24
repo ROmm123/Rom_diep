@@ -186,7 +186,7 @@ class Game:
 
             self.client_main.send_data(data_for_main_server)
             number_of_server = self.client_main.receive_data()
-            print(str (self.Playerr.screen_position[0])+" , "+str(number_of_server))
+            #print(str (self.Playerr.screen_position[0])+" , "+str(number_of_server))
 
             if number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
