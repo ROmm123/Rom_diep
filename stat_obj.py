@@ -4,13 +4,11 @@ from HP import HP
 
 
 class StaticObject():
-    def __init__(self, setting, map_width, map_height):
+    def __init__(self, setting, map_width, map_height, x, y):
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
-        self.position = [random.randint(450, map_width - 20)  # Random x-coordinate
-            , random.randint(350, map_height - 20)]  # Random y-coordinate
-
+        self.position = [x, y]
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
                      setting)
         # pass the.... center.... pos of the obj ,halfbase , setting object
@@ -31,13 +29,14 @@ class StaticObject():
 
 class StaticObjects():
 
-    def __init__(self,setting ,map_width, map_height):
+    def __init__(self, setting, map_width, map_height, crate_positions):
         self.surface = setting.surface
-        self.Static_objects = []  # the static object list
-        for _ in range(2000):
-            obj = StaticObject(setting,map_width, map_height)
-            self.Static_objects.append(obj)
-
+        self.Static_objects = []
+        for pos_key, inner_dict in crate_positions.items():
+            for inner_key, pos_value in inner_dict.items():
+                x, y = pos_value
+                obj = StaticObject(setting,map_width, map_height ,x, y)
+                self.Static_objects.append(obj)
     def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
         collision_list = []
         for static_obj in self.Static_objects:

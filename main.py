@@ -45,11 +45,12 @@ class Game:
         self.player_id_counter = 0  # player id counter
         self.Map = None  # first map initialization
         self.inventory = inventory(self.setting)
-        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
         self.num_enemies = 0
         self.enemy_threads = []
         self.client_main = Client('localhost', 55555)
         self.client_main.connect()
+        self.crate_positions = self.client_main.receive_list_obj()
+        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)  # defult
         self.FLAG_SERVER_1 = False
         self.FLAG_SERVER_2 = False
@@ -60,13 +61,10 @@ class Game:
 
     def run(self):
         # main game loop
-
         player1 = self.add_player()  # adds a player to the game
         enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
         radius = self.Playerr.radius
-        obj_list = self.client_main.receive_list_obj()
-        print(obj_list)
 
         while True:
             key_state = pygame.key.get_pressed()  # gets the state of all keyboard keys
@@ -321,11 +319,9 @@ class Game:
 
     def EnemiesAm_handling(self, client):
         # Thread function to handle enemies received from server
-        print("sos")
         client.send_to_Enemies_Am()
         while True:
             enemies = client.receive_data_EnemiesAm()
-            print(enemies)
             enemies = int(enemies)
             diff = enemies - self.num_enemies
             self.num_enemies = enemies
