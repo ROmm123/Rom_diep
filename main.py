@@ -31,6 +31,9 @@ class EnemyThread(threading.Thread):
                 break
             data = self.client.receive_data()
 
+
+        
+
             if data != '0' and data:
                 enemy_instance = Enemy_main(data, self.player, self.setting, self.weapon)
                 enemy_instance.main()
@@ -109,11 +112,6 @@ class Game:
 
             # print(collision)
 
-            '''
-            if collision != None:
-                self.Playerr.hurt()
-            self.Playerr.handle_events_shapes(key_state)
-            '''
 
             # collisions
 
@@ -193,6 +191,7 @@ class Game:
             if number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
+                    self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 11111
                     self.client.enemies_Am_port = 11112
@@ -215,6 +214,7 @@ class Game:
             elif number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
+                    self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 22222
                     self.client.enemies_Am_port = 22223
@@ -237,6 +237,7 @@ class Game:
             elif number_of_server == 3:
                 if self.FLAG_SERVER_3 == False:
                     # Connect to server 1 if not already connected
+                    self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 33333
                     self.client.enemies_Am_port = 33334
@@ -259,6 +260,7 @@ class Game:
             elif number_of_server == 4:
                 if self.FLAG_SERVER_4 == False:
                     # Connect to server 1 if not already connected
+                    self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 44444
                     self.client.enemies_Am_port = 44445

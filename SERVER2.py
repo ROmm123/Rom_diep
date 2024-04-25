@@ -29,11 +29,10 @@ class Server:
     def handle_client(self, client_socket):
         while True:
             try:
+
                 data = client_socket.recv(2048)
-                if not data:
-                    print("no data")
-                    break
-                data = data.decode()
+                if data:
+                    data = data.decode()
             except:
                 self.enemies = self.enemies - 1
                 print(f"Client {client_socket.getpeername()} disconnected")
