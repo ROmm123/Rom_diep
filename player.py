@@ -157,6 +157,7 @@ class Player():
         if self.small_weapon == True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
+                    print("!!!!!!!!", self.center, self.WEAPON.angle)
                     self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_normal_shot_time = current_time  # update last shot time

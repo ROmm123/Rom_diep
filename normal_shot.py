@@ -15,18 +15,15 @@ class NormalShot:
         self.rect = self.surface.get_rect()
         self.offset_distance = 50
         self.speed = 10
-
         self.remove_speed = 0.3
         self.direction = [0, 0]
         self.shot_button = [False, False]
         self.prev_key = False
         self.shots = []
         self.remove_shots = []
-        self.mouse_x=0
-        self.mouse_y=0
-        self.magnitude=0.0
-        self.start_x=0
-        self.start_y=0
+        self.velocity = []
+        self.start_x = 0
+        self.start_y = 0
         self.shot_relative_vector = [0, 0]
 
     def get_shot_owner_id(self):
@@ -124,14 +121,10 @@ class NormalShot:
 
 
     def reset(self):
-        self.mouse_x = 0
-        self.mouse_y = 0
-        self.magnitude = 0.0
         self.start_x = 0
         self.start_y = 0
-        self.direction[0] = 0
-        self.direction[1] = 0
         self.shot_relative_vector = [0, 0]
+        self.velocity = [0, 0]
 
 
 
