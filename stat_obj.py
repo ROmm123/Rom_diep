@@ -4,7 +4,7 @@ from HP import HP
 
 
 class StaticObject():
-    def __init__(self, setting, map_width, map_height, x, y):
+    def __init__(self, setting, map_width, map_height, x, y, HeldAbility):
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
@@ -14,12 +14,12 @@ class StaticObject():
         # pass the.... center.... pos of the obj ,halfbase , setting object
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
         self.collision_flag = False
-        self.HeldAbility = random.choice(setting.ability)
-        if self.HeldAbility == "Size":
+        self.HeldAbility = HeldAbility
+        if HeldAbility == "Size":
             self.color = setting.blue
-        elif self.HeldAbility == "Speed":
+        elif HeldAbility == "Speed":
             self.color = setting.yellow
-        elif self.HeldAbility == "Damage":
+        elif HeldAbility == "Damage":
             self.color = setting.red
         else:
             self.color = setting.green
@@ -35,8 +35,18 @@ class StaticObjects():
         for pos_key, inner_dict in crate_positions.items():
             for inner_key, pos_value in inner_dict.items():
                 x, y = pos_value
-                obj = StaticObject(setting,map_width, map_height ,x, y)
+                inner_key = inner_key.split("_")
+                if int(inner_key[1]) <= 500:
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[0])
+                elif int(inner_key[1]) <= 1000:
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[1])
+                elif int(inner_key[1]) <= 1500:
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[2])
+                else:
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[3])
+
                 self.Static_objects.append(obj)
+
     def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
         collision_list = []
         for static_obj in self.Static_objects:
