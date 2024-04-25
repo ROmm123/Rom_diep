@@ -16,14 +16,13 @@ class Server:
         self.udp_thread.start()
         self.udp_list = []
         self.enemies = -1
-        self.enemiezs_am_list = []
+        self.enemies_am_list = []
         print("Server initialized")
 
     def handle_client(self, client_socket):
         while True:
             try:
                 data = client_socket.recv(2048)
-                print(data)
                 if not data:
                     break
                 data = data.decode()
@@ -93,4 +92,3 @@ if __name__ == '__main__':
     enemies_T.start()
     my_server.s()
 
-#dgdgdgd

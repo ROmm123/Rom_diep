@@ -38,7 +38,7 @@ class enemy_main():
             color = (255, 0, 0)
             self.WEAPON.color = color
             self.draw_enemy(color, b1, b2, radius)
-            hit = self.player.hit_online()
+            hit = self.player.hit_online(int(data["player_radius"]),int(data["player_position_x"]),int(data["player_position_y"]))
             if hit is not None:
                 print(hit)
             if data["shot_start_x"] != None:

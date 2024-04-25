@@ -45,12 +45,12 @@ class Player():
         self.small_weapon = True
         self.ability = []  # list of Strings
 
-    def get_rect_player(self,radius,position_x,position_y):
+    def get_rect_player(self,radius,position1,position2):
         # gets and returns the player's rect
         rect_width = radius * 2
         rect_height = radius * 2
-        rect_x = int(position_x - radius)
-        rect_y = int(position_y - radius)
+        rect_x = int(position1 - radius)
+        rect_y = int(position2 - radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self):
@@ -69,13 +69,18 @@ class Player():
             # HP REGEN NEEDS WORK
 
     def hit(self):
-        player_rect = self.get_rect_player(self.radius, self.screen_position[0], self.screen_position[1])
+        player_rect = self.get_rect_player(self.radius, self.position[0],self.position[1])
 
         # check collision with normal shots
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
             shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
+            print(shot_rect)
+            print(player_rect)
             if player_rect.colliderect(shot_rect):
+                print(self.NORMAL_SHOT.remove_shots)
                 self.NORMAL_SHOT.remove_shots.append(i)
+                print(self.NORMAL_SHOT.remove_shots)
+
                 return "normal shot"
 
         # check collision with big shots
@@ -89,14 +94,21 @@ class Player():
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()
-    def hit_online(self,radius,enemy_position_x,enemy_position_y):
+    def hit_online(self, radius, enemy_position_x, enemy_position_y):
         enemy_rect = self.get_rect_player(radius,enemy_position_x, enemy_position_y)
-        player_rect = self.get_rect_player(self.radius, self.screen_position[0], self.screen_position[1])
+        enemy_position=[enemy_position_x,enemy_position_y]
+        player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
         # check collision with normal shots
-        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(enemy_position)):
             shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
+            print(shot_rect)
+            print(enemy_rect)
             if enemy_rect.colliderect(shot_rect):
                 self.NORMAL_SHOT.remove_shots.append(i)
+
+
+        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+            shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
             if player_rect.colliderect(shot_rect):
                 self.NORMAL_SHOT.remove_shots.append(i)
                 return "normal shot"
