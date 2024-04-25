@@ -24,6 +24,7 @@ class NormalShot:
         self.velocity = []
         self.start_x = 0
         self.start_y = 0
+        self.velocity=[0,0]
         self.shot_relative_vector = [0, 0]
 
     def get_shot_owner_id(self):

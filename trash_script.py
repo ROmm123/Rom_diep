@@ -104,7 +104,8 @@ class Game():
                 "player_color": self.player.color,
                 "player_radius": self.player.radius,
                 "weapon_angle": self.player.WEAPON.angle,
-                "shot_velocity": self.player.NORMAL_SHOT.velocity,
+                "shot_velocity_x": self.player.NORMAL_SHOT.velocity[0],
+                "shot_velocity_y": self.player.NORMAL_SHOT.velocity[1],
                 "shot_start_x": self.player.NORMAL_SHOT.start_x,
                 "shot_start_y": self.player.NORMAL_SHOT.start_y,
 

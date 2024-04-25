@@ -9,17 +9,17 @@ class enemy_main():
         self.data = json.loads(data)
         self.set = setting
         self.surface = setting.surface
-        self.Playerrr = player
+        self.player = player
         self.WEAPON = weapon
 
 
     def calculate(self):
         k1 = int(float(self.data["player_position_x"])) # Convert float to int
         k2 = int(float(self.data["player_position_y"]))# Convert float to int
-        b1 = k1 - self.Playerrr.screen_position[0]
-        b2 = k2 - self.Playerrr.screen_position[1]
-        a1 = abs(k1 - int(self.Playerrr.screen_position[0]))
-        a2 = abs(k2 - int(self.Playerrr.screen_position[1]))
+        b1 = k1 - self.player.screen_position[0]
+        b2 = k2 - self.player.screen_position[1]
+        a1 = abs(k1 - int(self.player.screen_position[0]))
+        a2 = abs(k2 - int(self.player.screen_position[1]))
         self.check(a1, a2, b1, b2, self.data)
 
     def check(self, a1, a2, b1, b2, data):
@@ -39,6 +39,13 @@ class enemy_main():
             color = (255, 0, 0)
             self.WEAPON.color = color
             self.draw_enemy(color, b1, b2, radius)
+
+
+            start_x = int(data["shot_start_x"])+b1
+            start_y=int(data["shot_start_y"])+b2
+            velocity_x=float(data["shot_velocity_x"])
+            velocity_y = float(data["shot_velocity_y"])
+            self.player.NORMAL_SHOT.shots.append({"position": [start_x,start_y], "velocity": [velocity_x, velocity_y]})  # adds a shot to an array for it to print on the screen
 
         else:
             print('0000')
