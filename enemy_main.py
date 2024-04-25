@@ -7,7 +7,7 @@ import json
 class enemy_main():
     def __init__(self, data, player, setting, weapon):
         self.data = json.loads(data)
-        self.set = setting
+        self.setting = setting
         self.surface = setting.surface
         self.player = player
         self.WEAPON = weapon
@@ -23,7 +23,7 @@ class enemy_main():
         self.check(a1, a2, b1, b2, self.data)
 
     def check(self, a1, a2, b1, b2, data):
-        if a2 < self.set.screen_height and a1 < self.set.screen_width:
+        if a2 < self.setting.screen_height and a1 < self.setting.screen_width:
             radius = int(float(data["player_radius"]))
             self.WEAPON.radius = radius
             weapon_angle = data.get("weapon_angle", "")
@@ -40,12 +40,13 @@ class enemy_main():
             self.WEAPON.color = color
             self.draw_enemy(color, b1, b2, radius)
 
-
-            start_x = int(data["shot_start_x"])+b1
-            start_y=int(data["shot_start_y"])+b2
-            velocity_x=float(data["shot_velocity_x"])
-            velocity_y = float(data["shot_velocity_y"])
-            self.player.NORMAL_SHOT.shots.append({"position": [start_x,start_y], "velocity": [velocity_x, velocity_y]})  # adds a shot to an array for it to print on the screen
+            if data["shot_start_x"]!=None:
+                start_x = int(data["shot_start_x"])+b1
+                start_y=int(data["shot_start_y"])+b2
+                velocity_x=float(data["shot_velocity_x"])
+                velocity_y = float(data["shot_velocity_y"])
+                #if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:
+                self.player.NORMAL_SHOT.shots.append({"position": [start_x,start_y], "velocity": [velocity_x, velocity_y]})  # adds a shot to an array for it to print on the screen
 
         else:
             print('0000')
@@ -54,11 +55,14 @@ class enemy_main():
         center_x = int(center_x) +400
         center_y = int(center_y) +300
 
-        self.WEAPON.rect_center_x=center_x
-        self.WEAPON.rect_center_y =center_y
+        self.WEAPON.x = center_x
+        self.WEAPON.y = center_y
         radius = int(radius)
         pygame.draw.circle(self.surface, color, (center_x, center_y), radius)
-        self.WEAPON.run_weapon()
+        self.WEAPON.run_enemy_weapon()
+        self.WEAPON.color = self.setting.grey
+        self.WEAPON.x = 400
+        self.WEAPON.y = 300
 
 
 

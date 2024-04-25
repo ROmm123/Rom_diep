@@ -18,6 +18,8 @@ class Weapon():
         self.rect_height = height
         self.dx = 0
         self.dy = 0
+        self.x=400
+        self.y=300
 
     def calc_angle(self):
         # Calculate the angle between the player and the mouse
@@ -27,8 +29,8 @@ class Weapon():
 
     def calc_tangent_point(self):
         # Calculate the point on the circle tangent to the mouse position
-        self.tangent_x = self.set.screen_width // 2 + self.player.radius * math.cos(self.angle)
-        self.tangent_y = self.set.screen_height // 2 + self.player.radius * math.sin(self.angle)
+        self.tangent_x = self.x + self.player.radius * math.cos(self.angle)
+        self.tangent_y = self.y + self.player.radius * math.sin(self.angle)
 
     def calc_rect_pos(self):
         # Calculate rectangle position on the circular path
@@ -53,6 +55,12 @@ class Weapon():
 
     def run_weapon(self):
         self.calc_angle()
+        self.calc_tangent_point()
+        self.calc_rect_pos()
+        self.draw_rect()  # Draw the new rectangle
+        self.rotate_surf()
+        self.draw_weapon()
+    def run_enemy_weapon(self):
         self.calc_tangent_point()
         self.calc_rect_pos()
         self.draw_rect()  # Draw the new rectangle

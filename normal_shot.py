@@ -122,10 +122,10 @@ class NormalShot:
 
 
     def reset(self):
-        self.start_x = 0
-        self.start_y = 0
-        self.shot_relative_vector = [0, 0]
-        self.velocity = [0, 0]
+        self.start_x = None
+        self.start_y = None
+        self.shot_relative_vector = [None, None]
+        self.velocity = [None, None]
 
 
 

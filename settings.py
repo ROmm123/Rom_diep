@@ -32,4 +32,4 @@ class setting():
         pygame.display.update()
         self.clock.tick(120)
         fps = self.clock.get_fps()
-        #rint(f"Current FPS: {fps:.2f}")
+        print(f"Current FPS: {fps:.2f}")
