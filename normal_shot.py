@@ -14,8 +14,8 @@ class NormalShot:
         self.surface = self.setting.surface
         self.rect = self.surface.get_rect()
         self.offset_distance = 50
-        self.speed = 5
-        self.speed_multiplier = 2
+        self.speed = 10
+
         self.remove_speed = 0.3
         self.direction = [0, 0]
         self.shot_button = [False, False]
@@ -27,6 +27,7 @@ class NormalShot:
         self.magnitude=0.0
         self.start_x=0
         self.start_y=0
+        self.shot_relative_vector = [0, 0]
 
     def get_shot_owner_id(self):
         return self.player_id
@@ -59,12 +60,12 @@ class NormalShot:
 
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
-        start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
-        start_y = player_position[1] + self.offset_distance * math.sin(angle)
+        self.start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
+        self.start_y = player_position[1] + self.offset_distance * math.sin(angle)
 
         print("start pos:", self.start_x, self.start_y)
 
-        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed_multiplier, self.velocity[1] * self.speed_multiplier]})   #adds a shot to an array for it to print on the screen
+        self.shots.append({"position": [self.start_x, self.start_y], "velocity": [self.velocity[0] , self.velocity[1]]})   #adds a shot to an array for it to print on the screen
 
     def calc_relative(self,screen_position,move_button,speed):
         self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
@@ -121,6 +122,16 @@ class NormalShot:
     def get_shot_rects(self, screen_position):
         return [self.get_shot_rect((int(circle["position"][0]) + screen_position[0], int(circle["position"][1]) + screen_position[1])) for circle in self.shots]
 
+
+    def reset(self):
+        self.mouse_x = 0
+        self.mouse_y = 0
+        self.magnitude = 0.0
+        self.start_x = 0
+        self.start_y = 0
+        self.direction[0] = 0
+        self.direction[1] = 0
+        self.shot_relative_vector = [0, 0]
 
 
 

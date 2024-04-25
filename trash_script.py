@@ -125,10 +125,17 @@ class Game():
             self.client.send_data(data)
             if self.num_enemies>0:
                 self.draw_event.wait()
+                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position,self.player.move_button,self.player.speed)
+                self.player.NORMAL_SHOT.update()
+                self.player.NORMAL_SHOT.reset()
                 self.setting.update()
+
             # Reset the event for the next iteration
                 self.draw_event.clear()
             else:
+                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position,self.player.move_button,self.player.speed)
+                self.player.NORMAL_SHOT.update()
+                self.player.NORMAL_SHOT.reset()
                 self.setting.update()
 
     def close_connections(self):

@@ -47,12 +47,11 @@ class enemy_main():
         center_x = int(center_x) +400
         center_y = int(center_y) +300
 
-        self.WEAPON.x = center_x
-        self.WEAPON.y = center_y
+        self.WEAPON.rect_center_x=center_x
+        self.WEAPON.rect_center_y =center_y
         radius = int(radius)
         pygame.draw.circle(self.surface, color, (center_x, center_y), radius)
-
-        #self.WEAPON.run_weapon()
+        self.WEAPON.run_weapon()
 
 
 
