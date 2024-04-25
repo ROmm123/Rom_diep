@@ -69,7 +69,7 @@ class Game():
         self.setting = setting()
         self.player = Player(0, 0, 35, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
-        self.client = Client('localhost', 10019, 10024)
+        self.client = Client('localhost', 10018, 10022)
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
@@ -113,8 +113,7 @@ class Game():
             self.client.send_data(data)
             if self.num_enemies > 0:
                 self.draw_event.wait()
-                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
-                                                      self.player.speed)
+                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
                 self.setting.update()
@@ -122,8 +121,10 @@ class Game():
                 # Reset the event for the next iteration
                 self.draw_event.clear()
             else:
-                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
-                                                      self.player.speed)
+                hit = self.player.hit()
+                if hit is not None:
+                    print(hit)
+                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
                 self.setting.update()
@@ -141,7 +142,8 @@ class Game():
             self.num_enemies = enemies
             if diff > 0:
                 for _ in range(diff):
-                    enemy_thread = EnemyThread(self.client, self.player, self.setting, self.player.WEAPON, self.draw_event)
+                    enemy_thread = EnemyThread(self.client, self.player, self.setting, self.player.WEAPON,
+                                               self.draw_event)
                     enemy_thread.start()
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:

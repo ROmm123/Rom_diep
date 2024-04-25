@@ -16,7 +16,7 @@ class Server:
         self.udp_thread.start()
         self.udp_list = []
         self.enemies = -1
-        self.enemies_am_list = []
+        self.enemiezs_am_list = []
         print("Server initialized")
 
     def handle_client(self, client_socket):
@@ -87,7 +87,7 @@ class Server:
 
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 10019, 10024)
+    my_server = Server('localhost', 10018, 10022)
     print("Starting server...")
     enemies_T = threading.Thread(target = my_server.handle_Enemies_Am)
     enemies_T.start()

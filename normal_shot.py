@@ -44,25 +44,15 @@ class NormalShot:
         self.mouse_x = screen_position[0] + self.direction[0]
         self.mouse_y = screen_position[1] + self.direction[1]
 
-        print("mouse", self.mouse_x, self.mouse_y)
-        print("screen", screen_position)
-        print("center", player_position)
-
         self.magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
-        print(self.magnitude)
         if self.magnitude != 0:  # checks if zero vector
             self.direction[0] /= self.magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= self.magnitude
 
-        print("direction", self.direction)
-
-
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         self.start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
         self.start_y = player_position[1] + self.offset_distance * math.sin(angle)
-
-        print("start pos:", self.start_x, self.start_y)
-
+        print("fire")
         self.shots.append({"position": [self.start_x, self.start_y], "velocity": [self.velocity[0] , self.velocity[1]]})   #adds a shot to an array for it to print on the screen
 
     def calc_relative(self,screen_position,move_button,speed):
