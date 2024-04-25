@@ -270,3 +270,5 @@ class Player:
         self.inventory.add_to_inventory(ability)
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
+
+        return speed

@@ -57,7 +57,7 @@ class Game:
                 self.Playerr.stored_abilities.append(ability)
             print(self.Playerr.stored_abilities)
 
-            self.Playerr.move(ability)
+            speed = self.Playerr.move(ability)
             self.Playerr.update_ability()  # Update ability timers
 
             collisions = self.static_objects.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],
@@ -100,9 +100,9 @@ class Game:
             self.Playerr.handle_events_abilities(key_state)
 
             self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
-                                                   self.Playerr.speed)
+                                                   speed)
             self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
-                                                self.Playerr.speed)
+                                                speed)
             self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
             self.Playerr.BIG_SHOT.update()  # updates the big shots
 
