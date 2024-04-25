@@ -160,6 +160,7 @@ class Player():
                     self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_normal_shot_time = current_time  # update last shot time
+                    self.NORMAL_SHOT.draw()
 
             # IF SPACE PRESSED, NORMAL SHOT
             elif not key_state[pygame.K_SPACE] and self.NORMAL_SHOT.prev_key:
