@@ -49,11 +49,14 @@ class StaticObjects():
 
     def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
         collision_list = []
+        position_collision = None
+
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
             obj_y = static_obj.position[1] - viewport_y
             static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width,
                                                      static_obj.height)
+
             # checks collision with the shots
             shot_collision_result = self.shot_collisions(shots_rects, static_obj)
             if shot_collision_result is not None:
@@ -74,16 +77,18 @@ class StaticObjects():
 
                     # checks collision with the player
                     player_collision_result = self.player_collisions(static_obj, player_rect)
+
                     if player_collision_result is not None:
+                        position_collision = static_obj.position
                         collision_list.append(player_collision_result)
 
-        return collision_list
+        return collision_list , position_collision
 
     def player_collisions(self, static_obj, player_rect):
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
-                self.hurt(static_obj)
+                self.hurt(static_obj) # get position by server to hurt
                 # Calculate the centers of both the player's and static object's rectangles
                 player_center_x, player_center_y = player_rect.center
                 static_obj_center_x, static_obj_center_y = static_obj.rect_static_obj.center

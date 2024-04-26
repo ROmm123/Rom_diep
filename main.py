@@ -32,7 +32,7 @@ class EnemyThread(threading.Thread):
             data = self.client.receive_data()
 
 
-        
+
 
             if data != '0' and data:
                 enemy_instance = Enemy_main(data, self.player, self.setting, self.weapon)
@@ -50,20 +50,23 @@ class Game:
         self.inventory = inventory(self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client_main = Client('localhost', 55555)
+        self.client_main = Client('localhost', 55555,55556)
         self.client_main.connect()
-        self.crate_positions = self.client_main.receive_list_obj()
+        self.crate_positions = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)  # defult
         self.FLAG_SERVER_1 = False
         self.FLAG_SERVER_2 = False
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
+        self.obj_client_that_client_think_he_have = 0
+
 
         # ADD HP REGENERATION
 
     def run(self):
         # main game loop
+        print(self.crate_positions)
         player1 = self.add_player()  # adds a player to the game
         enemy1 = self.add_enemy()
         self.initialize_map(player1)  # initializes the map
@@ -105,10 +108,11 @@ class Game:
             # if self.Playerr.ability:
             # print(self.Playerr.ability)
 
-            collisions = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],
+            collisions, pos_col = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1],
                                                  self.setting,
                                                  player_rect,
                                                  self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
+
 
             # print(collision)
 
@@ -158,6 +162,7 @@ class Game:
 
             else:
                 self.Playerr.WEAPON.remove()
+
             self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
                                                    self.Playerr.speed)
             self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button,
@@ -170,6 +175,15 @@ class Game:
                 "player_position_x": self.Playerr.screen_position[0],
                 "player_position_y": self.Playerr.screen_position[1]
             }
+
+            if pos_col is not None:
+                data_for_obj = {
+                    "position_collision": pos_col #pos of collision player and obj
+                }
+            else:
+                data_for_obj = {
+                    "position_collision": None #pos of player only
+                }
 
             data = {
                 "rect_center_x": self.Playerr.WEAPON.rect_center_x,
@@ -185,8 +199,17 @@ class Game:
             }
 
             self.client_main.send_data(data_for_main_server)
-            number_of_server = self.client_main.receive_data()
-            #print(str (self.Playerr.screen_position[0])+" , "+str(number_of_server))
+            data_from_main_server = self.client_main.recevie_only_data_from_main()
+            data_from_main_server = data_from_main_server.split("_")
+            number_of_server = int(data_from_main_server[0])
+
+            if int(data_from_main_server[1]) > self.obj_client_that_client_think_he_have:
+                pass
+                #threading.Thread(target=self.obj_recv(), args=(self.client_main,)).start()
+
+            if data_for_obj["position_collision"]!=None:
+                self.client_main.send_data_obj_parmetrs(data_for_obj)
+
 
             if number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
@@ -194,7 +217,7 @@ class Game:
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 11111
-                    self.client.enemies_Am_port = 11112
+                    self.client.enemies_or_obj_Am_port = 11112
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = True
@@ -214,10 +237,11 @@ class Game:
             elif number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
+                    print("alredy_close")
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 22222
-                    self.client.enemies_Am_port = 22223
+                    self.client.enemies_or_obj_Am_port = 22223
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
@@ -240,7 +264,7 @@ class Game:
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 33333
-                    self.client.enemies_Am_port = 33334
+                    self.client.enemies_or_obj_Am_port = 33334
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
@@ -263,7 +287,7 @@ class Game:
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 44444
-                    self.client.enemies_Am_port = 44445
+                    self.client.enemies_or_obj_Am_port = 44445
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
@@ -340,6 +364,21 @@ class Game:
                     if self.enemy_threads:
                         thread = self.enemy_threads.pop()
                         thread.join()
+
+    def obj_recv(self):
+        print("in draw obj")
+
+        while True:
+            if self.client_main.another_socket_for_enemies_or_obj is None:
+                print("Client disconnected")
+                break
+
+
+            data = self.client_main.receive_obj_prameters()
+            print(data)
+
+
+
 
     def stop(self):
         self.running = False

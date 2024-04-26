@@ -109,6 +109,8 @@ class Player():
         # checks for if any of the movement keys are pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                #TODO close socket main and socket obj
+                socket.close_enemies_Am()
                 socket.close()
                 pygame.quit()
                 sys.exit()

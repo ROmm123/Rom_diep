@@ -28,4 +28,4 @@ class settings:
 
     def update(self):
         pygame.display.update()
-        self.clock.tick(60)
+        self.clock.tick(120)
