@@ -92,15 +92,18 @@ class Player():
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
         enemy_rect = self.get_rect_player(radius, enemy_position_x, enemy_position_y)
-        enemy_position = [enemy_position_x, enemy_position_y]
-        player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
         # check collision with normal shots
-        print("player rect", player_rect)
 
         if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
             for i,_ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
-                shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
-                print("shot rect", shot_rect)
+                all_shot_rects = self.NORMAL_SHOT.get_shot_rects(self.screen_position)
+                shot_rect = None
+                length = len(all_shot_rects)
+                if i < length:
+                    shot_rect = all_shot_rects[i]
+                else:
+                    print("ERROR")
+
                 if enemy_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
 
