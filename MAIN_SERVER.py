@@ -26,8 +26,8 @@ class main_server:
 
                 data = obj_socket.recv(2048)
                 if data:
-                    data_dict = json.loads(data)
                     data = data.decode()
+                    data_dict = json.loads(data)
             except:
                 print(f"Client {obj_socket.getpeername()} disconnected")
                 with self.clients_lock:
@@ -43,9 +43,8 @@ class main_server:
             if len(self.clients) > 1:
                 for receiver_socket, addr in self.clients:
                     if receiver_socket != obj_socket:
-                        obj_pos = obj_pos.encode
-                        print(obj_pos)
-                        receiver_socket.send(obj_pos)
+                        print(json.dumps(obj_pos).encode())
+                        receiver_socket.send(json.dumps(obj_pos).encode())
 
     def handle_client_main(self, client_socket):
         try:

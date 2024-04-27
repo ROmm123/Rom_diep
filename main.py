@@ -204,8 +204,7 @@ class Game:
             number_of_server = int(data_from_main_server[0])
 
             if int(data_from_main_server[1]) > self.obj_client_that_client_think_he_have:
-                pass
-                #threading.Thread(target=self.obj_recv(), args=(self.client_main,)).start()
+                threading.Thread(target=self.obj_recv(), args=(self.client_main,)).start()
 
             if data_for_obj["position_collision"]!=None:
                 self.client_main.send_data_obj_parmetrs(data_for_obj)
