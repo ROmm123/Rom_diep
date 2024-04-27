@@ -69,7 +69,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client_main = Client('localhost', 55554,55557)
+        self.client_main = Client('localhost', 55557,55558)
         self.client_main.connect()
         self.client = Client(None, None)
         self.running = True
@@ -225,6 +225,9 @@ class Game():
 
             if self.num_enemies > 0:
                 self.draw_event.wait()
+                self.player.hit()
+
+
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       self.player.speed)
                 self.player.NORMAL_SHOT.update()

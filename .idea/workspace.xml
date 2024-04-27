@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="borders fixed">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="border and and server move">
       <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SERVER3.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SERVER4.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
@@ -220,9 +218,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.trash_script" />
+        <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.SERVER2" />
-        <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.SERVER4" />
       </list>
     </recent_temporary>
@@ -444,7 +442,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714227638775</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="border and and server move">
+      <option name="closed" value="true" />
+      <created>1714238614044</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1714238614045</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,7 +468,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed_server (burla is diabollical and acustic)" />
     <MESSAGE value="fixed_server (burla is diabollical and acustic)2" />
     <MESSAGE value="weapon+circle enemy client with main client" />
     <MESSAGE value="liddor idea" />
@@ -487,7 +492,8 @@
     <MESSAGE value="big server" />
     <MESSAGE value="borders" />
     <MESSAGE value="borders fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="borders fixed" />
+    <MESSAGE value="border and and server move" />
+    <option name="LAST_COMMIT_MESSAGE" value="border and and server move" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -503,7 +509,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trash_script.py</url>
-          <line>265</line>
+          <line>268</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>

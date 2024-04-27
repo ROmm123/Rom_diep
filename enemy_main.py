@@ -19,15 +19,15 @@ class enemy_main():
         b2 = k2 - self.player.screen_position[1]
         a1 = abs(k1 - int(self.player.screen_position[0]))
         a2 = abs(k2 - int(self.player.screen_position[1]))
-        self.check(a1, a2, b1, b2, self.data)
+        self.check(a1, a2, b1, b2)
 
-    def check(self, a1, a2, b1, b2, data):
+    def check(self, a1, a2, b1, b2):
         if a2 < self.setting.screen_height and a1 < self.setting.screen_width:
-            radius = int(float(data["player_radius"]))
+            radius = int(float(self.data["player_radius"]))
             self.WEAPON.radius = radius
-            weapon_angle = data.get("weapon_angle", "")
+            weapon_angle = self.data.get("weapon_angle", "")
             if isinstance(weapon_angle, (int, float)):
-                angle_str = re.sub(r'[^0-9\.\-]', '', str(weapon_angle))
+                angle_str = re.sub(r'[^0-9.-]', '', str(weapon_angle))
                 try:
                     self.WEAPON.angle = float(angle_str)
                 except ValueError:
@@ -38,14 +38,14 @@ class enemy_main():
             color = (255, 0, 0)
             self.WEAPON.color = color
             self.draw_enemy(color, b1, b2, radius)
-            hit = self.player.hit_online(int(data["player_radius"]),int(data["player_position_x"]),int(data["player_position_y"]))
-            if hit is not None:
-                print(hit)
-            if data["shot_start_x"] != None:
-                start_x = int(data["shot_start_x"]) + b1
-                start_y = int(data["shot_start_y"]) + b2
-                velocity_x = float(data["shot_velocity_x"])
-                velocity_y = float(data["shot_velocity_y"])
+
+            self.player.hit_online(self.player.radius, int(self.data["player_position_x"]) + 400,
+                                   int(self.data["player_position_y"]) + 300)
+            if self.data["shot_start_x"] != None:
+                start_x = int(self.data["shot_start_x"]) + b1
+                start_y = int(self.data["shot_start_y"]) + b2
+                velocity_x = float(self.data["shot_velocity_x"])
+                velocity_y = float(self.data["shot_velocity_y"])
                 # if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:
                 self.player.NORMAL_SHOT.shots.append({"position": [start_x, start_y], "velocity": [velocity_x,
                                                                                                    velocity_y]})  # adds a shot to an array for it to print on the screen

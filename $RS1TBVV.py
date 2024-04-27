@@ -122,7 +122,7 @@ class main_server:
 
 
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55554, 55557)
+    my_server = main_server('localhost', 55557, 55558)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
     obj_thread.start()

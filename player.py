@@ -73,50 +73,40 @@ class Player():
         player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
 
         # check collision with normal shots
-        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
-            shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
-            print(shot_rect)
-            print(player_rect)
-            if player_rect.colliderect(shot_rect):
-                print(self.NORMAL_SHOT.remove_shots)
-                self.NORMAL_SHOT.remove_shots.append(i)
-                print(self.NORMAL_SHOT.remove_shots)
 
-                return "normal shot"
+        if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
+            for i,_ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+                shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
+                if player_rect.colliderect(shot_rect):
+                    self.NORMAL_SHOT.remove_shots.append(i)
 
         # check collision with big shots
         '''
-        for i, _ in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
+        for i,  in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
             shot_rect = self.BIG_SHOT.get_shot_rects(self.screen_position)[i]
                 if player_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
                     return "big shot"
                     '''
-
         self.NORMAL_SHOT.remove()
-        self.BIG_SHOT.remove()
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
         enemy_rect = self.get_rect_player(radius, enemy_position_x, enemy_position_y)
         enemy_position = [enemy_position_x, enemy_position_y]
         player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
         # check collision with normal shots
-        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(enemy_position)):
-            shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
-            print(shot_rect)
-            print(enemy_rect)
-            if enemy_rect.colliderect(shot_rect):
-                self.NORMAL_SHOT.remove_shots.append(i)
+        print("player rect", player_rect)
 
-        for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
-            shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
-            if player_rect.colliderect(shot_rect):
-                self.NORMAL_SHOT.remove_shots.append(i)
-                return "normal shot"
+        if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
+            for i,_ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+                shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
+                print("shot rect", shot_rect)
+                if enemy_rect.colliderect(shot_rect):
+                    self.NORMAL_SHOT.remove_shots.append(i)
 
         # check collision with big shots
         '''
-        for i, _ in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
+        for i,  in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
             shot_rect = self.BIG_SHOT.get_shot_rects(self.screen_position)[i]
                 if player_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
@@ -124,7 +114,6 @@ class Player():
                     '''
 
         self.NORMAL_SHOT.remove()
-        self.BIG_SHOT.remove()
 
     def isAlive(self):
         # exits the game if the player dies (NEEDS TO RESPAWN INSTEAD)
