@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="hit_online">
-      <change afterPath="$PROJECT_DIR$/HP.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Random_PosObj.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SERVER2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SERVER3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SERVER4.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER2.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/map.tmx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +56,7 @@
     "Python.$RS1TBVV.executor": "Run",
     "Python.Network.executor": "Run",
     "Python.SERVER1.executor": "Run",
+    "Python.SERVER2.executor": "Run",
     "Python.enemy_calculate.executor": "Run",
     "Python.enemy_main.executor": "Run",
     "Python.enemy_player.executor": "Run",
@@ -100,7 +96,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.trash_script">
+  <component name="RunManager" selected="Python.SERVER2">
     <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="true" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -145,7 +141,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="SERVER2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -158,7 +154,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SERVER2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -212,19 +208,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.SERVER2" />
       <item itemvalue="Python.SERVER1" />
       <item itemvalue="Python.$RS1TBVV" />
-      <item itemvalue="Python.server" />
       <item itemvalue="Python.trash_script" />
       <item itemvalue="Python.trash_scripts" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.trash_script" />
+        <item itemvalue="Python.SERVER2" />
         <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.trash_scripts" />
-        <item itemvalue="Python.server" />
       </list>
     </recent_temporary>
   </component>

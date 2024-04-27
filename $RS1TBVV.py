@@ -61,16 +61,16 @@ class main_server:
                 pos_y = int(data_dict["player_position_y"])
 
                 # Check which server the client should be on based on their position
-                if pos_y < (294 * 64 + 32) and pos_x < 267 * 64:
+                if pos_y < (177*64-330) and pos_x < (240*64-430):
                     data = "1_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y < (294 * 64 + 32) and pos_x > 267 * 64:
+                elif pos_y < (177*64-330) and pos_x > (260 * 64-430) and pos_x<(500*64-430):
                     data = "2_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y > (294 * 64 + 32) and pos_x < 267 * 64:
+                elif pos_y > (294 * 64 + 32)and pos_y<(375*64-300) and pos_x < (240*64-430):
                     data = "3_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y > (294 * 64 + 32) and pos_x > 267 * 64:
+                elif pos_y > (294 * 64 + 32)and pos_y<(375*64-300) and pos_x > (260 * 64-430) and pos_x<(500*64-430):
                     data = "4_" + str(self.obj_client)
                     client_socket.send(data.encode())
 

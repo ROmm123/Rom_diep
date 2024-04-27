@@ -3,8 +3,8 @@ import threading
 from Network import Client
 
 
-from static_objects import StaticObjects
-from settings import settings
+from Static_Obj import StaticObjects
+from settings import setting
 
 class Server:
     def __init__(self, host, port, tcp_port):
