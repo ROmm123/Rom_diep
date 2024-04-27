@@ -69,7 +69,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client_main = Client('localhost', 55555,55556)
+        self.client_main = Client('localhost', 55554,55557)
         self.client_main.connect()
         self.client = Client(None, None)
         self.running = True
@@ -88,7 +88,7 @@ class Game():
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
-            self.player.handle_events_movement()
+            self.player.handle_events_movement(self.client)
             self.player.move()
 
             for layer in range(2):
@@ -98,12 +98,6 @@ class Game():
 
             self.player.WEAPON.run_weapon()
             self.player.handle_events_shots(key_state, mouse_state)
-
-
-            data_for_main_server = {
-                "player_position_x": self.player.screen_position[0],
-                "player_position_y": self.player.screen_position[1]
-            }
 
 
             data = {
@@ -123,13 +117,12 @@ class Game():
                 "shot_start_y": self.player.NORMAL_SHOT.start_y,
 
             }
-            self.client_main.send_data(data_for_main_server)
-            data_from_main_server = self.client_main.recevie_only_data_from_main()
-            data_from_main_server = data_from_main_server.split("_")
-            number_of_server = int(data_from_main_server[0])
 
 
-            if number_of_server == 1:
+
+
+            self.check_server()
+            if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
@@ -152,7 +145,7 @@ class Game():
                     # Already connected to server 1, just send player data
                     self.client.send_data(data)
 
-            elif number_of_server == 2:
+            elif self.number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
                     print("alredy_close")
@@ -176,10 +169,11 @@ class Game():
                     # Already connected to server 2, just send player data
                     self.client.send_data(data)
 
-            elif number_of_server == 3:
+            elif self.number_of_server == 3:
                 if self.FLAG_SERVER_3 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
+                    self.client.close_enemies_Am()
                     self.client.host = 'localhost'
                     self.client.port = 33333
                     self.client.enemies_or_obj_Am_port = 33334
@@ -199,10 +193,11 @@ class Game():
                     # Already connected to server 3, just send player data
                     self.client.send_data(data)
 
-            elif number_of_server == 4:
+            elif self.number_of_server == 4:
                 if self.FLAG_SERVER_4 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
+                    self.client.close_enemies_Am()
                     self.client.host = 'localhost'
                     self.client.port = 44444
                     self.client.enemies_or_obj_Am_port = 44445
@@ -248,6 +243,7 @@ class Game():
 
     def close_connections(self):
         self.client.close()
+        self.client.close_enemies_Am()
 
     def EnemiesAm_handling(self, client):
         # Thread function to handle enemies received from server
@@ -294,6 +290,16 @@ class Game():
             random_number_y = random.randint(0, 37000)
             if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
+    def check_server(self):
+        data_for_main_server = {
+            "player_position_x": self.player.screen_position[0],
+            "player_position_y": self.player.screen_position[1]
+        }
+
+        self.client_main.send_data(data_for_main_server)
+        data_from_main_server = self.client_main.recevie_only_data_from_main()
+        data_from_main_server = data_from_main_server.split("_")
+        self.number_of_server = int(data_from_main_server[0])
 
 
 if __name__ == '__main__':

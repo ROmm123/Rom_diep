@@ -6,6 +6,7 @@ from map import *
 # from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
+import socket
 
 
 # from inventory import *
@@ -28,7 +29,7 @@ class Player():
             self.center[0] + self.radius, self.center[1])  # triangle player shape points on screen
         self.position = [(self.screen_position[0] + self.center[0]),
                          (self.screen_position[1] + self.center[1])]  # player position relative to the map
-        self.move_button = [False, False, False, False, False]  # movement buttons (a, d, w, s)
+        self.move_button = [False, False, False, False, False, False]  # movement buttons (a, d, w, s)
         # self.hp = HP(self.center[0], self.center[1], radius, setting)  # initialize hp
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.96, 2, self.setting)  # initialize normal shot
@@ -139,10 +140,13 @@ class Player():
         # pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
         # pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
-    def handle_events_movement(self):
+    def handle_events_movement(self,socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+
+                socket.close_enemies_Am()
+                socket.close()
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
@@ -156,6 +160,8 @@ class Player():
                     self.move_button[3] = True
                 if event.key == pygame.K_i:
                     self.move_button[4] = True
+                if event.key==pygame.K_l:
+                    self.move_button[5]=True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     self.move_button[0] = False
@@ -167,6 +173,8 @@ class Player():
                     self.move_button[3] = False
                 if event.key == pygame.K_i:
                     self.move_button[4] = False
+                if event.key==pygame.K_l:
+                    self.move_button[5]=False
 
     def handle_events_shapes(self, key_state):
         # checks for if any of the shapeshift keys are pressed
@@ -223,28 +231,38 @@ class Player():
             self.screen_position[0] -= self.speed
             if self.screen_position[0] < 0:
                 self.screen_position[0] += self.speed
-            if self.screen_position[0] > (250 * 64 + 2) and self.screen_position[0] < (260 * 64-430):
+            if self.screen_position[0] > (250 * 64 + 2) and self.screen_position[0] < (261 * 64-430):
+                if self.move_button[5]:
+                    self.screen_position[0]=self.screen_position[0]-(31*64)
                 self.screen_position[0] += self.speed
 
         if self.move_button[1]:  # d
             self.screen_position[0] += self.speed
-            if self.screen_position[0]>(500*64-430):
+            if self.screen_position[0]>(30780):
                 self.screen_position[0] -= self.speed
-            if self.screen_position[0] > (240 * 64 - 430) and self.screen_position[0] < (250 * 64-2):
+            if self.screen_position[0] > (240*64 - 430) and self.screen_position[0] < (250 * 64-2):
+                if self.move_button[5]:
+                    self.screen_position[0]=self.screen_position[0]+(31*64)
+
                 self.screen_position[0] -= self.speed
 
         if self.move_button[2]:  # w
             self.screen_position[1] -= self.speed
             if self.screen_position[1] < 0:
                 self.screen_position[1] += self.speed
-            if self.screen_position[1]>(187*64+2) and self.screen_position<(197*64-330):
+            if self.screen_position[1]>(187*64+2) and self.screen_position[1]<(198*64-330):
+                if self.move_button[5]:
+                    self.screen_position[1]=self.screen_position[1]-(31*64)
                 self.screen_position[1] += self.speed
 
         if self.move_button[3]:  # s
             self.screen_position[1] += self.speed
-            if self.screen_position[1]>(375*64-330):
+            print(self.screen_position[1])
+            if self.screen_position[1]>(22720):
                 self.screen_position[1] -= self.speed
             if self.screen_position[1]>(177*64-330) and self.screen_position[1]<(187*64-2):
+                if self.move_button[5]:
+                    self.screen_position[1]=self.screen_position[1]+(31*64)
                 self.screen_position[1] -= self.speed
 
 

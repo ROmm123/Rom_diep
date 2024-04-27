@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="borders">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="borders fixed">
       <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER3.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER4.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER4.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +58,8 @@
     "Python.Network.executor": "Run",
     "Python.SERVER1.executor": "Run",
     "Python.SERVER2.executor": "Run",
+    "Python.SERVER3.executor": "Run",
+    "Python.SERVER4.executor": "Run",
     "Python.enemy_calculate.executor": "Run",
     "Python.enemy_main.executor": "Run",
     "Python.enemy_player.executor": "Run",
@@ -94,7 +100,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.trash_script">
-    <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="true" temporary="true" nameIsGenerated="true">
+    <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -160,6 +166,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="SERVER4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Rom_diep" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SERVER4.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="trash_script" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -182,42 +210,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="trash_scripts" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Rom_diep" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/trash_scripts.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Python.SERVER4" />
       <item itemvalue="Python.SERVER2" />
       <item itemvalue="Python.SERVER1" />
       <item itemvalue="Python.$RS1TBVV" />
       <item itemvalue="Python.trash_script" />
-      <item itemvalue="Python.trash_scripts" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.$RS1TBVV" />
-        <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.SERVER2" />
-        <item itemvalue="Python.trash_scripts" />
+        <item itemvalue="Python.SERVER1" />
+        <item itemvalue="Python.SERVER4" />
       </list>
     </recent_temporary>
   </component>
@@ -430,7 +436,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714225777585</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="borders fixed">
+      <option name="closed" value="true" />
+      <created>1714227638775</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1714227638775</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -448,7 +462,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="half way to infinity enemy" />
     <MESSAGE value="fixed_server (burla is diabollical and acustic)" />
     <MESSAGE value="fixed_server (burla is diabollical and acustic)2" />
     <MESSAGE value="weapon+circle enemy client with main client" />
@@ -473,7 +486,8 @@
     <MESSAGE value="hit_online" />
     <MESSAGE value="big server" />
     <MESSAGE value="borders" />
-    <option name="LAST_COMMIT_MESSAGE" value="borders" />
+    <MESSAGE value="borders fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="borders fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -486,6 +500,11 @@
           <url>file://$PROJECT_DIR$/../diep-2.0/test.py</url>
           <line>173</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/trash_script.py</url>
+          <line>265</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

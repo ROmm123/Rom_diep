@@ -64,13 +64,13 @@ class main_server:
                 if pos_y < (187*64) and pos_x < (250*64):
                     data = "1_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y < (187*64) and pos_x > (250 * 64) and pos_x<(500*64-428):
+                elif pos_y < (187*64) and pos_x > (250 * 64) and pos_x<(30784):
                     data = "2_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y > (187*64)and pos_y<(375*64) and pos_x < (250*64):
+                elif pos_y > (187*64)and pos_y<(22724) and pos_x < (250*64):
                     data = "3_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y > (187*64)and pos_y<(375*64-328) and pos_x > (250 * 64) and pos_x<(500*64-428):
+                elif pos_y > (187*64)and pos_y<(22724) and pos_x > (250 * 64) and pos_x<(30784):
                     data = "4_" + str(self.obj_client)
                     client_socket.send(data.encode())
 
@@ -122,7 +122,7 @@ class main_server:
 
 
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55555, 55556)
+    my_server = main_server('localhost', 55554, 55557)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
     obj_thread.start()

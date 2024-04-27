@@ -84,13 +84,9 @@ class Client:
             return None
 
     def receive_data_EnemiesAm(self):
-        try:
-            data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
-            data_dict = json.loads(data_str)
-            return data_dict
-        except Exception as e:
-            print(f"Error receiving data from enemy: {e}")
-            return None
+        data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
+        data_dict = json.loads(data_str)
+        return data_dict
 
     def close(self):
         try:
