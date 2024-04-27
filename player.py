@@ -45,7 +45,7 @@ class Player():
         self.small_weapon = True
         self.ability = []  # list of Strings
 
-    def get_rect_player(self,radius,position1,position2):
+    def get_rect_player(self, radius, position1, position2):
         # gets and returns the player's rect
         rect_width = radius * 2
         rect_height = radius * 2
@@ -69,7 +69,7 @@ class Player():
             # HP REGEN NEEDS WORK
 
     def hit(self):
-        player_rect = self.get_rect_player(self.radius, self.position[0],self.position[1])
+        player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
 
         # check collision with normal shots
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
@@ -94,9 +94,10 @@ class Player():
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()
+
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
-        enemy_rect = self.get_rect_player(radius,enemy_position_x, enemy_position_y)
-        enemy_position=[enemy_position_x,enemy_position_y]
+        enemy_rect = self.get_rect_player(radius, enemy_position_x, enemy_position_y)
+        enemy_position = [enemy_position_x, enemy_position_y]
         player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
         # check collision with normal shots
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(enemy_position)):
@@ -106,13 +107,11 @@ class Player():
             if enemy_rect.colliderect(shot_rect):
                 self.NORMAL_SHOT.remove_shots.append(i)
 
-
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
             shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
             if player_rect.colliderect(shot_rect):
                 self.NORMAL_SHOT.remove_shots.append(i)
                 return "normal shot"
-
 
         # check collision with big shots
         '''
@@ -220,21 +219,34 @@ class Player():
 
     def move(self):
         # moves the player according to the data in handle_events_movement and updates his position
-        if self.move_button[0]:
+        if self.move_button[0]:  # a
             self.screen_position[0] -= self.speed
             if self.screen_position[0] < 0:
                 self.screen_position[0] += self.speed
+            if self.screen_position[0] > (240 * 64 - 430) and self.screen_position[0] < (250 * 64-2):
+                self.screen_position[0] += self.speed
 
-        if self.move_button[1]:
+        if self.move_button[1]:  # d
             self.screen_position[0] += self.speed
+            if self.screen_position[0]>(500*64-430):
+                self.screen_position[0] -= self.speed
+                if self.screen_position[0] > (240 * 64 - 430) and self.screen_position[0] < (250 * 64):
+                    self.screen_position[0] -= self.speed
 
-        if self.move_button[2]:
+        if self.move_button[2]:  # w
             self.screen_position[1] -= self.speed
             if self.screen_position[1] < 0:
                 self.screen_position[1] += self.speed
+            if self.screen_position[1]>(177*64-330) and self.screen_position<(187*64):
+                self.screen_position[1] += self.speed
 
-        if self.move_button[3]:
+        if self.move_button[3]:  # s
             self.screen_position[1] += self.speed
+            if self.screen_position[1]>(375*64-330):
+                self.screen_position[1] -= self.speed
+            if self.screen_position[1]>(177*64-330) and self.screen_position[1]<(177*64):
+                self.screen_position[1] -= self.speed
+
 
         if self.move_button[4]:
             self.inventory.draw_inventory()
