@@ -51,8 +51,7 @@ class enemy_main():
                                                                                                    velocity_y]})  # adds a shot to an array for it to print on the screen
 
         else:
-            print('0000')
-
+            pass
     def draw_enemy(self, color, center_x, center_y, radius):
         center_x = int(center_x) + 400
         center_y = int(center_y) + 300
@@ -68,4 +67,3 @@ class enemy_main():
 
     def main(self):
         self.calculate()
-        print("enemy")

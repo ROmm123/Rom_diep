@@ -53,7 +53,9 @@ class EnemyThread(threading.Thread):
             if self.client.client_socket is None:
                 print("Client disconnected")
                 break
+            print("before recv")
             data = self.client.receive_data()
+            print("pass recv")
 
             if data != '0' and data:
                 enemy_instance = enemy_main(data, self.player, self.setting, self.player.WEAPON)
@@ -65,7 +67,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.player = Player(0, 0, 30, self.setting.red, self.setting)
+        self.player = Player(12000, 0, 30, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []

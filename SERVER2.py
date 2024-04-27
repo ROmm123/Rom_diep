@@ -28,16 +28,15 @@ class Server:
 
     def handle_client(self, client_socket):
         while True:
-            try:
 
-                data = client_socket.recv(2048)
-                if data:
-                    data = data.decode()
-            except:
+            data = self.recive_from_client(client_socket)
+            if not data:
+                print("on except")
                 self.enemies = self.enemies - 1
                 print(f"Client {client_socket.getpeername()} disconnected")
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
+                client_socket.close()
                 break
 
 
@@ -86,6 +85,15 @@ class Server:
 
             self.server_socket.close()
             print("Server socket closed")
+
+    def recive_from_client(self, client_socket):
+        try:
+            data = client_socket.recv(2048).decode("utf-8")
+            return data
+        except:
+            return None
+
+
 
 
 
