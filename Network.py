@@ -18,8 +18,16 @@ class Client:
         self.Enemies_Am_socket.send("0".encode())  # Send encoded bytes
 
     def receive_data(self):
-        data = self.client_socket.recv(2048).decode("utf-8")
-        return data
+        try:
+            data_str = self.client_socket.recv(2048).decode("utf-8")
+            last_bracket_index = data_str.rfind('}')
+            if last_bracket_index != -1:
+                data_str = data_str[:last_bracket_index + 1]
+            data_dict = json.loads(data_str)
+            return data_dict
+        except Exception as e:
+            print(f"Error receiving data: {e}")
+            return None
 
         '''self.client_socket.setblocking(False, timeout TODO)
         try:

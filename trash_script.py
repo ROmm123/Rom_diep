@@ -10,6 +10,7 @@ from settings import setting
 from weapon import Weapon
 from Network import Client
 from enemy_main import *
+import queue
 
 '''class DrawingThread(threading.Thread):
     def __init__(self, draw_queue, map, player):
@@ -37,7 +38,7 @@ from enemy_main import *
 
 
 class EnemyThread(threading.Thread):
-    def __init__(self, client, player, setting, weapon, draw_event):  # draw_queue
+    def __init__(self, client, player, setting, weapon, draw_event , draw_queue):
             super().__init__()
             self.client = client
             self.player = player
@@ -55,7 +56,8 @@ class EnemyThread(threading.Thread):
 
             if data:
                 enemy_instance = enemy_main(data, self.player, self.setting, self.weapon)
-                enemy_instance.main()
+
+                #enemy_instance.main()
                 self.draw_event.set()
                 # Enqueue drawing task for the enemy
                 # self.draw_queue.put((1, [data , self.player , self.setting , self.weapon]))  # Wrap enemy_mainn in a tuple
@@ -73,7 +75,7 @@ class Game():
         self.num_enemies = 0
         self.enemy_threads = []
         self.running = True
-        # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
+        self.draw_queue = queue.Queue()
         # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
         self.draw_event = threading.Event()  # Create an event for synchronization
         self.draw_event.set()  # Set the event initially
@@ -105,7 +107,7 @@ class Game():
                 "weapon_angle": self.weapon.angle
             }
             self.client.send_data(data)
-            if self.num_enemies > 0:
+            if self.num_enemies > 0 and self.draw_queue.qsize() == len(self.enemy_threads):
                 self.draw_event.wait()
                 self.setting.update()
                 # Reset the event for the next iteration

@@ -17,7 +17,7 @@ class Weapon():
         self.rect_width = width
         self.rect_height = height
         self.x=x
-        self.y=y
+        self.y= y
         self.angle=angle
 
     '''def calc_angle(self):

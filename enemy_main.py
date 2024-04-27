@@ -6,7 +6,7 @@ import json
 
 class enemy_main():
     def __init__(self, data, player, setting, weapon):
-        self.data = json.loads(data)
+        self.data = data
         self.set = setting
         self.surface = setting.surface
         self.Playerrr = player
