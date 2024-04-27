@@ -223,28 +223,28 @@ class Player():
             self.screen_position[0] -= self.speed
             if self.screen_position[0] < 0:
                 self.screen_position[0] += self.speed
-            if self.screen_position[0] > (240 * 64 - 430) and self.screen_position[0] < (250 * 64-2):
+            if self.screen_position[0] > (250 * 64 + 2) and self.screen_position[0] < (260 * 64-430):
                 self.screen_position[0] += self.speed
 
         if self.move_button[1]:  # d
             self.screen_position[0] += self.speed
             if self.screen_position[0]>(500*64-430):
                 self.screen_position[0] -= self.speed
-                if self.screen_position[0] > (240 * 64 - 430) and self.screen_position[0] < (250 * 64):
-                    self.screen_position[0] -= self.speed
+            if self.screen_position[0] > (240 * 64 - 430) and self.screen_position[0] < (250 * 64-2):
+                self.screen_position[0] -= self.speed
 
         if self.move_button[2]:  # w
             self.screen_position[1] -= self.speed
             if self.screen_position[1] < 0:
                 self.screen_position[1] += self.speed
-            if self.screen_position[1]>(177*64-330) and self.screen_position<(187*64):
+            if self.screen_position[1]>(187*64+2) and self.screen_position<(197*64-330):
                 self.screen_position[1] += self.speed
 
         if self.move_button[3]:  # s
             self.screen_position[1] += self.speed
             if self.screen_position[1]>(375*64-330):
                 self.screen_position[1] -= self.speed
-            if self.screen_position[1]>(177*64-330) and self.screen_position[1]<(177*64):
+            if self.screen_position[1]>(177*64-330) and self.screen_position[1]<(187*64-2):
                 self.screen_position[1] -= self.speed
 
 

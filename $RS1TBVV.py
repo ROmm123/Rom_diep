@@ -67,7 +67,7 @@ class main_server:
                 elif pos_y < (187*64) and pos_x > (250 * 64) and pos_x<(500*64-428):
                     data = "2_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y > (187*64)and pos_y<(375*64) and pos_x < (240*64-428):
+                elif pos_y > (187*64)and pos_y<(375*64) and pos_x < (250*64):
                     data = "3_" + str(self.obj_client)
                     client_socket.send(data.encode())
                 elif pos_y > (187*64)and pos_y<(375*64-328) and pos_x > (250 * 64) and pos_x<(500*64-428):
