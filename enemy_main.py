@@ -62,7 +62,7 @@ class enemy_main():
         if int(self.data["damage dealt"]) >= 2*radius:
             center_x = 0
             center_y = 0
-        pygame.draw.circle(self.surface, color, (center_x, center_y), radius)
+        pygame.draw.circle(self.surface, self.setting.yellow, (center_x, center_y), radius)
         health_bar = pygame.Rect(center_x - radius, (center_y + radius + 10), 2 * radius, 10)
         pygame.draw.rect(self.surface, self.setting.green, health_bar)
         pygame.draw.rect(self.surface, self.setting.red,
