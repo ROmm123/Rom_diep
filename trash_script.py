@@ -308,14 +308,6 @@ class Game():
         data_from_main_server = data_from_main_server.split("_")
         self.number_of_server = int(data_from_main_server[0])
 
-    import pygame
-
-    import pygame
-    import os
-
-    import os
-    from moviepy.editor import VideoFileClip
-    import pygame
 
     def transition(self):
         # makes sure the player doesn't keep moving in the direction of the transition
