@@ -3,7 +3,7 @@ import sys
 import pygame
 
 from map import *
-# from HP import *
+from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
 import socket
@@ -34,6 +34,7 @@ class Player():
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.96, 2, self.setting)  # initialize normal shot
         self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)  # initialize big shot
+        self.hp = HP(self.center[0], self.center[1], radius, setting)
         self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
         self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
         self.speed_duration = 10000  # 10 seconds in milliseconds
@@ -54,9 +55,9 @@ class Player():
         rect_y = int(position2 - radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
-    def hurt(self):
+    def hurt(self, damage):
         # reduces the player's HP and checks if he's dead
-        self.hp.Damage += 1
+        self.hp.Damage += damage
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
         print("damage done:", self.hp.Damage)
@@ -70,8 +71,8 @@ class Player():
             # HP REGEN NEEDS WORK
 
     def hit(self):
+        to_remove = []
         player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
-
         # check collision with normal shots
 
         if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
@@ -79,6 +80,8 @@ class Player():
                 shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
                 if player_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
+                    to_remove.append("normal shot")
+
 
         # check collision with big shots
         '''
@@ -89,6 +92,7 @@ class Player():
                     return "big shot"
                     '''
         self.NORMAL_SHOT.remove()
+        return to_remove
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
         enemy_rect = self.get_rect_player(radius, enemy_position_x, enemy_position_y)
@@ -129,8 +133,8 @@ class Player():
         # draws the player according to its shape, and the hp bar
         pygame.draw.circle(self.surface, self.color, (self.center[0], self.center[1]), self.radius)
 
-        # pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
-        # pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
+        pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
+        pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
     def handle_events_movement(self,socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed

@@ -227,7 +227,13 @@ class Game():
 
             if self.num_enemies > 0:
                 self.draw_event.wait()
-                self.player.hit()
+                hit_result = self.player.hit()
+                damage = 0
+                if "normal shot" in hit_result:
+                    amount = hit_result.count("normal shot")
+                    damage += 3*amount
+
+                self.player.hurt(damage)
 
 
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
