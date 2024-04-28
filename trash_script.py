@@ -4,12 +4,16 @@ import time
 import queue  # Import the queue module
 import random
 import pygame
+
 from player import Player
 from map import Map
 from settings import setting
 from weapon import Weapon
 from Network import Client
 from enemy_main import *
+from moviepy.editor import VideoFileClip
+
+import os
 from Static_Obj import StaticObjects
 
 '''class DrawingThread(threading.Thread):
@@ -143,6 +147,7 @@ class Game():
                     # Connect to server 1 if not already connected
                     print("alredy_close")
                     self.client.close()
+                    self.transition()
                     self.client.host = 'localhost'
                     self.client.port = 22222
                     self.client.enemies_or_obj_Am_port = 22223
@@ -302,6 +307,28 @@ class Game():
         data_from_main_server = self.client_main.recevie_only_data_from_main()
         data_from_main_server = data_from_main_server.split("_")
         self.number_of_server = int(data_from_main_server[0])
+
+    import pygame
+
+    import pygame
+    import os
+
+    import os
+    from moviepy.editor import VideoFileClip
+    import pygame
+
+    def transition(self):
+        # makes sure the player doesn't keep moving in the direction of the transition
+        for i in range(len(self.player.move_button)):
+            self.player.move_button[i] = False
+        # transition between servers
+        video_path = "shmulik.mp4"
+        if not os.path.exists(video_path):
+            print("Video file not found.")
+            return
+        clip = VideoFileClip(video_path)
+        clip.preview()
+        clip.close()
 
 
 if __name__ == '__main__':
