@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="two clients - no problems">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="hp added + self hit deals damage">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +25,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;kidanwas&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ROmm123/Rom_diep.git&quot;,
+    &quot;accountId&quot;: &quot;ecd4409f-55b5-4f02-bee7-9c6f78f8860c&quot;
+  }
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -31,53 +45,65 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2dJDW383t9NedM1Y0EOk7BjlRQA" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.$RS1TBVV.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Network.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_calculate.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_player.executor&quot;: &quot;Run&quot;,
-    &quot;Python.example.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game_to_funcs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main_to_funcs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.old_main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.player.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server_oop.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_game.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.test_server_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.trash_script.executor&quot;: &quot;Run&quot;,
-    &quot;Python.trash_script2.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Rom&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python.$RS1TBVV.executor": "Run",
+    "Python.Network.executor": "Run",
+    "Python.SERVER1.executor": "Run",
+    "Python.SERVER2.executor": "Run",
+    "Python.SERVER3.executor": "Run",
+    "Python.SERVER4.executor": "Run",
+    "Python.enemy_calculate.executor": "Run",
+    "Python.enemy_main.executor": "Run",
+    "Python.enemy_player.executor": "Run",
+    "Python.example.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.game_to_funcs.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.main_to_funcs.executor": "Run",
+    "Python.old_main.executor": "Run",
+    "Python.player.executor": "Run",
+    "Python.server.executor": "Run",
+    "Python.server_oop.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_game.executor": "Debug",
+    "Python.test_server_new.executor": "Debug",
+    "Python.trash_script.executor": "Run",
+    "Python.trash_script2.executor": "Run",
+    "Python.trash_scripts.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Rom",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Networks/GITProject/Rom_diep",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep" />
+      <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\files" />
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
   <component name="RunManager" selected="Python.trash_script">
-    <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -87,7 +113,7 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/$RS1TBVV.py" />
@@ -99,7 +125,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="example" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="SERVER1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -109,10 +135,10 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SERVER1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -121,7 +147,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="game" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="SERVER2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,7 +160,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/game.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SERVER2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,7 +169,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="SERVER4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -156,7 +182,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SERVER4.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -188,26 +214,26 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.example" />
+      <item itemvalue="Python.SERVER4" />
+      <item itemvalue="Python.SERVER2" />
+      <item itemvalue="Python.SERVER1" />
       <item itemvalue="Python.$RS1TBVV" />
-      <item itemvalue="Python.game" />
-      <item itemvalue="Python.main" />
       <item itemvalue="Python.trash_script" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.trash_script" />
+        <item itemvalue="Python.SERVER2" />
+        <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
-        <item itemvalue="Python.example" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.game" />
+        <item itemvalue="Python.SERVER4" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
+        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
       </set>
     </attachedChunks>
   </component>
@@ -301,15 +327,151 @@
       <option name="project" value="LOCAL‎" />
       <updated>1712161079714</updated>
     </task>
-    <task id="LOCAL‎-00011" summary="two clients - no problems">
+    <task id="LOCAL-00011" summary="change map">
       <option name="closed" value="true" />
-      <created>1713435083699</created>
+      <created>1713606911081</created>
       <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL‎-00011" />
-      <option name="project" value="LOCAL‎" />
-      <updated>1713435083699</updated>
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1713606911081</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="change map2">
+      <option name="closed" value="true" />
+      <created>1713607795302</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1713607795302</updated>
+    </task>
+    <task id="LOCAL-00013" summary="change map3">
+      <option name="closed" value="true" />
+      <created>1713632780669</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1713632780669</updated>
+    </task>
+    <task id="LOCAL-00014" summary="change tiled">
+      <option name="closed" value="true" />
+      <created>1713638653805</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1713638653805</updated>
+    </task>
+    <task id="LOCAL-00015" summary="change tiled10">
+      <option name="closed" value="true" />
+      <created>1713641851854</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1713641851854</updated>
+    </task>
+    <task id="LOCAL-00016" summary="change tiled11">
+      <option name="closed" value="true" />
+      <created>1713642186252</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1713642186252</updated>
+    </task>
+    <task id="LOCAL-00017" summary="without shot">
+      <option name="closed" value="true" />
+      <created>1713728225550</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1713728225550</updated>
+    </task>
+    <task id="LOCAL-00018" summary="doesnt work">
+      <option name="closed" value="true" />
+      <created>1713731400454</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1713731400454</updated>
+    </task>
+    <task id="LOCAL-00019" summary="only need to draw the shot every time in enemy and main">
+      <option name="closed" value="true" />
+      <created>1713873697959</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1713873697959</updated>
+    </task>
+    <task id="LOCAL-00020" summary="shot online">
+      <option name="closed" value="true" />
+      <created>1714065999613</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1714065999613</updated>
+    </task>
+    <task id="LOCAL-00021" summary="shot online with weapon">
+      <option name="closed" value="true" />
+      <created>1714071130592</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1714071130592</updated>
+    </task>
+    <task id="LOCAL-00022" summary="hit_online">
+      <option name="closed" value="true" />
+      <created>1714076965899</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1714076965899</updated>
+    </task>
+    <task id="LOCAL-00023" summary="big server">
+      <option name="closed" value="true" />
+      <created>1714223419530</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1714223419530</updated>
+    </task>
+    <task id="LOCAL-00024" summary="borders">
+      <option name="closed" value="true" />
+      <created>1714225777585</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1714225777585</updated>
+    </task>
+    <task id="LOCAL-00025" summary="borders fixed">
+      <option name="closed" value="true" />
+      <created>1714227638775</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1714227638775</updated>
+    </task>
+    <task id="LOCAL-00026" summary="border and and server move">
+      <option name="closed" value="true" />
+      <created>1714238614044</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1714238614045</updated>
+    </task>
+    <task id="LOCAL-00027" summary="border and server move with shots(crush when shoot sometomes)">
+      <option name="closed" value="true" />
+      <created>1714243136010</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1714243136010</updated>
+    </task>
+    <task id="LOCAL-00028" summary="hp added + self hit deals damage">
+      <option name="closed" value="true" />
+      <created>1714287087128</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1714287087128</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,15 +489,33 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="half way to infinity enemy" />
-    <MESSAGE value="fixed_server (burla is diabollical and acustic)" />
-    <MESSAGE value="fixed_server (burla is diabollical and acustic)2" />
-    <MESSAGE value="weapon+circle enemy client with main client" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="liddor idea" />
     <MESSAGE value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
     <MESSAGE value="still vibrates a bit" />
-    <MESSAGE value="two clients - no problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="two clients - no problems" />
+    <MESSAGE value="change map" />
+    <MESSAGE value="change map2" />
+    <MESSAGE value="change map3" />
+    <MESSAGE value="change tiled" />
+    <MESSAGE value="change tiled10" />
+    <MESSAGE value="change tiled11" />
+    <MESSAGE value="normal shot" />
+    <MESSAGE value="setting" />
+    <MESSAGE value="weapon" />
+    <MESSAGE value="without shot" />
+    <MESSAGE value="doesnt work" />
+    <MESSAGE value="almost work" />
+    <MESSAGE value="only need to draw the shot every time in enemy and main" />
+    <MESSAGE value="shot online" />
+    <MESSAGE value="shot online with weapon" />
+    <MESSAGE value="hit_online" />
+    <MESSAGE value="big server" />
+    <MESSAGE value="borders" />
+    <MESSAGE value="borders fixed" />
+    <MESSAGE value="border and and server move" />
+    <MESSAGE value="border and server move with shots(crush when shoot sometomes)" />
+    <MESSAGE value="hp added + self hit deals damage" />
+    <option name="LAST_COMMIT_MESSAGE" value="hp added + self hit deals damage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

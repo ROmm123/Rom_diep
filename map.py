@@ -4,18 +4,18 @@ from  settings import *
 
 class Map():
     def __init__(self , Player1 ,  setting):
-        self.map = load_pygame("cubed_map.tmx")
+        self.map = load_pygame("map.tmx")
         self.chunk_size = 20
         self.player = Player1
         self.screen = setting.surface
         self.setting = setting
 
-    def load_chunk(self, chunk_x, chunk_y):
+    def load_chunk(self, chunk_x, chunk_y,layer):
         chunk_group = pygame.sprite.Group()
         chunk_size = 20
         for x in range(chunk_x, chunk_x + chunk_size):
             for y in range(chunk_y, chunk_y + chunk_size):
-                tile_image = self.map.get_tile_image(x, y, 0)  # Assuming layer index is 0
+                tile_image = self.map.get_tile_image(x, y, layer)  # Assuming layer index is 0
                 if tile_image is not None:
                     pos = (x * self.map.tilewidth, y * self.map.tileheight)
                     tile_rect = tile_image.get_rect(topleft=pos)
@@ -25,7 +25,7 @@ class Map():
                     chunk_group.add(sprite)
         return chunk_group
 
-    def calc_chunk(self):
+    def calc_chunk(self,layer):
         player_x = self.player.screen_position[0]
         player_y = self.player.screen_position[1]
 
@@ -33,7 +33,7 @@ class Map():
         COUNT_X = int(player_x // 64)
         COUNT_Y = int(player_y // 64)
 
-        current_chunk = self.load_chunk(COUNT_X, COUNT_Y)
+        current_chunk = self.load_chunk(COUNT_X, COUNT_Y,layer)
         return current_chunk
 
     def draw_map(self , current_chunk):
