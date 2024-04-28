@@ -37,32 +37,6 @@ from Static_Obj import StaticObjects
                     print(e)'''
 
 
-class EnemyThread(threading.Thread):
-    def __init__(self, client, player, setting, weapon, draw_event):  # draw_queue
-        super().__init__()
-        self.client = client
-        self.player = player
-        self.setting = setting
-        self.player.WEAPON = weapon
-        self.draw_event = draw_event
-        # self.draw_queue = draw_queue
-    def run(self):
-        print("in draw thread")
-
-        while True:
-            if self.client.client_socket is None:
-                print("Client disconnected")
-                break
-            print("before recv")
-            data = self.client.receive_data()
-            print("pass recv")
-
-            if data != '0' and data:
-                enemy_instance = enemy_main(data, self.player, self.setting, self.player.WEAPON)
-                enemy_instance.main()
-                self.draw_event.set()
-
-
 class Game():
     def __init__(self):
         pygame.init()
@@ -85,6 +59,22 @@ class Game():
         self.FLAG_SERVER_2 = False
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
+
+    def run_therad(self):
+        print("in draw thread")
+
+        while True:
+            print("before recv")
+            data = self.client.receive_data()
+            print("pass recv")
+            if self.client.client_socket == None:
+                print("socket is close")
+                break
+
+            if data != '0' and data:
+                enemy_instance = enemy_main(data, self.player, self.setting, self.player.WEAPON)
+                enemy_instance.main()
+                self.draw_event.set()
 
     def run(self):
         while self.running:
@@ -269,7 +259,7 @@ class Game():
             print("diff "+ str(diff))
             if diff > 0:
                 for _ in range(diff):
-                    enemy_thread = EnemyThread(client, self.player, self.setting, self.player.WEAPON,self.draw_event)
+                    enemy_thread = threading.Thread(target=self.run_therad())
                     enemy_thread.start()
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:

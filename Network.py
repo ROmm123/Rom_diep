@@ -15,6 +15,7 @@ class Client:
             # Connect to the main server
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client_socket.connect((self.host, self.port))
+
             # If enemies_Am_port is provided, connect to the enemies' server
             if self.enemies_or_obj_Am_port is not None:
                 self.another_socket_for_enemies_or_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -69,6 +70,7 @@ class Client:
 
     def recevie_only_data_from_main(self):
         data_str = self.client_socket.recv(2048).decode("utf-8")
+        print(data_str)
         return data_str
 
     def receive_data(self):
@@ -93,6 +95,7 @@ class Client:
             self.client_socket.close()
             print("herr")
             print(self.client_socket)
+            self.client_socket = None
         except Exception as e:
             print(f"Error closing client socket: {e}")
 
