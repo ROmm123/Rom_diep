@@ -59,7 +59,14 @@ class enemy_main():
         self.WEAPON.x = center_x
         self.WEAPON.y = center_y
         radius = int(radius)
+        if int(self.data["damage dealt"]) >= 2*radius:
+            center_x = 0
+            center_y = 0
         pygame.draw.circle(self.surface, color, (center_x, center_y), radius)
+        health_bar = pygame.Rect(center_x - radius, (center_y + radius + 10), 2 * radius, 10)
+        pygame.draw.rect(self.surface, self.setting.green, health_bar)
+        pygame.draw.rect(self.surface, self.setting.red,
+                         (center_x - radius, center_y + radius + 10, self.data["damage dealt"], 10))
         self.WEAPON.run_enemy_weapon()
         self.WEAPON.color = self.setting.grey
         self.WEAPON.x = 400

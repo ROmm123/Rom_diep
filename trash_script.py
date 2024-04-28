@@ -117,6 +117,7 @@ class Game():
                 "shot_velocity_y": self.player.NORMAL_SHOT.velocity[1],
                 "shot_start_x": self.player.NORMAL_SHOT.start_x,
                 "shot_start_y": self.player.NORMAL_SHOT.start_y,
+                "damage dealt": self.player.hp.Damage
 
             }
 

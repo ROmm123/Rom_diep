@@ -60,6 +60,8 @@ class Player():
         self.hp.Damage += damage
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
+            self.hp.Damage = 0
+            self.screen_position = [0, 0]
         print("damage done:", self.hp.Damage)
 
     def heal(self):
