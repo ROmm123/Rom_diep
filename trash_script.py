@@ -12,57 +12,6 @@ from Network import Client
 from enemy_main import *
 import queue
 
-'''class DrawingThread(threading.Thread):
-    def __init__(self, draw_queue, map, player):
-        super().__init__()
-        self.draw_queue = draw_queue
-        self.map = map
-        self.player = player
-
-    def run(self):
-        while True:
-            # Get the next drawing task from the queue
-            task = self.draw_queue.get()
-            if task is not None:
-                priority, obj = task
-                print(priority)
-                try:
-                    if priority == 1:
-                        enemy = enemy_main(obj[0],obj[1],obj[2],obj[3])
-                        enemy.main()
-                        self.draw_queue.task_done()
-                    elif priority == 0:
-                        self.draw_queue.task_done()
-                except Exception as e:
-                    print(e)'''
-
-
-class EnemyThread(threading.Thread):
-    def __init__(self, client, player, setting, weapon, draw_event , draw_queue):
-            super().__init__()
-            self.client = client
-            self.player = player
-            self.setting = setting
-            self.weapon = weapon
-            self.running = True
-            self.draw_event = draw_event
-            # self.draw_queue = draw_queue
-
-    def run(self):
-        print("in draw thread")
-        while self.running:
-            data = self.client.receive_data()
-            # print(data)
-
-            if data:
-                enemy_instance = enemy_main(data, self.player, self.setting, self.weapon)
-
-                #enemy_instance.main()
-                self.draw_event.set()
-                # Enqueue drawing task for the enemy
-                # self.draw_queue.put((1, [data , self.player , self.setting , self.weapon]))  # Wrap enemy_mainn in a tuple
-
-
 class Game():
     def __init__(self):
         pygame.init()
@@ -73,13 +22,29 @@ class Game():
                              self.player.center_y, self.player.angle)
         self.client = Client('localhost', 10022, 10020)
         self.num_enemies = 0
-        self.enemy_threads = []
+        self.enemy_threads = 0
         self.running = True
         self.draw_queue = queue.Queue()
         # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
-        self.draw_event = threading.Event()  # Create an event for synchronization
-        self.draw_event.set()  # Set the event initially
+        self.draw_event = threading.Event()  # Create an event for synchronization  # Set the event initially
         # self.drawing_thread.start()  # Start the drawing thread
+        self.index = 0
+        self.lock = threading.Lock()
+
+
+    def run_thread(self , index):
+        print("in draw thread")
+        while self.running:
+            data = self.client.receive_data()
+
+            if data:
+                enemy_instance = enemy_main(data, self.player, self.setting, self.weapon)
+                self.draw_queue.put(enemy_instance)
+                print(f"thread {index} q size {self.draw_queue.qsize()} ")
+                self.draw_event.wait()
+                print("finished waiting , queue size :"+str(self.draw_queue.qsize()))
+            self.draw_event.clear()
+
 
 
     def run(self):
@@ -107,11 +72,21 @@ class Game():
                 "weapon_angle": self.weapon.angle
             }
             self.client.send_data(data)
-            if self.num_enemies > 0 and self.draw_queue.qsize() == len(self.enemy_threads):
-                self.draw_event.wait()
-                self.setting.update()
-                # Reset the event for the next iteration
-                self.draw_event.clear()
+
+            if self.num_enemies > 0 and self.draw_queue.qsize() == self.num_enemies:
+                with self.lock:
+                    print("num enemies: "+str(self.num_enemies))
+                    for i in range(0,self.num_enemies):
+                        enemy = self.draw_queue.get()
+                        print("consuming , q size: "+str(self.draw_queue.qsize()))
+                        enemy.main()
+                    if not self.draw_event.is_set():
+                        print("set event")
+                        self.draw_event.set()
+                    self.setting.update()
+                          # Signal to producer thread that items have been consumed
+
+
             else:
                 self.setting.update()
 
@@ -120,6 +95,7 @@ class Game():
 
     def EnemiesAm_handling(self):
         self.client.send_to_Enemies_Am()
+        self.index = 0
         while True:
             enemies = self.client.receive_data_EnemiesAm()
             print(enemies)
@@ -128,9 +104,10 @@ class Game():
             self.num_enemies = enemies
             if diff > 0:
                 for _ in range(diff):
-                    enemy_thread = EnemyThread(self.client, self.player, self.setting, self.weapon, self.draw_event)
-                    enemy_thread.start()
-                    self.enemy_threads.append(enemy_thread)
+                    threading.Thread(target=self.run_thread , args=(self.index,)).start()
+                    self.index += 1
+                    time.sleep(0.8)
+                    self.enemy_threads+=1
             elif diff < 0:
                 for _ in range(-diff):
                     # CHANGE!!!! LIDOR IDEA
@@ -140,10 +117,6 @@ class Game():
 
     def stop(self):
         self.running = False
-        for thread in self.enemy_threads:
-            thread.running = False
-            thread.join()
-        self.drawing_thread.join()  # Wait for the drawing thread to exit
         self.close_connections()
         pygame.quit()
 

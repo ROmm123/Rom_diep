@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="two clients - no problems">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="consumer - producer mechanism completed">
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weapon.py" beforeDir="false" afterPath="$PROJECT_DIR$/weapon.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +80,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_q">
+  <component name="RunManager" selected="Python.trash_script">
     <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -201,9 +200,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_q" />
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.$RS1TBVV" />
+        <item itemvalue="Python.test_q" />
         <item itemvalue="Python.example" />
         <item itemvalue="Python.main" />
       </list>
@@ -314,7 +313,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1713435083699</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL‎-00012" summary="consumer - producer mechanism completed">
+      <option name="closed" value="true" />
+      <created>1714236627492</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL‎-00012" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1714236627492</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -340,7 +347,8 @@
     <MESSAGE value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
     <MESSAGE value="still vibrates a bit" />
     <MESSAGE value="two clients - no problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="two clients - no problems" />
+    <MESSAGE value="consumer - producer mechanism completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="consumer - producer mechanism completed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -14,7 +14,6 @@ class enemy_main():
 
 
     def calculate(self):
-        print(self.data["player_position_x"])
         k1 = int(float(self.data["player_position_x"]))  # Convert float to int
         k2 = int(float(self.data["player_position_y"]))  # Convert float to int
         b1 = k1 - self.Playerrr.screen_position[0]
@@ -58,4 +57,3 @@ class enemy_main():
 
     def main(self):
         self.calculate()
-        print("enemy")
