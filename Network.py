@@ -45,16 +45,11 @@ class Client:
         except Exception as e:
             print(f"Error sending to enemy: {e}")
 
-    def receive_obj_prameters_try(self):
-        data = self.another_socket_for_enemies_or_obj.recv(2048)
-        print(data)
-        return data
 
     def receive_obj_prameters(self):
         remaining_data = b''
         while True:
             data = self.another_socket_for_enemies_or_obj.recv(2048)
-            print(data)
             if not data:
                 break
             remaining_data += data

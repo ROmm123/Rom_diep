@@ -92,12 +92,15 @@ class Game():
 
         while True:
             try:
-                data = self.client_main.receive_obj_prameters_try()
+                data = self.client_main.receive_obj_prameters()
             except:
                 print("socket obj is close")
                 break
+            print(data["position_collision"])
 
-            print(data)
+            # call prozedora hurt in class obj
+            #for static_obj in self.static_object.Static_objects:
+
 
 
     def run(self):
