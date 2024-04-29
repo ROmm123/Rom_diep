@@ -19,7 +19,7 @@ class StaticObject():
             self.color = setting.blue
         elif HeldAbility == "Speed":
             self.color = setting.yellow
-        elif HeldAbility == "Damage":
+        elif HeldAbility == "Shield":
             self.color = setting.red
         else:
             self.color = setting.green
