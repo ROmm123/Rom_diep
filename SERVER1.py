@@ -30,14 +30,23 @@ class Server:
         while True:
 
             data = self.recive_from_client(client_socket)
-            print(data)
+
+            print(self.clients)
             if not data:
                 print(f"closing socket {count}")
                 self.enemies = self.enemies - 1
                 print(f"Client {client_socket.getpeername()} disconnected")
+                for receiver_socket , addr  in self.clients:
+                    if receiver_socket != client_socket:
+                        receiver_socket.send("-1".encode())
+                        print("i send")
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
-                client_socket.close()
+                    client_socket.close()
+                    self.Enemies_Am_socket.close()
+                    print("no in list")
+                print("pass the self.lock")
+                print(self.clients)
                 break
 
 
@@ -100,4 +109,3 @@ if __name__ == '__main__':
     enemies_T = threading.Thread(target = my_server.handle_Enemies_Am)
     enemies_T.start()
     my_server.s()
-

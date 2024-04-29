@@ -51,6 +51,8 @@ class Game():
         self.enemy_threads = []
         self.client_main = Client('localhost', 55557,55558)
         self.client_main.connect()
+        self.crate_positions = self.client_main.receive_list_obj_once()
+        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
@@ -68,10 +70,16 @@ class Game():
         print("in draw thread")
 
         while True:
-            print("before recv")
-            data = self.client.receive_data()
-            print("pass recv")
-            if self.client.client_socket == None:
+            try:
+                print("before recv")
+                print(self.client.client_socket)
+                data = self.client.receive_data()
+                print("pass recv")
+            except:
+                print("socket is close")
+                break
+
+            if data == -1:
                 print("socket is close")
                 break
 
@@ -81,6 +89,7 @@ class Game():
                 self.draw_event.set()
 
     def run(self):
+        print(self.crate_positions)
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
@@ -147,7 +156,7 @@ class Game():
                     # Connect to server 1 if not already connected
                     print("alredy_close")
                     self.client.close()
-                    self.transition()
+                    #self.transition()
                     self.client.host = 'localhost'
                     self.client.port = 22222
                     self.client.enemies_or_obj_Am_port = 22223
@@ -256,7 +265,11 @@ class Game():
         # Thread function to handle enemies received from server
         client.send_to_Enemies_Am()
         while True:
-            enemies = client.receive_data_EnemiesAm()
+            try:
+                enemies = client.receive_data_EnemiesAm()
+            except:
+                print("close thread handeling")
+                break
             enemies = int(enemies)
             diff = enemies - self.num_enemies
             self.num_enemies = enemies

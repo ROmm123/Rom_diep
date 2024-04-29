@@ -62,7 +62,6 @@ class Player():
             self.hp.ISAlive = False
             self.hp.Damage = 0
             self.screen_position = [0, 0]
-        print("damage done:", self.hp.Damage)
 
     def heal(self):
         # increases the player's HP and checks if the HP is full

@@ -26,17 +26,27 @@ class Server:
         self.enemies_am_list = []
         print("Server initialized")
 
-    def handle_client(self, client_socket):
+    def handle_client(self, client_socket,count):
         while True:
 
             data = self.recive_from_client(client_socket)
+
+            print(self.clients)
             if not data:
-                print("on except")
+                print(f"closing socket {count}")
                 self.enemies = self.enemies - 1
                 print(f"Client {client_socket.getpeername()} disconnected")
+                for receiver_socket , addr  in self.clients:
+                    if receiver_socket != client_socket:
+                        receiver_socket.send("-1".encode())
+                        print("i send")
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
-                client_socket.close()
+                    client_socket.close()
+                    self.Enemies_Am_socket.close()
+                    print("no in list")
+                print("pass the self.lock")
+                print(self.clients)
                 break
 
 
@@ -44,9 +54,7 @@ class Server:
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
                         receiver_socket.send(data.encode("utf-8"))
-            '''else:
-                data = "0"
-                client_socket.send(data.encode())'''
+
 
     def handle_Enemies_Am(self):
         try:
@@ -73,7 +81,7 @@ class Server:
                 print(f"New client connected: {addr}")
                 with self.clients_lock:
                     self.clients.append((client_socket, addr))
-                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
+                client_thread = threading.Thread(target=self.handle_client, args=(client_socket,count,))
                 client_thread.start()
         except KeyboardInterrupt:
             print("Server stopped")
@@ -92,10 +100,6 @@ class Server:
             return data
         except:
             return None
-
-
-
-
 
 
 if __name__ == '__main__':
