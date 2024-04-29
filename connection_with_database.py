@@ -2,8 +2,17 @@ import mysql.connector
 
 
 # Connect to MySQL database
+def insert_to_database():      #todo //insert quary + sign in script
+    conn = mysql.connector.connect(
+        host='127.0.0.1',  # Host address
+        port='3306',  # Port number
+        user='root',
+        password='1234',
+        database="game_database"
+    )
 
-def insert_to_database(username, password):
+
+def handle_data_forLogin(username, password):
     conn = mysql.connector.connect(
         host='127.0.0.1',  # Host address
         port='3306',  # Port number
@@ -31,9 +40,9 @@ def insert_to_database(username, password):
         else:
             print("Invalid username or password. Please try again.")
 
-            # Close the cursor and connection
-            cursor.close()
-            conn.close()
-            print('Connection closed')
+        # Close the cursor and connection
+        cursor.close()
+        conn.close()
+        print('Connection closed')
     else:
         print('Failed to connect to MySQL database')

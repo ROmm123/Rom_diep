@@ -1,7 +1,7 @@
 import pygame
 import sys
-import  connection_with_database
-from connection_with_database import insert_to_database
+import connection_with_database
+from connection_with_database import *
 
 # Initialize Pygame
 pygame.init()
@@ -37,11 +37,13 @@ login_button_color = pygame.Color("dodgerblue2")
 login_text = font.render("Login", True, BLACK)
 login_text_rect = login_text.get_rect(center=login_button.center)
 
+
 def draw_text(text, font, color, surface, x, y):
     text_obj = font.render(text, True, color)
     text_rect = text_obj.get_rect()
     text_rect.topleft = (x, y)
     surface.blit(text_obj, text_rect)
+
 
 def draw_login_screen():
     screen.fill(WHITE)
@@ -53,6 +55,7 @@ def draw_login_screen():
     draw_text(username, font, BLACK, screen, username_input.x + 5, username_input.y + 5)
     draw_text("*" * len(password), font, BLACK, screen, password_input.x + 5, password_input.y + 5)
     screen.blit(login_text, login_text_rect)
+
 
 def perform_login():
     global username, password
@@ -84,7 +87,8 @@ def main():
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
                     perform_login()
-                    insert_to_database(username, password)
+                    handle_data_forLogin(username, password)
+
                 else:
                     input_active = False
                     username_color = input_color_inactive
@@ -97,7 +101,7 @@ def main():
                         username_color = input_color_inactive
                         password_color = input_color_inactive
                         perform_login()
-                        insert_to_database(username, password)
+                        handle_data_forLogin(username, password)
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]
@@ -112,6 +116,7 @@ def main():
         draw_login_screen()
         pygame.display.flip()
         clock.tick(30)
+
 
 if __name__ == "__main__":
     main()
