@@ -1,6 +1,7 @@
 import sys
 
 import pygame
+from inventory import inventory
 
 from map import *
 from HP import *
@@ -325,9 +326,10 @@ class Player():
                     self.screen_position[1]=self.screen_position[1]+(31*64)
                 self.screen_position[1] -= speed
 
-
         if self.move_button[4]:
             self.inventory.draw_inventory()
+        self.inventory.add_to_inventory(ability)
+
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
 
