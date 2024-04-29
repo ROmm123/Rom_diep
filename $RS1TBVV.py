@@ -19,9 +19,10 @@ class main_server:
         self.clients = []
         self.clients_lock = threading.Lock()
         self.obj_client = -1
+        self.array_demage = [0] * 2000
+
 
     def handle_pos_obj(self, obj_socket):
-
         while True:
             try:
                 data = obj_socket.recv(2048)
@@ -89,14 +90,25 @@ class main_server:
                     "crate_positions": positions_data
                 }
                 print(data_to_send)  # Print the data to send
-
                 # Convert the dictionary to a JSON string
                 json_data = json.dumps(data_to_send)
                 # Encode the JSON string to bytes
                 encoded_data = json_data.encode()
-
                 # Send the encoded data to the clientll
                 obj_socket.send(encoded_data)
+
+
+
+                #send hp_list
+                damage_data = self.array_to_dict(self.array_demage)
+
+                # Convert the dictionary to a JSON string
+                json_data = json.dumps(damage_data)
+                # Encode the JSON string to bytes
+                damage_data = json_data.encode()
+                # Send the encoded data to the clientll
+                obj_socket.send(damage_data)
+
 
                 with self.clients_lock:
                     self.clients.append((obj_socket, addr_obj))
@@ -115,6 +127,10 @@ class main_server:
             # Start a new thread to handle the client
             client_thread = threading.Thread(target=self.handle_client_main, args=(client_socket,))
             client_thread.start()
+
+    def array_to_dict(self,array):
+        dictionary = {index: value for index, value in enumerate(array)}
+        return dictionary
 
 
 if __name__ == '__main__':

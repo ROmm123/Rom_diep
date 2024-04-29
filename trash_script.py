@@ -52,7 +52,8 @@ class Game():
         self.client_main = Client('localhost', 55557,55558)
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
-        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
+        self.damage_list = self.client_main.receive_list_obj_once()
+        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions, self.damage_list)
         self.client = Client(None, None)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
@@ -90,6 +91,7 @@ class Game():
 
     def run(self):
         print(self.crate_positions)
+        print(self.damage_list)
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()

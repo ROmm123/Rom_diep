@@ -4,13 +4,13 @@ from HP import HP
 
 
 class StaticObject():
-    def __init__(self, setting, map_width, map_height, x, y, HeldAbility):
+    def __init__(self, setting, map_width, map_height, x, y, HeldAbility, damage):
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
         self.height = 30  # Height of the rectangle
         self.position = [x, y]
         self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
-                     setting)
+                     setting,damage)
         # pass the.... center.... pos of the obj ,halfbase , setting object
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
         self.collision_flag = False
@@ -29,22 +29,24 @@ class StaticObject():
 
 class StaticObjects():
 
-    def __init__(self, setting, map_width, map_height, crate_positions):
+    def __init__(self, setting, map_width, map_height, crate_positions , damage_list):
         self.surface = setting.surface
         self.Static_objects = []
+        damage_array = self.extract_values_from_dict(damage_list)
+
         for pos_key, inner_dict in crate_positions.items():
             for inner_key, pos_value in inner_dict.items():
                 x, y = pos_value
                 inner_key = inner_key.split("_")
+                damage = damage_array [int(inner_key[1])]
                 if int(inner_key[1]) <= 500:
-                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[0])
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[0] , damage)
                 elif int(inner_key[1]) <= 1000:
-                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[1])
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[1], damage)
                 elif int(inner_key[1]) <= 1500:
-                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[2])
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[2], damage)
                 else:
-                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[3])
-
+                    obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[3], damage)
                 self.Static_objects.append(obj)
 
     def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
@@ -60,6 +62,7 @@ class StaticObjects():
             # checks collision with the shots
             shot_collision_result = self.shot_collisions(shots_rects, static_obj)
             if shot_collision_result is not None:
+                position_collision = static_obj.position
                 collision_list.append(shot_collision_result)
 
             # checks if the object needs to be drawn
@@ -79,7 +82,6 @@ class StaticObjects():
                     player_collision_result = self.player_collisions(static_obj, player_rect)
 
                     if player_collision_result is not None:
-                        position_collision = static_obj.position
                         collision_list.append(player_collision_result)
 
         return collision_list , position_collision
@@ -136,6 +138,12 @@ class StaticObjects():
             if not static_obj.HP.ISAlive:
                 self.Static_objects.remove(static_obj)
                 return static_obj.HeldAbility
+
+    def extract_values_from_dict(self,dictionary):
+        values = []
+        for key in dictionary:
+            values.append(dictionary[key])
+        return values
 
     def move(self, static_obj):
         # Check if the speed condition is met
