@@ -130,12 +130,12 @@ class Player():
         else:
             return False
 
-    def draw(self):
+    def draw(self,radius):
         # draws the player according to its shape, and the hp bar
-        pygame.draw.circle(self.surface, self.color, (self.center[0], self.center[1]), self.radius)
+        pygame.draw.circle(self.surface, self.color, (self.center[0], self.center[1]), radius)
 
         pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
-        pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
+        pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
     def handle_events_movement(self,socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
@@ -222,45 +222,45 @@ class Player():
                 self.NORMAL_SHOT.shot_button[1] = False
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-    def move(self):
+    def move(self,speed):
         # moves the player according to the data in handle_events_movement and updates his position
         if self.move_button[0]:  # a
-            self.screen_position[0] -= self.speed
+            self.screen_position[0] -= speed
             if self.screen_position[0] < 0:
-                self.screen_position[0] += self.speed
+                self.screen_position[0] += speed
             if self.screen_position[0] > (250 * 64 + 2) and self.screen_position[0] < (261 * 64-430):
                 if self.move_button[5]:
                     self.screen_position[0]=self.screen_position[0]-(31*64)
-                self.screen_position[0] += self.speed
+                self.screen_position[0] += speed
 
         if self.move_button[1]:  # d
-            self.screen_position[0] += self.speed
+            self.screen_position[0] += speed
             if self.screen_position[0]>(30780):
-                self.screen_position[0] -= self.speed
+                self.screen_position[0] -= speed
             if self.screen_position[0] > (240*64 - 430) and self.screen_position[0] < (250 * 64-2):
                 if self.move_button[5]:
                     self.screen_position[0]=self.screen_position[0]+(31*64)
 
-                self.screen_position[0] -= self.speed
+                self.screen_position[0] -= speed
 
         if self.move_button[2]:  # w
-            self.screen_position[1] -= self.speed
+            self.screen_position[1] -= speed
             if self.screen_position[1] < 0:
-                self.screen_position[1] += self.speed
+                self.screen_position[1] += speed
             if self.screen_position[1]>(187*64+2) and self.screen_position[1]<(198*64-330):
                 if self.move_button[5]:
                     self.screen_position[1]=self.screen_position[1]-(31*64)
-                self.screen_position[1] += self.speed
+                self.screen_position[1] += speed
 
         if self.move_button[3]:  # s
-            self.screen_position[1] += self.speed
+            self.screen_position[1] += speed
             print(self.screen_position[1])
             if self.screen_position[1]>(22720):
-                self.screen_position[1] -= self.speed
+                self.screen_position[1] -= speed
             if self.screen_position[1]>(177*64-330) and self.screen_position[1]<(187*64-2):
                 if self.move_button[5]:
                     self.screen_position[1]=self.screen_position[1]+(31*64)
-                self.screen_position[1] -= self.speed
+                self.screen_position[1] -= speed
 
 
         if self.move_button[4]:

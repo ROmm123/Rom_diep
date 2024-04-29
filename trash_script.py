@@ -95,12 +95,37 @@ class Game():
             mouse_state = pygame.mouse.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
             self.player.handle_events_movement(self.client)
-            self.player.move()
+            radius = self.player.radius
 
             for layer in range(2):
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
-            self.player.draw()
+            self.player.draw(radius)
+
+            speed = self.player.speed
+
+            if "Speed" in self.player.ability:
+                self.player.move(speed * 1.2)
+            else:
+                self.player.move(speed)
+
+            if "Health" in self.player.ability:
+                self.player.ability.remove("Health")
+                self.player.hp.Damage = 0
+
+            if "Size" in self.player.ability:
+                self.player.ability.remove("Size")
+                radius *= 0.64
+                self.player.WEAPON.rect_width *= 0.64
+                self.player.WEAPON.rect_height *= 0.64
+
+            self.player.draw(radius)
+            for static_obj in self.static_object.Static_objects:
+                self.static_object.move(static_obj)
+
+            ability = self.static_object.give_ability()
+            if ability is not None:
+                self.player.ability.append(ability)
 
             self.player.WEAPON.run_weapon()
             self.player.handle_events_shots(key_state, mouse_state)
@@ -111,6 +136,16 @@ class Game():
                                                           player_rect,
                                                           self.player.NORMAL_SHOT.get_shot_rects(
                                                               self.player.screen_position))
+
+            if collisions is not None:
+                for collision in collisions:
+                    if "shot index" in collision:
+                        self.player.NORMAL_SHOT.remove_shots.append(collision[1])
+                        self.player.NORMAL_SHOT.remove()
+                    if "player hit" in collision:
+                        self.player.hurt()
+                    if "player been hit" in collision:
+                        self.player.speed = 3
 
 
             data = {
