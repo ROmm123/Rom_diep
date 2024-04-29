@@ -96,10 +96,13 @@ class Game():
             except:
                 print("socket obj is close")
                 break
-            print(data["position_collision"])
+
+            if data["position_collision"] != None:
 
             # call prozedora hurt in class obj
-            #for static_obj in self.static_object.Static_objects:
+                for static_obj in self.static_object.Static_objects:
+                    if static_obj.position == data["position_collision"]:
+                        self.static_object.hurt(static_obj)
 
 
 
