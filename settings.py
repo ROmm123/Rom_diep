@@ -15,7 +15,7 @@ class setting():
         self.rand_color = self.random_color()
         self.screen = (self.screen_width, self.screen_height)
         self.surface = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.ability = ["Speed", "Size", "Health", "Damage"]
+        self.ability = ["Speed", "Size", "Health", "Shield"]
 
     def random_color(self):
         red = random.randint(0, 255)
@@ -30,6 +30,6 @@ class setting():
 
     def update(self):
         pygame.display.update()
-        self.clock.tick(400)
+        self.clock.tick(60)
         fps = self.clock.get_fps()
         #print(f"Current FPS: {fps:.2f}")

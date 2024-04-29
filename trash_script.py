@@ -143,7 +143,8 @@ class Game():
                         self.player.NORMAL_SHOT.remove_shots.append(collision[1])
                         self.player.NORMAL_SHOT.remove()
                     if "player hit" in collision:
-                        self.player.hurt()
+                        damage = 1
+                        self.player.hurt(damage)
                     if "player been hit" in collision:
                         self.player.speed = 3
 
