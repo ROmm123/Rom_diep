@@ -24,10 +24,8 @@ class Enemy:
         self.hit_damage = 0
         self.moveIndex = 0
 
-    def get_position_x(self):
+    def get_positions(self):
         return self.position
-    def get_position_y(self):
-        return self.position[1]
     def get_rect_player(self):
         # gets and returns the player's rect
         rect_width = self.radius * 2

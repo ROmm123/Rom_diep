@@ -22,8 +22,8 @@ class Game:
         self.setting = settings()
         self.players = []  # list of all the players in the game
         self.player_id_counter = 0  # player id counter
-        self.npc_id_counter = 0
         self.npcs = []  # list of all the npc in the game
+        self.npc_id_counter = 0
         self.Map = None  # first map initialization
         self.inventory = inventory(self.setting)
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64)
@@ -50,7 +50,7 @@ class Game:
             self.Playerr.handle_events_movement()
             self.Playerr.move()
             self.Playerr.draw()
-            self.NPC.run(self.Playerr.screen_position[0], self.Playerr.screen_position[1])
+            self.NPC.run(self.Playerr.screen_position[0], self.Playerr.screen_position[1], enemy1.get_rect_player(), self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
             collision = self.static_object.draw(self.Playerr.screen_position[0], self.Playerr.screen_position[1], self.setting,
                                     player_rect, self.Playerr.NORMAL_SHOT.get_shot_rects(self.Playerr.screen_position))
             print(collision)
@@ -65,8 +65,12 @@ class Game:
                 self.Playerr.NORMAL_SHOT.remove_shots.append(collision[1])
                 self.Playerr.NORMAL_SHOT.remove()
 
-            #if self.npcs = None:
-               # npc1.run()
+            if not npc1.is_alive():
+                self.npcs.remove(npc1)
+                self.npc_id_counter -=1
+
+            if self.npc_id_counter < 1:     # if the npc is dead repawn a new one (need to be 100 enemies)
+                npc1 = self.add_npc(enemy1)
 
 
             enemy_status = enemy1.isntAlive()
@@ -107,6 +111,8 @@ class Game:
             self.Playerr.NORMAL_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
             self.Playerr.BIG_SHOT.calc_relative(self.Playerr.screen_position,self.Playerr.move_button,self.Playerr.speed)
             self.Playerr.NORMAL_SHOT.update()  # updates the normal shots
+            self.NPC.SHOT.calc_relative(self.Playerr.screen_position, self.Playerr.move_button, self.Playerr.speed)
+            self.NPC.SHOT.update()
             self.Playerr.BIG_SHOT.update()  # updates the big shots
 
             self.setting.update()  # updates the settings (timer)
@@ -137,8 +143,9 @@ class Game:
         return self.Enemy
 
     def add_npc(self, enemy):
+        npc_id = self.npc_id_counter
         self.npc_id_counter += 1
-        self.NPC = NPC(0, 0, 30, self.setting.red, self.setting, 50, Enemy.get_position_x(enemy))
+        self.NPC = NPC(npc_id,0, 0, 30, self.setting.red, self.setting, 400, Enemy.get_positions(enemy))
         self.npcs.append(self.NPC)
         return self.NPC
 

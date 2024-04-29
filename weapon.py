@@ -24,7 +24,8 @@ class Weapon:
         self.dx = pygame.mouse.get_pos()[0] - self.set.screen_width // 2
         self.dy = pygame.mouse.get_pos()[1] - self.set.screen_height // 2
         self.angle = math.atan2(self.dy, self.dx)
-
+    def get_angle(self, angle):
+        self.angle = angle
     def calc_tangent_point(self):
         # Calculate the point on the circle tangent to the mouse position
         self.tangent_x = self.set.screen_width // 2 + self.player.radius * math.cos(self.angle)
