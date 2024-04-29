@@ -36,6 +36,7 @@ class Player():
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.96, 2, self.setting)  # initialize normal shot
         self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)  # initialize big shot
         self.hp = HP(self.center[0], self.center[1], radius, setting)
+        self.inventory = inventory(self.setting)
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
         self.speed_start_time = pygame.time.get_ticks()
