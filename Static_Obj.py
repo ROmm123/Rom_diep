@@ -16,11 +16,11 @@ class StaticObject():
         self.collision_flag = False
         self.HeldAbility = HeldAbility
         if HeldAbility == "Size":
-            self.color = setting.blue
+            self.color = setting.red
         elif HeldAbility == "Speed":
             self.color = setting.yellow
         elif HeldAbility == "Shield":
-            self.color = setting.red
+            self.color = setting.blue
         else:
             self.color = setting.green
         self.move_button = [False, False, False, False]
@@ -32,6 +32,7 @@ class StaticObjects():
     def __init__(self, setting, map_width, map_height, crate_positions , damage_list):
         self.surface = setting.surface
         self.Static_objects = []
+        self.side = ""
         print("------------")
         print(damage_list)
         print("-------------")
@@ -105,22 +106,22 @@ class StaticObjects():
                 # Determine the side of collision based on the sign of the horizontal and vertical distances
                 if abs(dx) > abs(dy):
                     if dx > 0:
-                        print("left")
+                        self.side = "left"
                         static_obj.move_button[0] = True
                     else:
-                        print("right")
+                        self.side = "right"
                         static_obj.move_button[1] = True
                 else:
                     if dy > 0:
-                        print("top")
+                        self.side = "top"
                         static_obj.move_button[2] = True
                     else:
-                        print("bottom")
+                        self.side = "bottom"
                         static_obj.move_button[3] = True
 
-                return "player hit"
+                return "player hit", self.side
             else:
-                return "player been hit"
+                return self.side
         else:
             static_obj.collision_flag = False
 

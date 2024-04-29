@@ -60,7 +60,7 @@ class Player():
         small_hit_damage = self.setting.hit_damage["small hit"]
         big_hit_damage = self.setting.hit_damage["big hit"]
         coll_hit_damage = self.setting.hit_damage["coll"]
-        shield_effect = 0.3 if "Shield" in self.ability else 1
+        shield_effect = 0 if "Shield" in self.ability else 1
 
         # reduces the player's HP and checks if he's dead
         if hit_type == "small hit":
@@ -190,7 +190,7 @@ class Player():
                     self.move_button[2] = True
                 elif event.key == pygame.K_s:
                     self.move_button[3] = True
-                if event.key == pygame.K_i:
+                if event.key == pygame.K_t:
                     self.move_button[4] = True
                 if event.key==pygame.K_l:
                     self.move_button[5]=True
@@ -203,7 +203,7 @@ class Player():
                     self.move_button[2] = False
                 elif event.key == pygame.K_s:
                     self.move_button[3] = False
-                if event.key == pygame.K_i:
+                if event.key == pygame.K_t:
                     self.move_button[4] = False
                 if event.key==pygame.K_l:
                     self.move_button[5]=False
@@ -280,7 +280,7 @@ class Player():
                 self.NORMAL_SHOT.shot_button[1] = False
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-    def move(self, ability):
+    def move(self, ability, collision_side):
         speed = self.speed
         if "Speed" in self.ability:
             if (pygame.time.get_ticks() - self.ability["Speed"]) >= self.setting.ability_duration:
@@ -291,7 +291,7 @@ class Player():
         # moves the player according to the data in handle_events_movement and updates his position
         if self.move_button[0]:  # a
             self.screen_position[0] -= speed
-            if self.screen_position[0] < 0:
+            if self.screen_position[0] < 0 or "right" in collision_side:
                 self.screen_position[0] += speed
             if self.screen_position[0] > (250 * 64 + 2) and self.screen_position[0] < (261 * 64-430):
                 if self.move_button[5]:
@@ -300,7 +300,7 @@ class Player():
 
         if self.move_button[1]:  # d
             self.screen_position[0] += speed
-            if self.screen_position[0]>(30780):
+            if self.screen_position[0]>(30780) or "left" in collision_side:
                 self.screen_position[0] -= speed
             if self.screen_position[0] > (240*64 - 430) and self.screen_position[0] < (250 * 64-2):
                 if self.move_button[5]:
@@ -310,7 +310,7 @@ class Player():
 
         if self.move_button[2]:  # w
             self.screen_position[1] -= speed
-            if self.screen_position[1] < 0:
+            if self.screen_position[1] < 0 or "bottom" in collision_side:
                 self.screen_position[1] += speed
             if self.screen_position[1]>(187*64+2) and self.screen_position[1]<(198*64-330):
                 if self.move_button[5]:
@@ -320,7 +320,7 @@ class Player():
         if self.move_button[3]:  # s
             self.screen_position[1] += speed
             print(self.screen_position[1])
-            if self.screen_position[1]>(22720):
+            if self.screen_position[1]>(22720) or "top" in collision_side:
                 self.screen_position[1] -= speed
             if self.screen_position[1]>(177*64-330) and self.screen_position[1]<(187*64-2):
                 if self.move_button[5]:

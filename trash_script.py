@@ -118,6 +118,7 @@ class Game():
         self.speed_start_time = 0
         self.size_start_time = 0
         self.shield_start_time = 0
+        collisions = None
 
         while self.running:
             key_state = pygame.key.get_pressed()
@@ -132,15 +133,17 @@ class Game():
                 self.map.draw_map(chunk)
 
             self.player.draw()
+
+            '''
             for static_obj in self.static_object.Static_objects:
-                self.static_object.move(static_obj)
+                self.static_object.move(static_obj)'''
 
             ability = self.static_object.give_ability()
             if ability is not None:
                 self.player.stored_abilities.append(ability)
             print(self.player.stored_abilities)
 
-            speed = self.player.move(ability)
+            speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
 
             collisions, pos_col = self.static_object.draw(self.player.screen_position[0],
@@ -157,8 +160,6 @@ class Game():
                         self.player.NORMAL_SHOT.remove()
                     if "player hit" in collision:
                         self.player.hurt(self.setting.hit_type[2])
-                    if "player been hit" in collision:
-                        self.player.speed = 3
 
             if pos_col is not None:
                 data_for_obj = {
