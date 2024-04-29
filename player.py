@@ -130,7 +130,21 @@ class Player():
         else:
             return False
 
-    def draw(self,radius):
+    def draw(self):
+        radius = self.radius
+        self.WEAPON.rect_width = 25
+        self.WEAPON.rect_height = 25
+        self.WEAPON.offset_distance = 50
+
+        if "Size" in self.ability:
+            if (pygame.time.get_ticks() - self.ability["Size"]) >= self.setting.ability_duration:
+                del self.ability["Size"]
+            else:
+                radius *= 0.64
+                self.WEAPON.rect_width *= 0.64
+                self.WEAPON.rect_height *= 0.64
+                self.WEAPON.offset_distance *= 0.1
+
         # draws the player according to its shape, and the hp bar
         pygame.draw.circle(self.surface, self.color, (self.center[0], self.center[1]), radius)
 

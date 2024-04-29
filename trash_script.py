@@ -61,6 +61,9 @@ class Game():
         self.draw_event = threading.Event()  # Create an event for synchronization
         self.draw_event.set()  # Set the event initially
         # self.drawing_thread.start()  # Start the drawing thread
+        self.speed_start_time = 0
+        self.size_start_time = 0
+        self.shield_start_time = 0
 
         self.FLAG_SERVER_1 = False
         self.FLAG_SERVER_2 = False
@@ -110,6 +113,9 @@ class Game():
     def run(self):
         print(self.crate_positions)
         print(self.damage_list)
+        self.speed_start_time = 0
+        self.size_start_time = 0
+        self.shield_start_time = 0
 
         while self.running:
             key_state = pygame.key.get_pressed()
@@ -117,13 +123,13 @@ class Game():
             player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
             self.player.handle_events_movement(self.client)
             radius = self.player.radius
+            speed = self.player.speed
 
             for layer in range(2):
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
-            self.player.draw(radius)
+            self.player.draw()
 
-            speed = self.player.speed
 
             if "Speed" in self.player.ability:
                 self.player.move(speed * 1.2)
@@ -168,8 +174,6 @@ class Game():
                 }
 
 
-
-
             if collisions is not None:
                 for collision in collisions:
                     if "shot index" in collision:
@@ -180,6 +184,7 @@ class Game():
                         self.player.hurt(damage)
                     if "player been hit" in collision:
                         self.player.speed = 3
+
 
 
             data = {
@@ -334,7 +339,7 @@ class Game():
 
 
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
-                                                      self.player.speed)
+                                                      speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
                 self.setting.update()
@@ -344,7 +349,7 @@ class Game():
             else:
                 self.player.hit()
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
-                                                      self.player.speed)
+                                                      speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
                 self.setting.update()
