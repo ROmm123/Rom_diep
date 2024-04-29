@@ -68,27 +68,6 @@ class Game():
 
         self.ID = None
 
-    def run_therad(self):
-        print("in draw thread")
-
-        while True:
-            try:
-                print("before recv")
-                print(self.client.client_socket)
-                data = self.client.receive_data()
-                print("pass recv")
-            except:
-                print("socket is close")
-                break
-
-            if data == -1:
-                print("socket is close")
-                break
-
-            if data != '0' and data:
-                enemy_instance = enemy_main(data, self.player, self.setting, self.player.WEAPON)
-                enemy_instance.main()
-                self.draw_event.set()
 
     def run(self):
         print(self.crate_positions)
@@ -98,6 +77,7 @@ class Game():
             player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
             self.player.handle_events_movement(self.client)
             radius = self.player.radius
+
 
             for layer in range(2):
                 chunk = self.map.calc_chunk(layer)
@@ -279,10 +259,15 @@ class Game():
                                                       self.player.speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
+                data = self.client.receive_data()
+                data = self.org()
+                for j in data:
+                    enemy_main(j,self.setting,self.player,self.player.WEAPON)
                 self.setting.update()
 
                 # Reset the event for the next iteration
                 self.draw_event.clear()
+
             else:
                 self.player.hit()
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
@@ -341,6 +326,24 @@ class Game():
         clip = VideoFileClip(video_path)
         clip.preview()
         clip.close()
+    def org(self,data):
+        data= data.split(",")
+        for j in data:
+            j=json.loads(j)
+        for i in range(data):
+            a=data[i]
+            b=iter(a.keys())
+            index=next(b)
+            if self.ID==index:
+                del data[i]
+        for j in data:
+            b = iter(j.keys())
+            index = next(b)
+            j=j[index]
+
+        return data
+
+
 
 
 if __name__ == '__main__':
