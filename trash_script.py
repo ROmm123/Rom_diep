@@ -93,6 +93,7 @@ class Game():
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
+            player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
             self.player.handle_events_movement(self.client)
             self.player.move()
 
@@ -103,6 +104,13 @@ class Game():
 
             self.player.WEAPON.run_weapon()
             self.player.handle_events_shots(key_state, mouse_state)
+
+            collisions, pos_col = self.static_object.draw(self.player.screen_position[0],
+                                                          self.player.screen_position[1],
+                                                          self.setting,
+                                                          player_rect,
+                                                          self.player.NORMAL_SHOT.get_shot_rects(
+                                                              self.player.screen_position))
 
 
             data = {
