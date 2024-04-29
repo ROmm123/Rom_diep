@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="hp added + self hit deals damage">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="fixing abilities">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -490,7 +491,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="liddor idea" />
     <MESSAGE value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
     <MESSAGE value="still vibrates a bit" />
     <MESSAGE value="change map" />
@@ -515,7 +515,8 @@
     <MESSAGE value="border and and server move" />
     <MESSAGE value="border and server move with shots(crush when shoot sometomes)" />
     <MESSAGE value="hp added + self hit deals damage" />
-    <option name="LAST_COMMIT_MESSAGE" value="hp added + self hit deals damage" />
+    <MESSAGE value="fixing abilities" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing abilities" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

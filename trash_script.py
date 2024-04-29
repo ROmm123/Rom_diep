@@ -128,8 +128,6 @@ class Game():
             for layer in range(2):
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
-            self.player.draw()
-
 
             if "Speed" in self.player.ability:
                 self.player.move(speed * 1.2)
@@ -146,13 +144,18 @@ class Game():
                 self.player.WEAPON.rect_width *= 0.64
                 self.player.WEAPON.rect_height *= 0.64
 
-            self.player.draw(radius)
+            self.player.draw()
             for static_obj in self.static_object.Static_objects:
                 self.static_object.move(static_obj)
 
             ability = self.static_object.give_ability()
             if ability is not None:
-                self.player.ability.append(ability)
+                self.player.stored_abilities.append(ability)
+            print(self.player.stored_abilities)
+
+            speed = self.player.move(ability)
+            self.player.update_ability()  # Update ability timers
+
 
             self.player.WEAPON.run_weapon()
             self.player.handle_events_shots(key_state, mouse_state)
@@ -180,8 +183,7 @@ class Game():
                         self.player.NORMAL_SHOT.remove_shots.append(collision[1])
                         self.player.NORMAL_SHOT.remove()
                     if "player hit" in collision:
-                        damage = 1
-                        self.player.hurt(damage)
+                        self.player.hurt("coll")
                     if "player been hit" in collision:
                         self.player.speed = 3
 

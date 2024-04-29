@@ -45,7 +45,9 @@ class Player():
         self.big_weapon = False
         self.mid_weapon = False
         self.small_weapon = True
-        self.ability = []  # list of Strings
+        self.stored_abilities = []
+        self.ability = {}  # dictionary to stored ability and its expiration time
+        self.ability_key_state = None
 
     def get_rect_player(self, radius, position1, position2):
         # gets and returns the player's rect
@@ -55,21 +57,41 @@ class Player():
         rect_y = int(position2 - radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
-    def hurt(self, damage):
+    def hurt(self, hit_type):
+        small_hit_damage = self.setting.hit_damage["small hit"]
+        big_hit_damage = self.setting.hit_damage["big hit"]
+        coll_hit_damage = self.setting.hit_damage["coll"]
+        shield_effect = 0.3 if "Shield" in self.ability else 1
+
         # reduces the player's HP and checks if he's dead
-        self.hp.Damage += damage
+        if hit_type == "small hit":
+            self.hp.Damage += small_hit_damage * shield_effect
+        if hit_type == "big hit":
+            self.hp.Damage += big_hit_damage * shield_effect
+        if hit_type == "coll":
+            self.hp.Damage += coll_hit_damage * shield_effect
+
+        # reduces the player's HP and checks if he's dead
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
             self.hp.Damage = 0
             self.screen_position = [0, 0]
 
-    def heal(self):
-        # increases the player's HP and checks if the HP is full
-        self.hp.Damage -= 2
-        if self.hp.Damage <= 0:
-            self.hp.FullHP = True
-            print("Full HP")
-            # HP REGEN NEEDS WORK
+    def add_ability(self, ability):
+        # sets the end time of the ability
+        current_time = pygame.time.get_ticks()
+        self.ability[ability] = current_time + self.setting.ability_duration
+
+    def update_ability(self):
+        # update the ability timer
+        to_remove = []
+        current_time = pygame.time.get_ticks()
+        for ability, end_time in self.ability.items():
+            if current_time >= end_time:
+                to_remove.append(ability)
+
+        for ability in to_remove:
+            del self.ability[ability]
 
     def hit(self):
         to_remove = []
