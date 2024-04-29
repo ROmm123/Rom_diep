@@ -57,9 +57,7 @@ class Game():
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
         # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
-        self.draw_event = threading.Event()  # Create an event for synchronization
-        self.draw_event.set()  # Set the event initially
-        # self.drawing_thread.start()  # Start the drawing thread
+
 
         self.FLAG_SERVER_1 = False
         self.FLAG_SERVER_2 = False
@@ -264,9 +262,6 @@ class Game():
                 for j in data:
                     enemy_main(j,self.setting,self.player,self.player.WEAPON)
                 self.setting.update()
-
-                # Reset the event for the next iteration
-                self.draw_event.clear()
 
             else:
                 self.player.hit()
