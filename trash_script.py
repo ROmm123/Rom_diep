@@ -92,7 +92,6 @@ class Game():
 
         while True:
             try:
-                print(self.client_main.another_socket_for_enemies_or_obj)
                 data = self.client_main.receive_obj_prameters_try()
             except:
                 print("socket obj is close")
@@ -307,8 +306,11 @@ class Game():
             self.client_main.send_data_obj_parmetrs(data_for_obj)
 
             if self.flag_obj == False:
-                threading.Thread(target=self.obj_recv()).start()
+                threading.Thread(target=self.obj_recv).start()
                 self.flag_obj = True
+
+
+
 
 
 

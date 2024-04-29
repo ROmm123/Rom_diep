@@ -123,7 +123,6 @@ class main_server:
 
                 with self.clients_lock:
                     self.clients.append((obj_socket, addr_obj))
-                print(len(self.clients))
 
                 obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket,len(self.clients,)))
                 obj_thread.start()
