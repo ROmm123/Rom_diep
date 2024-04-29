@@ -129,21 +129,6 @@ class Game():
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
 
-            if "Speed" in self.player.ability:
-                self.player.move(speed * 1.2)
-            else:
-                self.player.move(speed)
-
-            if "Health" in self.player.ability:
-                self.player.ability.remove("Health")
-                self.player.hp.Damage = 0
-
-            if "Size" in self.player.ability:
-                self.player.ability.remove("Size")
-                radius *= 0.64
-                self.player.WEAPON.rect_width *= 0.64
-                self.player.WEAPON.rect_height *= 0.64
-
             self.player.draw()
             for static_obj in self.static_object.Static_objects:
                 self.static_object.move(static_obj)
@@ -183,7 +168,7 @@ class Game():
                         self.player.NORMAL_SHOT.remove_shots.append(collision[1])
                         self.player.NORMAL_SHOT.remove()
                     if "player hit" in collision:
-                        self.player.hurt("coll")
+                        self.player.hurt(self.setting.hit_type[2])
                     if "player been hit" in collision:
                         self.player.speed = 3
 

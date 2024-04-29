@@ -35,9 +35,6 @@ class Player():
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.96, 2, self.setting)  # initialize normal shot
         self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)  # initialize big shot
         self.hp = HP(self.center[0], self.center[1], radius, setting)
-        self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
-        self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
-        self.speed_duration = 10000  # 10 seconds in milliseconds
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
         self.speed_start_time = pygame.time.get_ticks()
@@ -236,7 +233,7 @@ class Player():
         current_time = pygame.time.get_ticks()
         if self.small_weapon == True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
-                if current_time - self.last_normal_shot_time >= self.normal_shot_cooldown:
+                if current_time - self.last_normal_shot_time >= self.setting.normal_shot_cooldown:
                     self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_normal_shot_time = current_time  # update last shot time
@@ -248,7 +245,7 @@ class Player():
 
         if self.big_weapon == True:  # only if wide or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[1]:
-                if current_time - self.last_big_shot_time >= self.big_shot_cooldown:
+                if current_time - self.last_big_shot_time >= self.setting.big_shot_cooldown:
                     self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[1] = True
                     self.last_big_shot_time = current_time  # update last shot time
@@ -258,7 +255,11 @@ class Player():
                 self.NORMAL_SHOT.shot_button[1] = False
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-    def move(self,speed):
+    def move(self, ability):
+
+
+
+
         # moves the player according to the data in handle_events_movement and updates his position
         if self.move_button[0]:  # a
             self.screen_position[0] -= speed
@@ -303,3 +304,5 @@ class Player():
             self.inventory.draw_inventory()
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
+
+        return speed
