@@ -20,6 +20,7 @@ class main_server:
         self.clients_lock = threading.Lock()
         self.obj_client = -1
         self.array_demage = [0] * 2000
+        self.positions_data = self.static_objects.crate_position_dst_data()
 
 
     def handle_pos_obj(self, obj_socket,i):
@@ -36,17 +37,24 @@ class main_server:
 
             data_dict =json.loads(data)
             position_collision = data_dict["position_collision"]
-            obj_pos = {
-                "position_collision": position_collision
-            }
 
-            if len(self.clients) > 1:
-                print("join to condition")
-                for receiver_socket, addr in self.clients:
-                    if receiver_socket != obj_socket:
-                        print(json.dumps(obj_pos).encode())
-                        print(f"i send {i}")
-                        receiver_socket.send(json.dumps(obj_pos).encode())
+            if position_collision != None:
+                for inner_key, pos_value in self.positions_data.items():
+                    if pos_value == data_dict["position_collision"]:
+                        index = inner_key.split("_")
+                        index = int(index[1])
+
+                self.array_demage[index] = self.array_demage[index] + 10
+
+
+                obj_pos = {
+                    "position_collision": position_collision
+                }
+
+                if len(self.clients) > 1:
+                    for receiver_socket, addr in self.clients:
+                        if receiver_socket != obj_socket:
+                            receiver_socket.send(json.dumps(obj_pos).encode())
 
     def recive_from_client(self, obj_socket):
         try:
@@ -94,11 +102,9 @@ class main_server:
         try:
             while True:
                 obj_socket, addr_obj = self.obj_socket.accept()
-                # Retrieve the crate position destination data
-                positions_data = self.static_objects.crate_position_dst_data()
                 # Construct the data to send to the client
                 data_to_send = {
-                    "crate_positions": positions_data
+                    "crate_positions": self.positions_data
                 }
                 print(data_to_send)  # Print the data to send
                 # Convert the dictionary to a JSON string

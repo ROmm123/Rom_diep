@@ -93,6 +93,7 @@ class Game():
         while True:
             try:
                 data = self.client_main.receive_obj_prameters()
+                print(data)
             except:
                 print("socket obj is close")
                 break
@@ -309,7 +310,8 @@ class Game():
                     # Already connected to server 4, just send player data
                     self.client.send_data(data)
 
-            self.client_main.send_data_obj_parmetrs(data_for_obj)
+            if data_for_obj["position_collision"] != None:
+                self.client_main.send_data_obj_parmetrs(data_for_obj)
 
             if self.flag_obj == False:
                 threading.Thread(target=self.obj_recv).start()
