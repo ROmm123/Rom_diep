@@ -20,7 +20,7 @@ class setting():
         self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
         self.ability_duration = 10000  # 10 seconds in milliseconds
         self.hit_damage = {"small hit": 3, "big hit": 5, "coll": 3}
-        self.hit_type = ("small hit", "big hit", "coll")
+        self.hit_type = ("normal shot", "big shot", "coll")
 
 
     def random_color(self):

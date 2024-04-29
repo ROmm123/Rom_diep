@@ -228,6 +228,29 @@ class Player():
             self.mid_weapon = False
             self.small_weapon = True
 
+    def handle_events_abilities(self, key_state):
+        to_remove = []
+        if key_state[pygame.K_1] and "Speed" in self.stored_abilities and not self.ability_key_state[pygame.K_1]:
+            self.add_ability("Speed")
+            self.stored_abilities.remove("Speed")
+            to_remove.append("Speed")
+        elif key_state[pygame.K_2] and "Health" in self.stored_abilities and not self.ability_key_state[pygame.K_2]:
+            self.add_ability("Health")
+            self.stored_abilities.remove("Health")
+            self.hp.Damage = 0
+            to_remove.append("Health")
+        elif key_state[pygame.K_3] and "Shield" in self.stored_abilities and not self.ability_key_state[pygame.K_3]:
+            self.add_ability("Shield")
+            self.stored_abilities.remove("Shield")
+            to_remove.append("Shield")
+        elif key_state[pygame.K_4] and "Size" in self.stored_abilities and not self.ability_key_state[pygame.K_4]:
+            self.add_ability("Size")
+            self.stored_abilities.remove("Size")
+            to_remove.append("Size")
+
+        self.ability_key_state = key_state
+        self.inventory.remove_from_inventory(to_remove)
+
     def handle_events_shots(self, key_state, mouse_state):
         # checks for if any of the attack keys are pressed
         current_time = pygame.time.get_ticks()
@@ -256,9 +279,12 @@ class Player():
             self.BIG_SHOT.prev_key = key_state[pygame.K_SPACE]
 
     def move(self, ability):
-
-
-
+        speed = self.speed
+        if "Speed" in self.ability:
+            if (pygame.time.get_ticks() - self.ability["Speed"]) >= self.setting.ability_duration:
+                del self.ability["Speed"]
+            else:
+                speed = speed * 1.6
 
         # moves the player according to the data in handle_events_movement and updates his position
         if self.move_button[0]:  # a

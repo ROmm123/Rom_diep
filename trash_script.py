@@ -70,6 +70,8 @@ class Game():
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
+
+
     def run_therad(self):
         print("in draw thread")
 
@@ -141,16 +143,22 @@ class Game():
             speed = self.player.move(ability)
             self.player.update_ability()  # Update ability timers
 
-
-            self.player.WEAPON.run_weapon()
-            self.player.handle_events_shots(key_state, mouse_state)
-
             collisions, pos_col = self.static_object.draw(self.player.screen_position[0],
                                                           self.player.screen_position[1],
                                                           self.setting,
                                                           player_rect,
                                                           self.player.NORMAL_SHOT.get_shot_rects(
                                                               self.player.screen_position))
+
+            if collisions is not None:
+                for collision in collisions:
+                    if "shot index" in collision:
+                        self.player.NORMAL_SHOT.remove_shots.append(collision[1])
+                        self.player.NORMAL_SHOT.remove()
+                    if "player hit" in collision:
+                        self.player.hurt(self.setting.hit_type[2])
+                    if "player been hit" in collision:
+                        self.player.speed = 3
 
             if pos_col is not None:
                 data_for_obj = {
@@ -162,15 +170,13 @@ class Game():
                 }
 
 
-            if collisions is not None:
-                for collision in collisions:
-                    if "shot index" in collision:
-                        self.player.NORMAL_SHOT.remove_shots.append(collision[1])
-                        self.player.NORMAL_SHOT.remove()
-                    if "player hit" in collision:
-                        self.player.hurt(self.setting.hit_type[2])
-                    if "player been hit" in collision:
-                        self.player.speed = 3
+            self.player.WEAPON.run_weapon()
+            self.player.handle_events_shots(key_state, mouse_state)
+            self.player.handle_events_abilities(key_state)
+
+
+
+
 
 
 
@@ -311,20 +317,10 @@ class Game():
 
 
 
-
-
-
             if self.num_enemies > 0:
                 self.draw_event.wait()
                 hit_result = self.player.hit()
-                damage = 0
-                if "normal shot" in hit_result:
-                    amount = hit_result.count("normal shot")
-                    damage += 3*amount
-
-                self.player.hurt(damage)
-
-
+                self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
                 self.player.NORMAL_SHOT.update()
