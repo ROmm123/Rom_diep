@@ -66,6 +66,8 @@ class Game():
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
 
+        self.ID = None
+
     def run_therad(self):
         print("in draw thread")
 
@@ -149,7 +151,7 @@ class Game():
                         self.player.speed = 3
 
 
-            data = {
+            data = {self.ID : {
                 "rect_center_x": self.player.WEAPON.rect_center_x,
                 "rect_center_y": self.player.WEAPON.rect_center_y,
                 "rect_width": self.player.WEAPON.rect_width,
@@ -166,7 +168,7 @@ class Game():
                 "shot_start_y": self.player.NORMAL_SHOT.start_y,
                 "damage dealt": self.player.hp.Damage
 
-            }
+            }}
 
 
 
@@ -185,9 +187,6 @@ class Game():
                     self.FLAG_SERVER_2 = False
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
-
-                    # Start handling enemies for server 1
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -211,9 +210,6 @@ class Game():
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
 
-                    # Start handling enemies for server 2
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
-
                     # Send player data to server
                     self.client.send_data(data)
                 else:
@@ -235,9 +231,6 @@ class Game():
                     self.FLAG_SERVER_3 = True
                     self.FLAG_SERVER_4 = False
 
-                    # Start handling enemies for server 3
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
-
                     # Send player data to server
                     self.client.send_data(data)
                 else:
@@ -258,9 +251,6 @@ class Game():
                     self.FLAG_SERVER_2 = False
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = True
-
-                    # Start handling enemies for server 4
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -304,33 +294,6 @@ class Game():
     def close_connections(self):
         self.client.close()
         self.client.close_enemies_Am()
-
-    def EnemiesAm_handling(self, client):
-        # Thread function to handle enemies received from server
-        client.send_to_Enemies_Am()
-        while True:
-            try:
-                enemies = client.receive_data_EnemiesAm()
-            except:
-                print("close thread handeling")
-                break
-            enemies = int(enemies)
-            diff = enemies - self.num_enemies
-            self.num_enemies = enemies
-
-            print("diff "+ str(diff))
-            if diff > 0:
-                for _ in range(diff):
-                    enemy_thread = threading.Thread(target=self.run_therad())
-                    enemy_thread.start()
-                    self.enemy_threads.append(enemy_thread)
-            elif diff < 0:
-                for _ in range(-diff):
-                    print("join th")
-                    if self.enemy_threads:
-                        thread = self.enemy_threads.pop()
-                        thread.join()
-
 
     def stop(self):
         self.running = False
@@ -382,7 +345,8 @@ class Game():
 
 if __name__ == '__main__':
     game = Game()
-
+    game.ID = game.client_main.receive_data_ID()
+    print("ID : "+str(game.ID))
     try:
         print("starting game.run")
         game.run()

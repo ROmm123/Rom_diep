@@ -101,10 +101,16 @@ class Client:
 
         return None
 
+    def receive_data_ID(self):
+        data = self.client_socket.recv(2048).decode("utf-8")
+        return data
     def receive_data_EnemiesAm(self):
         data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
         data_dict = json.loads(data_str)
         return data_dict
+
+    def send_enemies_state(self , list_as_string):
+        self.client_socket.send(list_as_string.encode("utf-8"))
 
     def close(self):
         try:

@@ -20,6 +20,11 @@ class main_server:
         self.clients_lock = threading.Lock()
         self.obj_client = -1
 
+
+    def provide_ID(self , client_socket):
+        client_socket.send(str(self.obj_client).encode("utf-8"))
+
+
     def handle_pos_obj(self, obj_socket):
 
         while True:
@@ -110,11 +115,13 @@ class main_server:
             print("Waiting for new client...")
             client_socket, addr = self.main_server_socket.accept()
             self.obj_client += 1
+            self.provide_ID(client_socket)
             print(f"New client connected: {addr}")
 
             # Start a new thread to handle the client
             client_thread = threading.Thread(target=self.handle_client_main, args=(client_socket,))
             client_thread.start()
+
 
 
 if __name__ == '__main__':
