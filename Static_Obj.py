@@ -32,6 +32,9 @@ class StaticObjects():
     def __init__(self, setting, map_width, map_height, crate_positions , damage_list):
         self.surface = setting.surface
         self.Static_objects = []
+        print("------------")
+        print(damage_list)
+        print("-------------")
         damage_array = self.extract_values_from_dict(damage_list)
 
         for pos_key, inner_dict in crate_positions.items():
@@ -141,6 +144,7 @@ class StaticObjects():
 
     def extract_values_from_dict(self,dictionary):
         values = []
+        print(dictionary)
         for key in dictionary:
             values.append(dictionary[key])
         return values

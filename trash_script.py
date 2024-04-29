@@ -66,16 +66,13 @@ class Game():
         self.FLAG_SERVER_2 = False
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
-
+        self.flag_obj = False
     def run_therad(self):
         print("in draw thread")
 
         while True:
             try:
-                print("before recv")
-                print(self.client.client_socket)
                 data = self.client.receive_data()
-                print("pass recv")
             except:
                 print("socket is close")
                 break
@@ -84,14 +81,30 @@ class Game():
                 print("socket is close")
                 break
 
+
             if data != '0' and data:
                 enemy_instance = enemy_main(data, self.player, self.setting, self.player.WEAPON)
                 enemy_instance.main()
                 self.draw_event.set()
 
+    def obj_recv(self):
+        print("in draw obj")
+
+        while True:
+            try:
+                print(self.client_main.another_socket_for_enemies_or_obj)
+                data = self.client_main.receive_obj_prameters_try()
+            except:
+                print("socket obj is close")
+                break
+
+            print(data)
+
+
     def run(self):
         print(self.crate_positions)
         print(self.damage_list)
+
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
@@ -139,6 +152,18 @@ class Game():
                                                           self.player.NORMAL_SHOT.get_shot_rects(
                                                               self.player.screen_position))
 
+            if pos_col is not None:
+                data_for_obj = {
+                    "position_collision": pos_col  # pos of collision player and obj
+                }
+            else:
+                data_for_obj = {
+                    "position_collision": None  # pos of player only
+                }
+
+
+
+
             if collisions is not None:
                 for collision in collisions:
                     if "shot index" in collision:
@@ -170,10 +195,19 @@ class Game():
 
             }
 
+            data_for_main_server = {
+                "player_position_x": self.player.screen_position[0],
+                "player_position_y": self.player.screen_position[1]
+            }
+
+            self.client_main.send_data(data_for_main_server)
+            data_from_main_server = self.client_main.recevie_only_data_from_main()
+            data_from_main_server = data_from_main_server.split("_")
+            self.number_of_server = int(data_from_main_server[0])
 
 
 
-            self.check_server()
+
             if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
@@ -270,9 +304,11 @@ class Game():
                     # Already connected to server 4, just send player data
                     self.client.send_data(data)
 
-            self.client.send_data(data)
+            self.client_main.send_data_obj_parmetrs(data_for_obj)
 
-
+            if self.flag_obj == False:
+                threading.Thread(target=self.obj_recv()).start()
+                self.flag_obj = True
 
 
 
@@ -334,6 +370,8 @@ class Game():
                         thread.join()
 
 
+
+
     def stop(self):
         self.running = False
         for thread in self.enemy_threads:
@@ -356,16 +394,7 @@ class Game():
             random_number_y = random.randint(0, 37000)
             if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
-    def check_server(self):
-        data_for_main_server = {
-            "player_position_x": self.player.screen_position[0],
-            "player_position_y": self.player.screen_position[1]
-        }
 
-        self.client_main.send_data(data_for_main_server)
-        data_from_main_server = self.client_main.recevie_only_data_from_main()
-        data_from_main_server = data_from_main_server.split("_")
-        self.number_of_server = int(data_from_main_server[0])
 
 
     def transition(self):

@@ -45,14 +45,40 @@ class Client:
         except Exception as e:
             print(f"Error sending to enemy: {e}")
 
+    def receive_obj_prameters_try(self):
+        data = self.another_socket_for_enemies_or_obj.recv(2048)
+        print(data)
+        return data
+
     def receive_obj_prameters(self):
-        data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
-        print(data_str)
-        last_bracket_index = data_str.rfind('}')
-        if last_bracket_index != -1:
-            data_str = data_str[:last_bracket_index + 1]
-        data_dict = json.loads(data_str)
-        return data_dict
+        remaining_data = b''
+        while True:
+            data = self.another_socket_for_enemies_or_obj.recv(2048)
+            print(data)
+            if not data:
+                break
+            remaining_data += data
+
+            while remaining_data:
+                start_index = remaining_data.find(b'{')
+                if start_index == -1:
+                    # Check if the remaining data is just "-1"
+                    if remaining_data.strip() == b'-1':
+                        remaining_data = b''
+                        return -1
+                    break
+
+                end_index = remaining_data.find(b'}', start_index)
+                if end_index == -1:
+                    break
+
+                end_index += 1  # Include the closing brace
+                json_str = remaining_data[start_index:end_index].decode("utf-8")
+                data_dict = json.loads(json_str)
+                remaining_data = remaining_data[end_index:]
+                return data_dict
+
+        return None
 
 
     def receive_list_obj_once(self):

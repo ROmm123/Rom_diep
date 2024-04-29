@@ -22,27 +22,38 @@ class main_server:
         self.array_demage = [0] * 2000
 
 
-    def handle_pos_obj(self, obj_socket):
+    def handle_pos_obj(self, obj_socket,i):
         while True:
-            try:
-                data = obj_socket.recv(2048)
-                if data:
-                    data = data.decode()
-                    data_dict = json.loads(data)
-            except:
+            data = self.recive_from_client(obj_socket)
+
+            if not data:
                 print(f"Client {obj_socket.getpeername()} disconnected")
                 with self.clients_lock:
                     self.clients.remove((obj_socket, obj_socket.getpeername()))
-                break
+                    print("not in list")
+                    obj_socket.close()
+                    break
+
+            data_dict =json.loads(data)
             position_collision = data_dict["position_collision"]
             obj_pos = {
                 "position_collision": position_collision
             }
+
             if len(self.clients) > 1:
+                print("join to condition")
                 for receiver_socket, addr in self.clients:
                     if receiver_socket != obj_socket:
                         print(json.dumps(obj_pos).encode())
+                        print(f"i send {i}")
                         receiver_socket.send(json.dumps(obj_pos).encode())
+
+    def recive_from_client(self, obj_socket):
+        try:
+            data = obj_socket.recv(2048).decode("utf-8")
+            return data
+        except:
+            return None
 
     def handle_client_main(self, client_socket):
         try:
@@ -112,7 +123,9 @@ class main_server:
 
                 with self.clients_lock:
                     self.clients.append((obj_socket, addr_obj))
-                obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket,))
+                print(len(self.clients))
+
+                obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket,len(self.clients,)))
                 obj_thread.start()
         except:
             print("hello")
