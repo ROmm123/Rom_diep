@@ -39,12 +39,6 @@ class Client:
         except Exception as e:
             print(f"Error sending data: {e}")
 
-    def send_to_Enemies_Am(self):
-        try:
-            self.another_socket_for_enemies_or_obj.send("0".encode())
-        except Exception as e:
-            print(f"Error sending to enemy: {e}")
-
     def receive_obj_prameters(self):
         data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
         print(data_str)
@@ -104,10 +98,6 @@ class Client:
     def receive_data_ID(self):
         data = self.client_socket.recv(2048).decode("utf-8")
         return data
-    def receive_data_EnemiesAm(self):
-        data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
-        data_dict = json.loads(data_str)
-        return data_dict
 
     def send_enemies_state(self , list_as_string):
         self.client_socket.send(list_as_string.encode("utf-8"))
@@ -115,7 +105,6 @@ class Client:
     def close(self):
         try:
             self.client_socket.close()
-            self.another_socket_for_enemies_or_obj.close()
 
         except Exception as e:
             print(f"Error closing sockets: {e}")

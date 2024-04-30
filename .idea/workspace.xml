@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="dic">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="minor fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SERVER1.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
@@ -224,9 +224,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.trash_script" />
+        <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.SERVER2" />
-        <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.settings" />
       </list>
     </recent_temporary>
@@ -480,7 +480,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714424717030</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL‎-00030" summary="minor fixes">
+      <option name="closed" value="true" />
+      <created>1714496892316</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL‎-00030" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1714496892316</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -499,7 +507,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="excecutables : main , test_game, $R...&#10;next: fix drawing thread to rcv packets" />
     <MESSAGE value="still vibrates a bit" />
     <MESSAGE value="change map" />
     <MESSAGE value="change map2" />
@@ -524,7 +531,8 @@
     <MESSAGE value="border and server move with shots(crush when shoot sometomes)" />
     <MESSAGE value="hp added + self hit deals damage" />
     <MESSAGE value="dic" />
-    <option name="LAST_COMMIT_MESSAGE" value="dic" />
+    <MESSAGE value="minor fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

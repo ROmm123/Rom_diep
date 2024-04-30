@@ -158,7 +158,6 @@ class Game():
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 11111
-                    self.client.enemies_or_obj_Am_port = 11112
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = True
@@ -180,7 +179,6 @@ class Game():
                     #self.transition()
                     self.client.host = 'localhost'
                     self.client.port = 22222
-                    self.client.enemies_or_obj_Am_port = 22223
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
@@ -198,10 +196,8 @@ class Game():
                 if self.FLAG_SERVER_3 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
-                    self.client.close_enemies_Am()
                     self.client.host = 'localhost'
                     self.client.port = 33333
-                    self.client.enemies_or_obj_Am_port = 33334
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
@@ -219,10 +215,8 @@ class Game():
                 if self.FLAG_SERVER_4 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
-                    self.client.close_enemies_Am()
                     self.client.host = 'localhost'
                     self.client.port = 44444
-                    self.client.enemies_or_obj_Am_port = 44445
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
@@ -271,16 +265,7 @@ class Game():
 
     def close_connections(self):
         self.client.close()
-        self.client.close_enemies_Am()
 
-    def stop(self):
-        self.running = False
-        for thread in self.enemy_threads:
-            thread.running = False
-            thread.join()
-        # self.drawing_thread.join()  # Wait for the drawing thread to exit
-        self.close_connections()
-        pygame.quit()
 
     def generate_random_with_condition_x(self):
         # Generate a random x position for player/enemy with specific condition
@@ -347,7 +332,6 @@ if __name__ == '__main__':
         print("starting game.run")
         game.run()
     finally:
-        game.stop()
         game.close_connections()
         pygame.quit()
 

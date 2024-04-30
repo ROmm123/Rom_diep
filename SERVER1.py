@@ -1,5 +1,7 @@
 import socket
 import threading
+import time
+
 from Network import Client
 
 
@@ -9,7 +11,7 @@ import queue
 import json
 
 class Server:
-    def __init__(self, host, port, tcp_port):
+    def __init__(self, host, port):
 
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -17,15 +19,6 @@ class Server:
         self.server_socket.listen(5)
         self.clients = []
         self.clients_lock = threading.Lock()
-
-        self.Enemies_Am_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.Enemies_Am_socket.bind((host, tcp_port))
-        self.Enemies_Am_socket.listen(5)
-        self.udp_thread = threading.Thread(target=self.handle_Enemies_Am)
-        self.udp_thread.start()
-        self.udp_list = []
-        self.enemies = -1
-        self.enemies_am_list = []
         self.index = 0
         self.queue = queue.Queue()
         self.enemy_dict_list =[]
@@ -36,18 +29,14 @@ class Server:
         while True:
 
             data = self.recive_from_client(client_socket)
+            print("double dict data :"+str(data))
             self.queue.put(data)
 
 
-            print(self.clients)
+            #print(self.clients)
             if not data:
                 print(f"closing socket {count}")
-                self.enemies = self.enemies - 1
                 print(f"Client {client_socket.getpeername()} disconnected")
-                for receiver_socket , addr  in self.clients:
-                    if receiver_socket != client_socket:
-                        receiver_socket.send("-1".encode())
-                        print("i send")
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
                     client_socket.close()
@@ -80,11 +69,19 @@ class Server:
             print("Server socket closed")
 
     def recive_from_client(self, client_socket):
-        try:
-            data = client_socket.recv(2048).decode("utf-8")
-            return data
-        except:
-            return None
+        data = client_socket.recv(2048).decode("utf-8")
+        print(data)
+        # Convert the received JSON string to a dictionary
+        loaded_data = json.loads(data)
+        # Iterate over the keys of the dictionary
+        for key in loaded_data.keys():
+            # Check if the key is a string
+            if isinstance(key, str):
+                # Convert the string key to an integer key
+                int_key = int(key)
+                # Replace the string key with the integer key
+                loaded_data[int_key] = loaded_data.pop(key)
+        return loaded_data
 
     def exists_in_list(self , loaded_data) -> dict:
         index_in_list = 0
@@ -101,25 +98,24 @@ class Server:
     def replace(self , loaded_data , index):
         self.enemy_dict_lis[index] = loaded_data
 
-'''
-" {3 :{} } , {2:{{}"
-['{3:{}}' , '{2:{{}']
-[{3:{}} , {2:{}}]'''
-
     def build_EnemieData(self):
         while True:
-            if self.queue.qsize() > 0:
-                while True:
-                    unloaded_data = self.queue.get()
+            if not self.queue.empty():  # Check if the queue is not empty
+                unloaded_data = self.queue.get()
+                if unloaded_data is not None:  # Check if data is not None
                     loaded_data = json.loads(unloaded_data)
-                    flag , index = self.exists_in_list(loaded_data)
-                    if flag == True:
+                    flag, index = self.exists_in_list(loaded_data)
+                    if flag:
                         if self.enemy_dict_list[index] != loaded_data:
                             with self.clients_lock:
-                                self.replace(loaded_data , index)
+                                self.replace(loaded_data, index)
                     else:
                         with self.clients_lock:
                             self.enemy_dict_list.append(json.loads(loaded_data))
+            else:
+                # Sleep briefly to avoid busy-waiting
+                time.sleep(0.1)
+
     def send_enemy_data(self):
         while True:
             for element in self.enemy_dict_list:
@@ -138,7 +134,7 @@ class Server:
 
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 11111, 11112)
+    my_server = Server('localhost', 11111)
     print("Starting server...")
     threading.Thread(target=my_server.build_EnemieData).start()
     threading.Thread(target=my_server.send_enemy_data).start()
