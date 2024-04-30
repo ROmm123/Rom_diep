@@ -236,14 +236,12 @@ class Game():
                     # Already connected to server 4, just send player data
                     self.client.send_data(data)
 
-            self.client.send_data(data)
 
 
 
 
 
             if self.num_enemies > 0:
-                self.draw_event.wait()
                 hit_result = self.player.hit()
                 damage = 0
                 if "normal shot" in hit_result:
@@ -258,8 +256,8 @@ class Game():
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
                 data = self.client.receive_data()
-                data = self.org()
-                for j in data:
+                data = self.org(data)
+                for j in data: # [{j} , {j}]
                     enemy_main(j,self.setting,self.player,self.player.WEAPON)
                 self.setting.update()
 
@@ -321,10 +319,10 @@ class Game():
         clip = VideoFileClip(video_path)
         clip.preview()
         clip.close()
-    def org(self,data):
-        data= data.split(",")
+    def org(self,data) -> list:
+        data= data.split(",") # creates a list ['{3:{}}' , '{2:{{}']
         for j in data:
-            j=json.loads(j)
+            j=json.loads(j) # [{2:{}}]
         for i in range(data):
             a=data[i]
             b=iter(a.keys())
@@ -334,9 +332,9 @@ class Game():
         for j in data:
             b = iter(j.keys())
             index = next(b)
-            j=j[index]
+            j=j[index] # [{} ,{} , {}]
 
-        return data
+        return data # list
 
 
 

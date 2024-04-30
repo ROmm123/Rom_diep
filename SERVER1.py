@@ -101,8 +101,10 @@ class Server:
     def replace(self , loaded_data , index):
         self.enemy_dict_lis[index] = loaded_data
 
-
-
+'''
+" {3 :{} } , {2:{{}"
+['{3:{}}' , '{2:{{}']
+[{3:{}} , {2:{}}]'''
 
     def build_EnemieData(self):
         while True:
