@@ -60,7 +60,7 @@ class Player():
         print(hit_type)
         small_hit_damage = self.setting.hit_damage["normal shot"]
         big_hit_damage = self.setting.hit_damage["big shot"]
-        coll_hit_damage = self.setting.hit_damage["coll"]
+        #coll_hit_damage = self.setting.hit_damage["coll"]
         shield_effect = 0 if "Shield" in self.ability else 1
 
         # reduces the player's HP and checks if he's dead
@@ -68,8 +68,8 @@ class Player():
             self.hp.Damage += small_hit_damage * shield_effect
         if "big shot" in hit_type:
             self.hp.Damage += big_hit_damage * shield_effect
-        if "coll" in hit_type:
-            self.hp.Damage += coll_hit_damage * shield_effect
+        #if "coll" in hit_type:
+            #self.hp.Damage += coll_hit_damage * shield_effect
 
         # reduces the player's HP and checks if he's dead
         if self.hp.Damage >= self.radius * 2:

@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="abilities work for both players (need to fix Size ability and deleting other clients' objects)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER1.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

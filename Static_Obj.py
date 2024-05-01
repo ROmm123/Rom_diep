@@ -94,7 +94,7 @@ class StaticObjects():
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
-                self.hurt(static_obj) # get position by server to hurt
+                #self.hurt(static_obj) # get position by server to hurt
                 # Calculate the centers of both the player's and static object's rectangles
                 player_center_x, player_center_y = player_rect.center
                 static_obj_center_x, static_obj_center_y = static_obj.rect_static_obj.center
