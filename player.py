@@ -57,17 +57,18 @@ class Player():
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self, hit_type):
-        small_hit_damage = self.setting.hit_damage["small hit"]
-        big_hit_damage = self.setting.hit_damage["big hit"]
+        print(hit_type)
+        small_hit_damage = self.setting.hit_damage["normal shot"]
+        big_hit_damage = self.setting.hit_damage["big shot"]
         coll_hit_damage = self.setting.hit_damage["coll"]
         shield_effect = 0 if "Shield" in self.ability else 1
 
         # reduces the player's HP and checks if he's dead
-        if hit_type == "small hit":
+        if "normal shot" in hit_type:
             self.hp.Damage += small_hit_damage * shield_effect
-        if hit_type == "big hit":
+        if "big shot" in hit_type:
             self.hp.Damage += big_hit_damage * shield_effect
-        if hit_type == "coll":
+        if "coll" in hit_type:
             self.hp.Damage += coll_hit_damage * shield_effect
 
         # reduces the player's HP and checks if he's dead
@@ -117,6 +118,7 @@ class Player():
         return to_remove
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
+        to_remove = []
         enemy_rect = self.get_rect_player(radius, enemy_position_x, enemy_position_y)
         # check collision with normal shots
 
@@ -132,6 +134,7 @@ class Player():
 
                 if enemy_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
+                    to_remove.append("normal shot")
 
         # check collision with big shots
         '''
@@ -143,6 +146,7 @@ class Player():
                     '''
 
         self.NORMAL_SHOT.remove()
+        return to_remove
 
     def isAlive(self):
         # exits the game if the player dies (NEEDS TO RESPAWN INSTEAD)

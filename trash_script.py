@@ -141,7 +141,7 @@ class Game():
             ability = self.static_object.give_ability()
             if ability is not None:
                 self.player.stored_abilities.append(ability)
-            print(self.player.stored_abilities)
+            #print(self.player.stored_abilities)
 
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
@@ -321,6 +321,7 @@ class Game():
             if self.num_enemies > 0:
                 self.draw_event.wait()
                 hit_result = self.player.hit()
+                #print(hit_result)
                 self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
@@ -331,7 +332,8 @@ class Game():
                 # Reset the event for the next iteration
                 self.draw_event.clear()
             else:
-                self.player.hit()
+                hit_result = self.player.hit()
+                self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
                 self.player.NORMAL_SHOT.update()

@@ -41,6 +41,7 @@ class enemy_main():
 
             self.player.hit_online(self.player.radius, int(self.data["player_position_x"]) + 400,
                                    int(self.data["player_position_y"]) + 300)
+
             if self.data["shot_start_x"] != None:
                 start_x = int(self.data["shot_start_x"]) + b1
                 start_y = int(self.data["shot_start_y"]) + b2
