@@ -14,7 +14,7 @@ FONT_SIZE = 24
 
 # Create the display surface
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Login Screen")
+pygame.display.set_caption("signin Screen")
 
 # Fonts
 font = pygame.font.Font(None, FONT_SIZE)
@@ -34,7 +34,7 @@ password_color = input_color_inactive
 # Login button
 login_button = pygame.Rect(150, 200, 100, 40)
 login_button_color = pygame.Color("dodgerblue2")
-login_text = font.render("Login", True, BLACK)
+login_text = font.render("sign-in", True, BLACK)
 login_text_rect = login_text.get_rect(center=login_button.center)
 
 
@@ -45,11 +45,11 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(text_obj, text_rect)
 
 
-def draw_login_screen():
+def draw_signin_screen():
     screen.fill(WHITE)
 
     # Add title
-    title_text = font.render("Log-in", True, BLACK)
+    title_text = font.render("sign-in", True, BLACK)
     title_text_rect = title_text.get_rect(center=(WIDTH // 2, 50))
     screen.blit(title_text, title_text_rect)
 
@@ -63,7 +63,7 @@ def draw_login_screen():
     screen.blit(login_text, login_text_rect)
 
 
-def perform_login():
+def perform_signin():
     global username, password
     print("Username:", username)
     print("Password:", password)
@@ -92,8 +92,8 @@ def main():
                     password_color = input_color_active
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
-                    perform_login()
-                    handle_data_forLogin(username, password)
+                    perform_signin()
+                    handle_data_for_signin(username, password)
 
                 else:
                     input_active = False
@@ -106,8 +106,8 @@ def main():
                         input_active = False
                         username_color = input_color_inactive
                         password_color = input_color_inactive
-                        perform_login()
-                        handle_data_forLogin(username, password)
+                        perform_signin()
+                        handle_data_for_signin(username, password)
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]
@@ -119,7 +119,7 @@ def main():
                         elif password_input.collidepoint(pygame.mouse.get_pos()):
                             password += event.unicode
 
-        draw_login_screen()
+        draw_signin_screen()
         pygame.display.flip()
         clock.tick(30)
 
