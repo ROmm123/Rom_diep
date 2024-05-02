@@ -29,8 +29,10 @@ class Server:
         while True:
 
             data = self.recive_from_client(client_socket)
-            print("double dict data :"+str(data))
+            data = json.loads(data)
+            print(" dict data :"+str(data))
             self.queue.put(data)
+            print("queue size : "+str(self.queue.qsize()))
 
 
             #print(self.clients)
@@ -70,60 +72,47 @@ class Server:
 
     def recive_from_client(self, client_socket):
         data = client_socket.recv(2048).decode("utf-8")
-        print(data)
-        # Convert the received JSON string to a dictionary
-        loaded_data = json.loads(data)
-        # Iterate over the keys of the dictionary
-        for key in loaded_data.keys():
-            # Check if the key is a string
-            if isinstance(key, str):
-                # Convert the string key to an integer key
-                int_key = int(key)
-                # Replace the string key with the integer key
-                loaded_data[int_key] = loaded_data.pop(key)
-        return loaded_data
+        return data
 
-    def exists_in_list(self , loaded_data) -> dict:
-        index_in_list = 0
-        keys_iterator = iter(loaded_data.keys())
-        ID = next(keys_iterator)
-        for dictionary in self.enemy_dict_list:
-            dictionary_k_iterator = iter(dictionary.keys())
-            exists_ID = next(dictionary_k_iterator)
-            if ID == exists_ID:
-                return True , index_in_list
-            index_in_list+=1
-        return False , None
+    def exists_in_list(self , data) -> dict:
+        print(type(data))
+        ID = data["ID"] # ID =3
+        c= 0;
+        for dictionary in self.enemy_dict_list: # [{"ID" : 1.....} , {"ID" : 7.....} ,{"ID" : 3.....}]
+            if ID == dictionary["ID"]:
+                return True , c
+            c+=1
+        return None ,None
 
-    def replace(self , loaded_data , index):
-        self.enemy_dict_lis[index] = loaded_data
+    def replace(self , data , index):
+        self.enemy_dict_lis[index] = data
 
     def build_EnemieData(self):
         while True:
             if not self.queue.empty():  # Check if the queue is not empty
-                unloaded_data = self.queue.get()
-                if unloaded_data is not None:  # Check if data is not None
-                    loaded_data = json.loads(unloaded_data)
-                    flag, index = self.exists_in_list(loaded_data)
+                data = self.queue.get() # {"ID" : 2 , ...UPDATED_DATA.......}
+                if data is not None:  # Check if data is not None
+                    flag ,index = self.exists_in_list(data)
                     if flag:
-                        if self.enemy_dict_list[index] != loaded_data:
-                            with self.clients_lock:
-                                self.replace(loaded_data, index)
+                        with self.clients_lock:
+                            self.replace(data, index)
                     else:
                         with self.clients_lock:
-                            self.enemy_dict_list.append(json.loads(loaded_data))
-            else:
-                # Sleep briefly to avoid busy-waiting
-                time.sleep(0.1)
+                            self.enemy_dict_list.append(data)
 
     def send_enemy_data(self):
         while True:
-            for element in self.enemy_dict_list:
-                json.dumps(element)
-            list_as_string = ','.join(self.enemy_dict_list)
-            with self.clients_lock:
-                for client_socket , nigga in self.clients:
-                    client_socket.send(list_as_string.encode("utf-8"))
+            if self.enemy_dict_list:
+                # Assuming self.enemy_dict_list is a list of dictionaries
+                list_as_string = ','.join(map(str, self.enemy_dict_list))  # Convert dictionaries to strings and join with commas
+                result_string = ' ,'.join(list_as_string.split(','))  # Join with spaces
+                print(result_string)
+                print("type : "+str(type(result_string)))
+
+                # PRINT LIST_AS_STRING
+                with self.clients_lock:
+                    for client_socket , nigga in self.clients:
+                        client_socket.send(result_string.encode("utf-8"))
 
 
 

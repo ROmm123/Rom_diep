@@ -129,7 +129,8 @@ class Game():
                         self.player.speed = 3
 
 
-            data = {self.ID : {
+            data =  {
+                "ID" : self.ID ,
                 "rect_center_x": self.player.WEAPON.rect_center_x,
                 "rect_center_y": self.player.WEAPON.rect_center_y,
                 "rect_width": self.player.WEAPON.rect_width,
@@ -146,7 +147,7 @@ class Game():
                 "shot_start_y": self.player.NORMAL_SHOT.start_y,
                 "damage dealt": self.player.hp.Damage
 
-            }}
+            }
 
 
 
@@ -249,10 +250,11 @@ class Game():
                                                       self.player.speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
-                data = self.client.receive_data()
-                data = self.org(data)
-                for j in data: # [{j} , {j}]
-                    enemy_main(j,self.setting,self.player,self.player.WEAPON)
+            data = self.client.receive_data()
+            print(data)
+            data = self.remove_my_id(data) # [{} ,{} , {}]
+            for j in data: # [{j} , {j}]
+                enemy_main(j,self.setting,self.player,self.player.WEAPON)
                 self.setting.update()
 
             else:
@@ -304,22 +306,15 @@ class Game():
         clip = VideoFileClip(video_path)
         clip.preview()
         clip.close()
-    def org(self,data) -> list:
-        data= data.split(",") # creates a list ['{3:{}}' , '{2:{{}']
-        for j in data:
-            j=json.loads(j) # [{2:{}}]
-        for i in range(data):
-            a=data[i]
-            b=iter(a.keys())
-            index=next(b)
-            if self.ID==index:
-                del data[i]
-        for j in data:
-            b = iter(j.keys())
-            index = next(b)
-            j=j[index] # [{} ,{} , {}]
+    def remove_my_id(self,data) -> list :
+        for dictio in data:
+            if self.ID == dictio["ID"]:
+                data.remove(dictio)
 
-        return data # list
+
+
+
+
 
 
 

@@ -1,6 +1,8 @@
 import socket
 import json
-import errno
+import ast
+import time
+
 
 class Client:
     def __init__(self, host, port, enemies_or_obj_Am_port=None):
@@ -27,6 +29,7 @@ class Client:
 
     def send_data(self, data_dict):
         try:
+            time.sleep(0.5)
             data_str = json.dumps(data_dict)
             self.client_socket.send(data_str.encode("utf-8"))
         except Exception as e:
@@ -66,36 +69,22 @@ class Client:
         data_str = self.client_socket.recv(2048).decode("utf-8")
         return data_str
 
-    def receive_data(self):
-        remaining_data = b''
+    def receive_data(self): #
         while True:
-            data = self.client_socket.recv(2048)
-            if not data:
-                break
-            remaining_data += data
+            data = self.client_socket.recv(2048).decode("utf-8")
+            #data = self.parse_data(data)
+            return data;
 
-            while remaining_data:
-                start_index = remaining_data.find(b'{')
-                if start_index == -1:
-                    # Check if the remaining data is just "-1"
-                    if remaining_data.strip() == b'-1':
-                        remaining_data = b''
-                        return -1
-                    break
+    def parse_data(self, data_string):
+        # Split the data string into individual dictionaries
+        data_list = data_string.strip().split(' , ')
 
-                end_index = remaining_data.find(b'}', start_index)
-                if end_index == -1:
-                    break
+        # Convert each dictionary string into a dictionary object
+        parsed_data = [ast.literal_eval(data) for data in data_list]
 
-                end_index += 1  # Include the closing brace
-                json_str = remaining_data[start_index:end_index].decode("utf-8")
-                data_dict = json.loads(json_str)
-                remaining_data = remaining_data[end_index:]
-                return data_dict
+        return parsed_data
 
-        return None
-
-    def receive_data_ID(self):
+    def receive_data_ID(self): # '{} , {} , {} '
         data = self.client_socket.recv(2048).decode("utf-8")
         return data
 
