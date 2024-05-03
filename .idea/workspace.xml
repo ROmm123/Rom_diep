@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="abilities work for both players (need to fix Size ability and deleting other clients' objects)">
-      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SERVER1.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,7 +105,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.trash_script">
+  <component name="RunManager" selected="Python.$RS1TBVV">
     <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -223,9 +225,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.trash_script" />
-        <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
+        <item itemvalue="Python.SERVER1" />
+        <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.SERVER3" />
         <item itemvalue="Python.SERVER2" />
       </list>

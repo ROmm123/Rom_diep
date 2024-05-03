@@ -132,7 +132,7 @@ class Game():
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
 
-            self.player.draw()
+            self.player.draw(self.player.WEAPON.rect_width, self.player.WEAPON.rect_height)
 
             '''
             for static_obj in self.static_object.Static_objects:
@@ -171,8 +171,9 @@ class Game():
                 }
 
 
+            self.player.handle_events_shots(key_state)
+            self.player.handle_events_shapes(key_state)
             self.player.WEAPON.run_weapon()
-            self.player.handle_events_shots(key_state, mouse_state)
             self.player.handle_events_abilities(key_state)
 
 
@@ -192,11 +193,15 @@ class Game():
                 "player_color": self.player.color,
                 "player_radius": self.player.radius,
                 "weapon_angle": self.player.WEAPON.angle,
-                "shot_velocity_x": self.player.NORMAL_SHOT.velocity[0],
-                "shot_velocity_y": self.player.NORMAL_SHOT.velocity[1],
-                "shot_start_x": self.player.NORMAL_SHOT.start_x,
-                "shot_start_y": self.player.NORMAL_SHOT.start_y,
-                "damage dealt": self.player.hp.Damage
+                "normal_shot_velocity_x": self.player.NORMAL_SHOT.velocity[0],
+                "normal_shot_velocity_y": self.player.NORMAL_SHOT.velocity[1],
+                "normal_shot_start_x": self.player.NORMAL_SHOT.start_x,
+                "normal_shot_start_y": self.player.NORMAL_SHOT.start_y,
+                "damage dealt": self.player.hp.Damage,
+                "big_shot_velocity_x": self.player.BIG_SHOT.velocity[0],
+                "big_shot_velocity_y": self.player.BIG_SHOT.velocity[1],
+                "big_shot_start_x": self.player.BIG_SHOT.start_x,
+                "big_shot_start_y": self.player.BIG_SHOT.start_y
 
             }
 
@@ -239,7 +244,7 @@ class Game():
             elif self.number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
-                    print("alredy_close")
+                    print("already_close")
                     self.client.close()
                     #self.transition()
                     self.client.host = 'localhost'
@@ -321,12 +326,15 @@ class Game():
             if self.num_enemies > 0:
                 self.draw_event.wait()
                 hit_result = self.player.hit()
-                #print(hit_result)
                 self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
+                self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
+                                                      speed)
                 self.player.NORMAL_SHOT.update()
+                self.player.BIG_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
+                self.player.BIG_SHOT.reset()
                 self.setting.update()
 
                 # Reset the event for the next iteration
@@ -336,8 +344,12 @@ class Game():
                 self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
+                self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
+                                                   speed)
                 self.player.NORMAL_SHOT.update()
+                self.player.BIG_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
+                self.player.BIG_SHOT.reset()
                 self.setting.update()
 
     def close_connections(self):

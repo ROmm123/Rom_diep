@@ -42,17 +42,27 @@ class enemy_main():
             self.player.hit_online(self.player.radius, int(self.data["player_position_x"]) + 400,
                                    int(self.data["player_position_y"]) + 300)
 
-            if self.data["shot_start_x"] != None:
-                start_x = int(self.data["shot_start_x"]) + b1
-                start_y = int(self.data["shot_start_y"]) + b2
-                velocity_x = float(self.data["shot_velocity_x"])
-                velocity_y = float(self.data["shot_velocity_y"])
+            if self.data["normal_shot_start_x"] is not None:
+                start_x = int(self.data["normal_shot_start_x"]) + b1
+                start_y = int(self.data["normal_shot_start_y"]) + b2
+                velocity_x = float(self.data["normal_shot_velocity_x"])
+                velocity_y = float(self.data["normal_shot_velocity_y"])
                 # if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:
                 self.player.NORMAL_SHOT.shots.append({"position": [start_x, start_y], "velocity": [velocity_x,
                                                                                                    velocity_y]})  # adds a shot to an array for it to print on the screen
 
+            if self.data["big_shot_start_x"] is not None:
+                big_start_x = int(self.data["big_shot_start_x"]) + b1
+                big_start_y = int(self.data["big_shot_start_y"]) + b2
+                big_velocity_x = float(self.data["big_shot_velocity_x"])
+                big_velocity_y = float(self.data["big_shot_velocity_y"])
+                # if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:
+                self.player.BIG_SHOT.shots.append({"position": [big_start_x, big_start_y], "velocity": [big_velocity_x,
+                                                                                                big_velocity_y]})  # adds a shot to an array for it to print on the screen
+
         else:
             pass
+
     def draw_enemy(self, color, center_x, center_y, radius):
         center_x = int(center_x) + 400
         center_y = int(center_y) + 300
@@ -60,7 +70,7 @@ class enemy_main():
         self.WEAPON.x = center_x
         self.WEAPON.y = center_y
         radius = int(radius)
-        if int(self.data["damage dealt"]) >= 2*radius:
+        if int(self.data["damage dealt"]) >= 2 * radius:
             center_x = 0
             center_y = 0
         pygame.draw.circle(self.surface, self.setting.yellow, (center_x, center_y), radius)

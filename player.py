@@ -33,8 +33,8 @@ class Player():
         self.move_button = [False, False, False, False, False, False]  # movement buttons (a, d, w, s)
         # self.hp = HP(self.center[0], self.center[1], radius, setting)  # initialize hp
         self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.96, 2, self.setting)  # initialize normal shot
-        self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.97, 5, self.setting)  # initialize big shot
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.965, 2, self.setting)  # initialize normal shot
+        self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.95, 5, self.setting)  # initialize big shot
         self.hp = HP(self.center[0], self.center[1], radius, setting)
         self.inventory = inventory(self.setting)
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
@@ -57,7 +57,6 @@ class Player():
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
     def hurt(self, hit_type):
-        print(hit_type)
         small_hit_damage = self.setting.hit_damage["normal shot"]
         big_hit_damage = self.setting.hit_damage["big shot"]
         #coll_hit_damage = self.setting.hit_damage["coll"]
@@ -99,22 +98,21 @@ class Player():
         # check collision with normal shots
 
         if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
-            for i,_ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+            for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
                 shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
                 if player_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
                     to_remove.append("normal shot")
-
-
-        # check collision with big shots
-        '''
-        for i,  in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
-            shot_rect = self.BIG_SHOT.get_shot_rects(self.screen_position)[i]
+                    
+        if self.BIG_SHOT.get_shot_rects(self.screen_position):
+            for i,_ in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
+                shot_rect = self.BIG_SHOT.get_shot_rects(self.screen_position)[i]
                 if player_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
-                    return "big shot"
-                    '''
+                    to_remove.append("big shot")
+
         self.NORMAL_SHOT.remove()
+        self.BIG_SHOT.remove()
         return to_remove
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
@@ -123,7 +121,7 @@ class Player():
         # check collision with normal shots
 
         if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
-            for i,_ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+            for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
                 all_shot_rects = self.NORMAL_SHOT.get_shot_rects(self.screen_position)
                 shot_rect = None
                 length = len(all_shot_rects)
@@ -135,17 +133,24 @@ class Player():
                 if enemy_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
                     to_remove.append("normal shot")
+                    
+                    
+        if self.BIG_SHOT.get_shot_rects(self.screen_position):
+            for i, _ in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
+                all_shot_rects = self.BIG_SHOT.get_shot_rects(self.screen_position)
+                shot_rect = None
+                length = len(all_shot_rects)
+                if i < length:
+                    shot_rect = all_shot_rects[i]
+                else:
+                    print("ERROR")
 
-        # check collision with big shots
-        '''
-        for i,  in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
-            shot_rect = self.BIG_SHOT.get_shot_rects(self.screen_position)[i]
-                if player_rect.colliderect(shot_rect):
+                if enemy_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
-                    return "big shot"
-                    '''
+                    to_remove.append("big shot")
 
         self.NORMAL_SHOT.remove()
+        self.BIG_SHOT.remove()
         return to_remove
 
     def isAlive(self):
@@ -155,10 +160,10 @@ class Player():
         else:
             return False
 
-    def draw(self):
+    def draw(self, weapon_width, weapon_height):
         radius = self.radius
-        self.WEAPON.rect_width = 25
-        self.WEAPON.rect_height = 25
+        self.WEAPON.rect_width = weapon_width
+        self.WEAPON.rect_height = weapon_height
         self.WEAPON.offset_distance = 50
 
         if "Size" in self.ability:
@@ -257,7 +262,7 @@ class Player():
         self.ability_key_state = key_state
         self.inventory.remove_from_inventory(to_remove)
 
-    def handle_events_shots(self, key_state, mouse_state):
+    def handle_events_shots(self, key_state):
         # checks for if any of the attack keys are pressed
         current_time = pygame.time.get_ticks()
         if self.small_weapon == True:  # only if long or regular weapon
@@ -323,7 +328,6 @@ class Player():
 
         if self.move_button[3]:  # s
             self.screen_position[1] += speed
-            print(self.screen_position[1])
             if self.screen_position[1]>(22720) or "top" in collision_side:
                 self.screen_position[1] -= speed
             if self.screen_position[1]>(177*64-330) and self.screen_position[1]<(187*64-2):

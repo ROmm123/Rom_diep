@@ -52,7 +52,8 @@ class NormalShot:
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         self.start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
         self.start_y = player_position[1] + self.offset_distance * math.sin(angle)
-        print("fire")
+
+
         self.shots.append({"position": [self.start_x, self.start_y], "velocity": [self.velocity[0] , self.velocity[1]]})   #adds a shot to an array for it to print on the screen
 
     def calc_relative(self,screen_position,move_button,speed):
@@ -84,7 +85,6 @@ class NormalShot:
             circle["position"][1] += circle["velocity"][1] + self.shot_relative_vector[1]
 
             self.draw()
-            #print("vel", abs(circle["velocity"][1]))
 
             # check shots to remove (if below the remove_speed)
             if (abs(circle["velocity"][0]) < self.remove_speed) and (abs(circle["velocity"][1]) < self.remove_speed):
