@@ -74,6 +74,7 @@ class NormalShot:
 
             if move_button[3] and not move_button[2]:
                 self.shot_relative_vector[1] = -speed
+
     def update(self):
 
         # updates the shots' position

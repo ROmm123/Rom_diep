@@ -26,6 +26,7 @@ class enemy_main():
             radius = int(float(self.data["player_radius"]))
             self.WEAPON.radius = radius
             weapon_angle = self.data.get("weapon_angle", "")
+            print(weapon_angle)
             if isinstance(weapon_angle, (int, float)):
                 angle_str = re.sub(r'[^0-9.-]', '', str(weapon_angle))
                 try:
