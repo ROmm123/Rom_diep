@@ -1,4 +1,3 @@
-
 import threading
 import time
 import queue  # Import the queue module
@@ -152,6 +151,7 @@ class Game():
 
 
 
+
             self.check_server()
             if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
@@ -250,10 +250,10 @@ class Game():
                                                       self.player.speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
-            data = self.client.receive_data()
+            data_list = self.client.receive_data()
             print(data)
-            data = self.remove_my_id(data) # [{} ,{} , {}]
-            for j in data: # [{j} , {j}]
+            data_list = self.remove_my_id(data_list) # [{} ,{} , {}]
+            for j in data_list: # [{j} , {j}]
                 enemy_main(j,self.setting,self.player,self.player.WEAPON)
                 self.setting.update()
 
@@ -306,6 +306,7 @@ class Game():
         clip = VideoFileClip(video_path)
         clip.preview()
         clip.close()
+
     def remove_my_id(self,data) -> list :
         for dictio in data:
             if self.ID == dictio["ID"]:
@@ -329,4 +330,3 @@ if __name__ == '__main__':
     finally:
         game.close_connections()
         pygame.quit()
-

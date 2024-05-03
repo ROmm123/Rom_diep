@@ -69,24 +69,28 @@ class Client:
         data_str = self.client_socket.recv(2048).decode("utf-8")
         return data_str
 
-    def receive_data(self): #
+    import json
+
+    def receive_data(self):
         while True:
             data = self.client_socket.recv(2048).decode("utf-8")
-            #data = self.parse_data(data)
-            return data;
 
-    def parse_data(self, data_string):
-        # Split the data string into individual dictionaries
-        data_list = data_string.strip().split(' , ')
+            if str(data).rfind(']') != -1:
+                data = data[:]
+            print("freshly received data : "+str(data))
+            print(type(data))
+            if not data:
+                break
+            data_list = json.loads(data)
 
-        # Convert each dictionary string into a dictionary object
-        parsed_data = [ast.literal_eval(data) for data in data_list]
 
-        return parsed_data
+        return data_list
+
+
 
     def receive_data_ID(self): # '{} , {} , {} '
         data = self.client_socket.recv(2048).decode("utf-8")
-        return data
+        return int(data)
 
     def send_enemies_state(self , list_as_string):
         self.client_socket.send(list_as_string.encode("utf-8"))

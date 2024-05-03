@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="tried to change the id in the packet to int instead of str">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="started debuging yahels logic">
+      <change afterPath="$PROJECT_DIR$/exp_list_to STR.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SERVER1.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER1.py" afterDir="false" />
@@ -52,50 +53,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.$RS1TBVV.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Network.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER1.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER3.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER4.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_calculate.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_player.executor&quot;: &quot;Run&quot;,
-    &quot;Python.example.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game_to_funcs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main_to_funcs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.old_main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.player.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server_oop.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_game.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.test_server_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.trash_script.executor&quot;: &quot;Run&quot;,
-    &quot;Python.trash_script2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.trash_scripts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Rom&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Networks/GITProject/Rom_diep&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python.$RS1TBVV.executor": "Run",
+    "Python.Network.executor": "Run",
+    "Python.SERVER1.executor": "Run",
+    "Python.SERVER2.executor": "Run",
+    "Python.SERVER3.executor": "Run",
+    "Python.SERVER4.executor": "Run",
+    "Python.enemy_calculate.executor": "Run",
+    "Python.enemy_main.executor": "Run",
+    "Python.enemy_player.executor": "Run",
+    "Python.example.executor": "Run",
+    "Python.exp_list_to STR.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.game_to_funcs.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.main_to_funcs.executor": "Run",
+    "Python.old_main.executor": "Run",
+    "Python.player.executor": "Run",
+    "Python.server.executor": "Run",
+    "Python.server_oop.executor": "Run",
+    "Python.settings.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_game.executor": "Debug",
+    "Python.test_server_new.executor": "Debug",
+    "Python.trash_script.executor": "Run",
+    "Python.trash_script2.executor": "Run",
+    "Python.trash_scripts.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Rom",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Networks/GITProject/Rom_diep",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep" />
@@ -103,7 +105,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.trash_script">
+  <component name="RunManager" selected="Python.exp_list_to STR">
     <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -170,7 +172,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="settings" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="exp_list_to STR" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -183,7 +185,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/settings.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/exp_list_to STR.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -215,19 +217,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.exp_list_to STR" />
       <item itemvalue="Python.$RS1TBVV" />
       <item itemvalue="Python.SERVER1" />
       <item itemvalue="Python.SERVER2" />
-      <item itemvalue="Python.settings" />
       <item itemvalue="Python.trash_script" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.exp_list_to STR" />
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.SERVER2" />
-        <item itemvalue="Python.settings" />
       </list>
     </recent_temporary>
   </component>
@@ -496,7 +498,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1714500945966</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL‎-00032" summary="started debuging yahels logic">
+      <option name="closed" value="true" />
+      <created>1714671552653</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL‎-00032" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1714671552653</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -515,7 +525,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="change map" />
     <MESSAGE value="change map2" />
     <MESSAGE value="change map3" />
     <MESSAGE value="change tiled" />
@@ -540,7 +549,8 @@
     <MESSAGE value="dic" />
     <MESSAGE value="minor fixes" />
     <MESSAGE value="tried to change the id in the packet to int instead of str" />
-    <option name="LAST_COMMIT_MESSAGE" value="tried to change the id in the packet to int instead of str" />
+    <MESSAGE value="started debuging yahels logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="started debuging yahels logic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

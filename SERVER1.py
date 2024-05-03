@@ -22,6 +22,7 @@ class Server:
         self.index = 0
         self.queue = queue.Queue()
         self.enemy_dict_list =[]
+        self.sending_list =[]
 
         print("Server initialized")
 
@@ -103,16 +104,11 @@ class Server:
     def send_enemy_data(self):
         while True:
             if self.enemy_dict_list:
-                # Assuming self.enemy_dict_list is a list of dictionaries
-                list_as_string = ','.join(map(str, self.enemy_dict_list))  # Convert dictionaries to strings and join with commas
-                result_string = ' ,'.join(list_as_string.split(','))  # Join with spaces
-                print(result_string)
-                print("type : "+str(type(result_string)))
-
-                # PRINT LIST_AS_STRING
+                list_as_string = json.dumps(self.enemy_dict_list)
+                print(type(list_as_string))
                 with self.clients_lock:
                     for client_socket , nigga in self.clients:
-                        client_socket.send(result_string.encode("utf-8"))
+                        client_socket.send(list_as_string.encode("utf-8"))
 
 
 
