@@ -88,7 +88,7 @@ class Game():
 
 
             if data != '0' and data:
-                enemy_instance = enemy_main(data, self.player, self.setting, self.player.WEAPON)
+                enemy_instance = enemy_main(data, self.player, self.setting)
                 enemy_instance.main()
                 self.draw_event.set()
 
@@ -171,9 +171,9 @@ class Game():
                 }
 
 
+            self.player.WEAPON.run_weapon()
             self.player.handle_events_shots(key_state)
             self.player.handle_events_shapes(key_state)
-            self.player.WEAPON.run_weapon()
             self.player.handle_events_abilities(key_state)
 
 

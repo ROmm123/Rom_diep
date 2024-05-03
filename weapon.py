@@ -1,6 +1,7 @@
 import math
 import pygame
 
+
 class Weapon():
 
     def __init__(self, width, height, color, player, set):
@@ -18,8 +19,8 @@ class Weapon():
         self.rect_height = height
         self.dx = 0
         self.dy = 0
-        self.x=400
-        self.y=300
+        self.x = 400
+        self.y = 300
 
     def calc_angle(self):
         # Calculate the angle between the player and the mouse
@@ -38,7 +39,6 @@ class Weapon():
         self.rect_center_y = self.tangent_y + self.offset_distance * math.sin(self.angle)
         self.rect_center_x += (self.player.radius - 15 - self.offset_distance) * math.cos(self.angle)
         self.rect_center_y += (self.player.radius - 15 - self.offset_distance) * math.sin(self.angle)
-
 
     def draw_rect(self):
         self.weapon_surf = pygame.Surface((self.rect_width, self.rect_height), pygame.SRCALPHA)
@@ -60,6 +60,7 @@ class Weapon():
         self.draw_rect()  # Draw the new rectangle
         self.rotate_surf()
         self.draw_weapon()
+
     def run_enemy_weapon(self):
         self.calc_tangent_point()
         self.calc_rect_pos()

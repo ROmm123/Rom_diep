@@ -2,15 +2,17 @@ import pygame
 import threading
 import re  # Import re module for regular expressions
 import json
+from weapon import Weapon
 
 
 class enemy_main():
-    def __init__(self, data, player, setting, weapon):
+    def __init__(self, data, player, setting):
         self.data = data
         self.setting = setting
         self.surface = setting.surface
         self.player = player
-        self.WEAPON = weapon
+        self.radius = player.radius
+        self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon
 
     def calculate(self):
         k1 = int(float(self.data["player_position_x"]))  # Convert float to int
@@ -26,7 +28,7 @@ class enemy_main():
             radius = int(float(self.data["player_radius"]))
             self.WEAPON.radius = radius
             weapon_angle = self.data.get("weapon_angle", "")
-            print(weapon_angle)
+            #print(weapon_angle)
             if isinstance(weapon_angle, (int, float)):
                 angle_str = re.sub(r'[^0-9.-]', '', str(weapon_angle))
                 try:
