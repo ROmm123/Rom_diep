@@ -20,19 +20,27 @@ def handle_data_for_signin(username, password):
 
             cursor = conn.cursor()
 
-            # Perform signin check here (adding username and password to the database)
-            query_for_insert = "INSERT INTO data (username, password) VALUES (%s, %s)"
-            cursor.execute(query_for_insert, (username, password))
+            query = "SELECT * FROM data WHERE username = %s AND password = %s"
+            cursor.execute(query, (username, password))
+            result = cursor.fetchone()
 
-            # Commit the transaction to apply the changes
-            conn.commit()
+            if not result:
+                # Perform signin check here (adding username and password to the database)
+                query_for_insert = "INSERT INTO data (username, password) VALUES (%s, %s)"
+                cursor.execute(query_for_insert, (username, password))
 
-            print("Sign-in successful!")
+                # Commit the transaction to apply the changes
+                conn.commit()
+
+                print("Sign-in successful!")
+            else:
+                print("this name is already taken try another..")
 
             # Close the cursor and connection
             cursor.close()
             conn.close()
             print('Connection closed')
+
         else:
             print('Failed to connect to MySQL database')
 
@@ -98,7 +106,6 @@ def handle_data_for_leavegame(username, password, x, y, speedCounter, sizeCounte
             print('Connected to the database')
 
             cursor = conn.cursor()
-
 
             query_for_insert = "INSERT INTO data (username, password,x,y,speed,size,shield,hp) VALUES (%s,%s,%s,%s,%s,%s)"
             cursor.execute(query_for_insert,
