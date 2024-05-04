@@ -29,7 +29,6 @@ class Client:
 
     def send_data(self, data_dict):
         try:
-            time.sleep(0.5)
             data_str = json.dumps(data_dict)
             self.client_socket.send(data_str.encode("utf-8"))
         except Exception as e:
@@ -73,18 +72,33 @@ class Client:
 
     def receive_data(self):
         while True:
-            data = self.client_socket.recv(2048).decode("utf-8")
+            data_str = self.client_socket.recv(2048).decode("utf-8")
 
-            if str(data).rfind(']') != -1:
-                data = data[:]
-            print("freshly received data : "+str(data))
-            print(type(data))
-            if not data:
-                break
-            data_list = json.loads(data)
+            index = data_str.find(']')
+            if isinstance(int(data_str[index - 1]), int):
+                index1 = data_str[index + 2:].find(']')
+            index += index1
+            # Remove the truncated part
+            data_str = data_str[:index + 3]
+
+            # Split the concatenated JSON string into individual JSON objects
+            json_list = []
+            start = 1
+            while start < len(data_str) - 2:
+                end = data_str.find('}', start)
+                json_list.append(data_str[start:end + 1])
+                start = end
+
+            # Parse each JSON object and add it to the list
+            data_list = []
+            for json_str in json_list:
+                data_list.append(json.loads(json_str))
+
+            # Print the resulting list
+            print(data_list)
 
 
-        return data_list
+            return data_list
 
 
 

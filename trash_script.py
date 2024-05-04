@@ -250,11 +250,13 @@ class Game():
                                                       self.player.speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
-            data_list = self.client.receive_data()
-            print(data)
-            data_list = self.remove_my_id(data_list) # [{} ,{} , {}]
-            for j in data_list: # [{j} , {j}]
-                enemy_main(j,self.setting,self.player,self.player.WEAPON)
+                data_list = self.client.receive_data()
+                print("data list BEFORE REMOVE_MY_ID : " + str(data_list))
+                data_list = self.remove_my_id(data_list) # [{} ,{} , {}]
+                print("data list : "+str(data_list))
+                if data_list:
+                    for j in data_list: # [{j} , {j}]
+                        enemy_main(j,self.setting,self.player,self.player.WEAPON)
                 self.setting.update()
 
             else:
