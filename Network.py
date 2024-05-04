@@ -27,6 +27,8 @@ class Client:
             print("Connection refused.")
             # Handle the error as needed
 
+
+
     def send_data(self, data_dict):
         try:
             data_str = json.dumps(data_dict)
@@ -40,6 +42,12 @@ class Client:
             self.another_socket_for_enemies_or_obj.send(data_str.encode("utf-8"))
         except Exception as e:
             print(f"Error sending data: {e}")
+
+    def send_to_Enemies_Am(self):
+        try:
+            self.another_socket_for_enemies_or_obj.send("0".encode())
+        except Exception as e:
+            print(f"Error sending to enemy: {e}")
 
     def receive_obj_prameters(self):
         data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
@@ -64,6 +72,11 @@ class Client:
             print(f"Error receiving data: {e}")
             return None
 
+    def receive_data_EnemiesAm(self):
+        data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
+        data_dict = json.loads(data_str)
+        return data_dict
+
     def recevie_only_data_from_main(self):
         data_str = self.client_socket.recv(2048).decode("utf-8")
         return data_str
@@ -73,32 +86,36 @@ class Client:
     def receive_data(self):
         while True:
             data_str = self.client_socket.recv(2048).decode("utf-8")
+            print ("data str , in network : "+data_str)
+            if data_str[0] == '[':
+                index = data_str.find(']')
+                index1 = index
+                while str(data_str[index1-1]).isdigit(): # }]
+                #if isinstance(int(data_str[index - 1]), int):
+                    index1 = data_str[index1 + 2:].find(']')
+                    index1 += index1
+                # Remove the truncated part
+                data_str = data_str[:index1 + 3]
+                print("data str , after modification : " + str(data_str))
 
-            index = data_str.find(']')
-            if isinstance(int(data_str[index - 1]), int):
-                index1 = data_str[index + 2:].find(']')
-            index += index1
-            # Remove the truncated part
-            data_str = data_str[:index + 3]
+                # Split the concatenated JSON string into individual JSON objects
+                json_list = []
+                start = 1
+                while start < len(data_str) - 2:
+                    end = data_str.find('}', start)
+                    json_list.append(data_str[start:end + 1])
+                    start = end
 
-            # Split the concatenated JSON string into individual JSON objects
-            json_list = []
-            start = 1
-            while start < len(data_str) - 2:
-                end = data_str.find('}', start)
-                json_list.append(data_str[start:end + 1])
-                start = end
+                # Parse each JSON object and add it to the list
+                data_list = []
+                for json_str in json_list:
+                    data_list.append(json.loads(json_str))
 
-            # Parse each JSON object and add it to the list
-            data_list = []
-            for json_str in json_list:
-                data_list.append(json.loads(json_str))
-
-            # Print the resulting list
-            print(data_list)
+                # Print the resulting list
+                print(data_list)
 
 
-            return data_list
+                return data_list
 
 
 

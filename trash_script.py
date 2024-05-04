@@ -159,12 +159,16 @@ class Game():
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 11111
+                    self.client.enemies_or_obj_Am_port = 11112
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = True
                     self.FLAG_SERVER_2 = False
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
+
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+                    print("passed thread")
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -180,12 +184,15 @@ class Game():
                     #self.transition()
                     self.client.host = 'localhost'
                     self.client.port = 22222
+                    self.client.enemies_or_obj_Am_port = 22223
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
                     self.FLAG_SERVER_2 = True
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
+
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -199,12 +206,15 @@ class Game():
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 33333
+                    self.client.enemies_or_obj_Am_port = 33334
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
                     self.FLAG_SERVER_2 = False
                     self.FLAG_SERVER_3 = True
                     self.FLAG_SERVER_4 = False
+
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -218,12 +228,15 @@ class Game():
                     self.client.close()
                     self.client.host = 'localhost'
                     self.client.port = 44444
+                    self.client.enemies_or_obj_Am_port = 44445
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
                     self.FLAG_SERVER_2 = False
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = True
+
+                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -237,6 +250,7 @@ class Game():
 
 
             if self.num_enemies > 0:
+                print("in if , num_enemies >0")
                 hit_result = self.player.hit()
                 damage = 0
                 if "normal shot" in hit_result:
@@ -250,6 +264,7 @@ class Game():
                                                       self.player.speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
+                print("before receive")
                 data_list = self.client.receive_data()
                 print("data list BEFORE REMOVE_MY_ID : " + str(data_list))
                 data_list = self.remove_my_id(data_list) # [{} ,{} , {}]
@@ -294,6 +309,18 @@ class Game():
         data_from_main_server = self.client_main.recevie_only_data_from_main()
         data_from_main_server = data_from_main_server.split("_")
         self.number_of_server = int(data_from_main_server[0])
+
+    def EnemiesAm_handling(self, client):
+        # Thread function to handle enemies received from server
+        client.send_to_Enemies_Am()
+        while True:
+            try:
+                enemies = client.receive_data_EnemiesAm()
+                self.num_enemies = enemies
+                print("added enemy , enemies : "+str(self.num_enemies))
+            except:
+                print("close thread handeling")
+                break
 
 
     def transition(self):
