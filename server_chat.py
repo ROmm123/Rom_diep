@@ -1,78 +1,36 @@
-import socket
-import threading
+from socket import *
+from threading import *
 
-# Connection Data
-host = '127.0.0.1'
-port = 55555
+clients = set()
 
-# Starting Server
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((host, port))
-server.listen()
-
-# Lists For Clients and Their Nicknames
-clients = []
-nicknames = []
-
-# Sending Messages To All Connected Clients
-def broadcast(message):
-    for client in clients:
-        client.send(message)
-
-        # Handling Messages From Clients
-        def handle(client):
-            while True:
-                try:
-                    # Broadcasting Messages
-                    message = client.recv(1024)
-                    broadcast(message)
-                except:
-                    # Removing And Closing Clients
-                    index = clients.index(client)
-                    clients.remove(client)
-                    client.close()
-                    nickname = nicknames[index]
-                    broadcast('{} left!'.format(nickname).encode())
-                    nicknames.remove(nickname)
-                    break
-
-        # Handling Messages From Clients
-def handle(client):
+def clientThread(clientSocket, clientAddress):
     while True:
-        try:
-            # Broadcasting Messages
-            message = client.recv(1024)
-            broadcast(message)
-        except:
-            # Removing And Closing Clients
-            index = clients.index(client)
-            clients.remove(client)
-            client.close()
-            nickname = nicknames[index]
-            broadcast('{} left!'.format(nickname).encode())
-            nicknames.remove(nickname)
+        message = clientSocket.recv(1024).decode("utf-8")
+        print(clientAddress[0] + ":" + str(clientAddress[1]) +" says: "+ message)
+        for client in clients:
+            if client is not clientSocket:
+                client.send((clientAddress[0] + ":" + str(clientAddress[1]) +" says: "+ message).encode("utf-8"))
+
+        if not message:
+            clients.remove(clientSocket)
+            print(clientAddress[0] + ":" + str(clientAddress[1]) +" disconnected")
             break
 
-        # Receiving / Listening Function
-def receive():
-    while True:
-        # Accept Connection
-        client, address = server.accept()
-        print("Connected with {}".format(str(address)))
+    clientSocket.close()
 
-        # Request And Store Nickname
-        client.send('NICK'.encode())
-        nickname = client.recv(1024).decode()
-        nicknames.append(nickname)
-        clients.append(client)
+hostSocket = socket(AF_INET, SOCK_STREAM)
+hostSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR,1)
 
-        # Print And Broadcast Nickname
-        print("Nickname is {}".format(nickname))
-        broadcast("{} joined!".format(nickname).encode()) #send everyone
-        client.send('Connected to server!'.encode())
+hostIp = "127.0.0.1"
+portNumber = 7500
+hostSocket.bind((hostIp, portNumber))
+hostSocket.listen()
+print ("Waiting for connection...")
 
-        # Start Handling Thread For Client
-        thread = threading.Thread(target=handle, args=(client,))
-        thread.start()
 
-receive()
+while True:
+    clientSocket, clientAddress = hostSocket.accept()
+    clients.add(clientSocket)
+    print ("Connection established with: ", clientAddress[0] + ":" + str(clientAddress[1]))
+    thread = Thread(target=clientThread, args=(clientSocket, clientAddress, ))
+    thread.start()
