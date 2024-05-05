@@ -137,7 +137,6 @@ class Game():
                 "tangent_x": self.player.WEAPON.tangent_x,
                 "player_position_x": self.player.screen_position[0],
                 "player_position_y": self.player.screen_position[1],
-                "player_color": self.player.color,
                 "player_radius": self.player.radius,
                 "weapon_angle": self.player.WEAPON.angle,
                 "shot_velocity_x": self.player.NORMAL_SHOT.velocity[0],
