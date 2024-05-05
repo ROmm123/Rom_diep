@@ -131,6 +131,7 @@ class Game():
             for layer in range(2):
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
+            self.setting.darw_fps()
 
             mouse_pos = pygame.mouse.get_pos()
             self.player.draw(mouse_pos)
@@ -193,7 +194,7 @@ class Game():
                 "player_position_y": self.player.screen_position[1],
                 "player_color": self.player.color,
                 "player_radius": self.player.radius,
-                "weapon_angle": self.player.WEAPON.angle,
+                "weapon_angle": self.player.angle,
                 "normal_shot_velocity_x": self.player.NORMAL_SHOT.velocity[0],
                 "normal_shot_velocity_y": self.player.NORMAL_SHOT.velocity[1],
                 "normal_shot_start_x": self.player.NORMAL_SHOT.start_x,

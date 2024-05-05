@@ -3,6 +3,7 @@ import threading
 import re  # Import re module for regular expressions
 import json
 from weapon import Weapon
+import math
 
 
 class enemy_main():
@@ -12,7 +13,10 @@ class enemy_main():
         self.surface = setting.surface
         self.player = player
         self.radius = player.radius
-        self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon
+        self.image = pygame.image.load("pictures/shmulik_red.png")
+        self.rect = self.image.get_rect()
+        self.rect.center = (400, 300)  # Initial position
+        self.angle = 0
 
     def calculate(self):
         k1 = int(float(self.data["player_position_x"]))  # Convert float to int
@@ -26,21 +30,18 @@ class enemy_main():
     def check(self, a1, a2, b1, b2):
         if a2 < self.setting.screen_height and a1 < self.setting.screen_width:
             radius = int(float(self.data["player_radius"]))
-            self.WEAPON.radius = radius
             weapon_angle = self.data.get("weapon_angle", "")
-            #print(weapon_angle)
             if isinstance(weapon_angle, (int, float)):
                 angle_str = re.sub(r'[^0-9.-]', '', str(weapon_angle))
                 try:
-                    self.WEAPON.angle = float(angle_str)
+                    self.angle = float(angle_str)
                 except ValueError:
                     print(f"Invalid angle value: {angle_str}")
             else:
                 print("Invalid weapon_angle data type")
 
-            color = (255, 0, 0)
-            self.WEAPON.color = color
-            self.draw_enemy(color, b1, b2, radius)
+            mouse_pos = pygame.mouse.get_pos()
+            self.draw_enemy(b1, b2, radius, mouse_pos)
 
             self.player.hit_online(self.player.radius, int(self.data["player_position_x"]) + 400,
                                    int(self.data["player_position_y"]) + 300)
@@ -66,25 +67,22 @@ class enemy_main():
         else:
             pass
 
-    def draw_enemy(self, color, center_x, center_y, radius):
+    def draw_enemy(self, center_x, center_y, radius, mouse_pos):
         center_x = int(center_x) + 400
         center_y = int(center_y) + 300
-
-        self.WEAPON.x = center_x
-        self.WEAPON.y = center_y
         radius = int(radius)
         if int(self.data["damage dealt"]) >= 2 * radius:
             center_x = 0
             center_y = 0
-        pygame.draw.circle(self.surface, self.setting.yellow, (center_x, center_y), radius)
+
+        rotated_image = pygame.transform.rotate(self.image, math.degrees(-self.data["weapon_angle"]))
+        rotated_rect = rotated_image.get_rect(center=(center_x, center_y))
+        self.surface.blit(rotated_image, rotated_rect)
+
         health_bar = pygame.Rect(center_x - radius, (center_y + radius + 10), 2 * radius, 10)
         pygame.draw.rect(self.surface, self.setting.green, health_bar)
         pygame.draw.rect(self.surface, self.setting.red,
                          (center_x - radius, center_y + radius + 10, self.data["damage dealt"], 10))
-        self.WEAPON.run_enemy_weapon()
-        self.WEAPON.color = self.setting.grey
-        self.WEAPON.x = 400
-        self.WEAPON.y = 300
 
     def main(self):
         self.calculate()

@@ -1,0 +1,47 @@
+Index: enemy_main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\r\nimport threading\r\nimport re  # Import re module for regular expressions\r\nimport json\r\nfrom weapon import Weapon\r\n\r\n\r\nclass enemy_main():\r\n    def __init__(self, data, player, setting):\r\n        self.data = data\r\n        self.setting = setting\r\n        self.surface = setting.surface\r\n        self.player = player\r\n        self.radius = player.radius\r\n        self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon\r\n\r\n    def calculate(self):\r\n        k1 = int(float(self.data[\"player_position_x\"]))  # Convert float to int\r\n        k2 = int(float(self.data[\"player_position_y\"]))  # Convert float to int\r\n        b1 = k1 - self.player.screen_position[0]\r\n        b2 = k2 - self.player.screen_position[1]\r\n        a1 = abs(k1 - int(self.player.screen_position[0]))\r\n        a2 = abs(k2 - int(self.player.screen_position[1]))\r\n        self.check(a1, a2, b1, b2)\r\n\r\n    def check(self, a1, a2, b1, b2):\r\n        if a2 < self.setting.screen_height and a1 < self.setting.screen_width:\r\n            radius = int(float(self.data[\"player_radius\"]))\r\n            self.WEAPON.radius = radius\r\n            weapon_angle = self.data.get(\"weapon_angle\", \"\")\r\n            #print(weapon_angle)\r\n            if isinstance(weapon_angle, (int, float)):\r\n                angle_str = re.sub(r'[^0-9.-]', '', str(weapon_angle))\r\n                try:\r\n                    self.WEAPON.angle = float(angle_str)\r\n                except ValueError:\r\n                    print(f\"Invalid angle value: {angle_str}\")\r\n            else:\r\n                print(\"Invalid weapon_angle data type\")\r\n\r\n            color = (255, 0, 0)\r\n            self.WEAPON.color = color\r\n            self.draw_enemy(color, b1, b2, radius)\r\n\r\n            self.player.hit_online(self.player.radius, int(self.data[\"player_position_x\"]) + 400,\r\n                                   int(self.data[\"player_position_y\"]) + 300)\r\n\r\n            if self.data[\"normal_shot_start_x\"] is not None:\r\n                start_x = int(self.data[\"normal_shot_start_x\"]) + b1\r\n                start_y = int(self.data[\"normal_shot_start_y\"]) + b2\r\n                velocity_x = float(self.data[\"normal_shot_velocity_x\"])\r\n                velocity_y = float(self.data[\"normal_shot_velocity_y\"])\r\n                # if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:\r\n                self.player.NORMAL_SHOT.shots.append({\"position\": [start_x, start_y], \"velocity\": [velocity_x,\r\n                                                                                                   velocity_y]})  # adds a shot to an array for it to print on the screen\r\n\r\n            if self.data[\"big_shot_start_x\"] is not None:\r\n                big_start_x = int(self.data[\"big_shot_start_x\"]) + b1\r\n                big_start_y = int(self.data[\"big_shot_start_y\"]) + b2\r\n                big_velocity_x = float(self.data[\"big_shot_velocity_x\"])\r\n                big_velocity_y = float(self.data[\"big_shot_velocity_y\"])\r\n                # if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:\r\n                self.player.BIG_SHOT.shots.append({\"position\": [big_start_x, big_start_y], \"velocity\": [big_velocity_x,\r\n                                                                                                big_velocity_y]})  # adds a shot to an array for it to print on the screen\r\n\r\n        else:\r\n            pass\r\n\r\n    def draw_enemy(self, color, center_x, center_y, radius):\r\n        center_x = int(center_x) + 400\r\n        center_y = int(center_y) + 300\r\n\r\n        self.WEAPON.x = center_x\r\n        self.WEAPON.y = center_y\r\n        radius = int(radius)\r\n        if int(self.data[\"damage dealt\"]) >= 2 * radius:\r\n            center_x = 0\r\n            center_y = 0\r\n        pygame.draw.circle(self.surface, self.setting.yellow, (center_x, center_y), radius)\r\n        health_bar = pygame.Rect(center_x - radius, (center_y + radius + 10), 2 * radius, 10)\r\n        pygame.draw.rect(self.surface, self.setting.green, health_bar)\r\n        pygame.draw.rect(self.surface, self.setting.red,\r\n                         (center_x - radius, center_y + radius + 10, self.data[\"damage dealt\"], 10))\r\n        self.WEAPON.run_enemy_weapon()\r\n        self.WEAPON.color = self.setting.grey\r\n        self.WEAPON.x = 400\r\n        self.WEAPON.y = 300\r\n\r\n    def main(self):\r\n        self.calculate()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/enemy_main.py b/enemy_main.py
+--- a/enemy_main.py	(revision d7bd6adc81f15c2b8648bdc06bb580a66e97ac79)
++++ b/enemy_main.py	(date 1714944568371)
+@@ -40,7 +40,7 @@
+ 
+             color = (255, 0, 0)
+             self.WEAPON.color = color
+-            self.draw_enemy(color, b1, b2, radius)
++            self.draw_enemy(b1, b2, radius)
+ 
+             self.player.hit_online(self.player.radius, int(self.data["player_position_x"]) + 400,
+                                    int(self.data["player_position_y"]) + 300)
+@@ -66,25 +66,18 @@
+         else:
+             pass
+ 
+-    def draw_enemy(self, color, center_x, center_y, radius):
++    def draw_enemy(self, center_x, center_y, radius):
+         center_x = int(center_x) + 400
+         center_y = int(center_y) + 300
+-
+-        self.WEAPON.x = center_x
+-        self.WEAPON.y = center_y
+         radius = int(radius)
+         if int(self.data["damage dealt"]) >= 2 * radius:
+             center_x = 0
+             center_y = 0
+-        pygame.draw.circle(self.surface, self.setting.yellow, (center_x, center_y), radius)
++
+         health_bar = pygame.Rect(center_x - radius, (center_y + radius + 10), 2 * radius, 10)
+         pygame.draw.rect(self.surface, self.setting.green, health_bar)
+         pygame.draw.rect(self.surface, self.setting.red,
+                          (center_x - radius, center_y + radius + 10, self.data["damage dealt"], 10))
+-        self.WEAPON.run_enemy_weapon()
+-        self.WEAPON.color = self.setting.grey
+-        self.WEAPON.x = 400
+-        self.WEAPON.y = 300
+ 
+     def main(self):
+         self.calculate()

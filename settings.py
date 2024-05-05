@@ -21,6 +21,7 @@ class setting():
         self.ability_duration = 10000  # 10 seconds in milliseconds
         self.hit_damage = {"normal shot": 3, "big shot": 8, "coll": 3}
         self.hit_type = ("normal shot", "big shot", "coll")
+        self.fps="60"
 
 
     def random_color(self):
@@ -32,10 +33,16 @@ class setting():
             return self.random_color
         return red, green, blue  # Return the tuple representing the RGB color
 
-
+    def darw_fps(self):
+     font = pygame.font.Font("Power Smash.ttf", 30)
+     fps_surface = font.render(self.fps, True, (40, 158, 255))
+     text_rect = fps_surface.get_rect()
+     self.surface.blit(fps_surface, (0, 0))
 
     def update(self):
         pygame.display.update()
         self.clock.tick(60)
-        fps = self.clock.get_fps()
-        #print(f"Current FPS: {fps:.2f}")
+        self.fps = str(int(self.clock.get_fps()))
+
+
+
