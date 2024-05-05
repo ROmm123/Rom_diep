@@ -8,6 +8,7 @@ from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
 import socket
+from client_chat import ChatClient
 
 
 # from inventory import *
@@ -181,16 +182,16 @@ class Player():
         pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
         pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
-    def handle_events_movement(self,socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
-        # checks for if any of the movement keys are pressed
+    def handle_events_movement(self, socket: socket.socket, player_chat: ChatClient) -> None:
+        # Check for keyboard and mouse events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-
-                socket.close_enemies_Am()
+                # Close socket connections and quit pygame
                 socket.close()
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
+                # Check for key presses
                 if event.key == pygame.K_a:
                     self.move_button[0] = True
                 elif event.key == pygame.K_d:
@@ -201,9 +202,20 @@ class Player():
                     self.move_button[3] = True
                 if event.key == pygame.K_t:
                     self.move_button[4] = True
-                if event.key==pygame.K_l:
-                    self.move_button[5]=True
+                if event.key == pygame.K_l:
+                    self.move_button[5] = True
+
+                if event.key == pygame.K_c:
+                    # Open chat window
+                    #player_chat.open_chat()
+                    print("open_chat")
+                if event.key == pygame.K_e:
+                    # Hide chat window
+                    #player_chat.hide_chat()
+                    print("close_chat")
+
             elif event.type == pygame.KEYUP:
+                # Check for key releases
                 if event.key == pygame.K_a:
                     self.move_button[0] = False
                 elif event.key == pygame.K_d:
@@ -214,8 +226,8 @@ class Player():
                     self.move_button[3] = False
                 if event.key == pygame.K_t:
                     self.move_button[4] = False
-                if event.key==pygame.K_l:
-                    self.move_button[5]=False
+                if event.key == pygame.K_l:
+                    self.move_button[5] = False
 
     def handle_events_shapes(self, key_state):
         # checks for if any of the shapeshift keys are pressed

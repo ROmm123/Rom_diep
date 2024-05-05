@@ -6,14 +6,24 @@ from settings import setting
 
 
 class main_server:
-    def __init__(self, host, port, obj_port):
+    def __init__(self, host, port, obj_port, chat_port):
+        #socket with main
         self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.main_server_socket.bind((host, port))
         self.main_server_socket.listen(1000)
 
+        #socket _for_ obj
         self.obj_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.obj_socket.bind((host, obj_port))
         self.obj_socket.listen(1000)
+
+        #socket_for_chat
+        self.clients_chat = set()
+        self.hostSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.hostSocket.bind((host, chat_port))
+        self.hostSocket.listen(1000)
+
+
 
         self.static_objects = Random_Position(600 * 64, 675 * 64)
         self.clients = []
@@ -151,9 +161,37 @@ class main_server:
         return dictionary
 
 
+    def start_chat(self):
+        while True:
+            clientSocket, clientAddress = self.hostSocket.accept()
+            self.clients_chat.add(clientSocket)
+            print("Connection established with: ", clientAddress[0] + ":" + str(clientAddress[1]))
+            thread = threading.Thread(target=self.clientThread_chat, args=(clientSocket, clientAddress,))
+            thread.start()
+
+    def clientThread_chat(self, clientSocket, clientAddress):
+        while True:
+            message = clientSocket.recv(1024).decode("utf-8")
+            print(clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message)
+            for client_chat in self.clients_chat:
+                if client_chat is not clientSocket:
+                    client_chat.send(
+                        (clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message).encode("utf-8"))
+
+            if not message:
+                self.clients.remove(clientSocket)
+                print(clientAddress[0] + ":" + str(clientAddress[1]) + " disconnected")
+                break
+
+        clientSocket.close()
+
+
+
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55557, 55558)
+    my_server = main_server('localhost', 55555, 55556,55557)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
+    chat_thread = threading.Thread(target=my_server.start_chat)
     obj_thread.start()
+    chat_thread.start()
     my_server.main_for_clients()

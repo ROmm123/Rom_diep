@@ -1,45 +1,66 @@
 from socket import *
 from threading import *
 from tkinter import *
+from Network_chat import *
+import pygame
+from pynput.keyboard import Key, Listener
 
-clientSocket = socket(AF_INET, SOCK_STREAM)
-clientSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+class ChatClient:
+    def __init__(self, host_chat, client_chat):
 
-hostIp = "127.0.0.1"
-portNumber = 7500
+        self.chat = Client_chat(host_chat, client_chat)
+        self.chat.connect()
 
-clientSocket.connect((hostIp, portNumber))
+        self.window = Tk()
+        self.window.title("chat")
+        self.window_state = True  # Track window state
 
-window = Tk()
-window.title("Connected To: "+ hostIp+ ":"+str(portNumber))
+        self.txtMessages = Text(self.window, width=50)
+        self.txtMessages.grid(row=0, column=0, padx=10, pady=10)
 
-txtMessages = Text(window, width=50)
-txtMessages.grid(row=0, column=0, padx=10, pady=10)
+        self.txtYourMessage = Entry(self.window, width=50)
+        self.txtYourMessage.insert(0, "Your message")
+        self.txtYourMessage.grid(row=1, column=0, padx=10, pady=10)
 
-txtYourMessage = Entry(window, width=50)
-txtYourMessage.insert(0,"Your message")
-txtYourMessage.grid(row=1, column=0, padx=10, pady=10)
+        self.btnSendMessage = Button(self.window, text="Send", width=20, command=self.sendMessage)
+        self.btnSendMessage.grid(row=2, column=0, padx=10, pady=10)
 
-def sendMessage():
-    clientMessage = txtYourMessage.get()
-    txtMessages.insert(END, "\n" + "You: "+ clientMessage)
-    clientSocket.send(clientMessage.encode("utf-8"))
+        self.recvThread = Thread(target=self.recvMessage)
+        self.recvThread.daemon = True
+        self.recvThread.start()
 
-btnSendMessage = Button(window, text="Send", width=20, command=sendMessage)
-btnSendMessage.grid(row=2, column=0, padx=10, pady=10)
-
-def recvMessage():
-    while True:
-        serverMessage = clientSocket.recv(1024).decode("utf-8")
-        print(serverMessage)
-        txtMessages.insert(END, "\n"+serverMessage)
-
-recvThread = Thread(target=recvMessage)
-recvThread.daemon = True
-recvThread.start()
-
-window.mainloop()
+        # הוספת תהליך רקידה לקליטת מקשים
+        self.keyboard_listener = Listener(on_press=self.on_key_press)
+        self.keyboard_listener.daemon = True
+        self.keyboard_listener.start()
 
 
+        self.hide_chat()
+        self.window.mainloop()
 
+    def open_chat(self):
+        self.window.deiconify()  # Show the window
 
+    def hide_chat(self):
+        self.window.withdraw()  # Hide the window
+
+    def sendMessage(self):
+        clientMessage = self.txtYourMessage.get()
+        self.txtMessages.insert(END, "\n" + "You: " + clientMessage)
+        self.chat.send_data(clientMessage)
+
+    def recvMessage(self):
+        while True:
+            serverMessage = self.chat.recevie_data()
+            print(serverMessage)
+            self.txtMessages.insert(END, "\n" + serverMessage)
+
+    # פונקציה לטיפול בלחיצות מקלדת
+    def on_key_press(self, key):
+        try:
+            if key.char == 'c':
+                self.open_chat()
+            elif key.char == 'e':
+                self.hide_chat()
+        except AttributeError:
+            print("eroror")

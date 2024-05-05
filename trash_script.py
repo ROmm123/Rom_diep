@@ -12,6 +12,7 @@ from weapon import Weapon
 from Network import Client
 from enemy_main import *
 from moviepy.editor import VideoFileClip
+from client_chat import *
 
 import os
 from Static_Obj import StaticObjects
@@ -49,7 +50,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client_main = Client('localhost', 55557,55558)
+        self.client_main = Client('localhost', 55555,55556)
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.damage_list = self.client_main.receive_list_obj_once()
@@ -70,6 +71,8 @@ class Game():
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
+
+        self.chat = ChatClient('localhost',55557)
 
 
     def run_therad(self):
@@ -124,7 +127,9 @@ class Game():
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
-            self.player.handle_events_movement(self.client)
+            self.player.handle_events_movement(self.client, self.chat)
+
+
             radius = self.player.radius
             speed = self.player.speed
 
