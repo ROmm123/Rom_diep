@@ -182,7 +182,7 @@ class Player():
         pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
         pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
-    def handle_events_movement(self, socket: socket.socket, player_chat: ChatClient) -> None:
+    def handle_events_movement(self, socket: socket.socket) -> None:
         # Check for keyboard and mouse events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

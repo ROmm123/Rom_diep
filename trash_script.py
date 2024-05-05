@@ -72,7 +72,7 @@ class Game():
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
 
-        self.chat = ChatClient('localhost',55557)
+        #self.chat = ChatClient('localhost',55557)
 
 
     def run_therad(self):
@@ -127,7 +127,7 @@ class Game():
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
-            self.player.handle_events_movement(self.client, self.chat)
+            self.player.handle_events_movement(self.client)
 
 
             radius = self.player.radius
