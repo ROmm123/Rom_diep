@@ -103,11 +103,14 @@ class Client:
                 # Split the concatenated JSON string into individual JSON objects
                 json_list = []
                 start = 1
-                while start < len(data_str) - 2:
+                print("data_str : "+str(data_str))
+                print( data_str[len(data_str) - 3])
+                while start < len(data_str) - 4: # start = 363 , len() = 362
                     end = data_str.find('}', start)
-                    print(end)
+                    print("data len - 4 "+str(len(data_str) - 4))
                     json_list.append(data_str[start:end + 1])
                     start = end
+                    print("start : " + str(start))
                 # Parse each JSON object and add it to the list
                 data_list = []
                 print("json list , before loading the elements : " + str(json_list))
