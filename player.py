@@ -60,7 +60,7 @@ class Player:
             print("Full HP")
             # HP REGEN NEEDS WORK
 
-    def hit(self, player_rect, player_id):
+    def hit(self, player_rect, player_id, npc_shots_rects):
         # check collision with normal shot
         for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
             shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
@@ -76,6 +76,12 @@ class Player:
                 if player_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
                     return "big shot"
+
+        # check collision with npcs shots
+        for i, _ in enumerate(npc_shots_rects):
+            shot_rect = npc_shots_rects[i]
+            if player_rect.colliderect(shot_rect):
+                return "npc shot", i
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()

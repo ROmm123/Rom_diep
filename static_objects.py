@@ -3,7 +3,7 @@ import random
 from HP import HP
 
 
-class StaticObject():
+class StaticObject:
     def __init__(self, setting, map_width, map_height):
         # Generate random coordinates of x,y pos in the map range
         self.width = 30  # Width of the rectangle
@@ -16,10 +16,12 @@ class StaticObject():
         # pass the.... center.... pos of the obj ,halfbase , setting object
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
 
-
-class StaticObjects():
+class StaticObjects:
 
     def __init__(self, setting, map_width, map_height):
+        self.setting = setting
+        self.map_width = map_width
+        self.map_height = map_height
         self.surface = setting.surface
         self.Static_objects = []  # the static object list
         for _ in range(2000):
@@ -27,7 +29,8 @@ class StaticObjects():
             print(obj.position)
             self.Static_objects.append(obj)
 
-    def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
+
+    def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects, npc_shots_rects, npc_rect):        #npc_rect should be npcs (list)
         player_hit = False
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
@@ -50,11 +53,22 @@ class StaticObjects():
                         self.hurt(static_obj)
                         return player_hit
 
+                    if static_obj.rect_static_obj.colliderect(npc_rect):
+                        print("Collision detected")
+                        self.hurt(static_obj)
+                        # return player_hit
+
                     for index, shot_rect in enumerate(shots_rects):
                         print("shots rect", shot_rect)
                         if static_obj.rect_static_obj.colliderect(shot_rect):
                             self.hurt(static_obj)
-                            return "shot index ",index
+                            return "shot index ",index, 0
+
+                    for index, npc_shot_rect in enumerate(npc_shots_rects):
+                        print("shots rect", npc_shot_rect)
+                        if static_obj.rect_static_obj.colliderect(npc_shot_rect):
+                            self.hurt(static_obj)
+                            return "shot index ",index, 1
 
     def hurt(self, static_obj):
         if static_obj in self.Static_objects:
@@ -63,6 +77,11 @@ class StaticObjects():
             else:
                 static_obj.HP.Damage += 5
 
+            if static_obj.HP.ISAlive:
+                min = 0
+            else:
+                self.Static_objects.remove(static_obj)
+                self.Static_objects.append(StaticObject(self.setting, self.map_width, self.map_height))
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
 # static_obj = StaticObject(setting, map_width, map_height, side_length, color)
