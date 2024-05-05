@@ -3,6 +3,7 @@ import json
 import threading
 from Random_PosObj import Random_Position
 from settings import setting
+import queue
 
 
 class main_server:
@@ -25,8 +26,11 @@ class main_server:
 
         #socket_for_data_base
         self.database_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.database_socket.bind((host, obj_port))
+        self.database_socket.bind((host, database_port))
         self.database_socket.listen(1000)
+        self.queue = queue.Queue() #Queue for clients that want to join the game
+
+
 
 
 
@@ -38,6 +42,13 @@ class main_server:
         self.array_demage = [0] * 2000
         self.positions_data = self.static_objects.crate_position_dst_data()
 
+    def handle_database_clients(self):
+        print("join handle database")
+        while True:
+            client_database_socket, addr = self.database_socket.accept()
+            data_from_database = client_database_socket.recv(2048).decode("utf-8")
+            self.queue.put(data_from_database)
+            
 
     def handle_pos_obj(self, obj_socket,i):
         while True:
@@ -194,10 +205,12 @@ class main_server:
 
 
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55555, 55556,55557, 99999)
+    my_server = main_server('localhost', 55555, 55556,55557, 64444)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
     chat_thread = threading.Thread(target=my_server.start_chat)
+    database_thread = threading.Thread(target=my_server.handle_database_clients)
     obj_thread.start()
     chat_thread.start()
+    database_thread.start()
     my_server.main_for_clients()

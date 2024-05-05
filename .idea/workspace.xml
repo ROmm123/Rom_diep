@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="abilities work for both players (need to fix Size ability and deleting other clients' objects)">
-      <change afterPath="$PROJECT_DIR$/connection_with_database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/signin_screan.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network_chat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signin_screan.py" beforeDir="false" afterPath="$PROJECT_DIR$/signin_screan.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,10 +229,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.signin_screan" />
+        <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.login_screen" />
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.SERVER1" />
-        <item itemvalue="Python.$RS1TBVV" />
       </list>
     </recent_temporary>
   </component>

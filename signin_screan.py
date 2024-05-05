@@ -85,7 +85,8 @@ def switch_to_login_screen():
 
     login_screen.main()  # Call the mai
 def main():
-    socket_database = Client_chat('localhost', 99999) # global socket
+    socket_database = Client_chat('localhost', 64444) # global socket
+    socket_database.connect()
     global username, password, username_color, password_color
 
 
@@ -109,7 +110,7 @@ def main():
                     password_color = input_color_active
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
-                    perform_signin()
+                    #perform_signin()
 
                     database_data = {
                         "username": username,

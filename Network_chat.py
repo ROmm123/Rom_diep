@@ -29,7 +29,8 @@ class Client_chat:
         try:
             print(data_dict)
             data_str = json.dumps(data_dict)
-            self.client_socket.send(data_str.encode("utf-8"))
+            self.socket_chat.send(data_str.encode("utf-8"))
+            print("data sent")
         except Exception as e:
             print(f"Error sending data: {e}")
 
@@ -41,7 +42,7 @@ class Client_chat:
     def receive_database_data(self):
         remaining_data = b''
         while True:
-            data = self.client_socket.recv(2048)
+            data = self.socket_chat.recv(2048)
             if not data:
                 break
             remaining_data += data
