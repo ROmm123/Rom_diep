@@ -1,6 +1,7 @@
 import sys
 
 import pygame
+import math
 from inventory import inventory
 
 from map import *
@@ -47,6 +48,10 @@ class Player():
         self.stored_abilities = []
         self.ability = {}  # dictionary to stored ability and its expiration time
         self.ability_key_state = None
+        self.image = pygame.image.load("pictures/shmulik_blue.png")
+        self.rect = self.image.get_rect()
+        self.rect.center = (400, 300)  # Initial position
+        self.angle = 0
 
     def get_rect_player(self, radius, position1, position2):
         # gets and returns the player's rect
@@ -160,26 +165,21 @@ class Player():
         else:
             return False
 
-    def draw(self, weapon_width, weapon_height):
-        radius = self.radius
-        self.WEAPON.rect_width = weapon_width
-        self.WEAPON.rect_height = weapon_height
-        self.WEAPON.offset_distance = 50
+    def update_angle(self, mouse_pos):
+        if isinstance(mouse_pos, tuple) and len(mouse_pos) == 2:
+            dx = mouse_pos[0] - self.rect.centerx
+            dy = mouse_pos[1] - self.rect.centery
+            self.angle = math.atan2(dy, dx)  # Calculate angle between player and mouse
 
-        if "Size" in self.ability:
-            if (pygame.time.get_ticks() - self.ability["Size"]) >= self.setting.ability_duration:
-                del self.ability["Size"]
-            else:
-                radius *= 0.64
-                self.WEAPON.rect_width *= 0.64
-                self.WEAPON.rect_height *= 0.64
-                self.WEAPON.offset_distance *= 0.1
+    def draw(self, mouse_pos):
+        if isinstance(mouse_pos, tuple) and len(mouse_pos) == 2:
+            self.update_angle(mouse_pos)
+            rotated_image = pygame.transform.rotate(self.image, math.degrees(-self.angle))
+            rotated_rect = rotated_image.get_rect(center=self.rect.center)
+            self.surface.blit(rotated_image, rotated_rect)
 
-        # draws the player according to its shape, and the hp bar
-        pygame.draw.circle(self.surface, self.color, (self.center[0], self.center[1]), radius)
-
-        pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
-        pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
+            pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
+            pygame.draw.rect(self.surface, self.hp.DamageColor,(self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
     def handle_events_movement(self,socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
@@ -268,8 +268,8 @@ class Player():
         if self.small_weapon == True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_normal_shot_time >= self.setting.normal_shot_cooldown:
-                    print(self.WEAPON.angle)
-                    self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
+                    print(self.angle)
+                    self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.angle)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_normal_shot_time = current_time  # update last shot time
 
@@ -281,7 +281,7 @@ class Player():
         if self.big_weapon == True:  # only if wide or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[1]:
                 if current_time - self.last_big_shot_time >= self.setting.big_shot_cooldown:
-                    self.BIG_SHOT.shoot(self.center, self.screen_position, self.WEAPON.angle)
+                    self.BIG_SHOT.shoot(self.center, self.screen_position, self.angle)
                     print(self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[1] = True
                     self.last_big_shot_time = current_time  # update last shot time

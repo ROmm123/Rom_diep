@@ -132,7 +132,8 @@ class Game():
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
 
-            self.player.draw(self.player.WEAPON.rect_width, self.player.WEAPON.rect_height)
+            mouse_pos = pygame.mouse.get_pos()
+            self.player.draw(mouse_pos)
 
             '''
             for static_obj in self.static_object.Static_objects:
@@ -171,7 +172,7 @@ class Game():
                 }
 
 
-            self.player.WEAPON.run_weapon()
+            #self.player.WEAPON.run_weapon()
             self.player.handle_events_shots(key_state)
             self.player.handle_events_shapes(key_state)
             self.player.handle_events_abilities(key_state)
