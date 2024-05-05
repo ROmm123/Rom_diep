@@ -86,16 +86,18 @@ class Client:
     def receive_data(self):
         while True:
             data_str = self.client_socket.recv(2048).decode("utf-8")
-            print ("data str , in network : "+data_str)
+            print("data str , in network : " + data_str)
             if data_str[0] == '[':
                 index = data_str.find(']')
                 index1 = index
-                while str(data_str[index1-1]).isdigit(): # }]
-                #if isinstance(int(data_str[index - 1]), int):
-                    index1 = data_str[index1 + 2:].find(']')
-                    index1 += index1
+                while str(data_str[index1 - 1]).isdigit():  # }]
+                    # if isinstance(int(data_str[index - 1]), int):
+                    index1 = data_str[index1 + 1:].find(']')  # [[12345 , 243633] 353535}]
+                    index1 += index + 1
+                    print(data_str[index1 - 1])
+                    index = index1
                 # Remove the truncated part
-                data_str = data_str[:index1 + 3]
+                data_str = data_str[:index1 + 1]
                 print("data str , after modification : " + str(data_str))
 
                 # Split the concatenated JSON string into individual JSON objects
@@ -103,17 +105,19 @@ class Client:
                 start = 1
                 while start < len(data_str) - 2:
                     end = data_str.find('}', start)
+                    print(end)
                     json_list.append(data_str[start:end + 1])
                     start = end
-
                 # Parse each JSON object and add it to the list
                 data_list = []
+                print("json list , before loading the elements : " + str(json_list))
                 for json_str in json_list:
+                    print(type(json_str))
+                    print("the element in the unloaded list : " + str(json_str))
                     data_list.append(json.loads(json_str))
 
                 # Print the resulting list
-                print(data_list)
-
+                print("updated dict list : " + str(data_list))
 
                 return data_list
 
