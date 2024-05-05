@@ -1,7 +1,7 @@
 import pygame
 import sys
 import connection_with_database
-from connection_with_database import CdataB
+
 import signin_screan
 
 # Initialize Pygame
@@ -82,7 +82,7 @@ def switch_to_signin_screen():
     signin_screan.main()  # Call the main function in the second script
 
 
-def main(Q):
+def main():
     global username, password, username_color, password_color
 
     clock = pygame.time.Clock()
@@ -139,11 +139,10 @@ def main(Q):
         clock.tick(30)
 
 
-def lidorgay():
-    dataBobj = CdataB()
-    Q = dataBobj.Queue
-    main(Q)
+
+
 
 
 if __name__ == "__main__":
-    lidorgay()
+    main()
+

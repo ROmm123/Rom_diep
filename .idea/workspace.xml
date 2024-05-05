@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="weapon+circle enemy client with main client">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_with_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection_with_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signin_screan.py" beforeDir="false" afterPath="$PROJECT_DIR$/signin_screan.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +69,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.signin_screan">
+  <component name="RunManager" selected="Python.login_screen">
     <configuration name="connection_with_database" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -183,8 +184,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.signin_screan" />
         <item itemvalue="Python.login_screen" />
+        <item itemvalue="Python.signin_screan" />
         <item itemvalue="Python.connection_with_database" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.server_oop" />

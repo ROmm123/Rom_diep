@@ -1,7 +1,7 @@
 import pygame
 import sys
 import connection_with_database
-from connection_with_database import *
+
 import login_screen
 
 
@@ -82,7 +82,7 @@ def perform_signin():
 
 def switch_to_login_screen():
 
-    login_screen.lidorgay()  # Call the mai
+    login_screen.main()  # Call the mai
 def main():
     global username, password, username_color, password_color
 
