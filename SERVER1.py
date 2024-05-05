@@ -12,7 +12,7 @@ class Server:
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
-        self.server_socket.listen(5)
+        self.server_socket.listen(1000)
         self.clients = []
         self.clients_lock = threading.Lock()
 
