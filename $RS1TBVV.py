@@ -6,7 +6,7 @@ from settings import setting
 
 
 class main_server:
-    def __init__(self, host, port, obj_port, chat_port):
+    def __init__(self, host, port, obj_port, chat_port , database_port):
         #socket with main
         self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.main_server_socket.bind((host, port))
@@ -22,6 +22,12 @@ class main_server:
         self.hostSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.hostSocket.bind((host, chat_port))
         self.hostSocket.listen(1000)
+
+        #socket_for_data_base
+        self.database_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.database_socket.bind((host, obj_port))
+        self.database_socket.listen(1000)
+
 
 
 
@@ -188,7 +194,7 @@ class main_server:
 
 
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55555, 55556,55557)
+    my_server = main_server('localhost', 55555, 55556,55557, 99999)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
     chat_thread = threading.Thread(target=my_server.start_chat)
