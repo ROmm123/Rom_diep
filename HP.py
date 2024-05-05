@@ -8,3 +8,4 @@ class HP():
         self.DamageColor = setting.red
         self.ISAlive = True
 
+
