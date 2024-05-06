@@ -9,6 +9,7 @@ from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
 import socket
+from Network import *
 
 
 # from inventory import *
@@ -16,7 +17,7 @@ import socket
 
 class Player():
 
-    def __init__(self, x, y, radius, color, setting):
+    def __init__(self, x, y, radius, color, setting , client_obj , main_obj):
         self.surface = setting.surface  # player surface
         self.screen_position = [x, y]  # top left screen position
         self.radius = radius  # player radius
@@ -53,6 +54,9 @@ class Player():
         self.rect.center = (400, 300)  # Initial position
         self.angle = 0
         self.auto=0
+
+        self.client_obj = client_obj
+        self.main_obj = main_obj
 
     def get_rect_player(self, radius, position1, position2):
         # gets and returns the player's rect
@@ -194,13 +198,14 @@ class Player():
             pygame.draw.rect(self.surface, self.hp.DamageColor,
                              (self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
 
-    def handle_events_movement(self, socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
+    def handle_events_movement(self) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-
-                socket.close_enemies_Am()
-                socket.close()
+                self.main_obj.send_disconnection_info_Main(self.screen_position[0] , self.screen_position[1] , self.inventory.speed_count , self.inventory.size_count , self.inventory.shield_count , 0 ,0 , 0 , 0)
+                print("here")
+                self.client_obj.close_enemies_Am()
+                self.client_obj.close()
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:

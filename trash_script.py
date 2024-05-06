@@ -11,7 +11,7 @@ from settings import setting
 from Network import Client
 from enemy_main import *
 from moviepy.editor import VideoFileClip
-from chat_client import *
+#from chat_client import *
 import os
 from Static_Obj import StaticObjects
 
@@ -44,8 +44,6 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 30, self.setting.red, self.setting)
-        self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
         self.client_main = Client('localhost', 55555,55556)
@@ -54,6 +52,8 @@ class Game():
         self.damage_list = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions, self.damage_list)
         self.client = Client(None, None)
+        self.player = Player(12000, 0, 30, self.setting.red, self.setting , self.client , self.client_main)
+        self.map = Map(self.player, self.setting)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
         # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
@@ -69,7 +69,7 @@ class Game():
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
-        self.chat=ChatClient("localhost",55557)
+        #self.chat=ChatClient("localhost",55557)
 
 
     def run_therad(self):
@@ -127,11 +127,8 @@ class Game():
 
         while self.running:
             key_state = pygame.key.get_pressed()
-            mouse_state = pygame.mouse.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
-            self.player.handle_events_movement(self.client)
-            radius = self.player.radius
-            speed = self.player.speed
+            self.player.handle_events_movement()
 
             for layer in range(2):
                 chunk = self.map.calc_chunk(layer)

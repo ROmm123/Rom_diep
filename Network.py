@@ -45,6 +45,23 @@ class Client:
         except Exception as e:
             print(f"Error sending to enemy: {e}")
 
+    def send_disconnection_info_Main(self , x , y , speed , size ,shield , hp60 , hp30 , hp15 , hp5):
+        data = {
+            "x" : x ,
+            "y" : y ,
+            "speed" : speed,
+            "size" : size ,
+            "shield" : shield ,
+            "hp60" : hp60 ,
+            "hp30" : hp30 ,
+            "hp15" : hp15 ,
+            "hp5" : hp5
+        }
+        data = json.dumps(data)
+        self.client_socket.send(data.encode("utf-8"))
+
+
+
 
     def receive_obj_prameters(self):
         remaining_data = b''
@@ -76,8 +93,11 @@ class Client:
         return None
 
 
+
+
     def receive_list_obj_once(self):
         try:
+            print("before recv")
             chunk = self.another_socket_for_enemies_or_obj.recv(2**20)  # Receive a chunk of data
             data_str = chunk.decode("utf-8")  # Decode the byte string to UTF-8 string
             last_bracket_index = data_str.rfind('}')
@@ -130,7 +150,6 @@ class Client:
     def close(self):
         try:
             self.client_socket.close()
-            self.another_socket_for_enemies_or_obj.close()
 
         except Exception as e:
             print(f"Error closing sockets: {e}")
