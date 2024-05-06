@@ -5,8 +5,6 @@ from Network_chat import *
 
 import login_screen
 
-
-
 # Initialize Pygame
 pygame.init()
 
@@ -47,8 +45,6 @@ switch_text = font.render("toLogin-in", True, BLACK)
 switch_text_rect = switch_text.get_rect(center=switch_button.center)
 
 
-
-
 def draw_text(text, font, color, surface, x, y):
     text_obj = font.render(text, True, color)
     text_rect = text_obj.get_rect()
@@ -81,14 +77,15 @@ def perform_signin():
     print("Username:", username)
     print("Password:", password)
 
-def switch_to_login_screen():
 
+def switch_to_login_screen():
     login_screen.main()  # Call the mai
+
+
 def main():
-    socket_database = Client_chat('localhost', 64444) # global socket
+    socket_database = Client_chat('localhost', 64444)  # global socket
     socket_database.connect()
     global username, password, username_color, password_color
-
 
     clock = pygame.time.Clock()
     running = True
@@ -110,17 +107,16 @@ def main():
                     password_color = input_color_active
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
-                    #perform_signin()
+                    perform_signin()
 
                     database_data = {
                         "username": username,
-                        "password": password
+                        "password": password,
+                        "quary": "signin"
                     }
 
                     socket_database.send_database_data(database_data)
 
-
-                    handle_data_for_signin(username, password)
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
                     switch_to_login_screen()  # Call the function to switch screens
 
@@ -136,17 +132,25 @@ def main():
                         username_color = input_color_inactive
                         password_color = input_color_inactive
                         perform_signin()
-                        handle_data_for_signin(username, password)
-                    elif event.key == pygame.K_BACKSPACE:
-                        if username_input.collidepoint(pygame.mouse.get_pos()):
-                            username = username[:-1]
-                        elif password_input.collidepoint(pygame.mouse.get_pos()):
-                            password = password[:-1]
-                    else:
-                        if username_input.collidepoint(pygame.mouse.get_pos()):
-                            username += event.unicode
-                        elif password_input.collidepoint(pygame.mouse.get_pos()):
-                            password += event.unicode
+                        perform_signin()
+
+                        database_data = {
+                            "username": username,
+                            "password": password
+                        }
+
+                        socket_database.send_database_data(database_data)
+
+                elif event.key == pygame.K_BACKSPACE:
+                    if username_input.collidepoint(pygame.mouse.get_pos()):
+                        username = username[:-1]
+                    elif password_input.collidepoint(pygame.mouse.get_pos()):
+                        password = password[:-1]
+                else:
+                    if username_input.collidepoint(pygame.mouse.get_pos()):
+                        username += event.unicode
+                    elif password_input.collidepoint(pygame.mouse.get_pos()):
+                        password += event.unicode
 
         draw_signin_screen()
         pygame.display.flip()

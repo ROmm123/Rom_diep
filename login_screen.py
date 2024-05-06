@@ -1,6 +1,7 @@
 import pygame
 import sys
 import connection_with_database
+from Network_chat import *
 
 import signin_screan
 
@@ -83,6 +84,8 @@ def switch_to_signin_screen():
 
 
 def main():
+    socket_database = Client_chat('localhost', 64444)  # global socket
+    socket_database.connect()
     global username, password, username_color, password_color
 
     clock = pygame.time.Clock()
@@ -106,7 +109,13 @@ def main():
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
                     perform_login()
-                    Q.put((username, password))
+                    database_data = {
+                        "username": username,
+                        "password": password,
+                        "quary" : "login"
+                    }
+
+                    socket_database.send_database_data(database_data)
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
                     switch_to_signin_screen()  # Call the function to switch screens
 
@@ -122,7 +131,13 @@ def main():
                         username_color = input_color_inactive
                         password_color = input_color_inactive
                         perform_login()
-                        Q.put((username, password))
+                        database_data = {
+                            "username": username,
+                            "password": password,
+                            "quary": "login"
+                        }
+
+                        socket_database.send_database_data(database_data)
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]
@@ -137,7 +152,6 @@ def main():
         draw_login_screen()
         pygame.display.flip()
         clock.tick(30)
-
 
 
 if __name__ == "__main__":
