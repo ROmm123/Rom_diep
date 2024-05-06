@@ -25,5 +25,5 @@ class Random_Position():
         i = 0
         for obj in self.Static_objects:
             locations.update({'pos' + str(i): obj.position})
-            i = i +1
+            i = i + 1
         return locations

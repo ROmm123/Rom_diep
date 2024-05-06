@@ -65,7 +65,8 @@ def handle_data_forLogin(username , password):
 
             # Create a cursor object to execute SQL queries
             cursor = conn.cursor()
-
+            print(":::::"+username)
+            print(password)
             # Perform login check here (e.g., check against the database)
             query = "SELECT * FROM data WHERE username = %s AND password = %s"
             cursor.execute(query, (username, password))
@@ -86,6 +87,7 @@ def handle_data_forLogin(username , password):
             cursor.close()
             conn.close()
             print('Connection closed')
+            return result
         else:
             print('Failed to connect to MySQL database')
 
