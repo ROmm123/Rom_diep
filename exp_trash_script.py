@@ -10,7 +10,6 @@ from settings import setting
 from weapon import Weapon
 from Network import Client
 from enemy_main import *
-import queue
 
 class Game():
     def __init__(self):
