@@ -49,7 +49,7 @@ def handle_data_for_signin(username, password):
         print(f"Error: {e}")
 
 
-def handle_data_forLogin(username , password):
+def handle_data_forLogin(username, password):
     try:
         conn = mysql.connector.connect(
             host='127.0.0.1',  # Host address
@@ -65,8 +65,6 @@ def handle_data_forLogin(username , password):
 
             # Create a cursor object to execute SQL queries
             cursor = conn.cursor()
-            print(":::::"+username)
-            print(password)
             # Perform login check here (e.g., check against the database)
             query = "SELECT * FROM data WHERE username = %s AND password = %s"
             cursor.execute(query, (username, password))
@@ -75,19 +73,22 @@ def handle_data_forLogin(username , password):
             if result:
                 print("Login successful!")
                 print(result)
-                # Delete the record from the 'data' table
-                delete_query = "DELETE FROM data WHERE username = %s AND password = %s"
-                cursor.execute(delete_query, (username, password))
-                conn.commit()  # Commit changes after delete
-                print("Record removed from database.")
+                if result[9] == 0 or result[9] == None:
+                    # Delete the record from the 'data' table
+                    update_state_query = "UPDATE data SET state = 1 WHERE username = %s AND password = %s"
+                    cursor.execute(update_state_query, (username, password))
+                    conn.commit()  # Commit changes after delete
+                    print("State updated ")
+                else:
+                    print("user in game")
             else:
                 print("Invalid username or password. Please try again.")
 
-            # Close the cursor and connection
-            cursor.close()
-            conn.close()
-            print('Connection closed')
-            return result
+                # Close the cursor and connection
+                cursor.close()
+                conn.close()
+                print('Connection closed')
+                return result
         else:
             print('Failed to connect to MySQL database')
 
