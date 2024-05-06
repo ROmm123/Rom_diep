@@ -202,13 +202,13 @@ class StaticObjects():
     def normal_shot_collisions(self, normal_shots_rects, static_obj):
         for index, shot_rect in enumerate(normal_shots_rects):
             if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj, self.setting.hit_damage["normal shot"])
+                self.hurt(static_obj, 5)
                 return "normal shot index", index
 
     def big_shot_collisions(self, big_shots_rects, static_obj):
         for index, shot_rect in enumerate(big_shots_rects):
             if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj, self.setting.hit_damage["big shot"])
+                self.hurt(static_obj, 8.5)
                 return "big shot index", index
 
     def hurt(self, static_obj, damage):

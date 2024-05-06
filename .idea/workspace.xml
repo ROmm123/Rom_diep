@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="change">
-      <change afterPath="$PROJECT_DIR$/Black-white.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/black_white.png" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="size ability works online">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cubes2.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kidan_cube.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/map.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/map.tmx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Static_Obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
@@ -499,7 +496,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714948900886</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="size ability works online">
+      <option name="closed" value="true" />
+      <created>1715010332362</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1715010332362</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -518,7 +523,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="change map2" />
     <MESSAGE value="change map3" />
     <MESSAGE value="change tiled" />
     <MESSAGE value="change tiled10" />
@@ -543,7 +547,8 @@
     <MESSAGE value="inventory files" />
     <MESSAGE value="abilities work for both players (need to fix Size ability and deleting other clients' objects)" />
     <MESSAGE value="change" />
-    <option name="LAST_COMMIT_MESSAGE" value="change" />
+    <MESSAGE value="size ability works online" />
+    <option name="LAST_COMMIT_MESSAGE" value="size ability works online" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

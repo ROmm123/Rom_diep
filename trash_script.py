@@ -167,7 +167,7 @@ class Game():
                         self.player.NORMAL_SHOT.remove_shots.append(collision[1])
                         self.player.NORMAL_SHOT.remove()
                     if "big shot index" in collision:
-                        self.player.BIG_SHOT.remove_shots.append(collision[2])
+                        self.player.BIG_SHOT.remove_shots.append(collision[1])
                         self.player.BIG_SHOT.remove()
                     if "player hit" in collision:
                         self.player.hurt(self.setting.hit_type[2])

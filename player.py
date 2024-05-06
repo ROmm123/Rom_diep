@@ -301,7 +301,7 @@ class Player():
                 if current_time - self.last_double_shot_time >= self.setting.double_shot_cooldown:
                     self.NORMAL_SHOT.shoot(self.center, self.angle, double)
                     double = 2
-                    self.NORMAL_SHOT.shoot(self.center, self.angle, double)
+                    self.BIG_SHOT.shoot(self.center, self.angle, double)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_double_shot_time = current_time  # update last shot time
 
