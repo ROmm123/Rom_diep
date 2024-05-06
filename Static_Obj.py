@@ -30,6 +30,7 @@ class StaticObject():
 class StaticObjects():
 
     def __init__(self, setting, map_width, map_height, crate_positions , damage_list):
+        self.setting = setting
         self.surface = setting.surface
         self.Static_objects = []
         self.side = ""
@@ -53,9 +54,10 @@ class StaticObjects():
                     obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[3], damage)
                 self.Static_objects.append(obj)
 
-    def draw(self, viewport_x, viewport_y, setting, player_rect, shots_rects):
+    def draw(self, viewport_x, viewport_y, setting, player_rect, normal_shots_rects, big_shots_rects):
         collision_list = []
-        position_collision = None
+        normal_position_collision = None
+        big_position_collision = None
 
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
@@ -64,10 +66,17 @@ class StaticObjects():
                                                      static_obj.height)
 
             # checks collision with the shots
-            shot_collision_result = self.shot_collisions(shots_rects, static_obj)
-            if shot_collision_result is not None:
-                position_collision = static_obj.position
-                collision_list.append(shot_collision_result)
+            normal_shot_collision_result = self.normal_shot_collisions(normal_shots_rects, static_obj)
+            big_shot_collision_result = self.big_shot_collisions(big_shots_rects, static_obj)
+
+            if normal_shot_collision_result is not None:
+                normal_position_collision = static_obj.position
+                collision_list.append(normal_shot_collision_result)
+
+            if big_shot_collision_result is not None:
+                big_position_collision = static_obj.position
+                collision_list.append(big_shot_collision_result)
+
 
             # checks if the object needs to be drawn
             if static_obj.HP.ISAlive:
@@ -88,7 +97,7 @@ class StaticObjects():
                     if player_collision_result is not None:
                         collision_list.append(player_collision_result)
 
-        return collision_list , position_collision
+        return collision_list, normal_position_collision, big_position_collision
 
     def player_collisions(self, static_obj, player_rect):
         if static_obj.rect_static_obj.colliderect(player_rect):
@@ -125,15 +134,21 @@ class StaticObjects():
         else:
             static_obj.collision_flag = False
 
-    def shot_collisions(self, shots_rects, static_obj):
-        for index, shot_rect in enumerate(shots_rects):
+    def normal_shot_collisions(self, normal_shots_rects, static_obj):
+        for index, shot_rect in enumerate(normal_shots_rects):
             if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj)
-                return "shot index", index
+                self.hurt(static_obj, self.setting.hit_damage["normal shot"])
+                return "normal shot index", index
 
-    def hurt(self, static_obj):
+    def big_shot_collisions(self, big_shots_rects, static_obj):
+        for index, shot_rect in enumerate(big_shots_rects):
+            if static_obj.rect_static_obj.colliderect(shot_rect):
+                self.hurt(static_obj, self.setting.hit_damage["big shot"])
+                return "big shot index", index
+
+    def hurt(self, static_obj, damage):
         if static_obj in self.Static_objects:
-            static_obj.HP.Damage += 10
+            static_obj.HP.Damage += damage
             if static_obj.HP.Damage >= 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
 

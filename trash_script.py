@@ -8,7 +8,6 @@ import pygame
 from player import Player
 from map import Map
 from settings import setting
-from weapon import Weapon
 from Network import Client
 from enemy_main import *
 from moviepy.editor import VideoFileClip
@@ -108,7 +107,11 @@ class Game():
             # call prozedora hurt in class obj
                 for static_obj in self.static_object.Static_objects:
                     if static_obj.position == data["position_collision"]:
-                        self.static_object.hurt(static_obj)
+                        if data["which_size_ball"] == 1:
+                            self.static_object.hurt(static_obj,10)
+                        else:
+                            self.static_object.hurt(static_obj,17)
+
 
 
 
@@ -148,24 +151,34 @@ class Game():
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
 
-            collisions, pos_col = self.static_object.draw(self.player.screen_position[0],
+            collisions, normal_position_collision, big_position_collision = self.static_object.draw(self.player.screen_position[0],
                                                           self.player.screen_position[1],
                                                           self.setting,
                                                           player_rect,
                                                           self.player.NORMAL_SHOT.get_shot_rects(
+                                                              self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(
                                                               self.player.screen_position))
 
             if collisions is not None:
                 for collision in collisions:
-                    if "shot index" in collision:
+                    if "normal shot index" in collision:
                         self.player.NORMAL_SHOT.remove_shots.append(collision[1])
                         self.player.NORMAL_SHOT.remove()
+                    if "big shot index" in collision:
+                        self.player.BIG_SHOT.remove_shots.append(collision[2])
+                        self.player.BIG_SHOT.remove()
                     if "player hit" in collision:
                         self.player.hurt(self.setting.hit_type[2])
 
-            if pos_col is not None:
+            if normal_position_collision is not None:
                 data_for_obj = {
-                    "position_collision": pos_col  # pos of collision player and obj
+                    "position_collision": normal_position_collision,  # pos of collision player and obj
+                    "which_size_ball": 1
+                }
+            elif big_position_collision is not None:
+                data_for_obj = {
+                    "position_collision": big_position_collision,  # pos of collision player and obj
+                    "which_size_ball": 2
                 }
             else:
                 data_for_obj = {
@@ -173,7 +186,6 @@ class Game():
                 }
 
 
-            #self.player.WEAPON.run_weapon()
             self.player.handle_events_shots(key_state)
             self.player.handle_events_shapes(key_state)
             self.player.handle_events_abilities(key_state)
@@ -185,11 +197,7 @@ class Game():
 
 
             data = {
-                "rect_center_x": self.player.WEAPON.rect_center_x,
-                "rect_center_y": self.player.WEAPON.rect_center_y,
-                "rect_width": self.player.WEAPON.rect_width,
-                "rect_height": self.player.WEAPON.rect_height,
-                "tangent_x": self.player.WEAPON.tangent_x,
+
                 "player_position_x": self.player.screen_position[0],
                 "player_position_y": self.player.screen_position[1],
                 "player_color": self.player.color,

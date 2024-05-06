@@ -38,17 +38,22 @@ class main_server:
             data_dict =json.loads(data)
             position_collision = data_dict["position_collision"]
 
+
             if position_collision != None:
+                which_bollet = data_dict["which_size_ball"]
                 for inner_key, pos_value in self.positions_data.items():
                     if pos_value == data_dict["position_collision"]:
                         index = inner_key.split("_")
                         index = int(index[1])
 
-                self.array_demage[index] = self.array_demage[index] + 10
-
+                if which_bollet == 1:
+                    self.array_demage[index] = self.array_demage[index] + 10
+                else:
+                    self.array_demage[index] = self.array_demage[index] + 17
 
                 obj_pos = {
-                    "position_collision": position_collision
+                    "position_collision": position_collision,
+                    "which_size_ball":which_bollet
                 }
 
                 if len(self.clients) > 1:

@@ -33,13 +33,13 @@ class Player():
                          (self.screen_position[1] + self.center[1])]  # player position relative to the map
         self.move_button = [False, False, False, False, False, False,True]  # movement buttons (a, d, w, s, l, t, k)
         # self.hp = HP(self.center[0], self.center[1], radius, setting)  # initialize hp
-        self.WEAPON = Weapon(25, 25, self.setting.grey, self, self.setting)  # initialize the weapon
         self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.965, 2, self.setting)  # initialize normal shot
         self.BIG_SHOT = NormalShot(10, self.setting.blue, 0.95, 5, self.setting)  # initialize big shot
         self.hp = HP(self.center[0], self.center[1], radius, setting)
         self.inventory = inventory(self.setting)
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
+        self.last_double_shot_time = pygame.time.get_ticks()
         self.speed_start_time = pygame.time.get_ticks()
         # self.inventory = inventory(self.setting)
         self.big_weapon = False
@@ -231,21 +231,14 @@ class Player():
     def handle_events_shapes(self, key_state):
         # checks for if any of the shapeshift keys are pressed
         if key_state[pygame.K_v]:
-            self.WEAPON.rect_height = 40
-            self.WEAPON.rect_width = 25
             self.big_weapon = True
             self.mid_weapon = False
             self.small_weapon = False
         elif key_state[pygame.K_g]:
-            self.WEAPON.rect_width = 40
-            self.WEAPON.rect_height = 25
-            self.WEAPON.offset_distance += 20
             self.big_weapon = False
             self.mid_weapon = True
             self.small_weapon = False
         elif key_state[pygame.K_h]:
-            self.WEAPON.rect_height = 25
-            self.WEAPON.rect_width = 25
             self.big_weapon = False
             self.mid_weapon = False
             self.small_weapon = True
@@ -289,11 +282,23 @@ class Player():
                 self.NORMAL_SHOT.shot_button[0] = False
             self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
 
-        if self.big_weapon == True:  # only if wide or regular weapon
+        elif self.mid_weapon == True:  # only if long or regular weapon
+            if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
+                if current_time - self.last_double_shot_time >= self.setting.double_shot_cooldown:
+                    self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.angle)
+                    self.NORMAL_SHOT.shoot(self.center, (self.screen_position[0] + 20, self.screen_position[1] + 20), self.angle)
+                    self.NORMAL_SHOT.shot_button[0] = True
+                    self.last_double_shot_time = current_time  # update last shot time
+
+            # IF SPACE PRESSED, NORMAL SHOT
+            elif not key_state[pygame.K_SPACE] and self.NORMAL_SHOT.prev_key:
+                self.NORMAL_SHOT.shot_button[0] = False
+            self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
+
+        elif self.big_weapon == True:  # only if wide or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[1]:
                 if current_time - self.last_big_shot_time >= self.setting.big_shot_cooldown:
                     self.BIG_SHOT.shoot(self.center, self.screen_position, self.angle)
-                    print(self.WEAPON.angle)
                     self.NORMAL_SHOT.shot_button[1] = True
                     self.last_big_shot_time = current_time  # update last shot time
 
