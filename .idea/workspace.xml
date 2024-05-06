@@ -5,24 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="change">
-      <change afterPath="$PROJECT_DIR$/cubes2.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kidan_cube.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Network_chat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chat_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/small_enemy_shmulik.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/small_shmulik.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_by_Kidan_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_by_Kidan_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Static_Obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/map.tmx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="">
-      <change beforePath="$PROJECT_DIR$/Static_Obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="">
-      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Random_PosObj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Random_PosObj.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Static_Obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,70 +57,10 @@
   <component name="LineStatusTrackerManager">
     <file path="$PROJECT_DIR$/trash_script.py">
       <ranges>
-        <range start1="10" end1="11" start2="10" end2="10" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="110" end1="111" start2="109" end2="114" changelist="5e995935-b6e6-4ed6-9cc7-a39be6129180" />
-        <range start1="150" end1="151" start2="153" end2="154" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="155" end1="155" start2="158" end2="159" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="159" end1="160" start2="163" end2="164" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="162" end1="162" start2="166" end2="169" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="165" end1="166" start2="172" end2="173" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="167" end1="168" start2="174" end2="181" changelist="5e995935-b6e6-4ed6-9cc7-a39be6129180" />
-        <range start1="175" end1="176" start2="188" end2="188" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="187" end1="192" start2="199" end2="200" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/player.py">
-      <ranges>
-        <range start1="33" end1="34" start2="33" end2="34" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="35" end1="36" start2="35" end2="35" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="42" end1="42" start2="41" end2="42" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="54" end1="54" start2="54" end2="55" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="66" end1="67" start2="67" end2="68" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="74" end1="76" start2="75" end2="77" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="110" end1="111" start2="111" end2="112" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="112" end1="113" start2="113" end2="114" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="140" end1="142" start2="141" end2="142" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="181" end1="182" start2="181" end2="183" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="183" end1="184" start2="184" end2="185" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="203" end1="205" start2="204" end2="216" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="216" end1="218" start2="227" end2="229" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="222" end1="224" start2="233" end2="233" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="228" end1="231" start2="237" end2="237" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="235" end1="237" start2="241" end2="241" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="280" end1="281" start2="284" end2="298" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="284" end1="285" start2="301" end2="301" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="306" end1="307" start2="322" end2="323" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="308" end1="309" start2="324" end2="325" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="313" end1="314" start2="329" end2="330" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="315" end1="316" start2="331" end2="332" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="317" end1="318" start2="333" end2="334" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="325" end1="326" start2="341" end2="342" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="327" end1="328" start2="343" end2="344" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="332" end1="333" start2="348" end2="349" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="334" end1="335" start2="350" end2="351" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="336" end1="337" start2="352" end2="353" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="343" end1="344" start2="359" end2="359" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/Static_Obj.py">
-      <ranges>
-        <range start1="32" end1="32" start2="32" end2="33" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="55" end1="56" start2="56" end2="57" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="57" end1="58" start2="58" end2="60" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="66" end1="70" start2="68" end2="79" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="90" end1="91" start2="99" end2="100" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="127" end1="129" start2="136" end2="138" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="130" end1="132" start2="139" end2="141" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="133" end1="134" start2="142" end2="149" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="135" end1="136" start2="150" end2="151" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
-        <range start1="152" end1="152" start2="167" end2="168" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-        <range start1="190" end1="191" start2="206" end2="207" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/settings.py">
-      <ranges>
-        <range start1="17" end1="18" start2="17" end2="18" changelist="5e995935-b6e6-4ed6-9cc7-a39be6129180" />
-        <range start1="19" end1="19" start2="19" end2="20" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
+        <range start1="13" end1="14" start2="13" end2="14" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
+        <range start1="50" end1="51" start2="50" end2="51" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
+        <range start1="71" end1="71" start2="71" end2="72" changelist="f3fe4892-7098-4df8-b908-7f187ce2f097" />
+        <range start1="213" end1="214" start2="214" end2="216" changelist="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" />
       </ranges>
     </file>
   </component>

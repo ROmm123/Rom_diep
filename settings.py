@@ -15,7 +15,7 @@ class setting():
         self.rand_color = self.random_color()
         self.screen = (self.screen_width, self.screen_height)
         self.surface = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.ability = ["Speed", "Size", "Health1", "Shield","Health2","Health3","Health4"]
+        self.ability = ["Speed", "Size", "Shield", "Health1","Health2","Health3","Health4"]
         self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
         self.double_shot_cooldown = 1500
         self.big_shot_cooldown = 3000  # 3 seconds in milliseconds

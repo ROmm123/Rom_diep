@@ -13,6 +13,7 @@ class enemy_main():
         self.surface = setting.surface
         self.player = player
         self.radius = player.radius
+        if "Size" in self.data["ability"]
         self.image = pygame.image.load("pictures/shmulik_red.png")
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)  # Initial position

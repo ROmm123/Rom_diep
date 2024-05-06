@@ -3,17 +3,32 @@ import json
 import threading
 from Random_PosObj import Random_Position
 from settings import setting
+import queue
 
 
 class main_server:
-    def __init__(self, host, port, obj_port):
+    def __init__(self, host, port, obj_port, chat_port, database_port):
+        # socket with main
         self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.main_server_socket.bind((host, port))
         self.main_server_socket.listen(1000)
 
+        # socket _for_ obj
         self.obj_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.obj_socket.bind((host, obj_port))
         self.obj_socket.listen(1000)
+
+        # socket_for_chat
+        self.clients_chat = set()
+        self.hostSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.hostSocket.bind((host, chat_port))
+        self.hostSocket.listen(1000)
+
+        # socket_for_data_base
+        self.database_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.database_socket.bind((host, database_port))
+        self.database_socket.listen(1000)
+        self.queue = queue.Queue()  # Queue for clients that want to join the game
 
         self.static_objects = Random_Position(600 * 64, 675 * 64)
         self.clients = []
@@ -22,8 +37,14 @@ class main_server:
         self.array_demage = [0] * 2000
         self.positions_data = self.static_objects.crate_position_dst_data()
 
+    def handle_database_clients(self):
+        print("join handle database")
+        while True:
+            client_database_socket, addr = self.database_socket.accept()
+            data_from_database = client_database_socket.recv(2048).decode("utf-8")
+            self.queue.put(data_from_database)
 
-    def handle_pos_obj(self, obj_socket,i):
+    def handle_pos_obj(self, obj_socket, i):
         while True:
             data = self.recive_from_client(obj_socket)
 
@@ -35,9 +56,8 @@ class main_server:
                     obj_socket.close()
                     break
 
-            data_dict =json.loads(data)
+            data_dict = json.loads(data)
             position_collision = data_dict["position_collision"]
-
 
             if position_collision != None:
                 which_bollet = data_dict["which_size_ball"]
@@ -53,7 +73,7 @@ class main_server:
 
                 obj_pos = {
                     "position_collision": position_collision,
-                    "which_size_ball":which_bollet
+                    "which_size_ball": which_bollet
                 }
 
                 if len(self.clients) > 1:
@@ -82,16 +102,16 @@ class main_server:
                 pos_y = int(data_dict["player_position_y"])
 
                 # Check which server the client should be on based on their position
-                if pos_y < (187*64) and pos_x < (250*64):
+                if pos_y < (187 * 64) and pos_x < (250 * 64):
                     data = "1_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y < (187*64) and pos_x > (250 * 64) and pos_x<(30784):
+                elif pos_y < (187 * 64) and pos_x > (250 * 64) and pos_x < (30784):
                     data = "2_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y > (187*64)and pos_y<(22724) and pos_x < (250*64):
+                elif pos_y > (187 * 64) and pos_y < (22724) and pos_x < (250 * 64):
                     data = "3_" + str(self.obj_client)
                     client_socket.send(data.encode())
-                elif pos_y > (187*64)and pos_y<(22724) and pos_x > (250 * 64) and pos_x<(30784):
+                elif pos_y > (187 * 64) and pos_y < (22724) and pos_x > (250 * 64) and pos_x < (30784):
                     data = "4_" + str(self.obj_client)
                     client_socket.send(data.encode())
 
@@ -119,9 +139,7 @@ class main_server:
                 # Send the encoded data to the clientll
                 obj_socket.send(encoded_data)
 
-
-
-                #send hp_list
+                # send hp_list
                 damage_data = self.array_to_dict(self.array_demage)
 
                 # Convert the dictionary to a JSON string
@@ -131,11 +149,10 @@ class main_server:
                 # Send the encoded data to the clientll
                 obj_socket.send(damage_data)
 
-
                 with self.clients_lock:
                     self.clients.append((obj_socket, addr_obj))
 
-                obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket,len(self.clients,)))
+                obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
                 obj_thread.start()
         except:
             print("hello")
@@ -151,14 +168,42 @@ class main_server:
             client_thread = threading.Thread(target=self.handle_client_main, args=(client_socket,))
             client_thread.start()
 
-    def array_to_dict(self,array):
+    def array_to_dict(self, array):
         dictionary = {index: value for index, value in enumerate(array)}
         return dictionary
 
+    def start_chat(self):
+        while True:
+            clientSocket, clientAddress = self.hostSocket.accept()
+            self.clients_chat.add(clientSocket)
+            print("Connection established with: ", clientAddress[0] + ":" + str(clientAddress[1]))
+            thread = threading.Thread(target=self.clientThread_chat, args=(clientSocket, clientAddress,))
+            thread.start()
+
+    def clientThread_chat(self, clientSocket, clientAddress):
+        while True:
+            message = clientSocket.recv(1024).decode("utf-8")
+            print(clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message)
+            for client_chat in self.clients_chat:
+                if client_chat is not clientSocket:
+                    client_chat.send(
+                        (clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message).encode("utf-8"))
+
+            if not message:
+                self.clients.remove(clientSocket)
+                print(clientAddress[0] + ":" + str(clientAddress[1]) + " disconnected")
+                break
+
+        clientSocket.close()
+
 
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55557, 55558)
+    my_server = main_server('localhost', 55555, 55556, 55557, 64444)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
+    chat_thread = threading.Thread(target=my_server.start_chat)
+    database_thread = threading.Thread(target=my_server.handle_database_clients)
     obj_thread.start()
+    chat_thread.start()
+    database_thread.start()
     my_server.main_for_clients()

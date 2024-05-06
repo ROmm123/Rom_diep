@@ -172,6 +172,18 @@ class Player():
             self.angle = math.atan2(dy, dx)  # Calculate angle between player and mouse
 
     def draw(self, mouse_pos):
+        self.image = pygame.image.load("pictures/shmulik_blue.png")
+        self.rect = self.image.get_rect()
+        self.rect.center = (400, 300)
+
+        if "Size" in self.ability:
+            if (pygame.time.get_ticks() - self.ability["Size"]) >= self.setting.ability_duration:
+                del self.ability["Size"]
+            else:
+                self.image = pygame.image.load("pictures/small_shmulik.png")
+                self.rect = self.image.get_rect()
+                self.rect.center = (400, 300)
+
         if isinstance(mouse_pos, tuple) and len(mouse_pos) == 2:
             self.update_angle(mouse_pos)
             rotated_image = pygame.transform.rotate(self.image, math.degrees(-self.angle))
@@ -269,11 +281,13 @@ class Player():
     def handle_events_shots(self, key_state):
         # checks for if any of the attack keys are pressed
         current_time = pygame.time.get_ticks()
+        double = 0
+
         if self.small_weapon == True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_normal_shot_time >= self.setting.normal_shot_cooldown:
                     print(self.angle)
-                    self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.angle)
+                    self.NORMAL_SHOT.shoot(self.center, self.angle, double)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_normal_shot_time = current_time  # update last shot time
 
@@ -285,8 +299,9 @@ class Player():
         elif self.mid_weapon == True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_double_shot_time >= self.setting.double_shot_cooldown:
-                    self.NORMAL_SHOT.shoot(self.center, self.screen_position, self.angle)
-                    self.NORMAL_SHOT.shoot(self.center, (self.screen_position[0] + 20, self.screen_position[1] + 20), self.angle)
+                    self.NORMAL_SHOT.shoot(self.center, self.angle, double)
+                    double = 2
+                    self.NORMAL_SHOT.shoot(self.center, self.angle, double)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_double_shot_time = current_time  # update last shot time
 
@@ -298,7 +313,7 @@ class Player():
         elif self.big_weapon == True:  # only if wide or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[1]:
                 if current_time - self.last_big_shot_time >= self.setting.big_shot_cooldown:
-                    self.BIG_SHOT.shoot(self.center, self.screen_position, self.angle)
+                    self.BIG_SHOT.shoot(self.center, self.angle, double)
                     self.NORMAL_SHOT.shot_button[1] = True
                     self.last_big_shot_time = current_time  # update last shot time
 

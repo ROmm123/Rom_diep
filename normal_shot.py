@@ -36,18 +36,27 @@ class NormalShot:
         for circle in self.shots:
             pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
 
-    def shoot(self, player_position, screen_position, angle):
+    def shoot(self, player_position, angle, double):
         # calculate the starting position and direction of the shot
         mouse_pos = pygame.mouse.get_pos()
         self.direction[0] = mouse_pos[0] - player_position[0]  # break down mouse position into x and y components
         self.direction[1] = mouse_pos[1] - player_position[1]
-        self.mouse_x = screen_position[0] + self.direction[0]
-        self.mouse_y = screen_position[1] + self.direction[1]
 
         self.magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
         if self.magnitude != 0:  # checks if zero vector
             self.direction[0] /= self.magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= self.magnitude
+
+        if self.direction[0] >= 0:
+            player_position[0] += double
+        else:
+            player_position[0] -= double
+
+        if self.direction[1] >= 0:
+            player_position[1] += double
+        else:
+            player_position[1] -= double
+
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         self.start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
