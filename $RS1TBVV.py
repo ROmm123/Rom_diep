@@ -37,6 +37,9 @@ class main_server:
         self.array_demage = [0] * 2000
         self.positions_data = self.static_objects.crate_position_dst_data()
 
+        self.queue_for_Sign_req = queue.Queue()  # Queue for clients that want to join the game
+        self.queue_for_login_req = queue.Queue()
+
 
 
     def handle_database_clients(self):
