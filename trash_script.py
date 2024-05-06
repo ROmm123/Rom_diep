@@ -192,8 +192,8 @@ class Game():
             self.player.handle_events_shots(key_state)
             self.player.handle_events_shapes(key_state)
             self.player.handle_events_abilities(key_state)
-            if self.player.ability{"Size"}:
-                ability_size = True
+            #if self.player.ability{"Size"}:
+                #ability_size = True
 
 
 
