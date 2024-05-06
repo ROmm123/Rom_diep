@@ -39,7 +39,7 @@ from Static_Obj import StaticObjects
                 except Exception as e:
                     print(e)'''
 
-
+#game almost done
 class Game():
     def __init__(self):
         pygame.init()

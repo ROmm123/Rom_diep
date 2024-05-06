@@ -226,10 +226,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.player" />
-      <item itemvalue="Python.settings" />
       <item itemvalue="Python.$RS1TBVV" />
       <item itemvalue="Python.SERVER1" />
+      <item itemvalue="Python.player" />
+      <item itemvalue="Python.settings" />
       <item itemvalue="Python.trash_script" />
     </list>
     <recent_temporary>
