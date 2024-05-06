@@ -13,7 +13,6 @@ class enemy_main():
         self.surface = setting.surface
         self.player = player
         self.radius = player.radius
-        if "Size" in self.data["ability"]
         self.image = pygame.image.load("pictures/shmulik_red.png")
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)  # Initial position
@@ -41,8 +40,7 @@ class enemy_main():
             else:
                 print("Invalid weapon_angle data type")
 
-            mouse_pos = pygame.mouse.get_pos()
-            self.draw_enemy(b1, b2, radius, mouse_pos)
+            self.draw_enemy(b1, b2, radius)
 
             self.player.hit_online(self.player.radius, int(self.data["player_position_x"]) + 400,
                                    int(self.data["player_position_y"]) + 300)
@@ -68,7 +66,11 @@ class enemy_main():
         else:
             pass
 
-    def draw_enemy(self, center_x, center_y, radius, mouse_pos):
+    def draw_enemy(self, center_x, center_y, radius):
+        if "Size" in self.data["ability"]:
+            self.image = pygame.image.load("pictures/small_enemy_shmulik.png")
+            self.rect = self.image.get_rect()
+            self.rect.center = (400, 300)  # Initial position
         center_x = int(center_x) + 400
         center_y = int(center_y) + 300
         radius = int(radius)

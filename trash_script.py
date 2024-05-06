@@ -78,6 +78,7 @@ class Game():
         while True:
             try:
                 data = self.client.receive_data()
+                print(data)
             except:
                 print("socket is close")
                 break
@@ -187,9 +188,15 @@ class Game():
                 }
 
 
+            ability_size = False
             self.player.handle_events_shots(key_state)
             self.player.handle_events_shapes(key_state)
             self.player.handle_events_abilities(key_state)
+            if self.player.ability{"Size"}:
+                ability_size = True
+
+
+
 
 
 
@@ -213,7 +220,7 @@ class Game():
                 "big_shot_velocity_y": self.player.BIG_SHOT.velocity[1],
                 "big_shot_start_x": self.player.BIG_SHOT.start_x,
                 "big_shot_start_y": self.player.BIG_SHOT.start_y,
-                "ability": self.player.ability
+                "ability": ability_size
 
             }
 
