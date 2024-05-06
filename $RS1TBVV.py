@@ -4,6 +4,7 @@ import threading
 from Random_PosObj import Random_Position
 from settings import setting
 import queue
+from connection_with_database import *
 
 
 class main_server:
@@ -39,27 +40,9 @@ class main_server:
 
         self.queue_for_Sign_req = queue.Queue()  # Queue for clients that want to join the game
         self.queue_for_login_req = queue.Queue()
+        self.queue_for_Sign_out = queue.Queue()
 
 
-
-    def handle_database_clients(self):
-        print("join handle database")
-        while True:
-            client_database_socket, addr = self.database_socket.accept()
-            data_from_database = client_database_socket.recv(2048).decode("utf-8")
-            self.queue.put(data_from_database)
-
-    def handle_queue_database(self):
-        while True:
-            if not self.queue_for_Sign_req.empty():
-                raw_signin_packet, client_database_socket = self.queue_for_Sign_req.get()
-                raw_signin_packet = json.loads(raw_signin_packet)
-                handle_data_for_signin(raw_signin_packet["username"], raw_signin_packet["password"])
-            if not self.queue_for_login_req.empty():
-                raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
-                raw_signin_packet = json.loads(raw_signin_packet)
-                info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
-                client_database_socket.send(info.encode)
 
     def handle_database_clients(self):
         print("join handle database")
@@ -74,6 +57,19 @@ class main_server:
             elif Quary[0] in data_from_database:
                 self.queue_for_login_req.put(
                     (data_from_database, client_database_socket))  # Queue for clients that want to join the game
+    def handle_queue_database(self):
+        while True:
+            if not self.queue_for_Sign_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_Sign_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                handle_data_for_signin(raw_signin_packet["username"], raw_signin_packet["password"])
+            if not self.queue_for_login_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
+                client_database_socket.send(info.encode)
+            #if not self.queue_for_Sign_out.empty():
+
 
     def handle_pos_obj(self, obj_socket, i):
         while True:
@@ -125,6 +121,8 @@ class main_server:
                 data = client_socket.recv(2048)
                 if not data:
                     break  # No more data, client has disconnected
+                if "speed" in data:
+                    self.queue_for_Sign_out.put(data)
 
                 # Parse JSON data into a dictionary
                 data_dict = json.loads(data)
@@ -237,4 +235,5 @@ if __name__ == '__main__':
     obj_thread.start()
     chat_thread.start()
     database_thread.start()
+    threading.Thread(target=my_server.handle_queue_database()).start()
     my_server.main_for_clients()

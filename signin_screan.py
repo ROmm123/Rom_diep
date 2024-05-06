@@ -1,10 +1,7 @@
 import pygame
 import sys
-import connection_with_database
-
+from Network_chat import *
 import login_screen
-
-
 
 # Initialize Pygame
 pygame.init()
@@ -46,8 +43,6 @@ switch_text = font.render("toLogin-in", True, BLACK)
 switch_text_rect = switch_text.get_rect(center=switch_button.center)
 
 
-
-
 def draw_text(text, font, color, surface, x, y):
     text_obj = font.render(text, True, color)
     text_rect = text_obj.get_rect()
@@ -80,10 +75,16 @@ def perform_signin():
     print("Username:", username)
     print("Password:", password)
 
-def switch_to_login_screen():
 
-    login_screen.main()  # Call the mai
+
+
+def switch_to_login_screen():
+    login_screen.main()  # Call the main function from login_screen
+
+
 def main():
+    socket_database = Client_chat('localhost', 64444)  # global socket
+    socket_database.connect()
     global username, password, username_color, password_color
 
     clock = pygame.time.Clock()
@@ -107,7 +108,15 @@ def main():
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
                     perform_signin()
-                    handle_data_for_signin(username, password)
+                    print(username+","+password)
+                    database_data = {
+                        "username": username,
+                        "password": password,
+                        "query": "signin"
+                    }
+
+                    socket_database.send_database_data(database_data)
+
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
                     switch_to_login_screen()  # Call the function to switch screens
 
@@ -123,7 +132,16 @@ def main():
                         username_color = input_color_inactive
                         password_color = input_color_inactive
                         perform_signin()
-                        handle_data_for_signin(username, password)
+                        print(username + "," + password)
+
+                        database_data = {
+                            "username": username,
+                            "password": password,
+                            "query": "signin"
+                        }
+
+                        socket_database.send_database_data(database_data)
+
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]
