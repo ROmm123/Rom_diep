@@ -3,14 +3,15 @@ from threading import *
 from tkinter import *
 from Network_chat import *
 import pygame
+import sys
 from pynput.keyboard import Key, Listener
 
 class ChatClient:
-    def __init__(self, host_chat, client_chat):
+    def __init__(self, host_chat, client_chat, player):
         self.flag = False
         self.chat = Client_chat(host_chat, client_chat)
         self.chat.connect()
-
+        self.player = player
         self.window = Tk()
         self.window.title("chat")
         self.window_state = True  # Track window state
@@ -24,26 +25,20 @@ class ChatClient:
 
         self.btnSendMessage = Button(self.window, text="Send", width=20, command=self.sendMessage)
         self.btnSendMessage.grid(row=2, column=0, padx=10, pady=10)
-
         self.recvThread = Thread(target=self.recvMessage)
+        self.checkThread = Thread(target=self.check_sit)
         self.recvThread.daemon = True
         self.recvThread.start()
+        self.checkThread.start()
 
-        # הוספת תהליך רקידה לקליטת מקשים
-        self.keyboard_listener = Listener(on_press=self.on_key_press)
-        self.keyboard_listener.daemon = True
-        self.keyboard_listener.start()
+        self.window.protocol("WM_DELETE_WINDOW", self.close_window)  # Handle window close event
 
+        self.window.mainloop()
 
-        self.hide_chat()
-        if self.flag:
-            self.window.mainloop()
-
-    def open_chat(self):
-        self.window.deiconify()  # Show the window
-
-    def hide_chat(self):
-        self.window.withdraw()  # Hide the window
+    def close_window(self):
+        # Set player chat flag to False and destroy the window
+        self.player.chat_flag = False
+        self.window.destroy()
 
     def sendMessage(self):
         clientMessage = self.txtYourMessage.get()
@@ -51,18 +46,21 @@ class ChatClient:
         self.chat.send_data(clientMessage)
 
     def recvMessage(self):
-        while True:
+        while self.player.chat_flag:
             serverMessage = self.chat.recevie_data()
             print(serverMessage)
             self.txtMessages.insert(END, "\n" + serverMessage)
 
-    # פונקציה לטיפול בלחיצות מקלדת
-    def on_key_press(self, key):
-        try:
-            if key.char == 'c':
-                self.open_chat()
-            elif key.char == '-':
-                self.hide_chat()
-                self.flag=True
-        except AttributeError:
-            print("eroror")
+    def check_sit(self):
+        while self.player.chat_flag:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.player.chat_flag = False
+                    self.window.after(0, self.window.destroy)  # Schedule window destruction
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.player.chat_flag = False
+                        self.window.after(0, self.window.destroy)  # Schedule window destruction
+                        break
+

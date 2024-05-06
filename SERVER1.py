@@ -104,7 +104,7 @@ class Server:
 
 
 if __name__ == '__main__':
-    my_server = Server('localhost', 11111, 11112)
+    my_server = Server('localhost', 11110, 11119)
     print("Starting server...")
     enemies_T = threading.Thread(target = my_server.handle_Enemies_Am)
     enemies_T.start()

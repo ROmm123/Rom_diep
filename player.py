@@ -53,6 +53,7 @@ class Player():
         self.rect.center = (400, 300)  # Initial position
         self.angle = 0
         self.auto=0
+        self.chat_flag=False
 
     def get_rect_player(self, radius, position1, position2):
         # gets and returns the player's rect
@@ -173,6 +174,8 @@ class Player():
 
     def draw(self, mouse_pos):
         self.image = pygame.image.load("pictures/shmulik_blue.png")
+        self.radius = 29
+        radius = self.radius
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)
 
@@ -181,6 +184,7 @@ class Player():
                 del self.ability["Size"]
             else:
                 self.image = pygame.image.load("pictures/small_shmulik.png")
+                self.radius = 22
                 self.rect = self.image.get_rect()
                 self.rect.center = (400, 300)
 
@@ -192,7 +196,7 @@ class Player():
 
             pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
             pygame.draw.rect(self.surface, self.hp.DamageColor,
-                             (self.center[0] - self.radius, self.center[1] + self.radius + 10, self.hp.Damage, 10))
+                             (self.center[0] - radius, self.center[1] + radius + 10, self.hp.Damage, 10))
 
     def handle_events_movement(self, socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
@@ -216,6 +220,8 @@ class Player():
                     self.move_button[4] = True
                 if event.key == pygame.K_l:
                     self.move_button[5] = True
+                if event.key==pygame.K_8:
+                    self.chat_flag=True
                 if event.key == pygame.K_k:
                     if self.move_button[6]:
                         self.move_button[0] = True

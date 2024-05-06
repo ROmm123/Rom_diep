@@ -44,7 +44,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 30, self.setting.red, self.setting)
+        self.player = Player(12000, 0, 29, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
@@ -63,13 +63,11 @@ class Game():
         self.speed_start_time = 0
         self.size_start_time = 0
         self.shield_start_time = 0
-
         self.FLAG_SERVER_1 = False
         self.FLAG_SERVER_2 = False
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
-        self.chat=ChatClient("localhost",55557)
 
 
     def run_therad(self):
@@ -78,7 +76,7 @@ class Game():
         while True:
             try:
                 data = self.client.receive_data()
-                print(data)
+                #print(data)
             except:
                 print("socket is close")
                 break
@@ -99,7 +97,7 @@ class Game():
         while True:
             try:
                 data = self.client_main.receive_obj_prameters()
-                print(data)
+                #print(data)
             except:
                 print("socket obj is close")
                 break
@@ -132,7 +130,12 @@ class Game():
             self.player.handle_events_movement(self.client)
             radius = self.player.radius
             speed = self.player.speed
-
+            self.chat = None
+            if self.player.chat_flag:
+                self.chat = ChatClient("localhost", 55557,self.player)
+            if not self.player.chat_flag:
+                if self.chat is not None:  # Check if self.chat exists before deleting
+                    del self.chat
             for layer in range(2):
                 chunk = self.map.calc_chunk(layer)
                 self.map.draw_map(chunk)
@@ -242,8 +245,8 @@ class Game():
                     # Connect to server 1 if not already connected
                     self.client.close()
                     self.client.host = 'localhost'
-                    self.client.port = 11111
-                    self.client.enemies_or_obj_Am_port = 11112
+                    self.client.port = 11110
+                    self.client.enemies_or_obj_Am_port = 11119
                     self.client.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = True

@@ -69,10 +69,12 @@ class enemy_main():
     def draw_enemy(self, center_x, center_y, radius):
         if self.data["ability"]:
             self.image = pygame.image.load("pictures/small_enemy_shmulik.png")
+            self.radius = 22
             self.rect = self.image.get_rect()
             self.rect.center = (400, 300)  # Initial position
         else:
             self.image = pygame.image.load("pictures/shmulik_red.png")
+            self.radius = 29
             self.rect = self.image.get_rect()
             self.rect.center = (400, 300)  # Initial position
         center_x = int(center_x) + 400
