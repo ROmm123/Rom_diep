@@ -150,6 +150,7 @@ class StaticObjects():
             values.append(dictionary[key])
         return values
 
+'''
     def move(self, static_obj):
         # Check if the speed condition is met
         if static_obj.speed > 0.3:
@@ -188,7 +189,7 @@ class StaticObjects():
             if static_obj.speed <= 0.3:
                 # Reset the speed to avoid slowing down further
                 static_obj.speed = 7
-
+'''
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
 # static_obj = StaticObject(setting, map_width, map_height, side_length, color)
