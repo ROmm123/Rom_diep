@@ -68,8 +68,10 @@ class main_server:
 
                 if which_bollet == 1:
                     self.array_demage[index] = self.array_demage[index] + 10
-                else:
+                elif which_bollet == 2:
                     self.array_demage[index] = self.array_demage[index] + 17
+                else:
+                    self.array_demage[index] = self.array_demage[index] + 60
 
                 obj_pos = {
                     "position_collision": position_collision,
