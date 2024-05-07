@@ -119,11 +119,10 @@ class StaticObjects():
 
                 self.Static_objects.append(obj)
 
-    def draw(self, viewport_x, viewport_y, setting, player_rect, normal_shots_rects, big_shots_rects, npc_shots_rects):
+    def draw(self, viewport_x, viewport_y, setting, player_rect, normal_shots_rects, big_shots_rects):
         collision_list = []
         normal_position_collision = None
         big_position_collision = None
-        npc_position_collision = None
 
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
@@ -134,7 +133,7 @@ class StaticObjects():
             # checks collision with the shots
             normal_shot_collision_result = self.normal_shot_collisions(normal_shots_rects, static_obj)
             big_shot_collision_result = self.big_shot_collisions(big_shots_rects, static_obj)
-            npc_shot_collision_result = self.npc_shot_collisions(npc_shots_rects, static_obj)
+#            npc_shot_collision_result = self.npc_shot_collisions(npc_shots_rects, static_obj)
 
             if normal_shot_collision_result is not None:
                 normal_position_collision = static_obj.position
@@ -144,9 +143,9 @@ class StaticObjects():
                 big_position_collision = static_obj.position
                 collision_list.append(big_shot_collision_result)
 
-            if npc_shot_collision_result is not None:
-                npc_position_collision = static_obj.position
-                collision_list.append(npc_shot_collision_result)
+            #if npc_shot_collision_result is not None:
+             #   npc_position_collision = static_obj.position
+              #  collision_list.append(npc_shot_collision_result)
 
             # checks if the object needs to be drawn
             if static_obj.HP.ISAlive:
@@ -171,7 +170,22 @@ class StaticObjects():
                     #    print("Collision detected")
                     #    self.hurt(static_obj)
 
-        return collision_list, normal_position_collision, big_position_collision, npc_position_collision
+        return collision_list, normal_position_collision, big_position_collision #, npc_position_collision
+
+    def npc_collision(self, npc_shots_rects):
+        collision_list = []
+        npc_position_collision = None
+
+        for static_obj in self.Static_objects:
+            static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width, static_obj.height)
+
+            # checks collision with the shots
+            npc_shot_collision_result = self.npc_shot_collisions(npc_shots_rects, static_obj)
+            if npc_shot_collision_result is not None:
+                npc_position_collision = static_obj.position
+                collision_list.append(npc_shot_collision_result)
+
+        return collision_list, npc_position_collision
 
     def player_collisions(self, static_obj, player_rect):
         if static_obj.rect_static_obj.colliderect(player_rect):
@@ -220,8 +234,8 @@ class StaticObjects():
                 self.hurt(static_obj, 8.5)
                 return "big shot index", index
 
-    def npc_shot_collisions(self, normal_shots_rects, static_obj):
-        for index, shot_rect in enumerate(normal_shots_rects):
+    def npc_shot_collisions(self, npc_shots_rects, static_obj):
+        for index, shot_rect in enumerate(npc_shots_rects):
             if static_obj.rect_static_obj.colliderect(shot_rect):
                 self.hurt(static_obj, 5)
                 return "npc shot index", index

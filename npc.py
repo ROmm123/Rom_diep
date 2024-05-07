@@ -12,8 +12,7 @@ from inventory import *
 
 class NPC:
 
-    def __init__(self, npc_id, x, y, radius, color, setting, view_radius, static_objects):   # enemy,
-        self.npc_id = npc_id
+    def __init__(self, x, y, radius, color, setting, view_radius, player_position):   # enemy,
         self.surface = setting.surface
         self.radius = radius
         self.color = color
@@ -25,8 +24,7 @@ class NPC:
         self.position_map_y = 270
         self.set = set
         self.VR = view_radius
-        # self.enemy = enemy #position of enemy relative to the screen
-        self.static_objects = static_objects
+        self.player_position = player_position #position of plater relative to the map
         self.goal_x = self.rect_center_x
         self.goal_y = self.rect_center_y
         self.angel = 0
@@ -45,26 +43,24 @@ class NPC:
         self.distance = math.sqrt((self.goal_x-self.rect_center_x)**2 + (self.goal_y-self.rect_center_y)**2)
 
 
-class NPCS:
+    def resetDefaultLocation(self):
+    # Default location to seek if we don't see anything to interact with
+        self.rect_center_x = random.randint(0,800)           #(0,38400)    # map limit x
+        self.rect_center_y = random.randint(0,800)             #(0, 43200)    # map limit
+        self.position_map_x = random.randint(12370,12380)
+        self.position_map_y = random.randint(380,400)
 
-    def _init_(self, setting, map_width, map_height):
-        self.surface = setting.surface
-        self.NPCS = []  # the NPCS list
-        for i in range(100):
-            npc = NPC(i, 0, 0, 30, self.setting.red, self.setting, 400, self.static_object.Static_objectss)
-            print(npc.npc_id)
-            self.NPCS.append(npc)
-
-
-    def draw (self, player_rect, shots_rects):
+    def draw(self, player_rect, shots_rects):
         if self.hp.ISAlive:
-            pygame.draw.circle(self.surface , self.color ,(int(self.rect_center_x) , int(self.rect_center_y)) , self.radius)
+            pygame.draw.circle(self.surface, self.color, (int(self.rect_center_x), int(self.rect_center_y)),
+                               self.radius)
 
-            pygame.draw.rect(self.surface, self.hp.LifeColor,   #draw the green bar
-                            (self.rect_center_x - self.radius, (self.rect_center_y + self.radius + 10), (2 * self.radius), 10))
-            pygame.draw.rect(self.surface, self.hp.DamageColor, #draw the red bar
-                            (self.rect_center_x - self.radius, (self.rect_center_y + self.radius + 10),
-                            self.hp.Damage, 10))
+            pygame.draw.rect(self.surface, self.hp.LifeColor,  # draw the green bar
+                             (self.rect_center_x - self.radius, (self.rect_center_y + self.radius + 10),
+                              (2 * self.radius), 10))
+            pygame.draw.rect(self.surface, self.hp.DamageColor,  # draw the red bar
+                             (self.rect_center_x - self.radius, (self.rect_center_y + self.radius + 10),
+                              self.hp.Damage, 10))
 
             print(self.rect_center_x, self.rect_center_y, 'npcccc')
 
@@ -76,19 +72,10 @@ class NPCS:
             print(self.rect_npc)
             print(player_rect)
 
-
             for index, shot_rect in enumerate(shots_rects):
                 if self.rect_npc.colliderect(shot_rect):
                     self.hurt()
                     return
-
-    def resetDefaultLocation(self):
-    # Default location to seek if we don't see anything to interact with
-        self.rect_center_x = random.randint(0,800)           #(0,38400)    # map limit x
-        self.rect_center_y = random.randint(0,800)             #(0, 43200)    # map limit
-        self.position_map_x = random.randint(12370,12380)
-        self.position_map_y = random.randint(380,400)
-
     def get_rect(self):
         rect_width = self.radius * 2
         rect_height = self.radius * 2
@@ -99,7 +86,7 @@ class NPCS:
     #    self.goal_x = self.enemy[0]
     #    self.goal_y = self.enemy[1]
         min = math.sqrt((static_objects[0].position[0] - self.position_map_x) ** 2 + (static_objects[0].position[1] - self.position_map_y) ** 2)
-        for i in range(len(static_objects)):
+        for i in range(int(len(static_objects)/100)):
             distance = math.sqrt((static_objects[i].position[0] - self.position_map_x) ** 2 + (static_objects[i].position[1] - self.position_map_y) ** 2)
             if distance < min:
                 min = distance
@@ -210,22 +197,34 @@ class NPCS:
                 self.SHOT.shot_button[0] = True
                 self.last_shot_time = current_time  # update last shot time
 
+class NPCS:
+
+    def __init__(self, setting, map_width, map_height):
+        self.setting = setting
+        self.surface = setting.surface
+        self.NPCs = []  # the NPCs list
+        for i in range(100):
+            npc = NPC(0, 0, 30, self.setting.red, self.setting, 400)
+            self.NPCs.append(npc)
+
+
     def run(self, screen_pos_x, screen_pos_y, player_rect, shots_rects, static_objects):       #player_rect should be player_rect
         #self.can_move = True
-        self.get_target(static_objects, screen_pos_x, screen_pos_y)
-        self.rect_npc = pygame.Rect((self.position_map_x - self.radius), (self.position_map_y - self.radius), (self.radius * 2), (self.radius * 2))
+        for NPC in self.NPCs:
+            NPC.get_target(static_objects, screen_pos_x, screen_pos_y)
+            NPC.rect_npc = pygame.Rect((NPC.position_map_x - NPC.radius), (NPC.position_map_y - NPC.radius), (NPC.radius * 2), (NPC.radius * 2))
 
-        self.rect_center_x = self.position_map_x - screen_pos_x
-        self.rect_center_y = self.position_map_y - screen_pos_y
+            NPC.rect_center_x = NPC.position_map_x - screen_pos_x
+            NPC.rect_center_y = NPC.position_map_y - screen_pos_y
 
-        self.move()
-        #self.flee(self.goal_x, self.goal_y)
-        #self.orbitClockwise()
+            NPC.move()
+            #NPC.flee(NPC.goal_x, NPC.goal_y)
+            #NPC.orbitClockwise()
 
-        self.position_map_x = self.rect_center_x + screen_pos_x
-        self.position_map_y = self.rect_center_y + screen_pos_y
+            NPC.position_map_x = NPC.rect_center_x + screen_pos_x
+            NPC.position_map_y = NPC.rect_center_y + screen_pos_y
 
-        self.handle_events_shots(screen_pos_x, screen_pos_y)
+            NPC.handle_events_shots(screen_pos_x, screen_pos_y)
 
-        self.draw(player_rect, shots_rects)
-        self.npc_weapon()
+            NPC.draw(player_rect, shots_rects)
+            NPC.npc_weapon()

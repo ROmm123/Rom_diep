@@ -7,6 +7,7 @@ import pygame
 
 from player import Player
 from npc import NPC
+from npc import NPCS
 from map import Map
 from settings import setting
 from Network import Client
@@ -49,13 +50,12 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.npc_counter = 0
-        self.npcs = []
         self.client_main = Client('localhost', 55555,55556)
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.damage_list = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions, self.damage_list)
+        self.NPCs = NPCS(self.setting, 600 * 64, 675 * 64)
         self.client = Client(None, None)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
@@ -128,7 +128,7 @@ class Game():
         self.shield_start_time = 0
         collisions = None
 
-        npc1 = self.add_npc(self.static_object.Static_objects)  # enemy1,
+        #npc1 = self.add_npc(self.static_object.Static_objects)  # enemy1,
 
         while self.running:
             key_state = pygame.key.get_pressed()
@@ -158,9 +158,10 @@ class Game():
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
 
-            self.NPC.run(self.player.screen_position[0], self.player.screen_position[1], player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects)
+            self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects)
 
-            collisions, normal_position_collision, big_position_collision, npc_position_collision = self.static_object.draw(self.player.screen_position[0], self.player.screen_position[1], self.setting, player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(self.player.screen_position), self.NPC.SHOT.get_shot_rects(self.player.screen_position))
+
+            collisions, normal_position_collision, big_position_collision = self.static_object.draw(self.player.screen_position[0], self.player.screen_position[1], self.setting, player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(self.player.screen_position))
 
             if collisions is not None:
                 for collision in collisions:
@@ -170,11 +171,19 @@ class Game():
                     if "big shot index" in collision:
                         self.player.BIG_SHOT.remove_shots.append(collision[1])
                         self.player.BIG_SHOT.remove()
-                    if "npc shot index" in collision:
-                        self.NPC.SHOT.remove_shots.append(collision[1])
-                        self.NPC.SHOT.remove()
+                    #if "npc shot index" in collision:
+                     #   self.NPCs[0].SHOT.remove_shots.append(collision[1])
+                      #  self.NPCs[0].SHOT.remove()
                     if "player hit" in collision:
                         self.player.hurt(self.setting.hit_type[2])
+
+            for NPC in self.NPCs.NPCs:
+                collision_npc, npc_position_collision = self.static_object.npc_collision(NPC.SHOT.get_shot_rects(self.player.screen_position))
+                if collision_npc is not None:
+                    if "npc shot index" in collision_npc:
+                        NPC.SHOT.remove_shots.append(collision_npc[1])
+                        NPC.SHOT.remove()
+
 
             if normal_position_collision is not None:
                 data_for_obj = {
@@ -191,12 +200,9 @@ class Game():
                     "position_collision": None  # pos of player only
                 }
 
-            if not npc1.is_alive():
-                self.npcs.remove(npc1)
-                self.npc_counter -= 1
-
-            if self.npc_counter < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
-                npc1 = self.add_npc(self.static_object.Static_objects)  # enemy1,
+            if len(self.NPCs.NPCs) < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
+                npc = NPC(0, 0, 30, self.setting.red, self.setting, 400, self.static_object.Static_objectss)
+                self.NPCs.NPCS.append(npc)
 
             ability_size = False
             self.player.handle_events_shots(key_state)
@@ -354,12 +360,20 @@ class Game():
 
             if self.num_enemies > 0:
                 self.draw_event.wait()
-                hit_result = self.player.hit(self.NPC.SHOT.get_shot_rects(self.player.screen_position))
+                hit_result = self.player.hit()
                 self.player.hurt(hit_result)
 
-                if "npc shot" in hit_result:
-                    self.NPC.SHOT.remove_shots.append(hit_result[-1])
-                    self.NPC.SHOT.remove()
+                for NPC in self.NPCs.NPCs:
+                    npc_hit_result = self.player.npc_hit(NPC.SHOT.get_shot_rects(self.player.screen_position))
+                    if "npc shot" in npc_hit_result:
+                        NPC.SHOT.remove_shots.append(npc_hit_result[1])
+                        NPC.SHOT.remove()
+                    self.player.hurt(npc_hit_result)
+                    NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
+                    NPC.SHOT.update()
+                    NPC.SHOT.reset()
+
+
 
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
@@ -368,10 +382,6 @@ class Game():
                 self.player.NORMAL_SHOT.update()
                 self.player.BIG_SHOT.update()
 
-                self.NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
-                self.NPC.SHOT.update()
-                self.NPC.SHOT.reset()
-
                 self.player.NORMAL_SHOT.reset()
                 self.player.BIG_SHOT.reset()
                 self.setting.update()
@@ -379,22 +389,24 @@ class Game():
                 # Reset the event for the next iteration
                 self.draw_event.clear()
             else:
-                hit_result = self.player.hit(self.NPC.SHOT.get_shot_rects(self.player.screen_position))
+                hit_result = self.player.hit()
                 self.player.hurt(hit_result)
 
-                if "npc shot" in hit_result:
-                    self.NPC.SHOT.remove_shots.append(hit_result[-1])
-                    self.NPC.SHOT.remove()
+                for NPC in self.NPCs.NPCs:
+                    npc_hit_result = self.player.npc_hit(NPC.SHOT.get_shot_rects(self.player.screen_position))
+                    if "npc shot" in npc_hit_result:
+                        NPC.SHOT.remove_shots.append(npc_hit_result[1])
+                        NPC.SHOT.remove()
+                    self.player.hurt(npc_hit_result)
+                    NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
+                    NPC.SHOT.update()
+                    NPC.SHOT.reset()
 
                 self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.BIG_SHOT.update()
-
-                self.NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
-                self.NPC.SHOT.update()
-                self.NPC.SHOT.reset()
 
                 self.player.NORMAL_SHOT.reset()
                 self.player.BIG_SHOT.reset()
@@ -456,13 +468,13 @@ class Game():
             if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
 
-    def add_npc(self, static_objects):  # enemy,
-        npc_id = self.npc_counter
-        self.npc_counter += 1
-        self.NPC = NPC(npc_id, 0, 0, 30, self.setting.red, self.setting, 400, static_objects)   # Enemy.get_positions(enemy),
-        self.npcs.append(self.NPC)
+    #def add_npc(self, static_objects):  # enemy,
+     #   npc_id = self.npc_counter
+      #  self.npc_counter += 1
+       # self.NPC = NPC(npc_id, 0, 0, 30, self.setting.red, self.setting, 400, static_objects)   # Enemy.get_positions(enemy),
+        #self.npcs.append(self.NPC)
 
-        return self.NPC
+        #return self.NPC
 
     def transition(self):
         # makes sure the player doesn't keep moving in the direction of the transition
