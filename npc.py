@@ -47,8 +47,8 @@ class NPC:
     # Default location to seek if we don't see anything to interact with
         self.rect_center_x = random.randint(0,800)           #(0,38400)    # map limit x
         self.rect_center_y = random.randint(0,800)             #(0, 43200)    # map limit
-        self.position_map_x = random.randint(12370,12380)
-        self.position_map_y = random.randint(380,400)
+        self.position_map_x = random.randint(12170,12580)
+        self.position_map_y = random.randint(580,600)
 
     def draw(self, player_rect, shots_rects):
         if self.hp.ISAlive:
@@ -62,7 +62,7 @@ class NPC:
                              (self.rect_center_x - self.radius, (self.rect_center_y + self.radius + 10),
                               self.hp.Damage, 10))
 
-            print(self.rect_center_x, self.rect_center_y, 'npcccc')
+            #print(self.rect_center_x, self.rect_center_y, 'npcccc')
 
             player_rect[0] = player_rect[0]
             player_rect[1] = player_rect[1]
@@ -82,16 +82,16 @@ class NPC:
         rect_x = int(self.position_map_x-self.radius)
         rect_y = int(self.position_map_y-self.radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
-    def get_target(self, static_objects, screen_pos_x, screen_pos_y):       #למצוא מקום טוב יותר למצוא את המטרה במקום בלולאה אין סופית במיין
+    def get_target(self, static_objects, screen_pos_x, screen_pos_y, player_positions):       #למצוא מקום טוב יותר למצוא את המטרה במקום בלולאה אין סופית במיין
     #    self.goal_x = self.enemy[0]
     #    self.goal_y = self.enemy[1]
         min = math.sqrt((static_objects[0].position[0] - self.position_map_x) ** 2 + (static_objects[0].position[1] - self.position_map_y) ** 2)
-        for i in range(int(len(static_objects)/100)):
-            distance = math.sqrt((static_objects[i].position[0] - self.position_map_x) ** 2 + (static_objects[i].position[1] - self.position_map_y) ** 2)
-            if distance < min:
-                min = distance
-                self.goal_x = static_objects[i].position[0] + 30/2 - screen_pos_x  #30 = StaticObject width
-                self.goal_y = static_objects[i].position[1] + 30/2 - screen_pos_y  #30 = StaticObject height
+        #for i in range(self.player_position):
+        distance = math.sqrt((player_positions[0] - self.position_map_x) ** 2 + (player_positions[1] - self.position_map_y) ** 2)
+        if distance < min:
+            min = distance
+            self.goal_x = player_positions[0] + 30/2 - screen_pos_x  #30 = StaticObject width
+            self.goal_y = player_positions[1] + 30/2 - screen_pos_y  #30 = StaticObject height
 
     def get_angel_to_target(self):
         return math.atan2((self.goal_y-self.rect_center_y),(self.goal_x-self.rect_center_x))
@@ -108,7 +108,6 @@ class NPC:
                 static_obj_center_x, static_obj_center_y = static_obj.rect_static_obj.center
 
     def is_alive(self):
-        # exits the game if the player dies (NEEDS TO RESPAWN INSTEAD)
         if self.hp.ISAlive:
             return True
         else:
@@ -199,19 +198,19 @@ class NPC:
 
 class NPCS:
 
-    def __init__(self, setting, map_width, map_height):
+    def __init__(self, setting, map_width, map_height, player_position):
         self.setting = setting
         self.surface = setting.surface
         self.NPCs = []  # the NPCs list
-        for i in range(100):
-            npc = NPC(0, 0, 30, self.setting.red, self.setting, 400)
+        for i in range(2):
+            npc = NPC(0, 0, 30, self.setting.red, self.setting, 400, player_position)
             self.NPCs.append(npc)
 
 
-    def run(self, screen_pos_x, screen_pos_y, player_rect, shots_rects, static_objects):       #player_rect should be player_rect
+    def run(self, screen_pos_x, screen_pos_y, player_rect, shots_rects, static_objects, player_positions):
         #self.can_move = True
         for NPC in self.NPCs:
-            NPC.get_target(static_objects, screen_pos_x, screen_pos_y)
+            NPC.get_target(static_objects, screen_pos_x, screen_pos_y, player_positions)
             NPC.rect_npc = pygame.Rect((NPC.position_map_x - NPC.radius), (NPC.position_map_y - NPC.radius), (NPC.radius * 2), (NPC.radius * 2))
 
             NPC.rect_center_x = NPC.position_map_x - screen_pos_x

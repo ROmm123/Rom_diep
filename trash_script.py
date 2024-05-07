@@ -55,7 +55,7 @@ class Game():
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.damage_list = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions, self.damage_list)
-        self.NPCs = NPCS(self.setting, 600 * 64, 675 * 64)
+        self.NPCs = NPCS(self.setting, 600 * 64, 675 * 64, self.player.position)
         self.client = Client(None, None)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
@@ -158,7 +158,7 @@ class Game():
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
 
-            self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects)
+            self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects, self.player.position)
 
 
             collisions, normal_position_collision, big_position_collision = self.static_object.draw(self.player.screen_position[0], self.player.screen_position[1], self.setting, player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(self.player.screen_position))
