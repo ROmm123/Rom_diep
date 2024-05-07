@@ -203,7 +203,7 @@ class NPCS:
         self.setting = setting
         self.surface = setting.surface
         self.NPCs = []  # the NPCs list
-        for i in range(25):
+        for i in range(2):
             npc = NPC(0, 0, 30, self.setting.red, self.setting, 300, player_position)
             self.NPCs.append(npc)
 
