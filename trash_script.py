@@ -160,13 +160,7 @@ class Game():
 
             self.NPC.run(self.player.screen_position[0], self.player.screen_position[1], player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects)
 
-            collisions, normal_position_collision, big_position_collision = self.static_object.draw(self.player.screen_position[0],
-                                                          self.player.screen_position[1],
-                                                          self.setting,
-                                                          player_rect,
-                                                          self.player.NORMAL_SHOT.get_shot_rects(
-                                                              self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(
-                                                              self.player.screen_position))
+            collisions, normal_position_collision, big_position_collision, npc_position_collision = self.static_object.draw(self.player.screen_position[0], self.player.screen_position[1], self.setting, player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(self.player.screen_position), self.NPC.SHOT.get_shot_rects(self.player.screen_position))
 
             if collisions is not None:
                 for collision in collisions:
@@ -176,6 +170,9 @@ class Game():
                     if "big shot index" in collision:
                         self.player.BIG_SHOT.remove_shots.append(collision[1])
                         self.player.BIG_SHOT.remove()
+                    if "npc shot index" in collision:
+                        self.NPC.SHOT.remove_shots.append(collision[1])
+                        self.NPC.SHOT.remove()
                     if "player hit" in collision:
                         self.player.hurt(self.setting.hit_type[2])
 
@@ -374,12 +371,15 @@ class Game():
             else:
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)
-                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
-                                                      speed)
-                self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
-                                                   speed)
+                self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
+                self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.BIG_SHOT.update()
+
+                self.NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
+                self.NPC.SHOT.update()
+                self.NPC.SHOT.reset()
+
                 self.player.NORMAL_SHOT.reset()
                 self.player.BIG_SHOT.reset()
                 self.setting.update()

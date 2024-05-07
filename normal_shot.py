@@ -14,7 +14,7 @@ class NormalShot:
         self.surface = self.setting.surface
         self.rect = self.surface.get_rect()
         self.offset_distance = 50
-        self.speed = 10
+        self.speed = 2
         self.remove_speed = 0.3
         self.direction = [0, 0]
         self.shot_button = [False, False]
@@ -82,8 +82,7 @@ class NormalShot:
         print("direction", self.direction)
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
-        start_x = npc_position[0] + self.offset_distance * math.cos(
-            angle)  # calculates the starting position - the middle of the weapon
+        start_x = npc_position[0] + self.offset_distance * math.cos(angle)  # calculates the starting position - the middle of the weapon
         start_y = npc_position[1] + self.offset_distance * math.sin(angle)
 
         print("start pos:", start_x, start_y)
