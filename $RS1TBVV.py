@@ -45,13 +45,17 @@ class main_server:
     def handle_database_clients(self):
         # MAKE IT A DIFFERENT THREAD , MULTITHREADING
         print("join handle database")
-        Quary = ("login", "signin" , "logout")
         while True:
             client_database_socket, addr = self.database_socket.accept()
-            # FROM HERE JUST MAKE A DIFFERENT FUNCTION THAT INCLUDES ALL THE BELOW , AND INSERT  client_database_socket FROM THE ACCEPT
-            print("accepted connection")
+
+            threading.Thread(target=self.insert_to_queue_database(client_database_socket)).start()
+
+
+
+    def insert_to_queue_database(self , client_database_socket):
+        Quary = ("login", "signin" , "logout")
+        while True:
             data_from_database = client_database_socket.recv(2048).decode("utf-8")
-            print("receieved data")
             print(data_from_database)
             if Quary[1] in data_from_database:
                 self.queue_for_Sign_req.put(
