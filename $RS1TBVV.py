@@ -28,7 +28,9 @@ class main_server:
         self.database_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.database_socket.bind((host, database_port))
         self.database_socket.listen(1000)
-        self.queue = queue.Queue()  # Queue for clients that want to join the game
+        self.queue_for_Sign_req = queue.Queue()  # Queue for clients that want to join the game
+        self.queue_for_login_req = queue.Queue()  # Queue for clients that want to join the game
+        self.queue_for_logout_req = queue.Queue()  # Queue for clients that want to leave the game
 
         self.static_objects = Random_Position(600 * 64, 675 * 64)
         self.clients = []
@@ -39,10 +41,46 @@ class main_server:
 
     def handle_database_clients(self):
         print("join handle database")
+        Quary = ("login", "signin")
         while True:
             client_database_socket, addr = self.database_socket.accept()
+            print("accepted connection")
             data_from_database = client_database_socket.recv(2048).decode("utf-8")
-            self.queue.put(data_from_database)
+            print("receieved data")
+            print(data_from_database)
+            if Quary[1] in data_from_database:
+                self.queue_for_Sign_req.put(
+                    (data_from_database, client_database_socket))  # Queue for clients that want to join the game
+            elif Quary[0] in data_from_database:
+                self.queue_for_login_req.put(
+                    (data_from_database, client_database_socket))  # Queue for clients that want to join the game
+
+    def handle_queue_database(self):
+        while True:
+            if not self.queue_for_Sign_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_Sign_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                handle_data_for_signin(raw_signin_packet["username"], raw_signin_packet["password"])
+            if not self.queue_for_login_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
+                print("info : " + str(info))
+                if info:
+                    string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
+                    print(string_tuple)
+                    print(type(string_tuple))
+                    client_database_socket.send(string_tuple.encode("utf-8"))
+                else:
+                    client_database_socket.send("sign again".encode("utf-8"))
+
+            if not self.queue_for_logout_req_req.empty():
+                signout_packet = self.queue_for_logout_req.get()
+                loadedPacket = json.loads(signout_packet)
+                handle_data_forLogout(loadedPacket["username"], loadedPacket["password"], loadedPacket["x"],
+                                      loadedPacket["y"], loadedPacket["speed_c"], loadedPacket["size_c"],
+                                      loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
+                                      loadedPacket["hp_c_15"], loadedPacket["hp_c_5"])
 
     def handle_pos_obj(self, obj_socket, i):
         while True:
