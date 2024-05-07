@@ -49,6 +49,8 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
+        self.npc_counter = 0
+        self.npcs = []
         self.client_main = Client('localhost', 55555,55556)
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
@@ -70,7 +72,7 @@ class Game():
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
-        self.chat=ChatClient("localhost",55557)
+#        self.chat=ChatClient("localhost",55557)
 
 
     def run_therad(self):
@@ -126,6 +128,8 @@ class Game():
         self.shield_start_time = 0
         collisions = None
 
+        npc1 = self.add_npc(self.static_object.Static_objects)  # enemy1,
+
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
@@ -153,6 +157,8 @@ class Game():
 
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
+
+            self.NPC.run(self.player.screen_position[0], self.player.screen_position[1], player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects)
 
             collisions, normal_position_collision, big_position_collision = self.static_object.draw(self.player.screen_position[0],
                                                           self.player.screen_position[1],
@@ -188,6 +194,12 @@ class Game():
                     "position_collision": None  # pos of player only
                 }
 
+            if not npc1.is_alive():
+                self.npcs.remove(npc1)
+                self.npc_id_counter -= 1
+
+            if self.npc_counter < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
+                npc1 = self.add_npc(self.static_object.Static_objects)  # enemy1,
 
             ability_size = False
             self.player.handle_events_shots(key_state)
@@ -428,11 +440,10 @@ class Game():
             if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
 
-    def add_npc(self, enemy, static_objects):
-        npc_id = self.npc_id_counter
-        self.npc_id_counter += 1
-        self.NPC = NPC(npc_id, 0, 0, 30, self.setting.red, self.setting, 400, Enemy.get_positions(enemy),
-                       static_objects)
+    def add_npc(self, static_objects):  # enemy,
+        npc_id = self.npc_counter
+        self.npc_counter += 1
+        self.NPC = NPC(npc_id, 0, 0, 30, self.setting.red, self.setting, 400, static_objects)   # Enemy.get_positions(enemy),
         self.npcs.append(self.NPC)
 
         return self.NPC

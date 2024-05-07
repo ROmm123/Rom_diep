@@ -1,10 +1,8 @@
 import math
 import random
 import pygame
-import enemy
 import settings
 import player
-from enemy import Enemy
 from Static_Obj import StaticObjects
 from Static_Obj import StaticObject
 from HP import HP
@@ -14,7 +12,7 @@ from inventory import *
 
 class NPC:
 
-    def _init_(self, npc_id, x, y, radius, color, setting, view_radius, enemy, static_objects):
+    def __init__(self, npc_id, x, y, radius, color, setting, view_radius, static_objects):   # enemy,
         self.npc_id = npc_id
         self.surface = setting.surface
         self.radius = radius
@@ -27,7 +25,7 @@ class NPC:
         self.position_map_y = 600
         self.set = set
         self.VR = view_radius
-        self.enemy = enemy #position of enemy relative to the screen
+        # self.enemy = enemy #position of enemy relative to the screen
         self.static_objects = static_objects
         self.goal_x = self.rect_center_x
         self.goal_y = self.rect_center_y
@@ -42,9 +40,9 @@ class NPC:
         self.resetDefaultLocation()
         self.shot_cooldown = 500
         self.last_shot_time = pygame.time.get_ticks()
-        self.SHOT = NormalShot(self.npc_id, 5, self.setting.green, 0.99, 2, self.setting)  # initialize normal shot
+        self.SHOT = NormalShot(5, self.setting.green, 0.99, 2, self.setting)  # initialize normal shot
         self.can_orbit = False
-        self.distance = math.sqrt((self.goal_x-self.rect_center_x)*2 + (self.goal_y-self.rect_center_y)*2)
+        self.distance = 0 #math.sqrt((self.goal_x-self.rect_center_x)*2 + (self.goal_y-self.rect_center_y)*2)
 
 
 #class NPCS:
@@ -100,7 +98,7 @@ class NPC:
     #    self.goal_x = self.enemy[0]
     #    self.goal_y = self.enemy[1]
         min = math.sqrt((static_objects[0].position[0] - self.position_map_x) ** 2 + (static_objects[0].position[1] - self.position_map_y) ** 2)
-        for i in range(2000):
+        for i in range(800):
             distance = math.sqrt((static_objects[i].position[0] - self.position_map_x) ** 2 + (static_objects[i].position[1] - self.position_map_y) ** 2)
             if distance < min:
                 min = distance
