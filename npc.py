@@ -47,11 +47,10 @@ class NPC:
     # Default location to seek if we don't see anything to interact with
         self.rect_center_x = random.randint(0,800)           #(0,38400)    # map limit x
         self.rect_center_y = random.randint(0,800)             #(0, 43200)    # map limit
-        self.position_map_x = random.randint(12170,12580)
-        self.position_map_y = random.randint(580,600)
+        self.position_map_x = random.randint(12070,12600)
+        self.position_map_y = random.randint(480,780)
 
     def draw(self, player_rect, shots_rects):
-        if self.hp.ISAlive:
             pygame.draw.circle(self.surface, self.color, (int(self.rect_center_x), int(self.rect_center_y)),
                                self.radius)
 
@@ -76,6 +75,7 @@ class NPC:
                 if self.rect_npc.colliderect(shot_rect):
                     self.hurt()
                     return
+
     def get_rect(self):
         rect_width = self.radius * 2
         rect_height = self.radius * 2
@@ -112,6 +112,7 @@ class NPC:
             return True
         else:
             return False
+
     def move(self):
         if not self.can_move:
             return
@@ -202,28 +203,33 @@ class NPCS:
         self.setting = setting
         self.surface = setting.surface
         self.NPCs = []  # the NPCs list
-        for i in range(2):
-            npc = NPC(0, 0, 30, self.setting.red, self.setting, 400, player_position)
+        for i in range(25):
+            npc = NPC(0, 0, 30, self.setting.red, self.setting, 300, player_position)
             self.NPCs.append(npc)
 
-
+    def add_player(self, player_position):
+        npc = NPC(0, 0, 30, self.setting.red, self.setting, 300, player_position)
+        self.NPCs.append(npc)
     def run(self, screen_pos_x, screen_pos_y, player_rect, shots_rects, static_objects, player_positions):
         #self.can_move = True
         for NPC in self.NPCs:
-            NPC.get_target(static_objects, screen_pos_x, screen_pos_y, player_positions)
-            NPC.rect_npc = pygame.Rect((NPC.position_map_x - NPC.radius), (NPC.position_map_y - NPC.radius), (NPC.radius * 2), (NPC.radius * 2))
+            if NPC.hp.ISAlive:
+                NPC.get_target(static_objects, screen_pos_x, screen_pos_y, player_positions)
+                NPC.rect_npc = pygame.Rect((NPC.position_map_x - NPC.radius), (NPC.position_map_y - NPC.radius), (NPC.radius * 2), (NPC.radius * 2))
 
-            NPC.rect_center_x = NPC.position_map_x - screen_pos_x
-            NPC.rect_center_y = NPC.position_map_y - screen_pos_y
+                NPC.rect_center_x = NPC.position_map_x - screen_pos_x
+                NPC.rect_center_y = NPC.position_map_y - screen_pos_y
 
-            NPC.move()
-            #NPC.flee(NPC.goal_x, NPC.goal_y)
-            #NPC.orbitClockwise()
+                NPC.move()
+                #NPC.flee(NPC.goal_x, NPC.goal_y)
+                #NPC.orbitClockwise()
 
-            NPC.position_map_x = NPC.rect_center_x + screen_pos_x
-            NPC.position_map_y = NPC.rect_center_y + screen_pos_y
+                NPC.position_map_x = NPC.rect_center_x + screen_pos_x
+                NPC.position_map_y = NPC.rect_center_y + screen_pos_y
 
-            NPC.handle_events_shots(screen_pos_x, screen_pos_y)
+                NPC.handle_events_shots(screen_pos_x, screen_pos_y)
 
-            NPC.draw(player_rect, shots_rects)
-            NPC.npc_weapon()
+                NPC.draw(player_rect, shots_rects)
+                NPC.npc_weapon()
+            else:
+                self.NPCs.remove(NPC)

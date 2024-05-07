@@ -177,12 +177,12 @@ class Game():
                     if "player hit" in collision:
                         self.player.hurt(self.setting.hit_type[2])
 
-            for NPC in self.NPCs.NPCs:
-                collision_npc, npc_position_collision = self.static_object.npc_collision(NPC.SHOT.get_shot_rects(self.player.screen_position))
+            for npc in self.NPCs.NPCs:
+                collision_npc, npc_position_collision = self.static_object.npc_collision(npc.SHOT.get_shot_rects(self.player.screen_position))
                 if collision_npc is not None:
                     if "npc shot index" in collision_npc:
-                        NPC.SHOT.remove_shots.append(collision_npc[1])
-                        NPC.SHOT.remove()
+                        npc.SHOT.remove_shots.append(collision_npc[1])
+                        npc.SHOT.remove()
 
 
             if normal_position_collision is not None:
@@ -201,8 +201,7 @@ class Game():
                 }
 
             if len(self.NPCs.NPCs) < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
-                npc = NPC(0, 0, 30, self.setting.red, self.setting, 400, self.static_object.Static_objectss)
-                self.NPCs.NPCS.append(npc)
+                self.NPCs.add_player(self.player.position)
 
             ability_size = False
             self.player.handle_events_shots(key_state)
