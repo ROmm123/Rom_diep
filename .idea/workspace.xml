@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="ultimate shot added to server">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="HP works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
@@ -527,7 +528,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715083074768</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="HP works">
+      <option name="closed" value="true" />
+      <created>1715083578854</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1715083578854</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -546,7 +555,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="change tiled11" />
     <MESSAGE value="normal shot" />
     <MESSAGE value="setting" />
     <MESSAGE value="weapon" />
@@ -571,7 +579,8 @@
     <MESSAGE value="size collision issue fixed" />
     <MESSAGE value="ultimate shot added" />
     <MESSAGE value="ultimate shot added to server" />
-    <option name="LAST_COMMIT_MESSAGE" value="ultimate shot added to server" />
+    <MESSAGE value="HP works" />
+    <option name="LAST_COMMIT_MESSAGE" value="HP works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

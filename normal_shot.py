@@ -13,7 +13,7 @@ class NormalShot:
         self.surface = self.setting.surface
         self.rect = self.surface.get_rect()
         self.offset_distance = 55
-        self.speed = 10
+        self.speed = 15
         self.remove_speed = 0.3
         self.direction = [0, 0]
         self.shot_button = [False, False, False]

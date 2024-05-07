@@ -124,12 +124,9 @@ class Game():
 
         while self.running:
             key_state = pygame.key.get_pressed()
-            mouse_state = pygame.mouse.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius, self.player.position[0],
                                                       self.player.position[1])
             self.player.handle_events_movement(self.client)
-            radius = self.player.radius
-            speed = self.player.speed
             self.chat = None
             if self.player.chat_flag:
                 self.chat = ChatClient("localhost", 55557, self.player)
@@ -168,6 +165,8 @@ class Game():
                 self.player.ULTIMATE_SHOT.get_shot_rects(
                     self.player.screen_position))
 
+
+            print("collision", collisions)
             if collisions is not None:
                 for collision in collisions:
                     if "normal shot index" in collision:
@@ -179,6 +178,9 @@ class Game():
                     if "ultimate shot index" in collision:
                         self.player.ULTIMATE_SHOT.remove_shots.append(collision[1])
                         self.player.ULTIMATE_SHOT.remove()
+                    if "left" or "right" or "top" or "bottom" in collision:
+                        speed = 0
+
 
             if normal_position_collision is not None:
                 data_for_obj = {

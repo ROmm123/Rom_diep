@@ -384,38 +384,41 @@ class Player():
             self.screen_position[0] -= speed
             if self.screen_position[0] < 0 or "right" in collision_side:
                 self.screen_position[0] += speed
-            if (250 * 64 + 2) < self.screen_position[0] < (261 * 64 - 430):
+            if (250 * 64 + 2) < self.screen_position[0] < (261 * 64 - 429):
                 if self.move_button[5]:
                     self.screen_position[0] = self.screen_position[0] - (31 * 64)
                 self.screen_position[0] += speed
+                speed = 0
 
         if self.move_button[1]:  # d
             self.screen_position[0] += speed
             if self.screen_position[0] > 30780 or "left" in collision_side:
                 self.screen_position[0] -= speed
-            if (240 * 64 - 430) < self.screen_position[0] < (250 * 64 - 2):
+            if (240 * 64 - 429) < self.screen_position[0] < (250 * 64 - 2):
                 if self.move_button[5]:
                     self.screen_position[0] = self.screen_position[0] + (31 * 64)
-
                 self.screen_position[0] -= speed
+                speed = 0
 
         if self.move_button[2]:  # w
             self.screen_position[1] -= speed
             if self.screen_position[1] < 0 or "bottom" in collision_side:
                 self.screen_position[1] += speed
-            if (187 * 64 + 2) < self.screen_position[1] < (198 * 64 - 330):
+            if (187 * 64 + 2) < self.screen_position[1] < (198 * 64 - 329):
                 if self.move_button[5]:
                     self.screen_position[1] = self.screen_position[1] - (31 * 64)
                 self.screen_position[1] += speed
+                speed = 0
 
         if self.move_button[3]:  # s
             self.screen_position[1] += speed
             if self.screen_position[1] > 22720 or "top" in collision_side:
                 self.screen_position[1] -= speed
-            if (177 * 64 - 330) < self.screen_position[1] < (187 * 64 - 2):
+            if (177 * 64 - 329) < self.screen_position[1] < (187 * 64 - 2):
                 if self.move_button[5]:
                     self.screen_position[1] = self.screen_position[1] + (31 * 64)
                 self.screen_position[1] -= speed
+                speed = 0
 
         if self.move_button[4]:
             self.inventory.draw_inventory()
