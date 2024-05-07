@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="size ability works online">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="size collision issue fixed">
+      <change afterPath="$PROJECT_DIR$/inventory/green1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory/green2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory/green3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory/green4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Static_Obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/green.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -505,7 +510,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715010332362</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="size collision issue fixed">
+      <option name="closed" value="true" />
+      <created>1715077434362</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1715077434362</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +537,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="change map3" />
     <MESSAGE value="change tiled" />
     <MESSAGE value="change tiled10" />
     <MESSAGE value="change tiled11" />
@@ -549,7 +561,8 @@
     <MESSAGE value="abilities work for both players (need to fix Size ability and deleting other clients' objects)" />
     <MESSAGE value="change" />
     <MESSAGE value="size ability works online" />
-    <option name="LAST_COMMIT_MESSAGE" value="size ability works online" />
+    <MESSAGE value="size collision issue fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="size collision issue fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

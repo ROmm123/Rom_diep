@@ -271,19 +271,35 @@ class Player():
             self.add_ability("Speed")
             self.stored_abilities.remove("Speed")
             to_remove.append("Speed")
-        elif key_state[pygame.K_2] and "Health" in self.stored_abilities and not self.ability_key_state[pygame.K_2]:
-            self.add_ability("Health")
-            self.stored_abilities.remove("Health")
-            self.hp.Damage = 0
-            to_remove.append("Health")
+        elif key_state[pygame.K_2] and "Size" in self.stored_abilities and not self.ability_key_state[pygame.K_2]:
+            self.add_ability("Size")
+            self.stored_abilities.remove("Size")
+            to_remove.append("Size")
         elif key_state[pygame.K_3] and "Shield" in self.stored_abilities and not self.ability_key_state[pygame.K_3]:
             self.add_ability("Shield")
             self.stored_abilities.remove("Shield")
             to_remove.append("Shield")
-        elif key_state[pygame.K_4] and "Size" in self.stored_abilities and not self.ability_key_state[pygame.K_4]:
-            self.add_ability("Size")
-            self.stored_abilities.remove("Size")
-            to_remove.append("Size")
+        elif key_state[pygame.K_4] and "Full HP" in self.stored_abilities and not self.ability_key_state[pygame.K_4]:
+            self.add_ability("Full HP")
+            self.stored_abilities.remove("Full HP")
+            self.hp.Damage = 0
+            to_remove.append("30 HP")
+        elif key_state[pygame.K_5] and "30 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_5]:
+            self.add_ability("30 HP")
+            self.stored_abilities.remove("30 HP")
+            self.hp.Damage -= 30
+            to_remove.append("30 HP")
+        elif key_state[pygame.K_6] and "15 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_6]:
+            self.add_ability("15 HP")
+            self.stored_abilities.remove("15 HP")
+            self.hp.Damage -= 15
+            to_remove.append("15 HP")
+        elif key_state[pygame.K_7] and "5 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_7]:
+            self.add_ability("5 HP")
+            self.stored_abilities.remove("5 HP")
+            self.hp.Damage -= 5
+            to_remove.append("5 HP")
+        
 
         self.ability_key_state = key_state
         self.inventory.remove_from_inventory(to_remove)

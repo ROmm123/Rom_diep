@@ -21,13 +21,13 @@ class StaticObject():
             self.color = setting.yellow
         elif HeldAbility == "Shield":
             self.color = setting.blue
-        elif HeldAbility == "Health1":
-            self.color = setting.green
-        elif HeldAbility == "Health2":
-            self.color = setting.green
-        elif HeldAbility == "Health3":
-            self.color = setting.green
-        elif HeldAbility == "Health4":
+        elif HeldAbility == "Full HP":
+            self.color = setting.green4
+        elif HeldAbility == "30 HP":
+            self.color = setting.green3
+        elif HeldAbility == "15 HP":
+            self.color = setting.green2
+        else:
             self.color = setting.green
 
         self.move_button = [False, False, False, False]
