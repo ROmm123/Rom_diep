@@ -78,7 +78,8 @@ def perform_signin():
 
 
 
-def switch_to_login_screen():
+def switch_to_login_screen( socket_database ):
+    socket_database.close()
     login_screen.main()  # Call the main function from login_screen
 
 
@@ -118,7 +119,7 @@ def main():
                     socket_database.send_database_data(database_data)
 
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
-                    switch_to_login_screen()  # Call the function to switch screens
+                    switch_to_login_screen(socket_database)  # Call the function to switch screens
 
                 else:
                     input_active = False

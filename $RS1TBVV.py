@@ -45,7 +45,9 @@ class main_server:
         Quary = ("login", "signin")
         while True:
             client_database_socket, addr = self.database_socket.accept()
+            print("accepted connection")
             data_from_database = client_database_socket.recv(2048).decode("utf-8")
+            print("receieved data")
             print(data_from_database)
             if Quary[1] in data_from_database:
                 self.queue_for_Sign_req.put(
@@ -64,7 +66,14 @@ class main_server:
                 raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
                 raw_signin_packet = json.loads(raw_signin_packet)
                 info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
-                client_database_socket.send(info.encode)
+                print("info : "+str(info))
+                if info:
+                    string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
+                    print(string_tuple)
+                    print(type(string_tuple))
+                    client_database_socket.send(string_tuple.encode("utf-8"))
+                else:
+                    client_database_socket.send("sign again".encode("utf-8"))
 
     def handle_pos_obj(self, obj_socket, i):
         while True:

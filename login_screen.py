@@ -1,8 +1,9 @@
 import pygame
 import sys
 import connection_with_database
+import trash_script
 from Network_chat import *
-
+from trash_script import *
 import signin_screan
 
 # Initialize Pygame
@@ -79,7 +80,8 @@ def perform_login():
     print("Password:", password)
 
 
-def switch_to_signin_screen():
+def switch_to_signin_screen(socket_database):
+    socket_database.close()
     signin_screan.main()  # Call the main function in the second script
 
 
@@ -112,12 +114,26 @@ def main():
                     database_data = {
                         "username": username,
                         "password": password,
-                        "quary" : "login"
+                        "quary": "login"
                     }
 
                     socket_database.send_database_data(database_data)
+                    tuple_data = socket_database.receive_database_data()
+                    print("received from main : "+str(tuple_data))
+                    if tuple_data:
+                        x = tuple_data[2]
+                        y = tuple_data[3]
+                        speed_c = tuple_data[4]
+                        size_c = tuple_data[5]
+                        shield_c = tuple_data[6]
+                        hp_c_60 = tuple_data[7]
+                        hp_c_30 = tuple_data[8]
+                        hp_c_15 = tuple_data[9]
+                        hp_c_5 = tuple_data[10]
+                        parameters_for_game(x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+                        break
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
-                    switch_to_signin_screen()  # Call the function to switch screens
+                    switch_to_signin_screen(socket_database)  # Call the function to switch screens
 
                 else:
                     input_active = False
@@ -138,6 +154,21 @@ def main():
                         }
 
                         socket_database.send_database_data(database_data)
+                        tuple_data = socket_database.receive_database_data()
+                        print("received from main : "+str(tuple_data))
+                        if tuple_data:
+                            x = tuple_data[2]
+                            y = tuple_data[3]
+                            speed_c = tuple_data[4]
+                            size_c = tuple_data[5]
+                            shield_c = tuple_data[6]
+                            hp_c_60 = tuple_data[7]
+                            hp_c_30 = tuple_data[8]
+                            hp_c_15 = tuple_data[9]
+                            hp_c_5 = tuple_data[10]
+                            parameters_for_game(x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+                            break
+
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]
@@ -156,3 +187,20 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print("finished login work (main()")
+    trash_script.main()
+
+class parameters_for_game():
+    def __init__(self, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
+        self.x = x
+        self.y = y
+        self.speed_c = speed_c
+        self.size_c = size_c
+        self.shield_c = shield_c
+        self.hp_c_60 = hp_c_60
+        self.hp_c_30 = hp_c_30
+        self.hp_c_15 = hp_c_15
+        self.hp_c_5 = hp_c_5
+
+    def get_parms(self):
+        return self.x, self.y, self.speed_c, self.size_c, self.shield_c, self.hp_c_60, self.hp_c_30, self.hp_c_15, self.hp_c_5

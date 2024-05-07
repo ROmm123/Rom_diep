@@ -13,7 +13,7 @@ def handle_data_for_signin(username, password):
             port='3306',  # Port number
             user='root',
             password='1234',
-            database="game_database"
+            database="datab"
         )
 
         if conn.is_connected():
@@ -56,7 +56,7 @@ def handle_data_forLogin(username, password):
             port='3306',  # Port number
             user='root',
             password='1234',
-            database="game_database"
+            database="datab"
 
         )
 
@@ -73,22 +73,23 @@ def handle_data_forLogin(username, password):
             if result:
                 print("Login successful!")
                 print(result)
-                if result[9] == 0 or result[9] == None:
+                if result[12] == 0 or result[12] == None:
                     # Delete the record from the 'data' table
                     update_state_query = "UPDATE data SET state = 1 WHERE username = %s AND password = %s"
                     cursor.execute(update_state_query, (username, password))
-                    conn.commit()  # Commit changes after delete
+                    conn.commit()
                     print("State updated ")
                 else:
                     print("user in game")
+                    result = None
             else:
                 print("Invalid username or password. Please try again.")
 
-                # Close the cursor and connection
-                cursor.close()
-                conn.close()
-                print('Connection closed')
-                return result
+            # Close the cursor and connection
+            cursor.close()
+            conn.close()
+            print('Connection closed')
+            return result
         else:
             print('Failed to connect to MySQL database')
 
@@ -103,7 +104,7 @@ def handle_data_for_leavegame(username, password, x, y, speedCounter, sizeCounte
             port='3306',  # Port number
             user='root',
             password='1234',
-            database="game_database"
+            database="datab"
         )
 
         if conn.is_connected():

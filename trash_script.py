@@ -2,7 +2,7 @@ import socket
 import threading
 import time
 import queue  # Import the queue module
-
+from login_screen import parameters_for_game
 import pygame
 from player import Player
 from map import Map
@@ -13,7 +13,7 @@ from enemy_main import *
 import queue
 
 class Game():
-    def __init__(self):
+    def __init__(self , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
         pygame.init()
         self.setting = setting()
         self.player = Player(0, 0, 35, self.setting.red, self.setting)
@@ -121,11 +121,19 @@ class Game():
         pygame.quit()
 
 
-if __name__ == '__main__':
-    game = Game()
+def main():
+    parm_login_c = parameters_for_game()
+    x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = parm_login_c.get_parms()
+    print("x : "+x)
+    game = Game(x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
     threading.Thread(target=game.EnemiesAm_handling).start()
     try:
         print("starting game.run")
         game.run()
     finally:
         game.stop()
+
+
+if __name__ == '__main__':
+    main()
+

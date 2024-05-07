@@ -1,6 +1,7 @@
 import socket
 import json
 import errno
+import ast
 
 class Client_chat:
     def __init__(self, host_chat, port_chat):
@@ -40,33 +41,37 @@ class Client_chat:
 
 
     def receive_database_data(self):
-        remaining_data = b''
         while True:
-            data = self.socket_chat.recv(2048)
+            print("before receive in receive_database_data")
+            data = self.socket_chat.recv(2048).decode("utf-8")
+            print(data)
             if not data:
                 break
-            remaining_data += data
+            if "sign" in data:
+                return None
 
-            while remaining_data:
-                start_index = remaining_data.find(b'{')
-                if start_index == -1:
-                    # Check if the remaining data is just "-1"
-                    if remaining_data.strip() == b'-1':
-                        remaining_data = b''
-                        return -1
-                    break
+            string_tuple = data.strip('()')
 
-                end_index = remaining_data.find(b'}', start_index)
-                if end_index == -1:
-                    break
+            # Split string by commas and remove empty elements
+            tuple_elements = [elem.strip() for elem in string_tuple.split(',') if elem.strip()]
 
-                end_index += 1  # Include the closing brace
-                json_str = remaining_data[start_index:end_index].decode("utf-8")
-                data_dict = json.loads(json_str)
-                remaining_data = remaining_data[end_index:]
-                return data_dict
+            # Convert elements to appropriate data types
+            actual_tuple = []
+            for elem in tuple_elements:
+                if elem == "None":
+                    actual_tuple.append(None)
+                else:
+                    try:
+                        actual_tuple.append(ast.literal_eval(elem))
+                    except (SyntaxError, ValueError):
+                        # Handle invalid literals here
+                        actual_tuple.append(None)
 
-        return None
+            return tuple(actual_tuple)
+
+
+
+
 
     def close(self):
         try:
