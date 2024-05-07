@@ -119,7 +119,7 @@ def main():
 
                     socket_database.send_database_data(database_data)
                     tuple_data = socket_database.receive_database_data()
-                    print("received from main : "+str(tuple_data))
+                    print("received from main : " + str(tuple_data))
                     if tuple_data:
                         x = tuple_data[2]
                         y = tuple_data[3]
@@ -130,8 +130,7 @@ def main():
                         hp_c_30 = tuple_data[8]
                         hp_c_15 = tuple_data[9]
                         hp_c_5 = tuple_data[10]
-                        parameters_for_game(x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
-                        break
+                        return x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
                     switch_to_signin_screen(socket_database)  # Call the function to switch screens
 
@@ -155,7 +154,7 @@ def main():
 
                         socket_database.send_database_data(database_data)
                         tuple_data = socket_database.receive_database_data()
-                        print("received from main : "+str(tuple_data))
+                        print("received from main : " + str(tuple_data))
                         if tuple_data:
                             x = tuple_data[2]
                             y = tuple_data[3]
@@ -166,8 +165,7 @@ def main():
                             hp_c_30 = tuple_data[8]
                             hp_c_15 = tuple_data[9]
                             hp_c_5 = tuple_data[10]
-                            parameters_for_game(x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
-                            break
+                            return x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5
 
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
@@ -186,21 +184,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = main()
     print("finished login work (main()")
-    trash_script.main()
-
-class parameters_for_game():
-    def __init__(self, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
-        self.x = x
-        self.y = y
-        self.speed_c = speed_c
-        self.size_c = size_c
-        self.shield_c = shield_c
-        self.hp_c_60 = hp_c_60
-        self.hp_c_30 = hp_c_30
-        self.hp_c_15 = hp_c_15
-        self.hp_c_5 = hp_c_5
-
-    def get_parms(self):
-        return self.x, self.y, self.speed_c, self.size_c, self.shield_c, self.hp_c_60, self.hp_c_30, self.hp_c_15, self.hp_c_5
+    trash_script.main(x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
