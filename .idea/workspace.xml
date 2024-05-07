@@ -4,20 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="new abilities photos">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="MAKE NEW MULTITHREADING FROM IN HANDLE DATABASE_CLIENTS">
       <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_by_Kidan_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_by_Kidan_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network_chat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_with_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection_with_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signin_screan.py" beforeDir="false" afterPath="$PROJECT_DIR$/signin_screan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -553,7 +541,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715096398977</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL‎-00037" summary="MAKE NEW MULTITHREADING FROM IN HANDLE DATABASE_CLIENTS">
+      <option name="closed" value="true" />
+      <created>1715115375436</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL‎-00037" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1715115375436</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -572,7 +568,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="setting" />
     <MESSAGE value="weapon" />
     <MESSAGE value="without shot" />
     <MESSAGE value="doesnt work" />
@@ -597,7 +592,8 @@
     <MESSAGE value="ultimate shot added to server" />
     <MESSAGE value="HP works" />
     <MESSAGE value="new abilities photos" />
-    <option name="LAST_COMMIT_MESSAGE" value="new abilities photos" />
+    <MESSAGE value="MAKE NEW MULTITHREADING FROM IN HANDLE DATABASE_CLIENTS" />
+    <option name="LAST_COMMIT_MESSAGE" value="MAKE NEW MULTITHREADING FROM IN HANDLE DATABASE_CLIENTS" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
