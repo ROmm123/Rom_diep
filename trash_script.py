@@ -10,7 +10,7 @@ from settings import setting
 from Network import Client
 from enemy_main import *
 from moviepy.editor import VideoFileClip
-from chat_client import *
+#from chat_client import *
 import os
 from Static_Obj import StaticObjects
 
@@ -41,10 +41,10 @@ from Static_Obj import StaticObjects
 
 # game almost done
 class Game():
-    def __init__(self):
+    def __init__(self , username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 28.5, self.setting.red, self.setting)
+        self.player = Player(username , password , x, y, 28.5, self.setting.red, self.setting , speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
@@ -92,6 +92,7 @@ class Game():
                 enemy_instance.main()
                 self.draw_event.set()
 
+
     def obj_recv(self):
         print("in draw obj")
 
@@ -121,10 +122,10 @@ class Game():
             key_state = pygame.key.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius, self.player.position[0],
                                                       self.player.position[1])
-            self.player.handle_events_movement(self.client)
+            self.player.handle_events_movement(self.client ,self.client_main)
             self.chat = None
-            if self.player.chat_flag:
-                self.chat = ChatClient("localhost", 55557, self.player)
+            '''if self.player.chat_flag:
+                self.chat = ChatClient("localhost", 55557, self.player)'''
             if not self.player.chat_flag:
                 if self.chat is not None:  # Check if self.chat exists before deleting
                     del self.chat
@@ -215,6 +216,7 @@ class Game():
             data_from_main_server = self.client_main.recevie_only_data_from_main()
             data_from_main_server = data_from_main_server.split("_")
             self.number_of_server = int(data_from_main_server[0])
+
 
             if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
@@ -438,9 +440,9 @@ class Game():
         clip.close()
 
 
-if __name__ == '__main__':
-    game = Game()
-
+def main(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
+    print("x : "+str(x))
+    game = Game(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
     try:
         print("starting game.run")
         game.run()
@@ -448,3 +450,9 @@ if __name__ == '__main__':
         game.stop()
         game.close_connections()
         pygame.quit()
+
+
+
+if __name__ == '__main__':
+
+    main()

@@ -1,13 +1,13 @@
 import pygame
 import sys
+import connection_with_database
+import trash_script
 from Network_chat import *
-import login_screen
+from trash_script import *
+import signin_screan
 
-
-# add text removing after login pressed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Initialize Pygame
 pygame.init()
-
 
 # Constants
 WIDTH, HEIGHT = 400, 300
@@ -17,7 +17,7 @@ FONT_SIZE = 24
 
 # Create the display surface
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("signin Screen")
+pygame.display.set_caption("Login Screen")
 
 # Fonts
 font = pygame.font.Font(None, FONT_SIZE)
@@ -37,12 +37,13 @@ password_color = input_color_inactive
 # Login button
 login_button = pygame.Rect(150, 200, 100, 40)
 login_button_color = pygame.Color("dodgerblue2")
-login_text = font.render("sign-in", True, BLACK)
+login_text = font.render("Login", True, BLACK)
 login_text_rect = login_text.get_rect(center=login_button.center)
 
+# Switch button
 switch_button = pygame.Rect(275, 250, 100, 40)
 switch_button_color = pygame.Color("darkorange1")
-switch_text = font.render("toLogin-in", True, BLACK)
+switch_text = font.render("toSign-in", True, BLACK)
 switch_text_rect = switch_text.get_rect(center=switch_button.center)
 
 
@@ -53,11 +54,11 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(text_obj, text_rect)
 
 
-def draw_signin_screen():
+def draw_login_screen():
     screen.fill(WHITE)
 
     # Add title
-    title_text = font.render("sign-in", True, BLACK)
+    title_text = font.render("Log-in", True, BLACK)
     title_text_rect = title_text.get_rect(center=(WIDTH // 2, 50))
     screen.blit(title_text, title_text_rect)
 
@@ -73,15 +74,15 @@ def draw_signin_screen():
     screen.blit(switch_text, switch_text_rect)  # Display text on the switch button
 
 
-def perform_signin():
+def perform_login():
     global username, password
     print("Username:", username)
     print("Password:", password)
 
 
-def switch_to_login_screen(socket_database):
+def switch_to_signin_screen(socket_database):
     socket_database.close()
-    login_screen.main()  # Call the main function from login_screen
+    signin_screan.main()  # Call the main function in the second script
 
 
 def main():
@@ -109,18 +110,41 @@ def main():
                     password_color = input_color_active
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
-                    perform_signin()
-                    print(username + "," + password)
+                    perform_login()
                     database_data = {
                         "username": username,
                         "password": password,
-                        "query": "signin"
+                        "quary": "login"
                     }
 
                     socket_database.send_database_data(database_data)
-
+                    tuple_data = socket_database.receive_database_data()
+                    print("received from main : " + str(tuple_data))
+                    if tuple_data:
+                        username = tuple_data[0]
+                        password = tuple_data[1]
+                        x = tuple_data[2]
+                        y = tuple_data[3]
+                        speed_c = tuple_data[4]
+                        size_c = tuple_data[5]
+                        shield_c = tuple_data[6]
+                        hp_c_60 = tuple_data[7]
+                        hp_c_30 = tuple_data[8]
+                        hp_c_15 = tuple_data[9]
+                        hp_c_5 = tuple_data[10]
+                        if x == None or y == None:
+                            x = 0
+                            y = 0
+                            speed_c = 0
+                            size_c = 0
+                            shield_c = 0
+                            hp_c_60 = 0
+                            hp_c_30 = 0
+                            hp_c_15 = 0
+                            hp_c_5 = 0
+                        return username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
-                    switch_to_login_screen(socket_database)  # Call the function to switch screens
+                    switch_to_signin_screen(socket_database)  # Call the function to switch screens
 
                 else:
                     input_active = False
@@ -133,16 +157,39 @@ def main():
                         input_active = False
                         username_color = input_color_inactive
                         password_color = input_color_inactive
-                        perform_signin()
-                        print(username + "," + password)
-
+                        perform_login()
                         database_data = {
                             "username": username,
                             "password": password,
-                            "query": "signin"
+                            "quary": "login"
                         }
 
                         socket_database.send_database_data(database_data)
+                        tuple_data = socket_database.receive_database_data()
+                        print("received from main : " + str(tuple_data))
+                        if tuple_data:
+                            username = tuple_data[0]
+                            password = tuple_data[1]
+                            x = tuple_data[2]
+                            y = tuple_data[3]
+                            speed_c = tuple_data[4]
+                            size_c = tuple_data[5]
+                            shield_c = tuple_data[6]
+                            hp_c_60 = tuple_data[7]
+                            hp_c_30 = tuple_data[8]
+                            hp_c_15 = tuple_data[9]
+                            hp_c_5 = tuple_data[10]
+                            if x == None or y == None:
+                                x = 0
+                                y = 0
+                                speed_c = 0
+                                size_c = 0
+                                shield_c = 0
+                                hp_c_60 = 0
+                                hp_c_30 = 0
+                                hp_c_15 = 0
+                                hp_c_5 = 0
+                            return username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5
 
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
@@ -155,10 +202,12 @@ def main():
                         elif password_input.collidepoint(pygame.mouse.get_pos()):
                             password += event.unicode
 
-        draw_signin_screen()
+        draw_login_screen()
         pygame.display.flip()
         clock.tick(30)
 
 
 if __name__ == "__main__":
-    main()
+    username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = main()
+    trash_script.main(username , password ,x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+

@@ -3,8 +3,14 @@ from settings import *
 
 
 class inventory():
-    def __init__(self, settings):
-        self.speed_count, self.health_count, self.size_count, self.shield_count, self.health2_count, self.health3_count, self.health4_count = 0, 0, 0, 0, 0, 0, 0
+    def __init__(self, settings ,speed_c , health_count , size_count , shield_count , health2_count , health3_count , health4_count):
+        self.speed_count = speed_c
+        self.health_count = health_count
+        self.size_count = size_count
+        self.shield_count = shield_count
+        self.health2_count = health2_count
+        self.health3_count = health3_count
+        self.health4_count = health4_count
         self.a = None
         self.settings = settings
 

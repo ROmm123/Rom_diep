@@ -1,7 +1,10 @@
 import socket
 import json
 import threading
+import time
+
 from Random_PosObj import Random_Position
+from connection_with_database import *
 from settings import setting
 import queue
 
@@ -40,10 +43,12 @@ class main_server:
         self.positions_data = self.static_objects.crate_position_dst_data()
 
     def handle_database_clients(self):
+        # MAKE IT A DIFFERENT THREAD , MULTITHREADING
         print("join handle database")
-        Quary = ("login", "signin")
+        Quary = ("login", "signin" , "logout")
         while True:
             client_database_socket, addr = self.database_socket.accept()
+            # FROM HERE JUST MAKE A DIFFERENT FUNCTION THAT INCLUDES ALL THE BELOW , AND INSERT  client_database_socket FROM THE ACCEPT
             print("accepted connection")
             data_from_database = client_database_socket.recv(2048).decode("utf-8")
             print("receieved data")
@@ -54,6 +59,9 @@ class main_server:
             elif Quary[0] in data_from_database:
                 self.queue_for_login_req.put(
                     (data_from_database, client_database_socket))  # Queue for clients that want to join the game
+            elif Quary[2] in data_from_database:
+                self.queue_for_logout_req.put(
+                    (data_from_database, client_database_socket))
 
     def handle_queue_database(self):
         while True:
@@ -71,13 +79,15 @@ class main_server:
                     print(string_tuple)
                     print(type(string_tuple))
                     client_database_socket.send(string_tuple.encode("utf-8"))
+                    print("data sent")
                 else:
                     client_database_socket.send("sign again".encode("utf-8"))
 
-            if not self.queue_for_logout_req_req.empty():
+            if not self.queue_for_logout_req.empty():
                 signout_packet = self.queue_for_logout_req.get()
+                print("logged out : "+str(signout_packet))
                 loadedPacket = json.loads(signout_packet)
-                handle_data_forLogout(loadedPacket["username"], loadedPacket["password"], loadedPacket["x"],
+                handle_data_for_logout(loadedPacket["username"], loadedPacket["password"], loadedPacket["x"],
                                       loadedPacket["y"], loadedPacket["speed_c"], loadedPacket["size_c"],
                                       loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
                                       loadedPacket["hp_c_15"], loadedPacket["hp_c_5"])
@@ -223,4 +233,7 @@ if __name__ == '__main__':
     obj_thread.start()
     chat_thread.start()
     database_thread.start()
+    threading.Thread(target=my_server.handle_queue_database).start()
     my_server.main_for_clients()
+
+

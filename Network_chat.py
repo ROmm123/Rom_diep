@@ -1,6 +1,7 @@
 import socket
 import json
 import errno
+import ast
 
 class Client_chat:
     def __init__(self, host_chat, port_chat):

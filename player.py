@@ -3,7 +3,6 @@ import sys
 import pygame
 import math
 from inventory import inventory
-
 from map import *
 from HP import *
 from normal_shot import NormalShot
@@ -16,7 +15,9 @@ import socket
 
 class Player():
 
-    def __init__(self, x, y, radius, color, setting):
+    def __init__(self , username , password, x, y, radius, color, setting , speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
+        self.username = username
+        self.password = password
         self.surface = setting.surface  # player surface
         self.screen_position = [x, y]  # top left screen position
         self.radius = radius  # player radius
@@ -36,7 +37,7 @@ class Player():
         self.BIG_SHOT = NormalShot(7, self.setting.blue, 0.95, self.setting, pygame.image.load("pictures/ball.png"))  # initialize big shot
         self.ULTIMATE_SHOT = NormalShot(10, self.setting.red, 0.97, self.setting, pygame.image.load("pictures/fireball.png"))
         self.hp = HP(self.center[0], self.center[1], radius, setting)
-        self.inventory = inventory(self.setting)
+        self.inventory = inventory(self.setting , speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
         self.last_ultimate_shot_time = pygame.time.get_ticks()
@@ -196,6 +197,23 @@ class Player():
         else:
             return False
 
+    def build_dict_logout(self):
+        data_for_logout = {
+            "username" : self.username,
+            "password" : self.password,
+            "x" : self.screen_position[0],
+            "y": self.screen_position[1],
+            "speed_c" : self.inventory.speed_count,
+            "size_c": self.inventory.size_count,
+            "shield_c": self.inventory.shield_count,
+            "hp_c_60": self.inventory.health_count,
+            "hp_c_30": self.inventory.health2_count,
+            "hp_c_15": self.inventory.health3_count,
+            "hp_c_5": self.inventory.health4_count,
+            "quary" : "logout"
+        }
+        return  data_for_logout
+
     def update_angle(self, mouse_pos):
         if isinstance(mouse_pos, tuple) and len(mouse_pos) == 2:
             dx = mouse_pos[0] - self.rect.centerx
@@ -228,11 +246,13 @@ class Player():
             pygame.draw.rect(self.surface, self.hp.DamageColor,
                              (self.center[0] - radius, self.center[1] + radius + 10, self.hp.Damage, 10))
 
-    def handle_events_movement(self, socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
+    def handle_events_movement(self, socket , main_socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-
+                dict_of_logout = self.build_dict_logout()
+                main_socket.send_data(dict_of_logout)
+                main_socket.close()
                 socket.close_enemies_Am()
                 socket.close()
                 pygame.quit()

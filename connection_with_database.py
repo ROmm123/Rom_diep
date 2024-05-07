@@ -97,8 +97,8 @@ def handle_data_forLogin(username, password):
         print(f"Error: {e}")
 
 
-def handle_data_for_logout(username, password, x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60,
-                           HPCounter_30,HPCounter_15, HPCounter_5,):
+def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60,
+                           HPCounter_30, HPCounter_15, HPCounter_5 , username, password):
     try:
         conn = mysql.connector.connect(
             host='127.0.0.1',  # Host address
@@ -113,16 +113,16 @@ def handle_data_for_logout(username, password, x, y, speedCounter, sizeCounter, 
 
             cursor = conn.cursor()
 
-            query_for_insert = "INSERT INTO data (username, password,x,y,speed,size,shield,hp) VALUES (%s,%s,%s,%s,%s,%s)"
+            query_for_insert = "UPDATE data set x = %s , y = %s , speed_counter = %s , size_counter = %s , shield_counter = %s , hp_counter_60 = %s,  hp_counter_30 = %s , hp_counter_15 = %s , hp_counter_5 = %s , state = 0 WHERE username = %s and password = %s "
             cursor.execute(query_for_insert,
-                           (username, password, x, y, speedCounter, sizeCounter, shieldCounter, HPCounter))
+                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60 , HPCounter_30 , HPCounter_15 ,HPCounter_5 , username, password))
 
-            # Commit the transaction to apply the changes
+            # commit the transaction to apply the changes
             conn.commit()
 
-            print("Sign-in successful!")
+            print("Sign-out successful!")
 
-            # Close the cursor and connection
+            # close the cursor and connection
             cursor.close()
             conn.close()
             print('Connection closed')
