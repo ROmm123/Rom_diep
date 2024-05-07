@@ -4,7 +4,7 @@ from HP import HP
 
 
 class StaticObject():
-    def __init__(self, setting, map_width, map_height, x, y, HeldAbility, damage, width_ract, height_ract):
+    def __init__(self, setting, x, y, HeldAbility, width_ract, height_ract):
         # Generate random coordinates of x,y pos in the map range
         self.width = width_ract  # Width of the rectangle
         self.height = height_ract  # Height of the rectangle
@@ -42,85 +42,82 @@ class StaticObject():
 
 
 class StaticObjects():
-    def __init__(self, setting, map_width, map_height, crate_positions , damage_list):
+    def __init__(self, setting, map_width, map_height, crate_positions):
         self.setting = setting
         self.surface = setting.surface
         self.Static_objects = []
         self.side = ""
-        print("------------")
-        print(damage_list)
-        print("-------------")
-        damage_array = self.extract_values_from_dict(damage_list)
 
         for pos_key, inner_dict in crate_positions.items():
             for inner_key, pos_value in inner_dict.items():
                 x, y = pos_value
                 inner_key = inner_key.split("_")
-                damage = damage_array [int(inner_key[1])]
+
 
                 if  int(inner_key[1]) <= 245:
                     if int(inner_key[1]) <= 35:
-                        obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[0] , damage,30,30)
+                        obj = StaticObject(setting, x, y,setting.ability[0] ,30,30)
                     elif int(inner_key[1]) <= 35*2:
-                        obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[1], damage,30,30)
+                        obj = StaticObject(setting, x, y,setting.ability[1], 30,30)
                     elif int(inner_key[1]) <= 35*3:
-                        obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[2], damage,30,30)
+                        obj = StaticObject(setting, x, y,setting.ability[2],30,30)
                     elif int(inner_key[1]) <= 35*4:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[3], damage,30,30)
+                        obj = StaticObject(setting, x, y, setting.ability[3], 30,30)
                     elif int(inner_key[1]) <= 35*5:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[4], damage,22.5,22.5)
+                        obj = StaticObject(setting, x, y, setting.ability[4],22.5,22.5)
                     elif int(inner_key[1]) <= 35*6:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[5], damage,15,15)
+                        obj = StaticObject(setting, x, y, setting.ability[5],15,15)
                     elif int(inner_key[1]) <= 35*7:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[6], damage, 7.5, 7.5)
+                        obj = StaticObject(setting, x, y, setting.ability[6], 7.5, 7.5)
 
                 elif  int(inner_key[1]) <= 490:
-                    if int(inner_key[1]) <= 35*8:
-                        obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[0] , damage,30,30)
-                    elif int(inner_key[1]) <= 35*9:
-                        obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[1], damage,30,30)
-                    elif int(inner_key[1]) <= 35*10:
-                        obj = StaticObject(setting, map_width, map_height, x, y,setting.ability[2], damage,30,30)
-                    elif int(inner_key[1]) <= 35*11:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[3], damage,30,30)
-                    elif int(inner_key[1]) <= 35*12:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[4], damage,22.5,22.5)
-                    elif int(inner_key[1]) <= 35*13:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[5], damage,15,15)
-                    elif int(inner_key[1]) <= 35*14:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[6], damage, 7.5, 7.5)
+                    if int(inner_key[1]) <= 35 * 8:
+                        obj = StaticObject(setting, x, y, setting.ability[0], 30, 30)
+                    elif int(inner_key[1]) <= 35 * 9:
+                        obj = StaticObject(setting, x, y, setting.ability[1], 30, 30)
+                    elif int(inner_key[1]) <= 35 * 10:
+                        obj = StaticObject(setting, x, y, setting.ability[2], 30, 30)
+                    elif int(inner_key[1]) <= 35 * 11:
+                        obj = StaticObject(setting, x, y, setting.ability[3], 30, 30)
+                    elif int(inner_key[1]) <= 35 * 12:
+                        obj = StaticObject(setting, x, y, setting.ability[4], 22.5, 22.5)
+                    elif int(inner_key[1]) <= 35 * 13:
+                        obj = StaticObject(setting, x, y, setting.ability[5], 15, 15)
+                    elif int(inner_key[1]) <= 35 * 14:
+                        obj = StaticObject(setting, x, y, setting.ability[6], 7.5, 7.5)
+
 
                 elif  int(inner_key[1]) <= 735:
-                    if int(inner_key[1]) <= 35*15:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[0], damage, 30, 30)
+                    if int(inner_key[1]) <= 35 * 15:
+                        obj = StaticObject(setting, x, y, setting.ability[0], 30, 30)
                     elif int(inner_key[1]) <= 35 * 16:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[1], damage, 30, 30)
+                        obj = StaticObject(setting, x, y, setting.ability[1], 30, 30)
                     elif int(inner_key[1]) <= 35 * 17:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[2], damage, 30, 30)
+                        obj = StaticObject(setting, x, y, setting.ability[2], 30, 30)
                     elif int(inner_key[1]) <= 35 * 18:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[3], damage, 30, 30)
+                        obj = StaticObject(setting, x, y, setting.ability[3], 30, 30)
                     elif int(inner_key[1]) <= 35 * 19:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[4], damage, 22.5, 22.5)
+                        obj = StaticObject(setting, x, y, setting.ability[4], 22.5, 22.5)
                     elif int(inner_key[1]) <= 35 * 20:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[5], damage, 15, 15)
+                        obj = StaticObject(setting, x, y, setting.ability[5], 15, 15)
                     elif int(inner_key[1]) <= 35 * 21:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[6], damage, 7.5, 7.5)
+                        obj = StaticObject(setting, x, y, setting.ability[6], 7.5, 7.5)
 
                 elif  int(inner_key[1]) <= 980:
-                    if int(inner_key[1]) <= 35*22:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[0], damage, 30, 30)
+                    if int(inner_key[1]) <= 35 * 22:
+                        obj = StaticObject(setting, x, y, setting.ability[0], 30, 30)
                     elif int(inner_key[1]) <= 35 * 23:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[1], damage, 30, 30)
+                        obj = StaticObject(setting, x, y, setting.ability[1], 30, 30)
                     elif int(inner_key[1]) <= 35 * 24:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[2], damage, 30, 30)
+                        obj = StaticObject(setting, x, y, setting.ability[2], 30, 30)
                     elif int(inner_key[1]) <= 35 * 25:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[3], damage, 30, 30)
+                        obj = StaticObject(setting, x, y, setting.ability[3], 30, 30)
                     elif int(inner_key[1]) <= 35 * 26:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[4], damage, 22.5, 22.5)
+                        obj = StaticObject(setting, x, y, setting.ability[4], 22.5, 22.5)
                     elif int(inner_key[1]) <= 35 * 27:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[5], damage, 15, 15)
+                        obj = StaticObject(setting, x, y, setting.ability[5], 15, 15)
                     elif int(inner_key[1]) <= 35 * 28:
-                        obj = StaticObject(setting, map_width, map_height, x, y, setting.ability[6], damage, 7.5, 7.5)
+                        obj = StaticObject(setting, x, y, setting.ability[6], 7.5, 7.5)
 
                 self.Static_objects.append(obj)
 

@@ -60,22 +60,9 @@ class main_server:
             position_collision = data_dict["position_collision"]
 
             if position_collision != None:
-                which_bollet = data_dict["which_size_ball"]
-                for inner_key, pos_value in self.positions_data.items():
-                    if pos_value == data_dict["position_collision"]:
-                        index = inner_key.split("_")
-                        index = int(index[1])
-
-                if which_bollet == 1:
-                    self.array_demage[index] = self.array_demage[index] + 10
-                elif which_bollet == 2:
-                    self.array_demage[index] = self.array_demage[index] + 17
-                else:
-                    self.array_demage[index] = self.array_demage[index] + 60
 
                 obj_pos = {
                     "position_collision": position_collision,
-                    "which_size_ball": which_bollet
                 }
 
                 if len(self.clients) > 1:
@@ -140,16 +127,6 @@ class main_server:
                 encoded_data = json_data.encode()
                 # Send the encoded data to the clientll
                 obj_socket.send(encoded_data)
-
-                # send hp_list
-                damage_data = self.array_to_dict(self.array_demage)
-
-                # Convert the dictionary to a JSON string
-                json_data = json.dumps(damage_data)
-                # Encode the JSON string to bytes
-                damage_data = json_data.encode()
-                # Send the encoded data to the clientll
-                obj_socket.send(damage_data)
 
                 with self.clients_lock:
                     self.clients.append((obj_socket, addr_obj))

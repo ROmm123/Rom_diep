@@ -51,8 +51,7 @@ class Game():
         self.client_main = Client('localhost', 55555, 55556)
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
-        self.damage_list = self.client_main.receive_list_obj_once()
-        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions, self.damage_list)
+        self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
@@ -109,14 +108,10 @@ class Game():
                 # call prozedora hurt in class obj
                 for static_obj in self.static_object.Static_objects:
                     if static_obj.position == data["position_collision"]:
-                        if data["which_size_ball"] == 1:
-                            self.static_object.hurt(static_obj, 10)
-                        else:
-                            self.static_object.hurt(static_obj, 17)
+                            static_obj.isAlive = False
 
     def run(self):
         print(self.crate_positions)
-        print(self.damage_list)
         self.speed_start_time = 0
         self.size_start_time = 0
         self.shield_start_time = 0
