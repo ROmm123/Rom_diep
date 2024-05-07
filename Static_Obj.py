@@ -9,17 +9,18 @@ class StaticObject():
         self.width = width_ract  # Width of the rectangle
         self.height = height_ract  # Height of the rectangle
         self.position = [x, y]
-        self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
-                     setting,damage)
+        #self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
+                     #setting,damage)
         # pass the.... center.... pos of the obj ,halfbase , setting object
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
         self.collision_flag = False
         self.HeldAbility = HeldAbility
-        self.image = pygame.image.load("pictures/shield.png")
         if HeldAbility == "Size":
             self.color = setting.red
+            self.image = pygame.image.load("pictures/size.png")
         elif HeldAbility == "Speed":
             self.color = setting.yellow
+            self.image = pygame.image.load("pictures/speed.png")
         elif HeldAbility == "Shield":
             self.color = setting.blue
             self.image = pygame.image.load("pictures/shield.png")
@@ -28,13 +29,16 @@ class StaticObject():
             self.image = pygame.image.load("pictures/health.png")
         elif HeldAbility == "30 HP":
             self.color = setting.green3
+            self.image = pygame.image.load("pictures/health2.png")
         elif HeldAbility == "15 HP":
             self.color = setting.green2
+            self.image = pygame.image.load("pictures/health3.png")
         else:
             self.color = setting.green
+            self.image = pygame.image.load("pictures/health3.png")
 
         self.move_button = [False, False, False, False]
-        self.speed = 5
+        self.isAlive = True
 
 
 class StaticObjects():
@@ -120,11 +124,9 @@ class StaticObjects():
 
                 self.Static_objects.append(obj)
 
-    def draw(self, viewport_x, viewport_y, setting, player_rect, normal_shots_rects, big_shots_rects, ultimate_shots_rects):
+    def draw(self, viewport_x, viewport_y, setting, player_rect):
         collision_list = []
-        normal_position_collision = None
-        big_position_collision = None
-        ultimate_position_collision = None
+        position_collision = None
 
         for static_obj in self.Static_objects:
             obj_x = static_obj.position[0] - viewport_x
@@ -133,6 +135,7 @@ class StaticObjects():
                                                      static_obj.height)
 
             # checks collision with the shots
+            '''
             normal_shot_collision_result = self.normal_shot_collisions(normal_shots_rects, static_obj)
             big_shot_collision_result = self.big_shot_collisions(big_shots_rects, static_obj)
             ultimate_shot_collision_result = self.ultimate_shot_collisions(ultimate_shots_rects, static_obj)
@@ -148,36 +151,27 @@ class StaticObjects():
             if ultimate_shot_collision_result is not None:
                 ultimate_position_collision = static_obj.position
                 collision_list.append(ultimate_shot_collision_result)
+            '''
 
 
             # checks if the object needs to be drawn
-            if static_obj.HP.ISAlive:
+            if static_obj.isAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
-                    # print("obj_x_y ", obj_x, obj_y)
-                    #pygame.draw.rect(self.surface, static_obj.color,
-                                     #(obj_x, obj_y, static_obj.width, static_obj.height))
                     self.surface.blit(static_obj.image, (obj_x - 4, obj_y - 4))
-
-                    pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
-                                     (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
-                                      (2 * static_obj.width), 10))
-                    pygame.draw.rect(self.surface, static_obj.HP.DamageColor,
-                                     (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
-                                      static_obj.HP.Damage, 10))
-
                     # checks collision with the player
                     player_collision_result = self.player_collisions(static_obj, player_rect)
 
                     if player_collision_result is not None:
                         collision_list.append(player_collision_result)
+                        static_obj.isAlive = False
+                        position_collision = static_obj.position
 
-        return collision_list, normal_position_collision, big_position_collision, ultimate_position_collision
+        return collision_list, position_collision
 
     def player_collisions(self, static_obj, player_rect):
         if static_obj.rect_static_obj.colliderect(player_rect):
             if not static_obj.collision_flag:
                 static_obj.collision_flag = True
-                #self.hurt(static_obj) # get position by server to hurt
                 # Calculate the centers of both the player's and static object's rectangles
                 player_center_x, player_center_y = player_rect.center
                 static_obj_center_x, static_obj_center_y = static_obj.rect_static_obj.center
@@ -208,6 +202,7 @@ class StaticObjects():
         else:
             static_obj.collision_flag = False
 
+    '''
     def normal_shot_collisions(self, normal_shots_rects, static_obj):
         for index, shot_rect in enumerate(normal_shots_rects):
             if static_obj.rect_static_obj.colliderect(shot_rect):
@@ -225,16 +220,20 @@ class StaticObjects():
             if static_obj.rect_static_obj.colliderect(shot_rect):
                 self.hurt(static_obj, 60)
                 return "ultimate shot index", index
+                
+    '''
 
+    '''
     def hurt(self, static_obj, damage):
         if static_obj in self.Static_objects:
             static_obj.HP.Damage += damage
             if static_obj.HP.Damage >= 2 * static_obj.width:
                 static_obj.HP.ISAlive = False
+    '''
 
     def give_ability(self):
         for static_obj in self.Static_objects:
-            if not static_obj.HP.ISAlive:
+            if not static_obj.isAlive:
                 self.Static_objects.remove(static_obj)
                 return static_obj.HeldAbility
 
@@ -245,7 +244,7 @@ class StaticObjects():
             values.append(dictionary[key])
         return values
 
-'''
+    '''
     def move(self, static_obj):
         # Check if the speed condition is met
         if static_obj.speed > 0.3:
@@ -284,7 +283,7 @@ class StaticObjects():
             if static_obj.speed <= 0.3:
                 # Reset the speed to avoid slowing down further
                 static_obj.speed = 7
-'''
+        '''
 # Example usage:
 # setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
 # static_obj = StaticObject(setting, map_width, map_height, side_length, color)

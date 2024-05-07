@@ -145,58 +145,34 @@ class Game():
             for static_obj in self.static_object.Static_objects:
                 self.static_object.move(static_obj)'''
 
-            ability = self.static_object.give_ability()
+            '''ability = self.static_object.give_ability()
             if ability is not None:
-                self.player.stored_abilities.append(ability)
+                self.player.stored_abilities.append(ability)'''
             # print(self.player.stored_abilities)
+
+
+
+            collisions, position_collision = self.static_object.draw(
+                self.player.screen_position[0],
+                self.player.screen_position[1],
+                self.setting,
+                player_rect)
+
+            ability = None
+            print("collision", collisions)
+            if collisions is not None:
+                for collision in collisions:
+                    if "player hit" in collision:
+                        ability = self.static_object.give_ability()
+                        self.player.stored_abilities.append(ability)
 
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
 
-            collisions, normal_position_collision, big_position_collision, ultimate_position_collision = self.static_object.draw(
-                self.player.screen_position[0],
-                self.player.screen_position[1],
-                self.setting,
-                player_rect,
-                self.player.NORMAL_SHOT.get_shot_rects(
-                    self.player.screen_position),
-                self.player.BIG_SHOT.get_shot_rects(
-                    self.player.screen_position),
-                self.player.ULTIMATE_SHOT.get_shot_rects(
-                    self.player.screen_position))
 
-
-            print("collision", collisions)
-            if collisions is not None:
-                for collision in collisions:
-                    if "normal shot index" in collision:
-                        self.player.NORMAL_SHOT.remove_shots.append(collision[1])
-                        self.player.NORMAL_SHOT.remove()
-                    if "big shot index" in collision:
-                        self.player.BIG_SHOT.remove_shots.append(collision[1])
-                        self.player.BIG_SHOT.remove()
-                    if "ultimate shot index" in collision:
-                        self.player.ULTIMATE_SHOT.remove_shots.append(collision[1])
-                        self.player.ULTIMATE_SHOT.remove()
-                    if "left" or "right" or "top" or "bottom" in collision:
-                        speed = 0
-
-
-            if normal_position_collision is not None:
+            if position_collision is not None:
                 data_for_obj = {
-                    "position_collision": normal_position_collision,  # pos of collision player and obj
-                    "which_size_ball": 1
-                }
-            elif big_position_collision is not None:
-                data_for_obj = {
-                    "position_collision": big_position_collision,  # pos of collision player and obj
-                    "which_size_ball": 2
-                }
-
-            elif ultimate_position_collision is not None:
-                data_for_obj = {
-                    "position_collision": ultimate_position_collision,  # pos of collision player and obj
-                    "which_size_ball": 3
+                    "position_collision": position_collision  # pos of player only
                 }
 
             else:

@@ -4,19 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="HP works">
-      <change afterPath="$PROJECT_DIR$/pictures/ball.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pictures/ball_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pictures/fireball.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pictures/fireball_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pictures/health.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pictures/shield.png" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="new abilities photos">
+      <change afterPath="$PROJECT_DIR$/pictures/health2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/health3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/health4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/size.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Static_Obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pictures/fnaf_head.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -544,7 +539,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715083578854</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="new abilities photos">
+      <option name="closed" value="true" />
+      <created>1715096398976</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1715096398977</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -563,7 +566,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="normal shot" />
     <MESSAGE value="setting" />
     <MESSAGE value="weapon" />
     <MESSAGE value="without shot" />
@@ -588,7 +590,8 @@
     <MESSAGE value="ultimate shot added" />
     <MESSAGE value="ultimate shot added to server" />
     <MESSAGE value="HP works" />
-    <option name="LAST_COMMIT_MESSAGE" value="HP works" />
+    <MESSAGE value="new abilities photos" />
+    <option name="LAST_COMMIT_MESSAGE" value="new abilities photos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
