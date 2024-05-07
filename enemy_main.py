@@ -62,6 +62,14 @@ class enemy_main():
                 # if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:
                 self.player.BIG_SHOT.shots.append({"position": [big_start_x, big_start_y], "velocity": [big_velocity_x,
                                                                                                 big_velocity_y]})  # adds a shot to an array for it to print on the screen
+            if self.data["ultimate_shot_start_x"] is not None:
+                ultimate_start_x = int(self.data["ultimate_shot_start_x"]) + b1
+                ultimate_start_y = int(self.data["ultimate_shot_start_y"]) + b2
+                ultimate_velocity_x = float(self.data["ultimate_shot_velocity_x"])
+                ultimate_velocity_y = float(self.data["ultimate_shot_velocity_y"])
+                # if start_y!=0 and start_x!=0 and velocity_x!=0 and velocity_y!=0:
+                self.player.ULTIMATE_SHOT.shots.append({"position": [ultimate_start_x, ultimate_start_y], "velocity": [ultimate_velocity_x,
+                                                                                                ultimate_velocity_y]})  # adds a shot to an array for it to print on the screen
 
         else:
             pass

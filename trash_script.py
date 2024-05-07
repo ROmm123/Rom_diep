@@ -1,4 +1,3 @@
-
 import threading
 import time
 import queue  # Import the queue module
@@ -39,7 +38,8 @@ from Static_Obj import StaticObjects
                 except Exception as e:
                     print(e)'''
 
-#game almost done
+
+# game almost done
 class Game():
     def __init__(self):
         pygame.init()
@@ -48,7 +48,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client_main = Client('localhost', 55555,55556)
+        self.client_main = Client('localhost', 55555, 55556)
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.damage_list = self.client_main.receive_list_obj_once()
@@ -70,15 +70,14 @@ class Game():
         self.flag_obj = False
         self.list_position_clients = []
 
-
-    def run_therad(self,count):
+    def run_therad(self, count):
         print("in draw thread")
-        self.list_position_clients.append(self.player.screen_position) #defult [x,y] for first time
+        self.list_position_clients.append(self.player.screen_position)  # defult [x,y] for first time
         while True:
             try:
                 print(self.list_position_clients)
                 data = self.client.receive_data()
-                #print(data)
+                # print(data)
             except:
                 print("socket is close")
                 break
@@ -87,10 +86,9 @@ class Game():
                 print("socket is close")
                 break
 
-
             if data != '0' and data:
                 enemy_instance = enemy_main(data, self.player, self.setting)
-                vector_enemy_position = [data["player_position_x"],data["player_position_y"]]
+                vector_enemy_position = [data["player_position_x"], data["player_position_y"]]
                 self.list_position_clients[count] = vector_enemy_position
                 enemy_instance.main()
                 self.draw_event.set()
@@ -101,23 +99,20 @@ class Game():
         while True:
             try:
                 data = self.client_main.receive_obj_prameters()
-                #print(data)
+                # print(data)
             except:
                 print("socket obj is close")
                 break
 
             if data["position_collision"] != None:
 
-            # call prozedora hurt in class obj
+                # call prozedora hurt in class obj
                 for static_obj in self.static_object.Static_objects:
                     if static_obj.position == data["position_collision"]:
                         if data["which_size_ball"] == 1:
-                            self.static_object.hurt(static_obj,10)
+                            self.static_object.hurt(static_obj, 10)
                         else:
-                            self.static_object.hurt(static_obj,17)
-
-
-
+                            self.static_object.hurt(static_obj, 17)
 
     def run(self):
         print(self.crate_positions)
@@ -130,13 +125,14 @@ class Game():
         while self.running:
             key_state = pygame.key.get_pressed()
             mouse_state = pygame.mouse.get_pressed()
-            player_rect = self.player.get_rect_player(self.player.radius,self.player.position[0],self.player.position[1])
+            player_rect = self.player.get_rect_player(self.player.radius, self.player.position[0],
+                                                      self.player.position[1])
             self.player.handle_events_movement(self.client)
             radius = self.player.radius
             speed = self.player.speed
             self.chat = None
             if self.player.chat_flag:
-                self.chat = ChatClient("localhost", 55557,self.player)
+                self.chat = ChatClient("localhost", 55557, self.player)
             if not self.player.chat_flag:
                 if self.chat is not None:  # Check if self.chat exists before deleting
                     del self.chat
@@ -155,18 +151,22 @@ class Game():
             ability = self.static_object.give_ability()
             if ability is not None:
                 self.player.stored_abilities.append(ability)
-            #print(self.player.stored_abilities)
+            # print(self.player.stored_abilities)
 
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
 
-            collisions, normal_position_collision, big_position_collision = self.static_object.draw(self.player.screen_position[0],
-                                                          self.player.screen_position[1],
-                                                          self.setting,
-                                                          player_rect,
-                                                          self.player.NORMAL_SHOT.get_shot_rects(
-                                                              self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(
-                                                              self.player.screen_position))
+            collisions, normal_position_collision, big_position_collision, ultimate_position_collision = self.static_object.draw(
+                self.player.screen_position[0],
+                self.player.screen_position[1],
+                self.setting,
+                player_rect,
+                self.player.NORMAL_SHOT.get_shot_rects(
+                    self.player.screen_position),
+                self.player.BIG_SHOT.get_shot_rects(
+                    self.player.screen_position),
+                self.player.ULTIMATE_SHOT.get_shot_rects(
+                    self.player.screen_position))
 
             if collisions is not None:
                 for collision in collisions:
@@ -176,6 +176,9 @@ class Game():
                     if "big shot index" in collision:
                         self.player.BIG_SHOT.remove_shots.append(collision[1])
                         self.player.BIG_SHOT.remove()
+                    if "ultimate shot index" in collision:
+                        self.player.ULTIMATE_SHOT.remove_shots.append(collision[1])
+                        self.player.ULTIMATE_SHOT.remove()
                     if "player hit" in collision:
                         self.player.hurt(self.setting.hit_type[2])
 
@@ -189,11 +192,17 @@ class Game():
                     "position_collision": big_position_collision,  # pos of collision player and obj
                     "which_size_ball": 2
                 }
+
+            elif ultimate_position_collision is not None:
+                data_for_obj = {
+                    "position_collision": ultimate_position_collision,  # pos of collision player and obj
+                    "which_size_ball": 3
+                }
+
             else:
                 data_for_obj = {
                     "position_collision": None  # pos of player only
                 }
-
 
             ability_size = False
             self.player.handle_events_shots(key_state)
@@ -201,15 +210,6 @@ class Game():
             self.player.handle_events_abilities(key_state)
             if "Size" in self.player.ability:
                 ability_size = True
-
-
-
-
-
-
-
-
-
 
             data = {
 
@@ -227,6 +227,10 @@ class Game():
                 "big_shot_velocity_y": self.player.BIG_SHOT.velocity[1],
                 "big_shot_start_x": self.player.BIG_SHOT.start_x,
                 "big_shot_start_y": self.player.BIG_SHOT.start_y,
+                "ultimate_shot_velocity_x": self.player.ULTIMATE_SHOT.velocity[0],
+                "ultimate_shot_velocity_y": self.player.ULTIMATE_SHOT.velocity[1],
+                "ultimate_shot_start_x": self.player.ULTIMATE_SHOT.start_x,
+                "ultimate_shot_start_y": self.player.ULTIMATE_SHOT.start_y,
                 "ability": ability_size
 
             }
@@ -241,15 +245,12 @@ class Game():
             data_from_main_server = data_from_main_server.split("_")
             self.number_of_server = int(data_from_main_server[0])
 
-
-
-
             if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
                     self.client.close_enemies_Am()
-                    #self.transition()
+                    # self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
@@ -353,14 +354,12 @@ class Game():
                     # Already connected to server 4, just send player data
                     self.client.send_data(data)
 
-            if data_for_obj["position_collision"] != None:
+            if data_for_obj["position_collision"] is not None:
                 self.client_main.send_data_obj_parmetrs(data_for_obj)
 
-            if self.flag_obj == False:
+            if not self.flag_obj:
                 threading.Thread(target=self.obj_recv).start()
                 self.flag_obj = True
-
-
 
             if self.num_enemies > 0:
                 self.draw_event.wait()
@@ -369,11 +368,15 @@ class Game():
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
-                                                      speed)
+                                                   speed)
+                self.player.ULTIMATE_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
+                                                        speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.BIG_SHOT.update()
+                self.player.ULTIMATE_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
                 self.player.BIG_SHOT.reset()
+                self.player.ULTIMATE_SHOT.reset()
                 self.setting.update()
 
                 # Reset the event for the next iteration
@@ -385,10 +388,14 @@ class Game():
                                                       speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                    speed)
+                self.player.ULTIMATE_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
+                                                        speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.BIG_SHOT.update()
+                self.player.ULTIMATE_SHOT.update()
                 self.player.NORMAL_SHOT.reset()
                 self.player.BIG_SHOT.reset()
+                self.player.ULTIMATE_SHOT.reset()
                 self.setting.update()
 
     def close_connections(self):
@@ -409,7 +416,7 @@ class Game():
             diff = enemies - self.num_enemies
             self.num_enemies = enemies
 
-            print("diff "+ str(diff))
+            print("diff " + str(diff))
             if diff > 0:
                 for _ in range(diff):
                     enemy_thread = threading.Thread(target=self.run_therad, args=(count,))
@@ -422,9 +429,6 @@ class Game():
                     if self.enemy_threads:
                         thread = self.enemy_threads.pop()
                         thread.join()
-
-
-
 
     def stop(self):
         self.running = False
@@ -448,8 +452,6 @@ class Game():
             random_number_y = random.randint(0, 37000)
             if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
-
-
 
     def transition(self):
         # makes sure the player doesn't keep moving in the direction of the transition
@@ -475,4 +477,3 @@ if __name__ == '__main__':
         game.stop()
         game.close_connections()
         pygame.quit()
-

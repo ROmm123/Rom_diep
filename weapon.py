@@ -5,7 +5,7 @@ import pygame
 class Weapon():
 
     def __init__(self, width, height, color, player, set):
-        self.offset_distance = 50
+        self.offset_distance = 55
         self.color = color
         self.weapon_surf = None
         self.rect_center_x = 0

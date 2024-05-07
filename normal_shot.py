@@ -4,20 +4,19 @@ import sys
 import settings
 
 class NormalShot:
-    def __init__(self, radius, color, deceleration, damage, setting):
+    def __init__(self, radius, color, deceleration, setting):
         #self.player_id = player_id
         self.radius = radius
         self.color = color
         self.deceleration = deceleration
-        self.damage = damage
         self.setting = setting
         self.surface = self.setting.surface
         self.rect = self.surface.get_rect()
-        self.offset_distance = 50
+        self.offset_distance = 55
         self.speed = 10
         self.remove_speed = 0.3
         self.direction = [0, 0]
-        self.shot_button = [False, False]
+        self.shot_button = [False, False, False]
         self.prev_key = False
         self.shots = []
         self.remove_shots = []
@@ -36,7 +35,7 @@ class NormalShot:
         for circle in self.shots:
             pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
 
-    def shoot(self, player_position, angle, double):
+    def shoot(self, player_position, angle):
         # calculate the starting position and direction of the shot
         mouse_pos = pygame.mouse.get_pos()
         self.direction[0] = mouse_pos[0] - player_position[0]  # break down mouse position into x and y components
@@ -46,16 +45,6 @@ class NormalShot:
         if self.magnitude != 0:  # checks if zero vector
             self.direction[0] /= self.magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= self.magnitude
-
-        if self.direction[0] >= 0:
-            player_position[0] += double
-        else:
-            player_position[0] -= double
-
-        if self.direction[1] >= 0:
-            player_position[1] += double
-        else:
-            player_position[1] -= double
 
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
