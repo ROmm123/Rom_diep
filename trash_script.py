@@ -6,6 +6,7 @@ import random
 import pygame
 
 from player import Player
+from npc import NPC
 from map import Map
 from settings import setting
 from Network import Client
@@ -427,7 +428,14 @@ class Game():
             if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
                 return random_number_y
 
+    def add_npc(self, enemy, static_objects):
+        npc_id = self.npc_id_counter
+        self.npc_id_counter += 1
+        self.NPC = NPC(npc_id, 0, 0, 30, self.setting.red, self.setting, 400, Enemy.get_positions(enemy),
+                       static_objects)
+        self.npcs.append(self.NPC)
 
+        return self.NPC
 
     def transition(self):
         # makes sure the player doesn't keep moving in the direction of the transition
