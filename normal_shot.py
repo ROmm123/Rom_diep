@@ -4,12 +4,13 @@ import sys
 import settings
 
 class NormalShot:
-    def __init__(self, radius, color, deceleration, setting):
+    def __init__(self, radius, color, deceleration, setting, image):
         #self.player_id = player_id
         self.radius = radius
         self.color = color
         self.deceleration = deceleration
         self.setting = setting
+        self.image = image
         self.surface = self.setting.surface
         self.rect = self.surface.get_rect()
         self.offset_distance = 55
@@ -23,17 +24,18 @@ class NormalShot:
         self.velocity = []
         self.start_x = 0
         self.start_y = 0
-        self.velocity=[0,0]
+        self.velocity = [0, 0]
         self.shot_relative_vector = [0, 0]
+        self.image_position = (0, 0)
+
 
     def get_shot_owner_id(self):
         return self.player_id
 
-
     def draw(self):
         # Draw the shot circle
         for circle in self.shots:
-            pygame.draw.circle(self.setting.surface, self.color, circle["position"], self.radius)
+            self.surface.blit(self.image, circle["position"])
 
     def shoot(self, player_position, angle):
         # calculate the starting position and direction of the shot
@@ -50,7 +52,6 @@ class NormalShot:
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         self.start_x = player_position[0] + self.offset_distance * math.cos(angle)   # calculates the starting position - the middle of the weapon
         self.start_y = player_position[1] + self.offset_distance * math.sin(angle)
-
 
         self.shots.append({"position": [self.start_x, self.start_y], "velocity": [self.velocity[0] , self.velocity[1]]})   #adds a shot to an array for it to print on the screen
 

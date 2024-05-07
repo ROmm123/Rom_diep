@@ -15,14 +15,17 @@ class StaticObject():
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
         self.collision_flag = False
         self.HeldAbility = HeldAbility
+        self.image = pygame.image.load("pictures/shield.png")
         if HeldAbility == "Size":
             self.color = setting.red
         elif HeldAbility == "Speed":
             self.color = setting.yellow
         elif HeldAbility == "Shield":
             self.color = setting.blue
+            self.image = pygame.image.load("pictures/shield.png")
         elif HeldAbility == "Full HP":
             self.color = setting.green4
+            self.image = pygame.image.load("pictures/health.png")
         elif HeldAbility == "30 HP":
             self.color = setting.green3
         elif HeldAbility == "15 HP":
@@ -151,8 +154,10 @@ class StaticObjects():
             if static_obj.HP.ISAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
                     # print("obj_x_y ", obj_x, obj_y)
-                    pygame.draw.rect(self.surface, static_obj.color,
-                                     (obj_x, obj_y, static_obj.width, static_obj.height))
+                    #pygame.draw.rect(self.surface, static_obj.color,
+                                     #(obj_x, obj_y, static_obj.width, static_obj.height))
+                    self.surface.blit(static_obj.image, (obj_x - 4, obj_y - 4))
+
                     pygame.draw.rect(self.surface, static_obj.HP.LifeColor,
                                      (obj_x - (static_obj.width // 2), (obj_y + (static_obj.height + 10)),
                                       (2 * static_obj.width), 10))

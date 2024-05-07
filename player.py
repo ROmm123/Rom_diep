@@ -32,16 +32,15 @@ class Player():
         self.position = [(self.screen_position[0] + self.center[0]),
                          (self.screen_position[1] + self.center[1])]  # player position relative to the map
         self.move_button = [False, False, False, False, False, False, True]  # movement buttons (a, d, w, s, l, t, k)
-        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.965, self.setting)  # initialize normal shot
-        self.BIG_SHOT = NormalShot(7, self.setting.blue, 0.95, self.setting)  # initialize big shot
-        self.ULTIMATE_SHOT = NormalShot(10, self.setting.red, 0.97, self.setting)
+        self.NORMAL_SHOT = NormalShot(5, self.setting.green, 0.962, self.setting, pygame.image.load("pictures/ball_2.png"))  # initialize normal shot
+        self.BIG_SHOT = NormalShot(7, self.setting.blue, 0.95, self.setting, pygame.image.load("pictures/ball.png"))  # initialize big shot
+        self.ULTIMATE_SHOT = NormalShot(10, self.setting.red, 0.97, self.setting, pygame.image.load("pictures/fireball.png"))
         self.hp = HP(self.center[0], self.center[1], radius, setting)
         self.inventory = inventory(self.setting)
         self.last_normal_shot_time = pygame.time.get_ticks()  # get the time the moment a normal shot is fired
         self.last_big_shot_time = pygame.time.get_ticks()  # get the time the moment a big shot is fired
         self.last_ultimate_shot_time = pygame.time.get_ticks()
         self.speed_start_time = pygame.time.get_ticks()
-        # self.inventory = inventory(self.setting)
         self.big_weapon = False
         self.ultimate_weapon = False
         self.small_weapon = True

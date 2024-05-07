@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="HP works">
+      <change afterPath="$PROJECT_DIR$/pictures/ball.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/ball_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/fireball.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/fireball_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/health.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pictures/shield.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Static_Obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/Static_Obj.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pictures/fnaf_head.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -231,9 +239,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.trash_script" />
         <item itemvalue="Python.SERVER1" />
-        <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.SERVER2" />
         <item itemvalue="Python.player" />
       </list>

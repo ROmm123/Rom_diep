@@ -23,7 +23,7 @@ class setting():
         self.ability = ["Speed", "Size", "Shield", "Full HP", "30 HP", "15 HP", "5 HP"]
         self.normal_shot_cooldown = 500  # 0.5 second in milliseconds
         self.big_shot_cooldown = 3000  # 3 seconds in milliseconds
-        self.ultimate_shot_cooldown = 60000  # 1 minute in milliseconds
+        self.ultimate_shot_cooldown = 6000  # 1 minute in milliseconds
         self.ability_duration = 10000  # 10 seconds in milliseconds
         self.hit_damage = {"normal shot": 3, "big shot": 8, "ultimate shot": 60, "coll": 3}
         self.hit_type = ("normal shot", "big shot", "ultimate shot", "coll")
