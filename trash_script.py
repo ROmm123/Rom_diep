@@ -358,7 +358,7 @@ class Game():
                 self.player.hurt(hit_result)
 
                 if "npc shot" in hit_result:
-                    self.NPC.SHOT.remove_shots.append(int(hit_result[-1]))
+                    self.NPC.SHOT.remove_shots.append(hit_result[-1])
                     self.NPC.SHOT.remove()
 
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
@@ -383,7 +383,7 @@ class Game():
                 self.player.hurt(hit_result)
 
                 if "npc shot" in hit_result:
-                    self.NPC.SHOT.remove_shots.append(int(hit_result[-1]))
+                    self.NPC.SHOT.remove_shots.append(hit_result[-1])
                     self.NPC.SHOT.remove()
 
                 self.player.hurt(hit_result)

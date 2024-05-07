@@ -45,15 +45,15 @@ class NPC:
         self.distance = math.sqrt((self.goal_x-self.rect_center_x)**2 + (self.goal_y-self.rect_center_y)**2)
 
 
-#class NPCS:
+class NPCS:
 
-#    def _init_(self, setting, map_width, map_height):
-#        self.surface = setting.surface
-#        self.NPCS = []  # the NPCS list
-#        for _ in range(100):
-#            npc = NPC(setting, map_width, map_height)
-#            print(npc.npc_id)
-#            self.NPCS.append(npc)
+    def _init_(self, setting, map_width, map_height):
+        self.surface = setting.surface
+        self.NPCS = []  # the NPCS list
+        for i in range(100):
+            npc = NPC(i, 0, 0, 30, self.setting.red, self.setting, 400, self.static_object.Static_objectss)
+            print(npc.npc_id)
+            self.NPCS.append(npc)
 
 
     def draw (self, player_rect, shots_rects):
