@@ -73,6 +73,8 @@ class Player():
             self.hp.Damage += small_hit_damage * shield_effect
         if "big shot" in hit_type:
             self.hp.Damage += big_hit_damage * shield_effect
+        if "npc shot" in hit_type:
+            self.hp.Damage += small_hit_damage * shield_effect
         # if "coll" in hit_type:
         # self.hp.Damage += coll_hit_damage * shield_effect
 
@@ -116,6 +118,36 @@ class Player():
                 if player_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
                     to_remove.append("big shot")
+
+        self.NORMAL_SHOT.remove()
+        self.BIG_SHOT.remove()
+        return to_remove
+
+    def hit(self, npc_shots_rects):
+        to_remove = []
+        player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
+        # check collision with normal shots
+
+        if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
+            for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
+                shot_rect = self.NORMAL_SHOT.get_shot_rects(self.screen_position)[i]
+                if player_rect.colliderect(shot_rect):
+                    self.NORMAL_SHOT.remove_shots.append(i)
+                    to_remove.append("normal shot")
+
+        if self.BIG_SHOT.get_shot_rects(self.screen_position):
+            for i, _ in enumerate(self.BIG_SHOT.get_shot_rects(self.screen_position)):
+                shot_rect = self.BIG_SHOT.get_shot_rects(self.screen_position)[i]
+                if player_rect.colliderect(shot_rect):
+                    self.BIG_SHOT.remove_shots.append(i)
+                    to_remove.append("big shot")
+
+        if npc_shots_rects is not None:
+            for i, _ in enumerate(npc_shots_rects):
+                shot_rect = npc_shots_rects[i]
+                if player_rect.colliderect(shot_rect):
+                    to_remove.append("npc shot")
+                    to_remove.append(i)
 
         self.NORMAL_SHOT.remove()
         self.BIG_SHOT.remove()

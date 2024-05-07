@@ -354,14 +354,24 @@ class Game():
 
             if self.num_enemies > 0:
                 self.draw_event.wait()
-                hit_result = self.player.hit()
+                hit_result = self.player.hit(self.NPC.SHOT.get_shot_rects(self.player.screen_position))
                 self.player.hurt(hit_result)
+
+                if "npc shot" in hit_result:
+                    self.NPC.SHOT.remove_shots.append(int(hit_result[-1]))
+                    self.NPC.SHOT.remove()
+
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
                 self.player.NORMAL_SHOT.update()
                 self.player.BIG_SHOT.update()
+
+                self.NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
+                self.NPC.SHOT.update()
+                self.NPC.SHOT.reset()
+
                 self.player.NORMAL_SHOT.reset()
                 self.player.BIG_SHOT.reset()
                 self.setting.update()
@@ -369,7 +379,13 @@ class Game():
                 # Reset the event for the next iteration
                 self.draw_event.clear()
             else:
-                hit_result = self.player.hit()
+                hit_result = self.player.hit(self.NPC.SHOT.get_shot_rects(self.player.screen_position))
+                self.player.hurt(hit_result)
+
+                if "npc shot" in hit_result:
+                    self.NPC.SHOT.remove_shots.append(int(hit_result[-1]))
+                    self.NPC.SHOT.remove()
+
                 self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
