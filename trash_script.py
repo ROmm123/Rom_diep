@@ -179,8 +179,6 @@ class Game():
                     if "ultimate shot index" in collision:
                         self.player.ULTIMATE_SHOT.remove_shots.append(collision[1])
                         self.player.ULTIMATE_SHOT.remove()
-                    if "player hit" in collision:
-                        self.player.hurt(self.setting.hit_type[2])
 
             if normal_position_collision is not None:
                 data_for_obj = {
