@@ -65,6 +65,33 @@ class NormalShot:
 
         self.shots.append({"position": [self.start_x, self.start_y], "velocity": [self.velocity[0] , self.velocity[1]]})   #adds a shot to an array for it to print on the screen
 
+    def npc_shoot(self, npc_position, screen_position, goal_x, goal_y, angle):
+        # calculate the starting position and direction of the shot
+        self.direction[0] = goal_x - npc_position[0]  # break down mouse position into x and y components
+        self.direction[1] = goal_y - npc_position[1]
+
+        print("screen", screen_position)
+        print("center", npc_position)
+
+        magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
+        print(magnitude)
+        if magnitude != 0:  # checks if zero vector
+            self.direction[0] /= magnitude  # normalize the direction vector (0-1)
+            self.direction[1] /= magnitude
+
+        print("direction", self.direction)
+
+        self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
+        start_x = npc_position[0] + self.offset_distance * math.cos(
+            angle)  # calculates the starting position - the middle of the weapon
+        start_y = npc_position[1] + self.offset_distance * math.sin(angle)
+
+        print("start pos:", start_x, start_y)
+
+        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed,
+                                                                        self.velocity[
+                                                                            1] * self.speed]})  # adds a shot to an array for it to print on the screen
+
     def calc_relative(self,screen_position,move_button,speed):
         self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
 

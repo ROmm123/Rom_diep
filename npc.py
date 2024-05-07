@@ -19,10 +19,10 @@ class NPC:
         self.color = color
         self.setting = setting
         self.speed = 2
-        self.rect_center_x = 600 #random.randint(0, total screen_width)
-        self.rect_center_y = 600 #random.randint(0, total screen_height)
-        self.position_map_x = 600
-        self.position_map_y = 600
+        self.rect_center_x = 12370 #random.randint(0, total screen_width)
+        self.rect_center_y = 270 #random.randint(0, total screen_height)
+        self.position_map_x = 12370
+        self.position_map_y = 270
         self.set = set
         self.VR = view_radius
         # self.enemy = enemy #position of enemy relative to the screen
@@ -42,7 +42,7 @@ class NPC:
         self.last_shot_time = pygame.time.get_ticks()
         self.SHOT = NormalShot(5, self.setting.green, 0.99, 2, self.setting)  # initialize normal shot
         self.can_orbit = False
-        self.distance = 0 #math.sqrt((self.goal_x-self.rect_center_x)*2 + (self.goal_y-self.rect_center_y)*2)
+        self.distance = math.sqrt((self.goal_x-self.rect_center_x)**2 + (self.goal_y-self.rect_center_y)**2)
 
 
 #class NPCS:
@@ -66,6 +66,7 @@ class NPC:
                             (self.rect_center_x - self.radius, (self.rect_center_y + self.radius + 10),
                             self.hp.Damage, 10))
 
+            print(self.rect_center_x, self.rect_center_y, 'npcccc')
 
             player_rect[0] = player_rect[0]
             player_rect[1] = player_rect[1]
@@ -85,8 +86,8 @@ class NPC:
     # Default location to seek if we don't see anything to interact with
         self.rect_center_x = random.randint(0,800)           #(0,38400)    # map limit x
         self.rect_center_y = random.randint(0,800)             #(0, 43200)    # map limit
-        self.position_map_x = random.randint(0,800)
-        self.position_map_y = random.randint(0,800)
+        self.position_map_x = random.randint(12370,12380)
+        self.position_map_y = random.randint(380,400)
 
     def get_rect(self):
         rect_width = self.radius * 2
@@ -98,7 +99,7 @@ class NPC:
     #    self.goal_x = self.enemy[0]
     #    self.goal_y = self.enemy[1]
         min = math.sqrt((static_objects[0].position[0] - self.position_map_x) ** 2 + (static_objects[0].position[1] - self.position_map_y) ** 2)
-        for i in range(800):
+        for i in range(len(static_objects)):
             distance = math.sqrt((static_objects[i].position[0] - self.position_map_x) ** 2 + (static_objects[i].position[1] - self.position_map_y) ** 2)
             if distance < min:
                 min = distance
@@ -195,7 +196,7 @@ class NPC:
         current_time = pygame.time.get_ticks()
         screen_position = [screen_pos_x, screen_pos_y]
         center = [self.rect_center_x, self.rect_center_y]
-        self.distance = math.sqrt((self.goal_x-self.rect_center_x)*2 + (self.goal_y-self.rect_center_y)*2)
+        self.distance = math.sqrt((self.goal_x-self.rect_center_x)**2 + (self.goal_y-self.rect_center_y)**2)
 
         self.can_move = True
         self.can_orbit = False

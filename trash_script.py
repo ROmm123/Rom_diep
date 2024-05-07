@@ -196,7 +196,7 @@ class Game():
 
             if not npc1.is_alive():
                 self.npcs.remove(npc1)
-                self.npc_id_counter -= 1
+                self.npc_counter -= 1
 
             if self.npc_counter < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
                 npc1 = self.add_npc(self.static_object.Static_objects)  # enemy1,
