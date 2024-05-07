@@ -42,7 +42,7 @@ class enemy_main():
 
             self.draw_enemy(b1, b2, radius)
 
-            self.player.hit_online(self.player.radius, int(self.data["player_position_x"]) + 400,
+            self.player.hit_online(self.radius, int(self.data["player_position_x"]) + 400,
                                    int(self.data["player_position_y"]) + 300)
 
             if self.data["normal_shot_start_x"] is not None:
@@ -74,7 +74,7 @@ class enemy_main():
             self.rect.center = (400, 300)  # Initial position
         else:
             self.image = pygame.image.load("pictures/shmulik_red.png")
-            self.radius = 29
+            self.radius = 28.5
             self.rect = self.image.get_rect()
             self.rect.center = (400, 300)  # Initial position
         center_x = int(center_x) + 400
@@ -88,10 +88,10 @@ class enemy_main():
         rotated_rect = rotated_image.get_rect(center=(center_x, center_y))
         self.surface.blit(rotated_image, rotated_rect)
 
-        health_bar = pygame.Rect(center_x - radius, (center_y + radius + 10), 2 * radius, 10)
+        health_bar = pygame.Rect(center_x - 28.5, (center_y + 28.5 + 10), 2 * 28.5, 10)
         pygame.draw.rect(self.surface, self.setting.green, health_bar)
         pygame.draw.rect(self.surface, self.setting.red,
-                         (center_x - radius, center_y + radius + 10, self.data["damage dealt"], 10))
+                         (center_x - 28.5, center_y + 28.5 + 10, self.data["damage dealt"], 10))
 
     def main(self):
         self.calculate()

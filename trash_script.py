@@ -44,7 +44,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 29, self.setting.red, self.setting)
+        self.player = Player(12000, 0, 28.5, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
@@ -249,7 +249,7 @@ class Game():
                     # Connect to server 1 if not already connected
                     self.client.close()
                     self.client.close_enemies_Am()
-                    self.transition()
+                    #self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'

@@ -124,9 +124,13 @@ class Player():
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
         to_remove = []
+        if radius == 22:
+            enemy_position_y -= 7
+            enemy_position_x -= 7
         enemy_rect = self.get_rect_player(radius, enemy_position_x, enemy_position_y)
-        # check collision with normal shots
 
+
+        # check collision with normal shots
         if self.NORMAL_SHOT.get_shot_rects(self.screen_position):
             for i, _ in enumerate(self.NORMAL_SHOT.get_shot_rects(self.screen_position)):
                 all_shot_rects = self.NORMAL_SHOT.get_shot_rects(self.screen_position)
@@ -174,7 +178,7 @@ class Player():
 
     def draw(self, mouse_pos):
         self.image = pygame.image.load("pictures/shmulik_blue.png")
-        self.radius = 29
+        self.radius = 28.5
         radius = self.radius
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)
@@ -292,7 +296,6 @@ class Player():
         if self.small_weapon == True:  # only if long or regular weapon
             if key_state[pygame.K_SPACE] and not self.NORMAL_SHOT.shot_button[0]:
                 if current_time - self.last_normal_shot_time >= self.setting.normal_shot_cooldown:
-                    print(self.angle)
                     self.NORMAL_SHOT.shoot(self.center, self.angle, double)
                     self.NORMAL_SHOT.shot_button[0] = True
                     self.last_normal_shot_time = current_time  # update last shot time
