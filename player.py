@@ -252,6 +252,7 @@ class Player():
             if event.type == pygame.QUIT:
                 dict_of_logout = self.build_dict_logout()
                 main_socket.send_data(dict_of_logout)
+                print("Sent data")
                 main_socket.close()
                 socket.close_enemies_Am()
                 socket.close()

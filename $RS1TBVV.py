@@ -44,19 +44,20 @@ class main_server:
 
     def handle_database_clients(self):
         # MAKE IT A DIFFERENT THREAD , MULTITHREADING
-        print("join handle database")
+        #("join handle database")
         while True:
             client_database_socket, addr = self.database_socket.accept()
-
             threading.Thread(target=self.insert_to_queue_database(client_database_socket)).start()
+            #("started thread")
 
 
 
     def insert_to_queue_database(self , client_database_socket):
         Quary = ("login", "signin" , "logout")
-        while True:
+        running = True
+        while running:
             data_from_database = client_database_socket.recv(2048).decode("utf-8")
-            print(data_from_database)
+            #(data_from_database)
             if Quary[1] in data_from_database:
                 self.queue_for_Sign_req.put(
                     (data_from_database, client_database_socket))  # Queue for clients that want to join the game
@@ -66,6 +67,7 @@ class main_server:
             elif Quary[2] in data_from_database:
                 self.queue_for_logout_req.put(
                     (data_from_database, client_database_socket))
+                running = False
 
     def handle_queue_database(self):
         while True:
@@ -77,19 +79,19 @@ class main_server:
                 raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
                 raw_signin_packet = json.loads(raw_signin_packet)
                 info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
-                print("info : " + str(info))
+                #("info : " + str(info))
                 if info:
                     string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
-                    print(string_tuple)
-                    print(type(string_tuple))
+                    #(string_tuple)
+                    #(type(string_tuple))
                     client_database_socket.send(string_tuple.encode("utf-8"))
-                    print("data sent")
+                    #("data sent")
                 else:
                     client_database_socket.send("sign again".encode("utf-8"))
 
             if not self.queue_for_logout_req.empty():
                 signout_packet = self.queue_for_logout_req.get()
-                print("logged out : "+str(signout_packet))
+                #("logged out : "+str(signout_packet))
                 loadedPacket = json.loads(signout_packet)
                 handle_data_for_logout(loadedPacket["username"], loadedPacket["password"], loadedPacket["x"],
                                       loadedPacket["y"], loadedPacket["speed_c"], loadedPacket["size_c"],
@@ -101,10 +103,10 @@ class main_server:
             data = self.recive_from_client(obj_socket)
 
             if not data:
-                print(f"Client {obj_socket.getpeername()} disconnected")
+                #(f"Client {obj_socket.getpeername()} disconnected")
                 with self.clients_lock:
                     self.clients.remove((obj_socket, obj_socket.getpeername()))
-                    print("not in list")
+                    #("not in list")
                     obj_socket.close()
                     break
 
@@ -158,10 +160,10 @@ class main_server:
 
         except json.JSONDecodeError:
             client_socket.send("0".encode())  # Handle JSON decode error
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        #except Exception as e:
+            #(f"An error occurred: {e}")
         finally:
-            print("Connection closed.")
+            #("Connection closed.")
             client_socket.close()
 
     def handle_obj_conection(self):
@@ -172,7 +174,7 @@ class main_server:
                 data_to_send = {
                     "crate_positions": self.positions_data
                 }
-                print(data_to_send)  # Print the data to send
+                #(data_to_send)  # # the data to send
                 # Convert the dictionary to a JSON string
                 json_data = json.dumps(data_to_send)
                 # Encode the JSON string to bytes
@@ -186,18 +188,20 @@ class main_server:
                 obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
                 obj_thread.start()
         except:
-            print("hello")
+            pass
+            #("hello")
 
     def main_for_clients(self):
         while True:
-            print("Waiting for new client...")
+            #("Waiting for new client...")
             client_socket, addr = self.main_server_socket.accept()
             self.obj_client += 1
-            print(f"New client connected: {addr}")
+            #(f"New client connected: {addr}")
 
             # Start a new thread to handle the client
             client_thread = threading.Thread(target=self.handle_client_main, args=(client_socket,))
             client_thread.start()
+            print("opened thread")
 
     def array_to_dict(self, array):
         dictionary = {index: value for index, value in enumerate(array)}
@@ -207,14 +211,14 @@ class main_server:
         while True:
             clientSocket, clientAddress = self.hostSocket.accept()
             self.clients_chat.add(clientSocket)
-            print("Connection established with: ", clientAddress[0] + ":" + str(clientAddress[1]))
+            #("Connection established with: ", clientAddress[0] + ":" + str(clientAddress[1]))
             thread = threading.Thread(target=self.clientThread_chat, args=(clientSocket, clientAddress,))
             thread.start()
 
     def clientThread_chat(self, clientSocket, clientAddress):
         while True:
             message = clientSocket.recv(1024).decode("utf-8")
-            print(clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message)
+            #(clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message)
             for client_chat in self.clients_chat:
                 if client_chat is not clientSocket:
                     client_chat.send(
@@ -222,7 +226,7 @@ class main_server:
 
             if not message:
                 self.clients.remove(clientSocket)
-                print(clientAddress[0] + ":" + str(clientAddress[1]) + " disconnected")
+                #(clientAddress[0] + ":" + str(clientAddress[1]) + " disconnected")
                 break
 
         clientSocket.close()
@@ -230,7 +234,7 @@ class main_server:
 
 if __name__ == '__main__':
     my_server = main_server('localhost', 55555, 55556, 55557, 64444)
-    print("Starting server...")
+    #("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
     chat_thread = threading.Thread(target=my_server.start_chat)
     database_thread = threading.Thread(target=my_server.handle_database_clients)
