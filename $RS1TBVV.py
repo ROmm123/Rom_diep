@@ -47,17 +47,17 @@ class main_server:
         #("join handle database")
         while True:
             client_database_socket, addr = self.database_socket.accept()
-            threading.Thread(target=self.insert_to_queue_database(client_database_socket)).start()
-            #("started thread")
+            threading.Thread(target=self.insert_to_queue_database , args=(client_database_socket,)).start()
+            print("started thread")
 
 
 
     def insert_to_queue_database(self , client_database_socket):
+        print("in thread in main class, socket is : "+str(client_database_socket))
         Quary = ("login", "signin" , "logout")
         running = True
         while running:
             data_from_database = client_database_socket.recv(2048).decode("utf-8")
-            #(data_from_database)
             if Quary[1] in data_from_database:
                 self.queue_for_Sign_req.put(
                     (data_from_database, client_database_socket))  # Queue for clients that want to join the game
@@ -65,6 +65,7 @@ class main_server:
                 self.queue_for_login_req.put(
                     (data_from_database, client_database_socket))  # Queue for clients that want to join the game
             elif Quary[2] in data_from_database:
+                print("log out packet , adding to flipin queue init")
                 self.queue_for_logout_req.put(
                     (data_from_database, client_database_socket))
                 running = False
@@ -82,8 +83,8 @@ class main_server:
                 #("info : " + str(info))
                 if info:
                     string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
-                    #(string_tuple)
-                    #(type(string_tuple))
+                    print("STRING TUPLE : "+str(string_tuple))
+                    print("TYPE : "+str(type(string_tuple)))
                     client_database_socket.send(string_tuple.encode("utf-8"))
                     #("data sent")
                 else:
@@ -91,13 +92,15 @@ class main_server:
 
             if not self.queue_for_logout_req.empty():
                 signout_packet = self.queue_for_logout_req.get()
-                #("logged out : "+str(signout_packet))
-                loadedPacket = json.loads(signout_packet)
-                handle_data_for_logout(loadedPacket["username"], loadedPacket["password"], loadedPacket["x"],
-                                      loadedPacket["y"], loadedPacket["speed_c"], loadedPacket["size_c"],
-                                      loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
-                                      loadedPacket["hp_c_15"], loadedPacket["hp_c_5"])
-
+                print("logged out packet: "+str(signout_packet))
+                loadedPacket = json.loads(signout_packet[0])
+                print("USERNAME IN LOADEDPACKET = "+str(loadedPacket["username"]))
+                print("TYPE USERNAME = "+str(type(loadedPacket["username"])))
+                handle_data_for_logout(loadedPacket["x"], loadedPacket["y"], loadedPacket["speed_c"],
+                                       loadedPacket["size_c"],
+                                       loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
+                                       loadedPacket["hp_c_15"], loadedPacket["hp_c_5"], loadedPacket["username"],
+                                       loadedPacket["password"])
     def handle_pos_obj(self, obj_socket, i):
         while True:
             data = self.recive_from_client(obj_socket)

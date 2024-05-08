@@ -122,7 +122,7 @@ class Game():
             key_state = pygame.key.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius, self.player.position[0],
                                                       self.player.position[1])
-            self.player.handle_events_movement(self.client ,self.client_main)
+            self.player.handle_events_movement(self.client)
             self.chat = None
             '''if self.player.chat_flag:
                 self.chat = ChatClient("localhost", 55557, self.player)'''

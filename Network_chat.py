@@ -30,6 +30,8 @@ class Client_chat:
         try:
             print(data_dict)
             data_str = json.dumps(data_dict)
+            print("sending : "+data_str)
+            print("socket is : "+str(self.socket_chat))
             self.socket_chat.send(data_str.encode("utf-8"))
             print("data sent")
         except Exception as e:
@@ -66,7 +68,7 @@ class Client_chat:
                         actual_tuple.append(ast.literal_eval(elem))
                     except (SyntaxError, ValueError):
                         # Handle invalid literals here
-                        actual_tuple.append(None)
+                        actual_tuple.append(elem)  # Append the string itself if unable to evaluate
 
             return tuple(actual_tuple)
 

@@ -8,7 +8,7 @@ from HP import *
 from normal_shot import NormalShot
 from weapon import Weapon
 import socket
-
+from login_screen import socket_data
 
 # from inventory import *
 
@@ -16,6 +16,7 @@ import socket
 class Player():
 
     def __init__(self , username , password, x, y, radius, color, setting , speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
+        self.socket_data_base_main = socket_data().data_base_socket
         self.username = username
         self.password = password
         self.surface = setting.surface  # player surface
@@ -246,14 +247,15 @@ class Player():
             pygame.draw.rect(self.surface, self.hp.DamageColor,
                              (self.center[0] - radius, self.center[1] + radius + 10, self.hp.Damage, 10))
 
-    def handle_events_movement(self, socket , main_socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
+    def handle_events_movement(self, socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 dict_of_logout = self.build_dict_logout()
-                main_socket.send_data(dict_of_logout)
+                self.socket_data_base_main.connect()
+                self.socket_data_base_main.send_database_data(dict_of_logout)
                 print("Sent data")
-                main_socket.close()
+                self.socket_data_base_main.close()
                 socket.close_enemies_Am()
                 socket.close()
                 pygame.quit()

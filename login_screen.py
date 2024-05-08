@@ -9,7 +9,7 @@ import signin_screan
 
 
 
-class socket_data.data_base_socket():
+class socket_data():
     def __init__(self):
         self.data_base_socket = Client_chat('localhost', 64444)  # global socket
     
@@ -87,14 +87,14 @@ def perform_login():
     print("Password:", password)
 
 
-def switch_to_signin_screen(socket_data.data_base_socket):
-    socket_data.data_base_socket.close()
+def switch_to_signin_screen(socket_dataa):
+    socket_dataa.close()
     signin_screan.main()  # Call the main function in the second script
 
 
 def main():
-    socket_data = socket_data.data_base_socket()
-    socket_data.data_base_socket.connect()
+    socket_class = socket_data()
+    socket_class.data_base_socket.connect()
     global username, password, username_color, password_color
 
     clock = pygame.time.Clock()
@@ -124,8 +124,8 @@ def main():
                         "quary": "login"
                     }
 
-                    socket_data.data_base_socket.send_database_data(database_data)
-                    tuple_data = socket_data.data_base_socket.receive_database_data()
+                    socket_class.data_base_socket.send_database_data(database_data)
+                    tuple_data = socket_class.data_base_socket.receive_database_data()
                     print("received from main : " + str(tuple_data))
                     if tuple_data:
                         username = tuple_data[0]
@@ -151,7 +151,7 @@ def main():
                             hp_c_5 = 0
                         return username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
-                    switch_to_signin_screen(socket_data.data_base_socket)  # Call the function to switch screens
+                    switch_to_signin_screen(socket_class.data_base_socket)  # Call the function to switch screens
 
                 else:
                     input_active = False
@@ -171,8 +171,8 @@ def main():
                             "quary": "login"
                         }
 
-                        socket_data.data_base_socket.send_database_data(database_data)
-                        tuple_data = socket_data.data_base_socket.receive_database_data()
+                        socket_class.data_base_socket.send_database_data(database_data)
+                        tuple_data = socket_class.data_base_socket.receive_database_data()
                         print("received from main : " + str(tuple_data))
                         if tuple_data:
                             username = tuple_data[0]
@@ -216,6 +216,7 @@ def main():
 
 if __name__ == "__main__":
     username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = main()
+    print("username variable in login : "+str(username))
     trash_script.main(username , password ,x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
 
 

@@ -1,8 +1,7 @@
 import pygame
 import sys
 from Network_chat import *
-import login_screen
-
+from login_screen import *
 
 # add text removing after login pressed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Initialize Pygame
@@ -85,7 +84,8 @@ def switch_to_login_screen(socket_database):
 
 
 def main():
-    socket_database = Client_chat('localhost', 64444)  # global socket
+    socket_database = socket_data()
+    socket_database = socket_database.data_base_socket
     socket_database.connect()
     global username, password, username_color, password_color
 
