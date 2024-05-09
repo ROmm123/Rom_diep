@@ -13,30 +13,7 @@ from moviepy.editor import VideoFileClip
 from chat_client import *
 import os
 from Static_Obj import StaticObjects
-
-'''class DrawingThread(threading.Thread):
-    def __init__(self, draw_queue, map, player):
-        super().__init__()
-        self.draw_queue = draw_queue
-        self.map = map
-        self.player = player
-
-    def run(self):
-        while True:
-            # Get the next drawing task from the queue
-            task = self.draw_queue.get()
-            if task is not None:
-                priority, obj = task
-                print(priority)
-                try:
-                    if priority == 1:
-                        enemy = enemy_main(obj[0],obj[1],obj[2],obj[3])
-                        enemy.main()
-                        self.draw_queue.task_done()
-                    elif priority == 0:
-                        self.draw_queue.task_done()
-                except Exception as e:
-                    print(e)'''
+from npc import *
 
 
 # game almost done
@@ -68,6 +45,8 @@ class Game():
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
         self.list_position_clients = []
+        self.NPCs = NPCS(self.setting, 600 * 64, 675 * 64, self.player.position)
+
 
     def run_therad(self, count):
         print("in draw thread")
@@ -145,7 +124,9 @@ class Game():
                 self.player.stored_abilities.append(ability)'''
             # print(self.player.stored_abilities)
 
-
+            self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
+                          self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
+                          self.static_object.Static_objects, self.player.position)
 
             collisions, position_collision = self.static_object.draw(
                 self.player.screen_position[0],
@@ -174,6 +155,9 @@ class Game():
                 data_for_obj = {
                     "position_collision": None  # pos of player only
                 }
+
+            if len(self.NPCs.NPCs) < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
+                self.NPCs.add_player(self.player.position)
 
             ability_size = False
             self.player.handle_events_shots(key_state)
@@ -336,6 +320,17 @@ class Game():
                 self.draw_event.wait()
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)
+
+                for NPC in self.NPCs.NPCs:
+                    npc_hit_result = self.player.npc_hit(NPC.SHOT.get_shot_rects(self.player.screen_position))
+                    if "npc shot" in npc_hit_result:
+                        NPC.SHOT.remove_shots.append(npc_hit_result[1])
+                        NPC.SHOT.remove()
+                    self.player.hurt(npc_hit_result)
+                    NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
+                    NPC.SHOT.update()
+                    NPC.SHOT.reset()
+
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
@@ -355,6 +350,17 @@ class Game():
             else:
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)
+
+                for NPC in self.NPCs.NPCs:
+                    npc_hit_result = self.player.npc_hit(NPC.SHOT.get_shot_rects(self.player.screen_position))
+                    if "npc shot" in npc_hit_result:
+                        NPC.SHOT.remove_shots.append(npc_hit_result[1])
+                        NPC.SHOT.remove()
+                    self.player.hurt(npc_hit_result)
+                    NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
+                    NPC.SHOT.update()
+                    NPC.SHOT.reset()
+
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
