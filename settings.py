@@ -45,6 +45,6 @@ class setting():
         self.surface.blit(fps_surface, (0, 0))
 
     def update(self):
-        pygame.display.update()
+        pygame.display.flip()
         self.clock.tick(60)
         self.fps = str(int(self.clock.get_fps()))
