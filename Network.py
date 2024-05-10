@@ -11,19 +11,15 @@ class Client:
         self.another_socket_for_enemies_or_obj = None  # Initialize enemies' socket
 
     def connect(self):
-        try:
-            # Connect to the main server
-            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client_socket.connect((self.host, self.port))
+        # Connect to the main server
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.connect((self.host, self.port))
 
-            # If enemies_Am_port is provided, connect to the enemies' server
-            if self.enemies_or_obj_Am_port is not None:
-                self.another_socket_for_enemies_or_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.another_socket_for_enemies_or_obj.connect((self.host, self.enemies_or_obj_Am_port))
+        # If enemies_Am_port is provided, connect to the enemies' server
+        if self.enemies_or_obj_Am_port is not None:
+            self.another_socket_for_enemies_or_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.another_socket_for_enemies_or_obj.connect((self.host, self.enemies_or_obj_Am_port))
 
-        except ConnectionRefusedError:
-            print("Connection refused.")
-            # Handle the error as needed
 
     def send_data(self, data_dict):
         try:
@@ -124,14 +120,11 @@ class Client:
 
     def receive_data_EnemiesAm(self):
         data_str = self.another_socket_for_enemies_or_obj.recv(2048).decode("utf-8")
-        data_dict = json.loads(data_str)
-        return data_dict
+        return data_str
 
     def close(self):
         try:
             self.client_socket.close()
-            self.another_socket_for_enemies_or_obj.close()
-
         except Exception as e:
             print(f"Error closing sockets: {e}")
 

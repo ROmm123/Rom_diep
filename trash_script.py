@@ -44,7 +44,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 28.5, self.setting.red, self.setting)
+        self.player = Player(14500, 0, 28.5, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
@@ -55,9 +55,7 @@ class Game():
         self.client = Client(None, None)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
-        # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
-        self.draw_event = threading.Event()  # Create an event for synchronization
-        self.draw_event.set()  # Set the event initially
+        # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing threa
         # self.drawing_thread.start()  # Start the drawing thread
         self.speed_start_time = 0
         self.size_start_time = 0
@@ -66,15 +64,15 @@ class Game():
         self.FLAG_SERVER_2 = False
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
+        self.RuN = True
         self.flag_obj = False
         self.list_position_clients = []
 
     def run_therad(self, count):
         print("in draw thread")
-        self.list_position_clients.append(self.player.screen_position)  # defult [x,y] for first time
+        #self.list_position_clients.append(self.player.screen_position)  # defult [x,y] for first time
         while True:
             try:
-                print(self.list_position_clients)
                 data = self.client.receive_data()
                 # print(data)
             except:
@@ -87,10 +85,9 @@ class Game():
 
             if data != '0' and data:
                 enemy_instance = enemy_main(data, self.player, self.setting)
-                vector_enemy_position = [data["player_position_x"], data["player_position_y"]]
-                self.list_position_clients[count] = vector_enemy_position
+                #vector_enemy_position = [data["player_position_x"], data["player_position_y"]]
+                #self.list_position_clients[count] = vector_enemy_position
                 enemy_instance.main()
-                self.draw_event.set()
 
     def obj_recv(self):
         print("in draw obj")
@@ -111,7 +108,6 @@ class Game():
                             static_obj.isAlive = False
 
     def run(self):
-        print(self.crate_positions)
         self.speed_start_time = 0
         self.size_start_time = 0
         self.shield_start_time = 0
@@ -154,7 +150,6 @@ class Game():
                 player_rect)
 
             ability = None
-            print("collision", collisions)
             if collisions is not None:
                 for collision in collisions:
                     if "player hit" in collision:
@@ -233,6 +228,7 @@ class Game():
                     self.FLAG_SERVER_2 = False
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
+                    self.num_enemies = 0
 
                     # Start handling enemies for server 1
                     threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
@@ -249,7 +245,6 @@ class Game():
                     print("already_close")
                     self.client.close()
                     self.client.close_enemies_Am()
-                    self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
@@ -261,6 +256,7 @@ class Game():
                     self.FLAG_SERVER_2 = True
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
+                    self.num_enemies = 0
 
                     # Start handling enemies for server 2
                     threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
@@ -333,7 +329,6 @@ class Game():
                 self.flag_obj = True
 
             if self.num_enemies > 0:
-                self.draw_event.wait()
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
@@ -351,7 +346,6 @@ class Game():
                 self.setting.update()
 
                 # Reset the event for the next iteration
-                self.draw_event.clear()
             else:
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)
@@ -380,9 +374,13 @@ class Game():
         while True:
             try:
                 enemies = client.receive_data_EnemiesAm()
+                print(enemies)
+                enemies = int(enemies[-1])
             except:
                 print("close thread handeling")
                 break
+
+
             enemies = int(enemies)
             diff = enemies - self.num_enemies
             self.num_enemies = enemies

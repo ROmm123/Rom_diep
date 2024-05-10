@@ -31,10 +31,14 @@ class Server:
 
             data = self.recive_from_client(client_socket)
 
-            print(self.clients)
             if not data:
                 print(f"closing socket {count}")
                 self.enemies = self.enemies - 1
+                print(self.enemies)
+                for client_socket_am in self.enemies_am_list:
+                    client_socket_am.send(("server1:"+str(self.enemies)).encode())
+
+
                 print(f"Client {client_socket.getpeername()} disconnected")
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
@@ -53,7 +57,7 @@ class Server:
             if len(self.clients) > 1:
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
-                        receiver_socket.send(data.encode("utf-8"))
+                        receiver_socket.send(("server1:"+data).encode("utf-8"))
 
 
     def handle_Enemies_Am(self):
@@ -64,8 +68,10 @@ class Server:
                 self.enemies+=1
                 print("recived from "+ str(addr) +" enemies: "+ str(self.enemies))
 
+                print(self.enemies)
                 for client_socket in self.enemies_am_list:
                     client_socket.send(str(self.enemies).encode())
+
         except:
             print("hello")
 

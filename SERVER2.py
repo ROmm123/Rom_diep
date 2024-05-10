@@ -12,7 +12,7 @@ class Server:
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
-        self.server_socket.listen(5)
+        self.server_socket.listen(1000)
         self.clients = []
         self.clients_lock = threading.Lock()
 
@@ -31,10 +31,15 @@ class Server:
 
             data = self.recive_from_client(client_socket)
 
-            print(self.clients)
             if not data:
                 print(f"closing socket {count}")
                 self.enemies = self.enemies - 1
+                print(self.enemies)
+                for client_socket_am in self.enemies_am_list:
+                    client_socket_am.send(("server2:"+str(self.enemies)).encode())
+                    print("send enimes data")
+
+
                 print(f"Client {client_socket.getpeername()} disconnected")
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
@@ -63,9 +68,9 @@ class Server:
                 self.enemies_am_list.append(client_socket)
                 self.enemies+=1
                 print("recived from "+ str(addr) +" enemies: "+ str(self.enemies))
-
+                print(self.enemies)
                 for client_socket in self.enemies_am_list:
-                    client_socket.send(str(self.enemies).encode())
+                    client_socket.send(("server2:"+str(self.enemies)).encode())
         except:
             print("hello")
 
@@ -100,6 +105,7 @@ class Server:
             return data
         except:
             return None
+
 
 
 if __name__ == '__main__':
