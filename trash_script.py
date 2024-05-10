@@ -51,8 +51,11 @@ class Game():
         self.client_npc_socket = Client_chat('localhost',55558)
         self.client_npc_socket.connect()
         self.npc_positions = self.client_npc_socket.receive_npc_posiyions_dict()
+        self.array_damage_list = self.client_npc_socket.receive_npc_posiyions_dict()
         print(self.npc_positions)
+        print(self.array_damage_list)
         print(type(self.npc_positions))
+        print(type(self.array_damage_list))
         self.NPCs = NPCS(self.setting, 600 * 64, 675 * 64, self.player.position)
 
 
