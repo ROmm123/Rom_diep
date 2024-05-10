@@ -37,7 +37,7 @@ class NPC:
         self.w_center_y = 0
         self.rect_npc = pygame.Rect((self.position_map_x-self.radius), (self.position_map_y-self.radius), (self.radius * 2), (self.radius * 2))
         self.resetDefaultLocation()
-        self.shot_cooldown = 500
+        self.shot_cooldown =10000
         self.last_shot_time = pygame.time.get_ticks()
         self.SHOT = NormalShot(5, self.setting.green, 0.962, self.setting, pygame.image.load("pictures/ball_2.png"))  # initialize normal shot
         self.can_orbit = False

@@ -2,12 +2,13 @@ import socket
 import json
 import threading
 from Random_PosObj import Random_Position
+from random_pos_npc import Random_Position_npc
 from settings import setting
 import queue
 
 
 class main_server:
-    def __init__(self, host, port, obj_port, chat_port, database_port):
+    def __init__(self, host, port, obj_port, chat_port, database_port , npc_port):
         # socket with main
         self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.main_server_socket.bind((host, port))
@@ -29,6 +30,18 @@ class main_server:
         self.database_socket.bind((host, database_port))
         self.database_socket.listen(1000)
         self.queue = queue.Queue()  # Queue for clients that want to join the game
+
+        # socket_for_npc
+        self.npc_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.npc_socket.bind((host, npc_port))
+        self.npc_socket.listen(1000)
+        self.clients_npcs = []
+        self.clients_lock_npcs = threading.Lock()
+        self.npcs_pos = Random_Position_npc()
+        self.npc_positions = self.npcs_pos.crate_position_dst_data()
+        self.array_demage_npc = [0] * 100
+
+
 
         self.static_objects = Random_Position(600 * 64, 675 * 64)
         self.clients = []
@@ -120,7 +133,7 @@ class main_server:
                 data_to_send = {
                     "crate_positions": self.positions_data
                 }
-                print(data_to_send)  # Print the data to send
+                #print(data_to_send)  # Print the data to send
                 # Convert the dictionary to a JSON string
                 json_data = json.dumps(data_to_send)
                 # Encode the JSON string to bytes
@@ -133,6 +146,27 @@ class main_server:
 
                 obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
                 obj_thread.start()
+        except:
+            print("hello")
+
+    def handle_npc_conection(self):
+        try:
+            while True:
+                npc_socket, addr_npc = self.npc_socket.accept()
+                # Construct the data to send to the client
+                print(self.npc_positions)  # Print the data to send
+                # Convert the dictionary to a JSON string
+                json_data = json.dumps(self.npc_positions)
+                # Encode the JSON string to bytes
+                encoded_data = json_data.encode()
+                # Send the encoded data to the clientll
+                npc_socket.send(encoded_data)
+
+                with self.clients_lock_npcs:
+                    self.clients_npcs.append((npc_socket, addr_npc))
+
+                #npc_thread = threading.Thread(target=self.handle_pos_obj, args=(npc_socket, len(self.clients_npcs, )))
+                #npc_thread.start()
         except:
             print("hello")
 
@@ -177,12 +211,14 @@ class main_server:
 
 
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55555, 55556, 55557, 64444)
+    my_server = main_server('localhost', 55555, 55556, 55557, 64444,55558)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
+    npc_thread = threading.Thread(target=my_server.handle_npc_conection)
     chat_thread = threading.Thread(target=my_server.start_chat)
     database_thread = threading.Thread(target=my_server.handle_database_clients)
     obj_thread.start()
+    npc_thread.start()
     chat_thread.start()
     database_thread.start()
     my_server.main_for_clients()

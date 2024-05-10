@@ -48,6 +48,11 @@ class Game():
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
         self.list_position_clients = []
+        self.client_npc_socket = Client_chat('localhost',55558)
+        self.client_npc_socket.connect()
+        self.npc_positions = self.client_npc_socket.receive_npc_posiyions_dict()
+        print(self.npc_positions)
+        print(type(self.npc_positions))
         self.NPCs = NPCS(self.setting, 600 * 64, 675 * 64, self.player.position)
 
 
@@ -99,7 +104,6 @@ class Game():
         self.shield_start_time = 0
         collisions = None
 
-        #npc1 = self.add_npc(self.static_object.Static_objects)  # enemy1,
 
         while self.running:
             key_state = pygame.key.get_pressed()
@@ -120,14 +124,6 @@ class Game():
             mouse_pos = pygame.mouse.get_pos()
             self.player.draw(mouse_pos)
 
-            '''
-            for static_obj in self.static_object.Static_objects:
-                self.static_object.move(static_obj)'''
-
-            '''ability = self.static_object.give_ability()
-            if ability is not None:
-                self.player.stored_abilities.append(ability)'''
-            # print(self.player.stored_abilities)
 
             self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
                           self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
@@ -151,53 +147,11 @@ class Game():
             self.player.update_ability()  # Update ability timers
 
 
-#<<<<<<< HEAD
-
             if position_collision is not None:
                 data_for_obj = {
                     "position_collision": position_collision  # pos of player only
                 }
 
-#=======
- #           self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects, self.player.position)
-
-
-#            collisions, normal_position_collision, big_position_collision = self.static_object.draw(self.player.screen_position[0], self.player.screen_position[1], self.setting, player_rect, self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(self.player.screen_position))
-
-            #if collisions is not None:
-            #    for collision in collisions:
-           #         if "normal shot index" in collision:
-          #              self.player.NORMAL_SHOT.remove_shots.append(collision[1])
-         #               self.player.NORMAL_SHOT.remove()
-        #            if "big shot index" in collision:
-       #                 self.player.BIG_SHOT.remove_shots.append(collision[1])
-      #                  self.player.BIG_SHOT.remove()
-     #               #if "npc shot index" in collision:
-    #                 #   self.NPCs[0].SHOT.remove_shots.append(collision[1])
-   #                   #  self.NPCs[0].SHOT.remove()
-  #                  if "player hit" in collision:
- #                       self.player.hurt(self.setting.hit_type[2])
-
-#            for npc in self.NPCs.NPCs:
-              #  collision_npc, npc_position_collision = self.static_object.npc_collision(npc.SHOT.get_shot_rects(self.player.screen_position))
-             #   if collision_npc is not None:
-            #        if "npc shot index" in collision_npc:
-           #             npc.SHOT.remove_shots.append(collision_npc[1])
-          #              npc.SHOT.remove()
-
-
-         #   if normal_position_collision is not None:
-        #        data_for_obj = {
-       #             "position_collision": normal_position_collision,  # pos of collision player and obj
-      #              "which_size_ball": 1
-     #           }
-    #        elif big_position_collision is not None:
-   #             data_for_obj = {
-  #                  "position_collision": big_position_collision,  # pos of collision player and obj
- #                   "which_size_ball": 2
-
-#                }
-#>>>>>>> npc1
             else:
                 data_for_obj = {
                     "position_collision": None  # pos of player only

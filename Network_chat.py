@@ -68,6 +68,19 @@ class Client_chat:
 
         return None
 
+    def receive_npc_posiyions_dict(self):
+        try:
+            chunk = self.socket_chat.recv(2**20)  # Receive a chunk of data
+            data_str = chunk.decode("utf-8")  # Decode the byte string to UTF-8 string
+            last_bracket_index = data_str.rfind('}')
+            if last_bracket_index != -1:
+                data_str = data_str[:last_bracket_index + 1]
+            data_dict = json.loads(data_str)  # Parse the JSON string into a dictionary
+            return data_dict
+        except Exception as e:
+            print(f"Error receiving data: {e}")
+            return None
+
     def close(self):
         try:
             self.socket_chat.close()
