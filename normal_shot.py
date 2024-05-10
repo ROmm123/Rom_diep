@@ -14,7 +14,7 @@ class NormalShot:
         self.surface = self.setting.surface
         self.rect = self.surface.get_rect()
         self.offset_distance = 50
-        self.speed = 2
+        self.speed = 15
         self.remove_speed = 0.3
         self.direction = [0, 0]
         self.shot_button = [False, False]
@@ -70,9 +70,6 @@ class NormalShot:
         self.direction[0] = goal_x - npc_position[0]  # break down mouse position into x and y components
         self.direction[1] = goal_y - npc_position[1]
 
-        print("screen", screen_position)
-        print("center", npc_position)
-
         magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
         print(magnitude)
         if magnitude != 0:  # checks if zero vector
@@ -87,9 +84,7 @@ class NormalShot:
 
         print("start pos:", start_x, start_y)
 
-        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0] * self.speed,
-                                                                        self.velocity[
-                                                                            1] * self.speed]})  # adds a shot to an array for it to print on the screen
+        self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0], self.velocity[1]]})  # adds a shot to an array for it to print on the screen
 
     def calc_relative(self,screen_position,move_button,speed):
         self.shot_relative_vector = [0, 0]  # shot relative vector to control bullet movement
@@ -119,7 +114,7 @@ class NormalShot:
 
             circle["position"][0] += circle["velocity"][0] + self.shot_relative_vector[0]
             circle["position"][1] += circle["velocity"][1] + self.shot_relative_vector[1]
-
+            print(circle["velocity"])
             self.draw()
 
             # check shots to remove (if below the remove_speed)

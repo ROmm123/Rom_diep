@@ -18,10 +18,10 @@ class NPC:
         self.color = color
         self.setting = setting
         self.speed = 2
-        self.rect_center_x = 12370 #random.randint(0, total screen_width)
-        self.rect_center_y = 270 #random.randint(0, total screen_height)
-        self.position_map_x = 12370
-        self.position_map_y = 270
+        self.rect_center_x = 0 #random.randint(0, total screen_width)
+        self.rect_center_y = 0 #random.randint(0, total screen_height)
+        self.position_map_x = 0
+        self.position_map_y = 0
         self.set = set
         self.VR = view_radius
         self.player_position = player_position #position of plater relative to the map
@@ -38,7 +38,7 @@ class NPC:
         self.resetDefaultLocation()
         self.shot_cooldown = 500
         self.last_shot_time = pygame.time.get_ticks()
-        self.SHOT = NormalShot(5, self.setting.green, 0.99, 2, self.setting)  # initialize normal shot
+        self.SHOT = NormalShot(5, self.setting.green, 0.962, 2, self.setting)  # initialize normal shot
         self.can_orbit = False
         self.distance = math.sqrt((self.goal_x-self.rect_center_x)**2 + (self.goal_y-self.rect_center_y)**2)
 
@@ -169,15 +169,6 @@ class NPC:
 
             rect = weapon_surf.get_rect(center=(self.w_center_x, self.w_center_y))
             self.setting.surface.blit(weapon_surf, rect)
-
-    #def can_shot(self):
-        # if the npc can shot reurn true
-    #    self.distance = math.sqrt((self.goal_x-self.rect_center_x)*2 + (self.goal_y-self.rect_center_y)*2)
-     #33   #print(distance)
-       # if self.distance < self.VR:
-      #      return True
-       # else:
-        #    return False
 
     def handle_events_shots(self, screen_pos_x, screen_pos_y):
         current_time = pygame.time.get_ticks()
