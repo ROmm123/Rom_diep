@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="alon ata BOR(LA)!">
-      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="database works for 1 client , didnt check for more">
+      <change afterPath="$PROJECT_DIR$/database_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network_chat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/signin_screan.py" beforeDir="false" afterPath="$PROJECT_DIR$/signin_screan.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
@@ -58,56 +56,56 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.$RS1TBVV.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Network.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER1.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER3.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SERVER4.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Static_Obj.executor&quot;: &quot;Run&quot;,
-    &quot;Python.client_chat.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_calculate.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.enemy_player.executor&quot;: &quot;Run&quot;,
-    &quot;Python.example.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game_to_funcs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.login_screen.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main_to_funcs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.old_main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.player.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server_chat.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server_oop.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings.executor&quot;: &quot;Run&quot;,
-    &quot;Python.signin_screan.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_game.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.test_server_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.trash_script.executor&quot;: &quot;Run&quot;,
-    &quot;Python.trash_script2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.trash_scripts.executor&quot;: &quot;Run&quot;,
-    &quot;Python.try_font.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;we-are-cooked&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Program Files (x86)/Python38-32/python.exe&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python.$RS1TBVV.executor": "Run",
+    "Python.Network.executor": "Run",
+    "Python.SERVER1.executor": "Run",
+    "Python.SERVER2.executor": "Run",
+    "Python.SERVER3.executor": "Run",
+    "Python.SERVER4.executor": "Run",
+    "Python.Static_Obj.executor": "Run",
+    "Python.client_chat.executor": "Run",
+    "Python.enemy_calculate.executor": "Run",
+    "Python.enemy_main.executor": "Run",
+    "Python.enemy_player.executor": "Run",
+    "Python.example.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.game_to_funcs.executor": "Run",
+    "Python.login_screen.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.main_to_funcs.executor": "Run",
+    "Python.old_main.executor": "Run",
+    "Python.player.executor": "Run",
+    "Python.server.executor": "Run",
+    "Python.server_chat.executor": "Run",
+    "Python.server_oop.executor": "Run",
+    "Python.settings.executor": "Run",
+    "Python.signin_screan.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_game.executor": "Debug",
+    "Python.test_server_new.executor": "Debug",
+    "Python.trash_script.executor": "Run",
+    "Python.trash_script2.executor": "Run",
+    "Python.trash_scripts.executor": "Run",
+    "Python.try_font.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "we-are-cooked",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Program Files (x86)/Python38-32/python.exe",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep" />
@@ -115,7 +113,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.$RS1TBVV">
+  <component name="RunManager" selected="Python.login_screen">
     <configuration name="$RS1TBVV" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -182,7 +180,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="login_screen" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="login_screen" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -236,10 +234,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.login_screen" />
+        <item itemvalue="Python.SERVER2" />
         <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
         <item itemvalue="Python.trash_script" />
-        <item itemvalue="Python.SERVER2" />
       </list>
     </recent_temporary>
   </component>
@@ -580,7 +578,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1715167120654</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL‎-00041" summary="database works for 1 client , didnt check for more">
+      <option name="closed" value="true" />
+      <created>1715202434635</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL‎-00041" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1715202434635</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -599,7 +605,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="without shot" />
     <MESSAGE value="doesnt work" />
     <MESSAGE value="almost work" />
     <MESSAGE value="only need to draw the shot every time in enemy and main" />
@@ -624,7 +629,8 @@
     <MESSAGE value="new abilities photos" />
     <MESSAGE value="MAKE NEW MULTITHREADING FROM IN HANDLE DATABASE_CLIENTS" />
     <MESSAGE value="alon ata BOR(LA)!" />
-    <option name="LAST_COMMIT_MESSAGE" value="alon ata BOR(LA)!" />
+    <MESSAGE value="database works for 1 client , didnt check for more" />
+    <option name="LAST_COMMIT_MESSAGE" value="database works for 1 client , didnt check for more" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -637,6 +643,11 @@
           <url>file://$PROJECT_DIR$/../diep-2.0/test.py</url>
           <line>173</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/login_screen.py</url>
+          <line>227</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

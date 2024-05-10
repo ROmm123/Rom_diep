@@ -56,8 +56,8 @@ class Game():
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
         # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
-        self.draw_event = threading.Event()  # Create an event for synchronization
-        self.draw_event.set()  # Set the event initially
+        #self.draw_event = threading.Event()  # Create an event for synchronization
+        #self.draw_event.set()  # Set the event initially
         # self.drawing_thread.start()  # Start the drawing thread
         self.speed_start_time = 0
         self.size_start_time = 0
@@ -90,7 +90,7 @@ class Game():
                 vector_enemy_position = [data["player_position_x"], data["player_position_y"]]
                 self.list_position_clients[count] = vector_enemy_position
                 enemy_instance.main()
-                self.draw_event.set()
+                #self.draw_event.set()
 
 
     def obj_recv(self):
@@ -335,7 +335,7 @@ class Game():
                 self.flag_obj = True
 
             if self.num_enemies > 0:
-                self.draw_event.wait()
+                #self.draw_event.wait()
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
@@ -353,7 +353,7 @@ class Game():
                 self.setting.update()
 
                 # Reset the event for the next iteration
-                self.draw_event.clear()
+                #self.draw_event.clear()
             else:
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)

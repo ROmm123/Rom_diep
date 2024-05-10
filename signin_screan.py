@@ -1,10 +1,11 @@
 import pygame
 import sys
-from Network_chat import *
-from login_screen import *
 
+import trash_script
+from database_manager import socket_data
 # add text removing after login pressed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Initialize Pygame
+import login_screen
 pygame.init()
 
 
@@ -80,7 +81,9 @@ def perform_signin():
 
 def switch_to_login_screen(socket_database):
     socket_database.close()
-    login_screen.main()  # Call the main function from login_screen
+    username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = login_screen.main()
+    trash_script.main(username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+
 
 
 def main():
@@ -118,6 +121,7 @@ def main():
                     }
 
                     socket_database.send_database_data(database_data)
+                    switch_to_login_screen(socket_database)
 
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
                     switch_to_login_screen(socket_database)  # Call the function to switch screens
@@ -143,6 +147,7 @@ def main():
                         }
 
                         socket_database.send_database_data(database_data)
+                        switch_to_login_screen(socket_database)
 
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
