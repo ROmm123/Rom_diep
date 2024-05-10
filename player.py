@@ -76,6 +76,8 @@ class Player():
             self.hp.Damage += big_hit_damage * shield_effect
         if "ultimate shot" in hit_type:
             self.hp.Damage += ultimate_hit_damage * shield_effect
+        if "npc shot" in hit_type:
+            self.hp.Damage += small_hit_damage * shield_effect
         # if "coll" in hit_type:
         # self.hp.Damage += coll_hit_damage * shield_effect
 
@@ -133,6 +135,20 @@ class Player():
         self.BIG_SHOT.remove()
         self.ULTIMATE_SHOT.remove()
         return to_remove
+
+
+    def npc_hit(self, npc_shots_rects):
+        to_remove = []
+        player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
+
+        if npc_shots_rects is not None:
+            for i, _ in enumerate(npc_shots_rects):
+                shot_rect = npc_shots_rects[i]
+                if player_rect.colliderect(shot_rect):
+                    to_remove.append("npc shot")
+                    to_remove.append(i)
+        return to_remove
+
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
         to_remove = []

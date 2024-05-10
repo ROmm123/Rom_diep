@@ -1,6 +1,6 @@
 from socket import *
 from threading import *
-from tkinter import *
+#from tkinter import *
 from Network_chat import *
 import pygame
 import sys

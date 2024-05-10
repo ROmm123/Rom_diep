@@ -12,14 +12,15 @@ from inventory import *
 
 class NPC:
 
-    def __init__(self, x, y, radius, color, setting, view_radius, player_position):   # enemy,
+    def __init__(self, x, y, radius, color, setting,  view_radius, player_position):   # enemy,
         self.surface = setting.surface
         self.radius = radius
         self.color = color
         self.setting = setting
+        self.surface = self.setting.surface
         self.speed = 2
-        self.rect_center_x = 0
-        self.rect_center_y = 0
+        self.rect_center_x = 0 #random.randint(0, total screen_width)
+        self.rect_center_y = 0 #random.randint(0, total screen_height)
         self.position_map_x = 0
         self.position_map_y = 0
         self.set = set
@@ -36,9 +37,9 @@ class NPC:
         self.w_center_y = 0
         self.rect_npc = pygame.Rect((self.position_map_x-self.radius), (self.position_map_y-self.radius), (self.radius * 2), (self.radius * 2))
         self.resetDefaultLocation()
-        self.shot_cooldown = 100000
+        self.shot_cooldown = 500
         self.last_shot_time = pygame.time.get_ticks()
-        self.SHOT = NormalShot(5, self.setting.green, 0.99, 2, self.setting)  # initialize normal shot
+        self.SHOT = NormalShot(5, self.setting.green, 0.962, self.setting, pygame.image.load("pictures/ball_2.png"))  # initialize normal shot
         self.can_orbit = False
         self.distance = math.sqrt((self.goal_x-self.rect_center_x)**2 + (self.goal_y-self.rect_center_y)**2)
 
@@ -170,15 +171,6 @@ class NPC:
             rect = weapon_surf.get_rect(center=(self.w_center_x, self.w_center_y))
             self.setting.surface.blit(weapon_surf, rect)
 
-    #def can_shot(self):
-        # if the npc can shot reurn true
-    #    self.distance = math.sqrt((self.goal_x-self.rect_center_x)*2 + (self.goal_y-self.rect_center_y)*2)
-     #33   #print(distance)
-       # if self.distance < self.VR:
-      #      return True
-       # else:
-        #    return False
-
     def handle_events_shots(self, screen_pos_x, screen_pos_y):
         current_time = pygame.time.get_ticks()
         screen_position = [screen_pos_x, screen_pos_y]
@@ -196,6 +188,9 @@ class NPC:
                 self.SHOT.npc_shoot(center, screen_position, self.goal_x, self.goal_y, self.get_angel_to_target())
                 self.SHOT.shot_button[0] = True
                 self.last_shot_time = current_time  # update last shot time
+
+
+
 
 class NPCS:
 
