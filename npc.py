@@ -194,15 +194,28 @@ class NPC:
 
 class NPCS:
 
-    def __init__(self, setting, player_position , position_npc):
-        self.setting = setting
-        self.surface = setting.surface
-        self.NPCs = []  # the NPCs list
+    def __init__(self, setting, player_position , position_npc , which_server):
 
-        for inner_key, pos_value in position_npc.items():
-            x, y = pos_value
-            npc = NPC(x, y, 30, self.setting.red, self.setting, 300, player_position)
-            self.NPCs.append(npc)
+        if setting != None and player_position != None and position_npc != None and which_server != None :
+            self.setting = setting
+            self.surface = setting.surface
+            self.NPCs = []  # the NPCs list
+
+            if which_server == 1 :
+                values_subset = [position_npc[f'pos_{i}'] for i in range(0, 24)]
+            elif which_server == 2:
+                values_subset = [position_npc[f'pos_{i}'] for i in range(24, 49)]
+            elif which_server == 3:
+                values_subset = [position_npc[f'pos_{i}'] for i in range(49, 74)]
+            else:
+                values_subset = [position_npc[f'pos_{i}'] for i in range(74, 99)]
+
+            for pos in values_subset:
+                x , y = pos
+                npc = NPC(x, y, 30, self.setting.red, self.setting, 300, player_position)
+                self.NPCs.append(npc)
+        else:
+            pass
 
     def add_player(self, player_position):
         npc = NPC(0, 0, 30, self.setting.red, self.setting, 300, player_position)

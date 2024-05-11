@@ -60,7 +60,7 @@ class Game():
 
 
 
-        self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions)
+        self.NPCs = NPCS(None,None,None,None)
 
 
     def run_therad(self, count):
@@ -133,9 +133,9 @@ class Game():
             self.player.draw(mouse_pos)
 
 
-            self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
+            """self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
                           self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
-                          self.static_object.Static_objects, self.player.position)
+                          self.static_object.Static_objects, self.player.position)"""
 
             collisions, position_collision = self.static_object.draw(
                 self.player.screen_position[0],
@@ -164,8 +164,8 @@ class Game():
                     "position_collision": None  # pos of player only
                 }
 
-            if len(self.NPCs.NPCs) < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
-                self.NPCs.add_player(self.player.position)
+            """if len(self.NPCs.NPCs) < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
+                self.NPCs.add_player(self.player.position)"""
 
             ability_size = False
             self.player.handle_events_shots(key_state)
@@ -226,6 +226,10 @@ class Game():
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
 
+                    self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 1)
+                    #TODO update the list pos from server if i want to go to another server
+
+
                     # Start handling enemies for server 1
                     threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
@@ -254,6 +258,9 @@ class Game():
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = False
 
+                    self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 2)
+                    #TODO update the list pos from server if i want to go to another server
+
                     # Start handling enemies for server 2
                     threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
@@ -280,6 +287,9 @@ class Game():
                     self.FLAG_SERVER_2 = False
                     self.FLAG_SERVER_3 = True
                     self.FLAG_SERVER_4 = False
+
+                    self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 3)
+                    #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 3
                     threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
@@ -308,6 +318,9 @@ class Game():
                     self.FLAG_SERVER_3 = False
                     self.FLAG_SERVER_4 = True
 
+                    self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 4)
+                    #TODO update the list pos from server if i want to go to another server
+
                     # Start handling enemies for server 4
                     threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
@@ -323,6 +336,15 @@ class Game():
             if not self.flag_obj:
                 threading.Thread(target=self.obj_recv).start()
                 self.flag_obj = True
+
+
+
+            self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
+                          self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
+                          self.static_object.Static_objects, self.player.position)
+
+            if len(self.NPCs.NPCs) < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
+                self.NPCs.add_player(self.player.position)
 
 
 
