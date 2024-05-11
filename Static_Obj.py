@@ -35,7 +35,7 @@ class StaticObject():
             self.image = pygame.image.load("pictures/health3.png")
         else:
             self.color = setting.green
-            self.image = pygame.image.load("pictures/health3.png")
+            self.image = pygame.image.load("pictures/health4.png")
 
         self.move_button = [False, False, False, False]
         self.isAlive = True
