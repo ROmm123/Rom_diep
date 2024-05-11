@@ -170,8 +170,8 @@ class main_server:
                 with self.clients_lock:
                     self.clients.append((obj_socket, addr_obj))
 
-                obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
-                obj_thread.start()
+                #npc_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
+                #npc_thread.start()
         except:
             print("hello")
 
@@ -200,8 +200,8 @@ class main_server:
                 with self.clients_lock_npcs:
                     self.clients_npcs.append((npc_socket, addr_npc))
 
-                #npc_thread = threading.Thread(target=self.handle_pos_npc, args=(npc_socket, len(self.clients_npcs, )))
-                #npc_thread.start()
+                npc_thread = threading.Thread(target=self.handle_pos_npc, args=(npc_socket, len(self.clients_npcs, )))
+                npc_thread.start()
         except:
             print("hello")
 

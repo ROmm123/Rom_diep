@@ -61,18 +61,18 @@ class NormalShot:
         self.direction[1] = goal_y - npc_position[1]
 
         magnitude = math.sqrt(self.direction[0] ** 2 + self.direction[1] ** 2)
-        print(magnitude)
+        #print(magnitude)
         if magnitude != 0:  # checks if zero vector
             self.direction[0] /= magnitude  # normalize the direction vector (0-1)
             self.direction[1] /= magnitude
 
-        print("direction", self.direction)
+        #print("direction", self.direction)
 
         self.velocity = [self.speed * self.direction[0], self.speed * self.direction[1]]
         start_x = npc_position[0] + self.offset_distance * math.cos(angle)  # calculates the starting position - the middle of the weapon
         start_y = npc_position[1] + self.offset_distance * math.sin(angle)
 
-        print("start pos:", start_x, start_y)
+        #print("start pos:", start_x, start_y)
 
         self.shots.append({"position": [start_x, start_y], "velocity": [self.velocity[0], self.velocity[1]]})  # adds a shot to an array for it to print on the screen
 
@@ -104,7 +104,7 @@ class NormalShot:
 
             circle["position"][0] += circle["velocity"][0] + self.shot_relative_vector[0]
             circle["position"][1] += circle["velocity"][1] + self.shot_relative_vector[1]
-            print(circle["velocity"])
+            #print(circle["velocity"])
             self.draw()
 
             # check shots to remove (if below the remove_speed)

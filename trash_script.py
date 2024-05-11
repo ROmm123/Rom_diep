@@ -31,7 +31,6 @@ class Game():
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
-        self.NPCs = NPCS(setting(), 600 * 64, 675 * 64, self.player.position)
         self.client = Client(None, None)
         self.running = True
         # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
@@ -48,6 +47,8 @@ class Game():
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
         self.list_position_clients = []
+
+        #npc init
         self.client_npc_socket = Client_chat('localhost',55558)
         self.client_npc_socket.connect()
         self.npc_positions = self.client_npc_socket.receive_npc_posiyions_dict()
@@ -56,7 +57,10 @@ class Game():
         print(self.array_damage_list)
         print(type(self.npc_positions))
         print(type(self.array_damage_list))
-        self.NPCs = NPCS(self.setting, 600 * 64, 675 * 64, self.player.position)
+
+
+
+        self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions)
 
 
     def run_therad(self, count):
@@ -64,7 +68,6 @@ class Game():
         self.list_position_clients.append(self.player.screen_position)  # defult [x,y] for first time
         while True:
             try:
-                print(self.list_position_clients)
                 data = self.client.receive_data()
                 # print(data)
             except:
@@ -100,8 +103,10 @@ class Game():
                     if static_obj.position == data["position_collision"]:
                             static_obj.isAlive = False
 
+
+
+
     def run(self):
-        print(self.crate_positions)
         self.speed_start_time = 0
         self.size_start_time = 0
         self.shield_start_time = 0
@@ -139,7 +144,6 @@ class Game():
                 player_rect)
 
             ability = None
-            print("collision", collisions)
             if collisions is not None:
                 for collision in collisions:
                     if "player hit" in collision:
@@ -319,6 +323,8 @@ class Game():
             if not self.flag_obj:
                 threading.Thread(target=self.obj_recv).start()
                 self.flag_obj = True
+
+
 
             if self.num_enemies > 0:
                 self.draw_event.wait()

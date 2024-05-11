@@ -23,19 +23,19 @@ class Random_Position_npc():
     def __init__(self):
             # self.surface = setting.surface
         self.npc_position = []  # the static object list
-        for _ in range(25):
+        for _ in range(4):
            pos = Npc_pos(1)
            self.npc_position.append(pos)
 
-        for _ in range(25):
+        for _ in range(2):
             pos = Npc_pos(2)
             self.npc_position.append(pos)
 
-        for _ in range(25):
+        for _ in range(1):
             pos = Npc_pos(3)
             self.npc_position.append(pos)
 
-        for _ in range(25):
+        for _ in range(2):
             pos = Npc_pos(4)
             self.npc_position.append(pos)
 

@@ -21,8 +21,8 @@ class NPC:
         self.speed = 2
         self.rect_center_x = 0 #random.randint(0, total screen_width)
         self.rect_center_y = 0 #random.randint(0, total screen_height)
-        self.position_map_x = 0
-        self.position_map_y = 0
+        self.position_map_x = x
+        self.position_map_y = y
         self.set = set
         self.VR = view_radius
         self.player_position = player_position #position of plater relative to the map
@@ -36,7 +36,7 @@ class NPC:
         self.w_center_x = 0
         self.w_center_y = 0
         self.rect_npc = pygame.Rect((self.position_map_x-self.radius), (self.position_map_y-self.radius), (self.radius * 2), (self.radius * 2))
-        self.resetDefaultLocation()
+        #self.resetDefaultLocation()
         self.shot_cooldown =10000
         self.last_shot_time = pygame.time.get_ticks()
         self.SHOT = NormalShot(5, self.setting.green, 0.962, self.setting, pygame.image.load("pictures/ball_2.png"))  # initialize normal shot
@@ -67,10 +67,10 @@ class NPC:
             player_rect[0] = player_rect[0]
             player_rect[1] = player_rect[1]
             if self.rect_npc.colliderect(player_rect):
-                print("Collision detected")
+                #print("Collision detected")
                 self.hurt()
-            print(self.rect_npc)
-            print(player_rect)
+            #print(self.rect_npc)
+            #print(player_rect)
 
             for index, shot_rect in enumerate(shots_rects):
                 if self.rect_npc.colliderect(shot_rect):
@@ -194,12 +194,14 @@ class NPC:
 
 class NPCS:
 
-    def __init__(self, setting, map_width, map_height, player_position):
+    def __init__(self, setting, player_position , position_npc):
         self.setting = setting
         self.surface = setting.surface
         self.NPCs = []  # the NPCs list
-        for i in range(2):
-            npc = NPC(0, 0, 30, self.setting.red, self.setting, 300, player_position)
+
+        for inner_key, pos_value in position_npc.items():
+            x, y = pos_value
+            npc = NPC(x, y, 30, self.setting.red, self.setting, 300, player_position)
             self.NPCs.append(npc)
 
     def add_player(self, player_position):
