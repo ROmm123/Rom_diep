@@ -3,6 +3,7 @@ import json
 import threading
 from Random_PosObj import Random_Position
 from random_pos_npc import Random_Position_npc
+from connection_with_database import *
 from settings import setting
 import queue
 
@@ -29,7 +30,10 @@ class main_server:
         self.database_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.database_socket.bind((host, database_port))
         self.database_socket.listen(1000)
-        self.queue = queue.Queue()  # Queue for clients that want to join the game
+        self.queue_for_Sign_req = queue.Queue()  # Queue for clients that want to join the game
+        self.queue_for_login_req = queue.Queue()  # Queue for clients that want to join the game
+        self.queue_for_logout_req = queue.Queue()  # Queue for clients that want to leave the game
+
 
         # socket_for_npc
         self.npc_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -51,11 +55,65 @@ class main_server:
         self.positions_data = self.static_objects.crate_position_dst_data()
 
     def handle_database_clients(self):
-        print("join handle database")
+        # MAKE IT A DIFFERENT THREAD , MULTITHREADING
+        #("join handle database")
         while True:
             client_database_socket, addr = self.database_socket.accept()
+            threading.Thread(target=self.insert_to_queue_database , args=(client_database_socket,)).start()
+            print("started thread")
+
+    def insert_to_queue_database(self , client_database_socket):
+        print("in thread in main class, socket is : "+str(client_database_socket))
+        Quary = ("login", "signin" , "logout")
+        running = True
+        while running:
             data_from_database = client_database_socket.recv(2048).decode("utf-8")
-            self.queue.put(data_from_database)
+            if Quary[1] in data_from_database:
+                self.queue_for_Sign_req.put(
+                    (data_from_database, client_database_socket))  # Queue for clients that want to join the game
+            elif Quary[0] in data_from_database:
+                self.queue_for_login_req.put(
+                    (data_from_database, client_database_socket))  # Queue for clients that want to join the game
+            elif Quary[2] in data_from_database:
+                print("log out packet , adding to flipin queue init")
+                self.queue_for_logout_req.put(
+                    (data_from_database, client_database_socket))
+                running = False
+
+
+    def handle_queue_database(self):
+        while True:
+            if not self.queue_for_Sign_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_Sign_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                handle_data_for_signin(raw_signin_packet["username"], raw_signin_packet["password"])
+            if not self.queue_for_login_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
+                #("info : " + str(info))
+                if info:
+                    string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
+                    print("STRING TUPLE : "+str(string_tuple))
+                    print("TYPE : "+str(type(string_tuple)))
+                    client_database_socket.send(string_tuple.encode("utf-8"))
+                    #("data sent")
+                else:
+                    client_database_socket.send("sign again".encode("utf-8"))
+
+            if not self.queue_for_logout_req.empty():
+                signout_packet = self.queue_for_logout_req.get()
+                print("logged out packet: "+str(signout_packet))
+                loadedPacket = json.loads(signout_packet[0])
+                print("USERNAME IN LOADEDPACKET = "+str(loadedPacket["username"]))
+                print("TYPE USERNAME = "+str(type(loadedPacket["username"])))
+                handle_data_for_logout(loadedPacket["x"], loadedPacket["y"], loadedPacket["speed_c"],
+                                       loadedPacket["size_c"],
+                                       loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
+                                       loadedPacket["hp_c_15"], loadedPacket["hp_c_5"], loadedPacket["username"],
+                                       loadedPacket["password"])
+
+
 
     def handle_pos_obj(self, obj_socket, i):
         while True:
