@@ -341,7 +341,7 @@ class Game():
                           self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
                           self.static_object.Static_objects, self.player.position)
 
-            if len(self.NPCs.NPCs) < 2:  # if the npc is dead repawn a new one (need to be 100 enemies)
+            if len(self.NPCs.NPCs) < 25:  # if the npc is dead repawn a new one (need to be 100 enemies)
                 self.NPCs.add_player(self.player.position)
 
 
