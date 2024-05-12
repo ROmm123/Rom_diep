@@ -1,3 +1,4 @@
+
 import mysql.connector
 import queue
 import threading
@@ -13,7 +14,7 @@ def handle_data_for_signin(username, password):
             port='3306',  # Port number
             user='root',
             password='1234',
-            database="game_database"
+            database="datab"
         )
 
         if conn.is_connected():
@@ -49,14 +50,14 @@ def handle_data_for_signin(username, password):
         print(f"Error: {e}")
 
 
-def handle_data_forLogin():
+def handle_data_forLogin(username, password):
     try:
         conn = mysql.connector.connect(
             host='127.0.0.1',  # Host address
             port='3306',  # Port number
             user='root',
             password='1234',
-            database="game_database"
+            database="datab"
 
         )
 
@@ -65,7 +66,6 @@ def handle_data_forLogin():
 
             # Create a cursor object to execute SQL queries
             cursor = conn.cursor()
-
             # Perform login check here (e.g., check against the database)
             query = "SELECT * FROM data WHERE username = %s AND password = %s"
             cursor.execute(query, (username, password))
@@ -74,11 +74,15 @@ def handle_data_forLogin():
             if result:
                 print("Login successful!")
                 print(result)
-                # Delete the record from the 'data' table
-                delete_query = "DELETE FROM data WHERE username = %s AND password = %s"
-                cursor.execute(delete_query, (username, password))
-                conn.commit()  # Commit changes after delete
-                print("Record removed from database.")
+                if result[12] == 0 or result[12] == None:
+                    # Delete the record from the 'data' table
+                    update_state_query = "UPDATE data SET state = 1 WHERE username = %s AND password = %s"
+                    cursor.execute(update_state_query, (username, password))
+                    conn.commit()
+                    print("State updated ")
+                else:
+                    print("user in game")
+                    result = None
             else:
                 print("Invalid username or password. Please try again.")
 
@@ -86,6 +90,7 @@ def handle_data_forLogin():
             cursor.close()
             conn.close()
             print('Connection closed')
+            return result
         else:
             print('Failed to connect to MySQL database')
 
@@ -93,14 +98,15 @@ def handle_data_forLogin():
         print(f"Error: {e}")
 
 
-def handle_data_for_leavegame(username, password, x, y, speedCounter, sizeCounter, shieldCounter, HPCounter):
+def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60,
+                           HPCounter_30, HPCounter_15, HPCounter_5 , username, password):
     try:
         conn = mysql.connector.connect(
             host='127.0.0.1',  # Host address
             port='3306',  # Port number
             user='root',
             password='1234',
-            database="game_database"
+            database="datab"
         )
 
         if conn.is_connected():
@@ -108,16 +114,16 @@ def handle_data_for_leavegame(username, password, x, y, speedCounter, sizeCounte
 
             cursor = conn.cursor()
 
-            query_for_insert = "INSERT INTO data (username, password,x,y,speed,size,shield,hp) VALUES (%s,%s,%s,%s,%s,%s)"
+            query_for_insert = "UPDATE data set x = %s , y = %s , speed_counter = %s , size_counter = %s , shield_counter = %s , hp_counter_60 = %s,  hp_counter_30 = %s , hp_counter_15 = %s , hp_counter_5 = %s , state = 0 WHERE username = %s and password = %s "
             cursor.execute(query_for_insert,
-                           (username, password, x, y, speedCounter, sizeCounter, shieldCounter, HPCounter))
+                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60 , HPCounter_30 , HPCounter_15 ,HPCounter_5 , username, password))
 
-            # Commit the transaction to apply the changes
+            # commit the transaction to apply the changes
             conn.commit()
 
-            print("Sign-in successful!")
+            print("Sign-out successful!")
 
-            # Close the cursor and connection
+            # close the cursor and connection
             cursor.close()
             conn.close()
             print('Connection closed')

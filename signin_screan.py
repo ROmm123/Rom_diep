@@ -1,13 +1,14 @@
+
 import pygame
 import sys
-import connection_with_database
 
-import login_screen
-
-
-
+import trash_script
+from database_manager import socket_data
+# add text removing after login pressed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Initialize Pygame
+import login_screen
 pygame.init()
+
 
 # Constants
 WIDTH, HEIGHT = 400, 300
@@ -46,8 +47,6 @@ switch_text = font.render("toLogin-in", True, BLACK)
 switch_text_rect = switch_text.get_rect(center=switch_button.center)
 
 
-
-
 def draw_text(text, font, color, surface, x, y):
     text_obj = font.render(text, True, color)
     text_rect = text_obj.get_rect()
@@ -80,10 +79,18 @@ def perform_signin():
     print("Username:", username)
     print("Password:", password)
 
-def switch_to_login_screen():
 
-    login_screen.main()  # Call the mai
+def switch_to_login_screen(socket_database):
+    socket_database.close()
+    username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = login_screen.main()
+    trash_script.main(username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+
+
+
 def main():
+    socket_database = socket_data()
+    socket_database = socket_database.data_base_socket
+    socket_database.connect()
     global username, password, username_color, password_color
 
     clock = pygame.time.Clock()
@@ -107,9 +114,18 @@ def main():
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
                     perform_signin()
-                    handle_data_for_signin(username, password)
+                    print(username + "," + password)
+                    database_data = {
+                        "username": username,
+                        "password": password,
+                        "query": "signin"
+                    }
+
+                    socket_database.send_database_data(database_data)
+                    switch_to_login_screen(socket_database)
+
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
-                    switch_to_login_screen()  # Call the function to switch screens
+                    switch_to_login_screen(socket_database)  # Call the function to switch screens
 
                 else:
                     input_active = False
@@ -123,7 +139,17 @@ def main():
                         username_color = input_color_inactive
                         password_color = input_color_inactive
                         perform_signin()
-                        handle_data_for_signin(username, password)
+                        print(username + "," + password)
+
+                        database_data = {
+                            "username": username,
+                            "password": password,
+                            "query": "signin"
+                        }
+
+                        socket_database.send_database_data(database_data)
+                        switch_to_login_screen(socket_database)
+
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]

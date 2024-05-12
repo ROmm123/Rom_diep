@@ -1,9 +1,22 @@
-import pygame
 import sys
-import connection_with_database
-
+import trash_script
+from trash_script import *
 import signin_screan
+from database_manager import socket_data
 
+'''class get_variables():
+    def __init__(self ,x ,y, usr , passw , spc , szc , shc , hp_60 , hp_30 , hp_15 , hp_5):
+        self.x = x
+        self.y = y
+        self.username = usr
+        self.password = passw
+        self.speed_c = spc
+        self.size_c = szc
+        self.shield_c = shc
+        self.hp_c_60 = hp_60
+        self.hp_c_30 = hp_30
+        self.hp_c_15 = hp_15
+        self.hp_c_5 = hp_5'''
 # Initialize Pygame
 pygame.init()
 
@@ -78,11 +91,14 @@ def perform_login():
     print("Password:", password)
 
 
-def switch_to_signin_screen():
+def switch_to_signin_screen(socket_dataa):
+    socket_dataa.close()
     signin_screan.main()  # Call the main function in the second script
 
 
 def main():
+    socket_class = socket_data()
+    socket_class.data_base_socket.connect()
     global username, password, username_color, password_color
 
     clock = pygame.time.Clock()
@@ -106,9 +122,42 @@ def main():
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
                     perform_login()
-                    Q.put((username, password))
+                    database_data = {
+                        "username": username,
+                        "password": password,
+                        "quary": "login"
+                    }
+
+                    socket_class.data_base_socket.send_database_data(database_data)
+                    tuple_data = socket_class.data_base_socket.receive_database_data()
+                    print("received from main : " + str(tuple_data))
+                    if tuple_data:
+                        print("got after 'if tuple_data' PRINT 1")
+                        username = tuple_data[0]
+                        password = tuple_data[1]
+                        x = tuple_data[2]
+                        y = tuple_data[3]
+                        speed_c = tuple_data[4]
+                        size_c = tuple_data[5]
+                        shield_c = tuple_data[6]
+                        hp_c_60 = tuple_data[7]
+                        hp_c_30 = tuple_data[8]
+                        hp_c_15 = tuple_data[9]
+                        hp_c_5 = tuple_data[10]
+                        if x == None or y == None:
+                            x = 0
+                            y = 0
+                            speed_c = 0
+                            size_c = 0
+                            shield_c = 0
+                            hp_c_60 = 0
+                            hp_c_30 = 0
+                            hp_c_15 = 0
+                            hp_c_5 = 0
+                        print(username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+                        return username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5
                 elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
-                    switch_to_signin_screen()  # Call the function to switch screens
+                    switch_to_signin_screen(socket_class.data_base_socket)  # Call the function to switch screens
 
                 else:
                     input_active = False
@@ -122,7 +171,42 @@ def main():
                         username_color = input_color_inactive
                         password_color = input_color_inactive
                         perform_login()
-                        Q.put((username, password))
+                        database_data = {
+                            "username": username,
+                            "password": password,
+                            "quary": "login"
+                        }
+
+                        socket_class.data_base_socket.send_database_data(database_data)
+                        tuple_data = socket_class.data_base_socket.receive_database_data()
+                        print("received from main : " + str(tuple_data))
+                        if tuple_data:
+                            print("got after 'if tuple_data' PRINT 2")
+                            username = tuple_data[0]
+                            password = tuple_data[1]
+                            x = tuple_data[2]
+                            y = tuple_data[3]
+                            speed_c = tuple_data[4]
+                            size_c = tuple_data[5]
+                            shield_c = tuple_data[6]
+                            hp_c_60 = tuple_data[7]
+                            hp_c_30 = tuple_data[8]
+                            hp_c_15 = tuple_data[9]
+                            hp_c_5 = tuple_data[10]
+                            if x == None or y == None:
+                                x = 0
+                                y = 0
+                                speed_c = 0
+                                size_c = 0
+                                shield_c = 0
+                                hp_c_60 = 0
+                                hp_c_30 = 0
+                                hp_c_15 = 0
+                                hp_c_5 = 0
+                            print(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+                            return username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5
+                            print("AFTER RETURN ")
+
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]
@@ -139,6 +223,8 @@ def main():
         clock.tick(30)
 
 
-
 if __name__ == "__main__":
-    main()
+    print("finished function")
+    username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = main()
+    print("username variable in login : "+str(username))
+    trash_script.main(username , password ,x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
