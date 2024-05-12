@@ -67,7 +67,7 @@ class main_server:
         Quary = ("login", "signin" , "logout")
         running = True
         while running:
-            data_from_database = client_database_socket.recv(2048).decode("utf-8")
+            data_from_database = client_database_socket.recv(2048).decode("utf-8") # { : , : , "login"}
             if Quary[1] in data_from_database:
                 self.queue_for_Sign_req.put(
                     (data_from_database, client_database_socket))  # Queue for clients that want to join the game
@@ -81,8 +81,6 @@ class main_server:
                 running = False
 
 
-    def handle_queue_database(self):
-        while True:
             if not self.queue_for_Sign_req.empty():
                 raw_signin_packet, client_database_socket = self.queue_for_Sign_req.get()
                 raw_signin_packet = json.loads(raw_signin_packet)
@@ -112,6 +110,39 @@ class main_server:
                                        loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
                                        loadedPacket["hp_c_15"], loadedPacket["hp_c_5"], loadedPacket["username"],
                                        loadedPacket["password"])
+
+
+    '''def handle_queue_database(self):
+        while True:
+            if not self.queue_for_Sign_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_Sign_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                handle_data_for_signin(raw_signin_packet["username"], raw_signin_packet["password"])
+            if not self.queue_for_login_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
+                #("info : " + str(info))
+                if info:
+                    string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
+                    print("STRING TUPLE : "+str(string_tuple))
+                    print("TYPE : "+str(type(string_tuple)))
+                    client_database_socket.send(string_tuple.encode("utf-8"))
+                    #("data sent")
+                else:
+                    client_database_socket.send("sign again".encode("utf-8"))
+
+            if not self.queue_for_logout_req.empty():
+                signout_packet = self.queue_for_logout_req.get()
+                print("logged out packet: "+str(signout_packet))
+                loadedPacket = json.loads(signout_packet[0])
+                print("USERNAME IN LOADEDPACKET = "+str(loadedPacket["username"]))
+                print("TYPE USERNAME = "+str(type(loadedPacket["username"])))
+                handle_data_for_logout(loadedPacket["x"], loadedPacket["y"], loadedPacket["speed_c"],
+                                       loadedPacket["size_c"],
+                                       loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
+                                       loadedPacket["hp_c_15"], loadedPacket["hp_c_5"], loadedPacket["username"],
+                                       loadedPacket["password"])'''
 
 
 
@@ -281,5 +312,5 @@ if __name__ == '__main__':
     npc_thread.start()
     chat_thread.start()
     database_thread.start()
-    threading.Thread(target=my_server.handle_queue_database).start()
+    #threading.Thread(target=my_server.handle_queue_database).start()
     my_server.main_for_clients()
