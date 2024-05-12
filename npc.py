@@ -122,6 +122,7 @@ class NPC:
         self.rect_center_y += math.sin(self.angel) * self.speed
         #self.can_move = False
 
+
     def moveTowardLocation(self, x, y):
         #self.can_move = False
         angle = self.get_angel_to_x_y(x, y)
@@ -207,6 +208,7 @@ class NPCS:
         self.NPCs.append(npc)
     def run(self, screen_pos_x, screen_pos_y, player_rect, shots_rects, static_objects, player_positions):
         #self.can_move = True
+        i = 0
         for NPC in self.NPCs:
             if NPC.hp.ISAlive:
                 NPC.get_target(static_objects, screen_pos_x, screen_pos_y, player_positions)
@@ -218,6 +220,13 @@ class NPCS:
                 NPC.move()
                 #NPC.flee(NPC.goal_x, NPC.goal_y)
                 #NPC.orbitClockwise()
+
+            #for i, NPc in self.NPCs:
+                for j in range(int(len(self.NPCs) - i  - 1)):
+                    Npc = self.NPCs[j + i + 1]
+                    if NPC.rect_npc.colliderect(Npc.rect_npc):
+                        NPC.moveTowardLocation(Npc.rect_center_x - 2*(Npc.rect_center_x - NPC.rect_center_x-1), Npc.rect_center_y - 2*(Npc.rect_center_y - NPC.rect_center_y-1))
+                i += 1
 
                 NPC.position_map_x = NPC.rect_center_x + screen_pos_x
                 NPC.position_map_y = NPC.rect_center_y + screen_pos_y
