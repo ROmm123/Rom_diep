@@ -7,13 +7,11 @@ from settings import setting
 
 class main_server:
     def __init__(self, host, port, obj_port):
-        self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.main_server_socket.bind((host, port))
-        self.main_server_socket.listen(1000)
 
-        self.obj_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.obj_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.obj_socket.bind((host, obj_port))
-        self.obj_socket.listen(1000)
 
         self.static_objects = Random_Position(600 * 64, 675 * 64)
         self.clients = []
@@ -21,37 +19,37 @@ class main_server:
         self.obj_client = -1
 
 
-    def provide_ID(self , client_socket):
-        client_socket.send(str(self.obj_client).encode("utf-8"))
+    def provide_ID(self ,addr):
+        self.main_server_socket.sendto((str(self.obj_client)).encode("utf-8") , addr)
 
 
-    def handle_pos_obj(self, obj_socket):
+    def handle_pos_obj(self):
 
         while True:
             try:
-                data = obj_socket.recv(2048)
+                data, addr_obj = self.obj_socket.recvfrom(2048)
                 if data:
                     data = data.decode()
                     data_dict = json.loads(data)
             except:
-                print(f"Client {obj_socket.getpeername()} disconnected")
+                print(f"Client {addr_obj} disconnected")
                 with self.clients_lock:
-                    self.clients.remove((obj_socket, obj_socket.getpeername()))
+                    self.clients.remove(addr_obj)
                 break
             position_collision = data_dict["position_collision"]
             obj_pos = {
                 "position_collision": position_collision
             }
             if len(self.clients) > 1:
-                for receiver_socket, addr in self.clients:
-                    if receiver_socket != obj_socket:
+                for addr in self.clients:
+                    if addr != addr_obj:
                         print(json.dumps(obj_pos).encode())
-                        receiver_socket.send(json.dumps(obj_pos).encode())
+                        self.obj_socket.sendto(json.dumps(obj_pos).encode() , addr)
 
     def handle_client_main(self, client_socket):
         try:
             while True:
-                data = client_socket.recv(2048)
+                data , addr = self.main_server_socket.recvfrom(2048)
                 if not data:
                     break  # No more data, client has disconnected
 
@@ -64,29 +62,28 @@ class main_server:
                 # Check which server the client should be on based on their position
                 if pos_y < (187*64) and pos_x < (250*64):
                     data = "1_" + str(self.obj_client)
-                    client_socket.send(data.encode())
+                    client_socket.sendto(data.encode() , addr)
                 elif pos_y < (187*64) and pos_x > (250 * 64) and pos_x<(30784):
                     data = "2_" + str(self.obj_client)
-                    client_socket.send(data.encode())
+                    client_socket.sendto(data.encode() , addr)
                 elif pos_y > (187*64)and pos_y<(22724) and pos_x < (250*64):
                     data = "3_" + str(self.obj_client)
-                    client_socket.send(data.encode())
+                    client_socket.sendto(data.encode() , addr)
                 elif pos_y > (187*64)and pos_y<(22724) and pos_x > (250 * 64) and pos_x<(30784):
                     data = "4_" + str(self.obj_client)
-                    client_socket.send(data.encode())
+                    client_socket.sendto(data.encode() , addr)
 
         except json.JSONDecodeError:
-            client_socket.send("0".encode())  # Handle JSON decode error
+            client_socket.sendto("0".encode() , addr)  # Handle JSON decode error
         except Exception as e:
             print(f"An error occurred: {e}")
         finally:
             print("Connection closed.")
-            client_socket.close()
 
     def handle_obj_conection(self):
         try:
             while True:
-                obj_socket, addr_obj = self.obj_socket.accept()
+                data_obj, addr_obj = self.obj_socket.recvfrom(2048)
                 # Retrieve the crate position destination data
                 positions_data = self.static_objects.crate_position_dst_data()
                 # Construct the data to send to the client
@@ -101,11 +98,11 @@ class main_server:
                 encoded_data = json_data.encode()
 
                 # Send the encoded data to the clientll
-                obj_socket.send(encoded_data)
+                self.obj_socket.sendto(encoded_data , addr_obj)
 
                 with self.clients_lock:
-                    self.clients.append((obj_socket, addr_obj))
-                obj_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket,))
+                    self.clients.append(addr_obj)
+                obj_thread = threading.Thread(target=self.handle_pos_obj)
                 obj_thread.start()
         except:
             print("hello")
@@ -113,13 +110,14 @@ class main_server:
     def main_for_clients(self):
         while True:
             print("Waiting for new client...")
-            client_socket, addr = self.main_server_socket.accept()
+            #client_socket, addr = self.main_server_socket.accept()
+            data , addr = self.main_server_socket.recvfrom(2048)
             self.obj_client += 1
-            self.provide_ID(client_socket)
+            self.provide_ID(addr)
             print(f"New client connected: {addr}")
 
             # Start a new thread to handle the client
-            client_thread = threading.Thread(target=self.handle_client_main, args=(client_socket,))
+            client_thread = threading.Thread(target=self.handle_client_main)
             client_thread.start()
 
 
