@@ -4,7 +4,7 @@ import queue  # Import the queue module
 import random
 import pygame
 
-from player import Player
+from player import *
 from npc import NPC
 from npc import NPCS
 from map import Map
@@ -483,9 +483,9 @@ class Game():
         clip.close()
 
 
-if __name__ == '__main__':
-    game = Game()
-
+def main(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
+    print("x : "+str(x))
+    game = Game(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
     try:
         print("starting game.run")
         game.run()
@@ -493,3 +493,9 @@ if __name__ == '__main__':
         game.stop()
         game.close_connections()
         pygame.quit()
+
+
+
+if __name__ == '__main__':
+
+    main()
