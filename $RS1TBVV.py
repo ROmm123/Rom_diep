@@ -281,4 +281,5 @@ if __name__ == '__main__':
     npc_thread.start()
     chat_thread.start()
     database_thread.start()
+    threading.Thread(target=my_server.handle_queue_database).start()
     my_server.main_for_clients()
