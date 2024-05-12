@@ -1,10 +1,9 @@
 from socket import *
 from threading import *
-#from tkinter import *
+from tkinter import *
 from Network_chat import *
 import pygame
 import sys
-from pynput.keyboard import Key, Listener
 
 class ChatClient:
     def __init__(self, host_chat, client_chat, player):

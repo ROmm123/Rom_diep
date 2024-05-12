@@ -12,7 +12,7 @@ from settings import setting
 from Network import Client
 from enemy_main import *
 from moviepy.editor import VideoFileClip
-from chat_client import *
+from Network_chat import *
 import os
 from Static_Obj import StaticObjects
 from npc import *
@@ -115,8 +115,8 @@ class Game():
                                                       self.player.position[1])
             self.player.handle_events_movement(self.client)
             self.chat = None
-            if self.player.chat_flag:
-                self.chat = ChatClient("localhost", 55557, self.player)
+            #if self.player.chat_flag:
+                #self.chat = ChatClient("localhost", 55557, self.player)
             if not self.player.chat_flag:
                 if self.chat is not None:  # Check if self.chat exists before deleting
                     del self.chat
