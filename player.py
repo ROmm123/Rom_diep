@@ -47,7 +47,7 @@ class Player():
         self.stored_abilities = []
         self.ability = {}  # dictionary to stored ability and its expiration time
         self.ability_key_state = None
-        self.image = pygame.image.load("pictures/shmulik_blue.png")
+        self.image, self.num_of_image = setting.rand_image()
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)  # Initial position
         self.angle = 0
@@ -219,8 +219,8 @@ class Player():
             self.angle = math.atan2(dy, dx)  # Calculate angle between player and mouse
 
     def draw(self, mouse_pos):
-        self.image = pygame.image.load("pictures/shmulik_blue.png")
-        self.radius = 28.5
+        self.image = self.setting.list_of_images[self.num_of_image]
+        self.radius = 30
         radius = self.radius
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)
@@ -229,7 +229,7 @@ class Player():
             if (pygame.time.get_ticks() - self.ability["Size"]) >= self.setting.ability_duration:
                 del self.ability["Size"]
             else:
-                self.image = pygame.image.load("pictures/small_shmulik.png")
+                self.image = self.setting.list_of_small_images[self.num_of_image]
                 self.radius = 22
                 self.rect = self.image.get_rect()
                 self.rect.center = (400, 300)

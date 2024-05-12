@@ -13,7 +13,7 @@ class enemy_main():
         self.surface = setting.surface
         self.player = player
         self.radius = player.radius
-        self.image = pygame.image.load("pictures/shmulik_red.png")
+        self.image, _ = setting.rand_image()
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)  # Initial position
         self.angle = 0
@@ -76,13 +76,14 @@ class enemy_main():
 
     def draw_enemy(self, center_x, center_y, radius):
         if self.data["ability"]:
-            self.image = pygame.image.load("pictures/small_enemy_shmulik.png")
+            self.image = self.setting.list_of_small_images[self.player.num_of_image]
             self.radius = 22
             self.rect = self.image.get_rect()
             self.rect.center = (400, 300)  # Initial position
         else:
-            self.image = pygame.image.load("pictures/shmulik_red.png")
-            self.radius = 28.5
+            self.image = self.setting.list_of_images[self.player.num_of_image]
+            print(self.player.num_of_image)
+            self.radius = 30
             self.rect = self.image.get_rect()
             self.rect.center = (400, 300)  # Initial position
         center_x = int(center_x) + 400
@@ -96,10 +97,10 @@ class enemy_main():
         rotated_rect = rotated_image.get_rect(center=(center_x, center_y))
         self.surface.blit(rotated_image, rotated_rect)
 
-        health_bar = pygame.Rect(center_x - 28.5, (center_y + 28.5 + 10), 2 * 28.5, 10)
+        health_bar = pygame.Rect(center_x - 30, (center_y + 30 + 10), 2 * 30, 10)
         pygame.draw.rect(self.surface, self.setting.green, health_bar)
         pygame.draw.rect(self.surface, self.setting.red,
-                         (center_x - 28.5, center_y + 28.5 + 10, self.data["damage dealt"], 10))
+                         (center_x - 30, center_y + 30 + 10, self.data["damage dealt"], 10))
 
     def main(self):
         self.calculate()

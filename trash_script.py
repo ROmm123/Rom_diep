@@ -23,7 +23,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 28.5, self.setting.red, self.setting)
+        self.player = Player(12000, 0, 30, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []

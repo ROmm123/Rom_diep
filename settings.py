@@ -28,6 +28,18 @@ class setting():
         self.hit_damage = {"normal shot": 3, "big shot": 8, "ultimate shot": 60, "coll": 3}
         self.hit_type = ("normal shot", "big shot", "ultimate shot", "coll")
         self.fps = "60"
+        self.noam = "pictures/noam.png", "pictures/small_noam.png"
+        self.alon = "pictures/alon.png", "pictures/small_alon.png"
+        self.lidor = "pictures/lidor.png", "pictures/small_lidor.png"
+        self.kidan = "pictures/kidan.png", "pictures/small_kidan.png"
+        self.rom = "pictures/rom.png", "pictures/small_rom.png"
+        self.avishay = "pictures/avishay.png", "pictures/small_avishay.png"
+        self.list_of_images = (pygame.image.load(self.noam[0]), pygame.image.load(self.alon[0]), pygame.image.load(self.lidor[0]),
+                            pygame.image.load(self.kidan[0]), pygame.image.load(self.rom[0]), pygame.image.load(self.avishay[0]))
+        self.list_of_small_images = (
+            pygame.image.load(self.noam[1]), pygame.image.load(self.alon[1]), pygame.image.load(self.lidor[1]),
+            pygame.image.load(self.kidan[1]), pygame.image.load(self.rom[1]), pygame.image.load(self.avishay[1]))
+
 
     def random_color(self):
         red = random.randint(0, 255)
@@ -48,3 +60,17 @@ class setting():
         pygame.display.update()
         self.clock.tick(60)
         self.fps = str(int(self.clock.get_fps()))
+
+    def rand_image(self):
+        images = {
+            self.noam: 0,
+            self.alon: 1,
+            self.kidan: 2,
+            self.lidor: 3,
+            self.rom: 4,
+            self.avishay: 5
+        }
+        selected_image = random.choice(list(images.keys()))
+        image_number = images[selected_image]
+        return pygame.image.load(selected_image[0]), image_number
+
