@@ -20,10 +20,12 @@ from npc import *
 
 # game almost done
 class Game():
-    def __init__(self):
+    def __init__(self, username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 30, self.setting.red, self.setting)
+        self.player = Player(username, password, x, y, 28.5, self.setting.red, self.setting, speed_c, size_c, shield_c,
+                             hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
