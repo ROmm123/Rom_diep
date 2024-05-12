@@ -478,7 +478,7 @@ class Game():
         for i in range(len(self.player.move_button)):
             self.player.move_button[i] = False
         # transition between servers
-        video_path = "shmulik.mp4"
+        video_path = "shmulik2.mp4"
         if not os.path.exists(video_path):
             print("Video file not found.")
             return
