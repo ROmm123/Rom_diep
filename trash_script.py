@@ -33,11 +33,6 @@ class Game():
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)
         self.running = True
-        # self.draw_queue = queue.PriorityQueue()  # Create a priority queue for drawing tasks
-        # self.drawing_thread = DrawingThread(self.draw_queue, self.map, self.player)  # Create a drawing thread
-        self.draw_event = threading.Event()  # Create an event for synchronization
-        self.draw_event.set()  # Set the event initially
-        # self.drawing_thread.start()  # Start the drawing thread
         self.speed_start_time = 0
         self.size_start_time = 0
         self.shield_start_time = 0
@@ -83,7 +78,6 @@ class Game():
                 vector_enemy_position = [data["player_position_x"], data["player_position_y"]]
                 self.list_position_clients[count] = vector_enemy_position
                 enemy_instance.main()
-                self.draw_event.set()
 
     def obj_recv(self):
         print("in draw obj")
@@ -333,6 +327,7 @@ class Game():
 
             if data_for_obj["position_collision"] is not None:
                 self.client_main.send_data_obj_parmetrs(data_for_obj)
+                print(data_for_obj)
 
             if not self.flag_obj:
                 threading.Thread(target=self.obj_recv).start()
@@ -350,7 +345,6 @@ class Game():
 
 
             if self.num_enemies > 0:
-                self.draw_event.wait()
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)
 
@@ -382,7 +376,6 @@ class Game():
                 self.setting.update()
 
                 # Reset the event for the next iteration
-                self.draw_event.clear()
             else:
                 hit_result = self.player.hit()
                 self.player.hurt(hit_result)

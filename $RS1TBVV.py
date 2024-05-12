@@ -83,32 +83,6 @@ class main_server:
                         if receiver_socket != obj_socket:
                             receiver_socket.send(json.dumps(obj_pos).encode())
 
-    def handle_pos_npc(self, npc_socket, i):
-        while True:
-            data = self.recive_from_client(npc_socket)
-
-            if not data:
-                print(f"Client {npc_socket.getpeername()} disconnected")
-                with self.clients_lock:
-                    self.clients.remove((npc_socket, npc_socket.getpeername()))
-                    print("not in list")
-                    npc_socket.close()
-                    break
-
-            data_dict = json.loads(data)
-            position_collision = data_dict["position_collision"]
-
-            if position_collision != None:
-
-                obj_pos = {
-                    "position_collision": position_collision,
-                }
-
-                if len(self.clients) > 1:
-                    for receiver_socket, addr in self.clients:
-                        if receiver_socket != obj_socket:
-                            receiver_socket.send(json.dumps(obj_pos).encode())
-
     def recive_from_client(self, obj_socket):
         try:
             data = obj_socket.recv(2048).decode("utf-8")
@@ -170,8 +144,8 @@ class main_server:
                 with self.clients_lock:
                     self.clients.append((obj_socket, addr_obj))
 
-                #npc_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
-                #npc_thread.start()
+                npc_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
+                npc_thread.start()
         except:
             print("hello")
 
@@ -195,13 +169,6 @@ class main_server:
                 # Send the encoded data to the clientll
                 npc_socket.send(encoded_data)
 
-
-
-                with self.clients_lock_npcs:
-                    self.clients_npcs.append((npc_socket, addr_npc))
-
-                npc_thread = threading.Thread(target=self.handle_pos_npc, args=(npc_socket, len(self.clients_npcs, )))
-                npc_thread.start()
         except:
             print("hello")
 

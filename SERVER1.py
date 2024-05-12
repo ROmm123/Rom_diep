@@ -31,7 +31,6 @@ class Server:
 
             data = self.recive_from_client(client_socket)
 
-            print(self.clients)
             if not data:
                 print(f"closing socket {count}")
                 self.enemies = self.enemies - 1

@@ -197,7 +197,6 @@ class NPC:
             self.can_move = False
             self.can_orbit = True
             if current_time - self.last_shot_time >= self.shot_cooldown:
-                print("shot")
                 self.SHOT.npc_shoot(center, screen_position, self.goal_x, self.goal_y, self.get_angel_to_target())
                 self.SHOT.shot_button[0] = True
                 self.last_shot_time = current_time  # update last shot time

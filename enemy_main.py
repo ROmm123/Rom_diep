@@ -82,7 +82,6 @@ class enemy_main():
             self.rect.center = (400, 300)  # Initial position-
         else:
             self.image = self.setting.list_of_images[self.data["which_picture"]]
-            print(self.player.num_of_image)
             self.radius = 30
             self.rect = self.image.get_rect()
             self.rect.center = (400, 300)  # Initial position
