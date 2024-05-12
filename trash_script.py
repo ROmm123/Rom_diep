@@ -194,7 +194,8 @@ class Game():
                 "ultimate_shot_velocity_y": self.player.ULTIMATE_SHOT.velocity[1],
                 "ultimate_shot_start_x": self.player.ULTIMATE_SHOT.start_x,
                 "ultimate_shot_start_y": self.player.ULTIMATE_SHOT.start_y,
-                "ability": ability_size
+                "ability": ability_size,
+                "which_picture": self.player.num_of_image
 
             }
 

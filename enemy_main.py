@@ -76,12 +76,12 @@ class enemy_main():
 
     def draw_enemy(self, center_x, center_y, radius):
         if self.data["ability"]:
-            self.image = self.setting.list_of_small_images[self.player.num_of_image]
+            self.image = self.setting.list_of_small_images[self.data["which_picture"]]
             self.radius = 22
             self.rect = self.image.get_rect()
-            self.rect.center = (400, 300)  # Initial position
+            self.rect.center = (400, 300)  # Initial position-
         else:
-            self.image = self.setting.list_of_images[self.player.num_of_image]
+            self.image = self.setting.list_of_images[self.data["which_picture"]]
             print(self.player.num_of_image)
             self.radius = 30
             self.rect = self.image.get_rect()
