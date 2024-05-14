@@ -209,9 +209,8 @@ class Game():
             if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
-                    self.num_enemies = 0
                     self.client.close()
-                    #self.enemies_socket.close()
+                    self.enemies_socket.close()
                     # self.transition()
                     self.list_position_clients = []
                     self.client.host = 'localhost'
@@ -231,6 +230,7 @@ class Game():
                     self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 1)
                     #TODO update the list pos from server if i want to go to another server
 
+                    threading.Thread(target=self.EnemiesAm_handling).start()
 
                     # Start handling enemies for server 1
 
@@ -243,10 +243,9 @@ class Game():
             elif self.number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
-                    self.num_enemies = 0
                     print("already_close")
                     self.client.close()
-                    #self.enemies_socket.close()
+                    self.enemies_socket.close()
 
                     self.transition()
                     time.sleep(0.2)
@@ -266,7 +265,8 @@ class Game():
                     self.FLAG_SERVER_4 = False
 
                     self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 2)
-                    #TODO update the list pos from server if i want to go to another server
+
+                    threading.Thread(target=self.EnemiesAm_handling).start()
 
                     # Start handling enemies for server 2
                     # Send player data to server
@@ -343,10 +343,7 @@ class Game():
                 threading.Thread(target=self.obj_recv).start()
                 self.flag_obj = True
 
-            if not self.flag_handle_enemies:
-                threading.Thread(target=self.EnemiesAm_handling).start()
-                print("open once")
-                self.flag_handle_enemies = True
+
 
 
 
@@ -432,13 +429,25 @@ class Game():
             try:
                 enemies = self.enemies_socket.receive_data_EnemiesAm()
             except:
+                enemies = self.num_enemies - 1
+                diff = enemies - self.num_enemies
+                self.num_enemies = enemies
+                print(diff)
+                if diff < 0:
+                    for _ in range(-diff):
+                        print("join th")
+                        if self.enemy_threads:
+                            thread = self.enemy_threads.pop()
+                            thread.join()
+                self.num_enemies = 0
                 print("close thread handeling")
                 break
-            print(enemies)
-            print(self.num_enemies)
+
             enemies = int(enemies)
             diff = enemies - self.num_enemies
             self.num_enemies = enemies
+
+            print(diff)
 
             if diff > 0:
                 for _ in range(diff):

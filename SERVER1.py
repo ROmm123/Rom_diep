@@ -36,10 +36,12 @@ class Server:
                 self.enemies = self.enemies - 1
 
                 for client_socket_am in self.enemies_am_list:
-                    client_socket_am .send(str(self.enemies).encode())
+                    try:
+                        client_socket_am.send(str(self.enemies).encode())
+                    except:
+                        self.enemies_am_list.remove(client_socket_am)
                     print(self.enemies)
 
-                self.enemies_am_list.remove((client_socket, client_socket.getpeername()))
 
                 print(f"Client {client_socket.getpeername()} disconnected")
                 for receiver_socket , addr  in self.clients:
@@ -49,7 +51,6 @@ class Server:
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
                     client_socket.close()
-                    self.Enemies_Am_socket.close()
                     print("no in list")
                 print("pass the self.lock")
                 print(self.clients)
@@ -73,8 +74,8 @@ class Server:
                 for client_socket in self.enemies_am_list:
                     client_socket.send(str(self.enemies).encode())
                     print(self.enemies)
-        except:
-            print("hello")
+        except ConnectionRefusedError as e:
+            print(f"{e}")
 
     def s(self):
         count = 0

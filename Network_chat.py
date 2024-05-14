@@ -15,8 +15,8 @@ class Client_chat:
                 self.socket_chat = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket_chat.connect((self.host, self.port))
 
-            except ConnectionRefusedError:
-                print("Connection refused.")
+            except ConnectionRefusedError as e:
+                print(str(e))
                 # Handle the error as needed
         else:
             pass
