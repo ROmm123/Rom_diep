@@ -13,6 +13,7 @@ from Network import Client
 from enemy_main import *
 from moviepy.editor import VideoFileClip
 from chat_client import *
+from Network_chat import *
 import os
 from Static_Obj import StaticObjects
 from npc import *
@@ -23,7 +24,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.setting = setting()
-        self.player = Player(12000, 0, 30, self.setting.red, self.setting)
+        self.player = Player(14700, 0, 30, self.setting.red, self.setting)
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
@@ -32,6 +33,7 @@ class Game():
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)
+        self.enemies_socket = Client_chat (None,None)
         self.running = True
         self.speed_start_time = 0
         self.size_start_time = 0
@@ -41,6 +43,7 @@ class Game():
         self.FLAG_SERVER_3 = False
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
+        self.flag_handle_enemies = False
         self.list_position_clients = []
 
         #npc init
@@ -60,7 +63,7 @@ class Game():
 
     def run_therad(self, count):
         print("in draw thread")
-        self.list_position_clients.append(self.player.screen_position)  # defult [x,y] for first time
+        #self.list_position_clients.append(self.player.screen_position)  # defult [x,y] for first time
         while True:
             try:
                 data = self.client.receive_data()
@@ -75,8 +78,8 @@ class Game():
 
             if data != '0' and data:
                 enemy_instance = enemy_main(data, self.player, self.setting)
-                vector_enemy_position = [data["player_position_x"], data["player_position_y"]]
-                self.list_position_clients[count] = vector_enemy_position
+                #vector_enemy_position = [data["player_position_x"], data["player_position_y"]]
+                #self.list_position_clients[count] = vector_enemy_position
                 enemy_instance.main()
 
     def obj_recv(self):
@@ -206,15 +209,19 @@ class Game():
             if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
+                    self.num_enemies = 0
                     self.client.close()
-                    self.client.close_enemies_Am()
+                    #self.enemies_socket.close()
                     # self.transition()
-                    time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
+                    self.enemies_socket.host = 'localhost'
                     self.client.port = 11110
-                    self.client.enemies_or_obj_Am_port = 11119
+                    self.enemies_socket.port = 11119
+
                     self.client.connect()
+                    self.enemies_socket.connect()
+
                     # Set flags
                     self.FLAG_SERVER_1 = True
                     self.FLAG_SERVER_2 = False
@@ -226,7 +233,6 @@ class Game():
 
 
                     # Start handling enemies for server 1
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -237,16 +243,22 @@ class Game():
             elif self.number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
+                    self.num_enemies = 0
                     print("already_close")
                     self.client.close()
-                    self.client.close_enemies_Am()
+                    #self.enemies_socket.close()
+
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
+                    self.enemies_socket.host = 'localhost'
                     self.client.port = 22222
-                    self.client.enemies_or_obj_Am_port = 22223
+                    self.enemies_socket.port = 22223
+
                     self.client.connect()
+                    self.enemies_socket.connect()
+
                     # Set flags
                     self.FLAG_SERVER_1 = False
                     self.FLAG_SERVER_2 = True
@@ -257,8 +269,6 @@ class Game():
                     #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 2
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
-
                     # Send player data to server
                     self.client.send_data(data)
                 else:
@@ -332,6 +342,11 @@ class Game():
             if not self.flag_obj:
                 threading.Thread(target=self.obj_recv).start()
                 self.flag_obj = True
+
+            if not self.flag_handle_enemies:
+                threading.Thread(target=self.EnemiesAm_handling).start()
+                print("open once")
+                self.flag_handle_enemies = True
 
 
 
@@ -408,21 +423,23 @@ class Game():
         self.client.close()
         self.client.close_enemies_Am()
 
-    def EnemiesAm_handling(self, client):
+    def EnemiesAm_handling(self):
         # Thread function to handle enemies received from server
-        client.send_to_Enemies_Am()
+        time.sleep(2)
+        self.enemies_socket.send_to_Enemies_Am()
         count = 0
         while True:
             try:
-                enemies = client.receive_data_EnemiesAm()
+                enemies = self.enemies_socket.receive_data_EnemiesAm()
             except:
                 print("close thread handeling")
                 break
+            print(enemies)
+            print(self.num_enemies)
             enemies = int(enemies)
             diff = enemies - self.num_enemies
             self.num_enemies = enemies
 
-            print("diff " + str(diff))
             if diff > 0:
                 for _ in range(diff):
                     enemy_thread = threading.Thread(target=self.run_therad, args=(count,))

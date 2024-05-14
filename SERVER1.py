@@ -34,6 +34,13 @@ class Server:
             if not data:
                 print(f"closing socket {count}")
                 self.enemies = self.enemies - 1
+
+                for client_socket_am in self.enemies_am_list:
+                    client_socket_am .send(str(self.enemies).encode())
+                    print(self.enemies)
+
+                self.enemies_am_list.remove((client_socket, client_socket.getpeername()))
+
                 print(f"Client {client_socket.getpeername()} disconnected")
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
@@ -65,6 +72,7 @@ class Server:
 
                 for client_socket in self.enemies_am_list:
                     client_socket.send(str(self.enemies).encode())
+                    print(self.enemies)
         except:
             print("hello")
 

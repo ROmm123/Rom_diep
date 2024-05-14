@@ -9,14 +9,29 @@ class Client_chat:
         self.socket_chat = None  # Initialize client socket
 
     def connect(self):
-        try:
-            # Connect to the main server
-            self.socket_chat = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.socket_chat.connect((self.host, self.port))
+        if self.host != None and self.port != None:
+            try:
+                # Connect to the main server
+                self.socket_chat = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.socket_chat.connect((self.host, self.port))
 
-        except ConnectionRefusedError:
-            print("Connection refused.")
-            # Handle the error as needed
+            except ConnectionRefusedError:
+                print("Connection refused.")
+                # Handle the error as needed
+        else:
+            pass
+
+    def send_to_Enemies_Am(self):
+        try:
+            self.socket_chat.send("0".encode())
+        except Exception as e:
+            print(f"Error sending to enemy: {e}")
+
+    def receive_data_EnemiesAm(self):
+        data_str = self.socket_chat.recv(2048).decode("utf-8")
+        data_dict = json.loads(data_str)
+        return data_dict
+
 
     def send_data(self, clientMessage):
         try:
