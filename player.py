@@ -54,6 +54,16 @@ class Player():
         self.ultimate_weapon = False
         self.small_weapon = True
         self.stored_abilities = []
+
+        self.initiate_abilities("Speed", speed_c)
+        self.initiate_abilities("Shield", shield_c)
+        self.initiate_abilities("Size", size_c)
+        self.initiate_abilities("Full HP", hp_c_60)
+        self.initiate_abilities("30 HP", hp_c_30)
+        self.initiate_abilities("15 HP", hp_c_15)
+        self.initiate_abilities("5 HP", hp_c_5)
+
+
         self.ability = {}  # dictionary to stored ability and its expiration time
         self.ability_key_state = None
         self.image, self.num_of_image = setting.rand_image()
@@ -63,6 +73,10 @@ class Player():
         self.auto = 0
         self.chat_flag = False
 
+
+    def initiate_abilities(self, ability_name, count):
+        for _ in range(count):
+            self.stored_abilities.append(ability_name)
 
     def get_rect_player(self, radius, position1, position2):
         # gets and returns the player's rect
