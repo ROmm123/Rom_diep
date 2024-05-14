@@ -91,7 +91,7 @@ class main_server:
                 info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
                 #("info : " + str(info))
                 if info:
-                    string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
+                    string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"  # NEED TO INSERT 0 TO ABILITIES INSTEAD OF NONE
                     print("STRING TUPLE : "+str(string_tuple))
                     print("TYPE : "+str(type(string_tuple)))
                     client_database_socket.send(string_tuple.encode("utf-8"))

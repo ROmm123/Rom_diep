@@ -63,7 +63,6 @@ class Player():
         self.initiate_abilities("15 HP", hp_c_15)
         self.initiate_abilities("5 HP", hp_c_5)
 
-
         self.ability = {}  # dictionary to stored ability and its expiration time
         self.ability_key_state = None
         self.image, self.num_of_image = setting.rand_image()
@@ -378,23 +377,27 @@ class Player():
         elif key_state[pygame.K_4] and "Full HP" in self.stored_abilities and not self.ability_key_state[pygame.K_4]:
             self.add_ability("Full HP")
             self.stored_abilities.remove("Full HP")
-            self.hp.Damage = 0
-            to_remove.append("30 HP")
+            if self.hp.Damage != 0:
+                self.hp.Damage = 0
+                to_remove.append("Full HP")
         elif key_state[pygame.K_5] and "30 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_5]:
             self.add_ability("30 HP")
             self.stored_abilities.remove("30 HP")
-            self.hp.Damage -= 30
-            to_remove.append("30 HP")
+            if self.hp.Damage != 0:
+                self.hp.Damage -= 30
+                to_remove.append("30 HP")
         elif key_state[pygame.K_6] and "15 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_6]:
             self.add_ability("15 HP")
             self.stored_abilities.remove("15 HP")
-            self.hp.Damage -= 15
-            to_remove.append("15 HP")
+            if self.hp.Damage != 0:
+                self.hp.Damage -= 15
+                to_remove.append("15 HP")
         elif key_state[pygame.K_7] and "5 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_7]:
             self.add_ability("5 HP")
             self.stored_abilities.remove("5 HP")
-            self.hp.Damage -= 5
-            to_remove.append("5 HP")
+            if self.hp.Damage != 0:
+                self.hp.Damage -= 5
+                to_remove.append("5 HP")
 
         self.ability_key_state = key_state
         self.inventory.remove_from_inventory(to_remove)
