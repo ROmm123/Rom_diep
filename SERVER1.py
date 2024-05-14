@@ -34,6 +34,15 @@ class Server:
             if not data:
                 print(f"closing socket {count}")
                 self.enemies = self.enemies - 1
+
+                for client_socket_am in self.enemies_am_list:
+                    try:
+                        client_socket_am.send(str(self.enemies).encode())
+                    except:
+                        self.enemies_am_list.remove(client_socket_am)
+                    print(self.enemies)
+
+
                 print(f"Client {client_socket.getpeername()} disconnected")
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
@@ -42,7 +51,6 @@ class Server:
                 with self.clients_lock:
                     self.clients.remove((client_socket, client_socket.getpeername()))
                     client_socket.close()
-                    self.Enemies_Am_socket.close()
                     print("no in list")
                 print("pass the self.lock")
                 print(self.clients)
@@ -65,8 +73,9 @@ class Server:
 
                 for client_socket in self.enemies_am_list:
                     client_socket.send(str(self.enemies).encode())
-        except:
-            print("hello")
+                    print(self.enemies)
+        except ConnectionRefusedError as e:
+            print(f"{e}")
 
     def s(self):
         count = 0
@@ -103,7 +112,7 @@ class Server:
 
 
 if __name__ == '__main__':
-    my_server = Server('0.0.0.0', 11110, 11119)
+    my_server = Server('localhost', 11110, 11119)
     print("Starting server...")
     enemies_T = threading.Thread(target = my_server.handle_Enemies_Am)
     enemies_T.start()

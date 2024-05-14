@@ -26,6 +26,17 @@ class Client_chat:
         except Exception as e:
             print(f"Error sending data: {e}")
 
+    def send_to_Enemies_Am(self):
+        try:
+            self.socket_chat.send("0".encode())
+        except Exception as e:
+            print(f"Error sending to enemy: {e}")
+
+    def receive_data_EnemiesAm(self):
+        data_str = self.socket_chat.recv(2048).decode("utf-8")
+        data_dict = json.loads(data_str)
+        return data_dict
+
     def send_database_data(self, data_dict):
         try:
             print(data_dict)

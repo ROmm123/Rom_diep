@@ -130,7 +130,6 @@ class Client:
     def close(self):
         try:
             self.client_socket.close()
-            self.another_socket_for_enemies_or_obj.close()
 
         except Exception as e:
             print(f"Error closing sockets: {e}")

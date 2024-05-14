@@ -23,7 +23,7 @@ class Game():
     def __init__(self, username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
         pygame.init()
         self.setting = setting()
-        self.player = Player(username, password, x, y, 28.5, self.setting.red, self.setting, speed_c, size_c, shield_c,
+        self.player = Player(username, password, x, y, 30, self.setting.red, self.setting, speed_c, size_c, shield_c,
                              hp_c_60, hp_c_30, hp_c_15, hp_c_5)
 
         self.map = Map(self.player, self.setting)
@@ -34,6 +34,7 @@ class Game():
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)
+        self.enemies_socket = Client_chat(None , None)
         self.running = True
         self.speed_start_time = 0
         self.size_start_time = 0
@@ -209,14 +210,16 @@ class Game():
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
-                    self.client.close_enemies_Am()
+                    self.enemies_socket.close()
                     # self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
+                    self.enemies_socket.host = 'localhost'
+                    self.enemies_socket.port = 11119
                     self.client.port = 11110
-                    self.client.enemies_or_obj_Am_port = 11119
                     self.client.connect()
+                    self.enemies_socket.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = True
                     self.FLAG_SERVER_2 = False
@@ -228,7 +231,7 @@ class Game():
 
 
                     # Start handling enemies for server 1
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+                    threading.Thread(target=self.EnemiesAm_handling).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -239,16 +242,17 @@ class Game():
             elif self.number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
-                    print("already_close")
                     self.client.close()
-                    self.client.close_enemies_Am()
+                    self.enemies_socket.close()
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
                     self.client.port = 22222
-                    self.client.enemies_or_obj_Am_port = 22223
+                    self.enemies_socket.host = 'localhost'
+                    self.enemies_socket.port = 22223
                     self.client.connect()
+                    self.enemies_socket.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
                     self.FLAG_SERVER_2 = True
@@ -259,7 +263,7 @@ class Game():
                     #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 2
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+                    threading.Thread(target=self.EnemiesAm_handling).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -271,14 +275,16 @@ class Game():
                 if self.FLAG_SERVER_3 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
-                    self.client.close_enemies_Am()
+                    self.enemies_socket.close()
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
+                    self.enemies_socket.host = 'localhost'
                     self.client.port = 33333
-                    self.client.enemies_or_obj_Am_port = 33334
+                    self.enemies_socket.port = 33334
                     self.client.connect()
+                    self.enemies_socket.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
                     self.FLAG_SERVER_2 = False
@@ -289,7 +295,7 @@ class Game():
                     #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 3
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+                    threading.Thread(target=self.EnemiesAm_handling).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -301,14 +307,16 @@ class Game():
                 if self.FLAG_SERVER_4 == False:
                     # Connect to server 1 if not already connected
                     self.client.close()
-                    self.client.close_enemies_Am()
+                    self.enemies_socket.close()
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
+                    self.enemies_socket.host = 'localhost'
                     self.client.port = 44444
-                    self.client.enemies_or_obj_Am_port = 44445
+                    self.enemies_socket.port = 44445
                     self.client.connect()
+                    self.enemies_socket.connect()
                     # Set flags
                     self.FLAG_SERVER_1 = False
                     self.FLAG_SERVER_2 = False
@@ -319,7 +327,7 @@ class Game():
                     #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 4
-                    threading.Thread(target=self.EnemiesAm_handling, args=(self.client,)).start()
+                    threading.Thread(target=self.EnemiesAm_handling).start()
 
                     # Send player data to server
                     self.client.send_data(data)
@@ -410,21 +418,35 @@ class Game():
         self.client.close()
         self.client.close_enemies_Am()
 
-    def EnemiesAm_handling(self, client):
+    def EnemiesAm_handling(self):
         # Thread function to handle enemies received from server
-        client.send_to_Enemies_Am()
+        time.sleep(2)
+        self.enemies_socket.send_to_Enemies_Am()
         count = 0
         while True:
             try:
-                enemies = client.receive_data_EnemiesAm()
+                enemies = self.enemies_socket.receive_data_EnemiesAm()
             except:
+                enemies = self.num_enemies - 1
+                diff = enemies - self.num_enemies
+                self.num_enemies = enemies
+                print(diff)
+                if diff < 0:
+                    for _ in range(-diff):
+                        print("join th")
+                        if self.enemy_threads:
+                            thread = self.enemy_threads.pop()
+                            thread.join()
+                self.num_enemies = 0
                 print("close thread handeling")
                 break
+
             enemies = int(enemies)
             diff = enemies - self.num_enemies
             self.num_enemies = enemies
 
-            print("diff " + str(diff))
+            print(diff)
+
             if diff > 0:
                 for _ in range(diff):
                     enemy_thread = threading.Thread(target=self.run_therad, args=(count,))

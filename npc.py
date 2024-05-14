@@ -19,7 +19,7 @@ class NPC:
         self.color = color
         self.setting = setting
         self.surface = self.setting.surface
-        self.speed = 2
+        self.speed = 0.1
         self.rect_center_x = 0  # random.randint(0, total screen_width)
         self.rect_center_y = 0  # random.randint(0, total screen_height)
         self.position_map_x = x
@@ -39,7 +39,7 @@ class NPC:
         self.rect_npc = pygame.Rect((self.position_map_x - self.radius), (self.position_map_y - self.radius),
                                     (self.radius * 2), (self.radius * 2))
         # self.resetDefaultLocation()
-        self.shot_cooldown = 10000
+        self.shot_cooldown = 10000000
         self.last_shot_time = pygame.time.get_ticks()
         self.SHOT = NormalShot(5, self.setting.green, 0.962, self.setting,
                                pygame.image.load("pictures/ball_2.png"))  # initialize normal shot
