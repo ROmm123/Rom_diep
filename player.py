@@ -67,7 +67,7 @@ class Player():
         self.ability_key_state = None
         self.image, self.num_of_image = setting.rand_image()
         self.rect = self.image.get_rect()
-        self.rect.center = (400, 300)  # Initial position
+        self.rect.center = (self.setting.screen_width//2, self.setting.screen_height//2)  # Initial position
         self.angle = 0
         self.auto = 0
         self.chat_flag = False
@@ -269,7 +269,7 @@ class Player():
         self.radius = 30
         radius = self.radius
         self.rect = self.image.get_rect()
-        self.rect.center = (400, 300)
+        self.rect.center = (self.setting.screen_width//2, self.setting.screen_height//2)
 
         if "Size" in self.ability:
             if (pygame.time.get_ticks() - self.ability["Size"]) >= self.setting.ability_duration:
@@ -278,7 +278,7 @@ class Player():
                 self.image = self.setting.list_of_small_images[self.num_of_image]
                 self.radius = 22
                 self.rect = self.image.get_rect()
-                self.rect.center = (400, 300)
+                self.rect.center = (self.setting.screen_width//2, self.setting.screen_height//2)
 
         if isinstance(mouse_pos, tuple) and len(mouse_pos) == 2:
             self.update_angle(mouse_pos)

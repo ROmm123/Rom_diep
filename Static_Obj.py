@@ -51,6 +51,8 @@ class StaticObjects():
         for pos_key, inner_dict in crate_positions.items():
             for inner_key, pos_value in inner_dict.items():
                 x, y = pos_value
+                x += self.setting.screen_width
+                y += self.setting.screen_height
                 inner_key = inner_key.split("_")
 
 

@@ -15,7 +15,7 @@ class enemy_main():
         self.radius = player.radius
         self.image, _ = setting.rand_image()
         self.rect = self.image.get_rect()
-        self.rect.center = (400, 300)  # Initial position
+        self.rect.center = (self.setting.screen_width//2, self.setting.screen_height//2)  # Initial position
         self.angle = 0
 
     def calculate(self):
@@ -42,8 +42,8 @@ class enemy_main():
 
             self.draw_enemy(b1, b2, radius)
 
-            self.player.hit_online(self.radius, int(self.data["player_position_x"]) + 400,
-                                   int(self.data["player_position_y"]) + 300)
+            self.player.hit_online(self.radius, int(self.data["player_position_x"]) + self.setting.screen_width//2,
+                                   int(self.data["player_position_y"]) + self.setting.screen_height//2)
 
             if self.data["normal_shot_start_x"] is not None:
                 start_x = int(self.data["normal_shot_start_x"]) + b1
@@ -79,14 +79,14 @@ class enemy_main():
             self.image = self.setting.list_of_small_images[self.data["which_picture"]]
             self.radius = 22
             self.rect = self.image.get_rect()
-            self.rect.center = (400, 300)  # Initial position-
+            self.rect.center = (self.setting.screen_width//2, self.setting.screen_height//2)  # Initial position-
         else:
             self.image = self.setting.list_of_images[self.data["which_picture"]]
             self.radius = 30
             self.rect = self.image.get_rect()
-            self.rect.center = (400, 300)  # Initial position
-        center_x = int(center_x) + 400
-        center_y = int(center_y) + 300
+            self.rect.center = (self.setting.screen_width//2, self.setting.screen_height//2)  # Initial position
+        center_x = int(center_x) + self.setting.screen_width//2
+        center_y = int(center_y) + self.setting.screen_height//2
         radius = int(radius)
         if int(self.data["damage dealt"]) >= 2 * radius:
             center_x = 0

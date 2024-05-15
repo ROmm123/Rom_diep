@@ -5,8 +5,8 @@ import random
 class setting():
 
     def __init__(self):
-        self.screen_width = 800
-        self.screen_height = 600
+        self.screen_width = 1024
+        self.screen_height = 768
         self.clock = pygame.time.Clock()
         self.white = (255, 255, 255)
         self.red = (255, 0, 0)
