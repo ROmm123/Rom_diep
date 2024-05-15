@@ -3,11 +3,12 @@ from settings import *
 
 
 class inventory():
-    def __init__(self, settings ,speed_c , health_count , size_count , shield_count , health2_count , health3_count , health4_count):
+    def __init__(self, settings, speed_c, size_count, shield_count, health_count, health2_count, health3_count,
+                 health4_count):
         self.speed_count = speed_c
-        self.health_count = health_count
         self.size_count = size_count
         self.shield_count = shield_count
+        self.health_count = health_count
         self.health2_count = health2_count
         self.health3_count = health3_count
         self.health4_count = health4_count
@@ -55,7 +56,6 @@ class inventory():
             text_surface = text_front.render(self.a[i], False, 'Black')
             self.settings.surface.blit(text_surface, (x, y))
 
-
     def add_to_inventory(self, ability):
         if ability is not None:
             if ability == "Speed":
@@ -89,6 +89,3 @@ class inventory():
                 self.health3_count -= 1
             else:
                 self.health4_count -= 1
-
-
-

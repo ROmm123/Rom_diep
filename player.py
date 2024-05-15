@@ -361,42 +361,58 @@ class Player():
 
 
     def handle_events_abilities(self, key_state):
+        print(self.stored_abilities)
         to_remove = []
-        if key_state[pygame.K_1] and "Speed" in self.stored_abilities and not self.ability_key_state[pygame.K_1]:
+        if key_state[pygame.K_1] and "Speed" in self.stored_abilities:
+            print("here")
             self.add_ability("Speed")
             self.stored_abilities.remove("Speed")
             to_remove.append("Speed")
-        elif key_state[pygame.K_2] and "Size" in self.stored_abilities and not self.ability_key_state[pygame.K_2]:
+        elif key_state[pygame.K_2] and "Size" in self.stored_abilities:
+            print("here")
             self.add_ability("Size")
             self.stored_abilities.remove("Size")
             to_remove.append("Size")
-        elif key_state[pygame.K_3] and "Shield" in self.stored_abilities and not self.ability_key_state[pygame.K_3]:
+        elif key_state[pygame.K_3] and "Shield" in self.stored_abilities:
+            print("here")
             self.add_ability("Shield")
             self.stored_abilities.remove("Shield")
             to_remove.append("Shield")
-        elif key_state[pygame.K_4] and "Full HP" in self.stored_abilities and not self.ability_key_state[pygame.K_4]:
-            self.add_ability("Full HP")
-            self.stored_abilities.remove("Full HP")
-            if self.hp.Damage != 0:
+        elif key_state[pygame.K_4] and "Full HP" in self.stored_abilities:
+            print("here")
+            if self.hp.Damage > 0:
+                self.add_ability("Full HP")
+                self.stored_abilities.remove("Full HP")
                 self.hp.Damage = 0
+                if self.hp.Damage < 0:
+                    self.hp.Damage = 0
                 to_remove.append("Full HP")
-        elif key_state[pygame.K_5] and "30 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_5]:
-            self.add_ability("30 HP")
-            self.stored_abilities.remove("30 HP")
-            if self.hp.Damage != 0:
+        elif key_state[pygame.K_5] and "30 HP" in self.stored_abilities:
+            print("here")
+            if self.hp.Damage > 0:
+                self.add_ability("30 HP")
+                self.stored_abilities.remove("30 HP")
                 self.hp.Damage -= 30
+                if self.hp.Damage < 0:
+                    self.hp.Damage = 0
                 to_remove.append("30 HP")
-        elif key_state[pygame.K_6] and "15 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_6]:
-            self.add_ability("15 HP")
-            self.stored_abilities.remove("15 HP")
-            if self.hp.Damage != 0:
+        elif key_state[pygame.K_6] and "15 HP" in self.stored_abilities:
+            print("here")
+            if self.hp.Damage > 0:
+                self.add_ability("15 HP")
+                self.stored_abilities.remove("15 HP")
                 self.hp.Damage -= 15
+                if self.hp.Damage < 0:
+                    self.hp.Damage = 0
                 to_remove.append("15 HP")
-        elif key_state[pygame.K_7] and "5 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_7]:
-            self.add_ability("5 HP")
-            self.stored_abilities.remove("5 HP")
-            if self.hp.Damage != 0:
+        elif key_state[pygame.K_7] and "5 HP" in self.stored_abilities:
+            print("here")
+            if self.hp.Damage > 0:
+                self.add_ability("5 HP")
+                self.stored_abilities.remove("5 HP")
                 self.hp.Damage -= 5
+                if self.hp.Damage < 0:
+                    self.hp.Damage = 0
                 to_remove.append("5 HP")
 
         self.ability_key_state = key_state
