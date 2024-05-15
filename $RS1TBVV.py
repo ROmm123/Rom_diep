@@ -6,12 +6,18 @@ from settings import setting
 
 
 class main_server:
-    def __init__(self, host, port, obj_port):
+    def __init__(self, host, port, obj_port , position_port , objCon_port):
         self.main_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.main_server_socket.bind((host, port))
 
+        self.handle_position_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.main_server_socket.bind((host , position_port))
+
         self.obj_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.obj_socket.bind((host, obj_port))
+
+        self.obj_connection_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.obj_connection_socket.bind((host,objCon_port))
 
         self.static_objects = Random_Position(600 * 64, 675 * 64)
         self.clients = []
@@ -49,7 +55,7 @@ class main_server:
     def handle_client_main(self, client_socket):
         try:
             while True:
-                data , addr = self.main_server_socket.recvfrom(2048)
+                data , addr = self.handle_position_socket.recvfrom(2048)
                 if not data:
                     break  # No more data, client has disconnected
 
@@ -62,19 +68,19 @@ class main_server:
                 # Check which server the client should be on based on their position
                 if pos_y < (187*64) and pos_x < (250*64):
                     data = "1_" + str(self.obj_client)
-                    client_socket.sendto(data.encode() , addr)
+                    self.handle_position_socket.sendto(data.encode() , addr)
                 elif pos_y < (187*64) and pos_x > (250 * 64) and pos_x<(30784):
                     data = "2_" + str(self.obj_client)
-                    client_socket.sendto(data.encode() , addr)
+                    self.handle_position_socket.sendto(data.encode() , addr)
                 elif pos_y > (187*64)and pos_y<(22724) and pos_x < (250*64):
                     data = "3_" + str(self.obj_client)
-                    client_socket.sendto(data.encode() , addr)
+                    self.handle_position_socket.sendto(data.encode() , addr)
                 elif pos_y > (187*64)and pos_y<(22724) and pos_x > (250 * 64) and pos_x<(30784):
                     data = "4_" + str(self.obj_client)
-                    client_socket.sendto(data.encode() , addr)
+                    self.handle_position_socket.sendto(data.encode() , addr)
 
         except json.JSONDecodeError:
-            client_socket.sendto("0".encode() , addr)  # Handle JSON decode error
+            self.handle_position_socket.sendto("0".encode() , addr)  # Handle JSON decode error
         except Exception as e:
             print(f"An error occurred: {e}")
         finally:
@@ -83,7 +89,7 @@ class main_server:
     def handle_obj_conection(self):
         try:
             while True:
-                data_obj, addr_obj = self.obj_socket.recvfrom(2048)
+                data_obj, addr_obj = self.obj_connection_socket.recvfrom(2048)
                 # Retrieve the crate position destination data
                 positions_data = self.static_objects.crate_position_dst_data()
                 # Construct the data to send to the client
@@ -98,7 +104,7 @@ class main_server:
                 encoded_data = json_data.encode()
 
                 # Send the encoded data to the clientll
-                self.obj_socket.sendto(encoded_data , addr_obj)
+                self.obj_connection_socket.sendto(encoded_data , addr_obj)
 
                 with self.clients_lock:
                     self.clients.append(addr_obj)
@@ -123,7 +129,7 @@ class main_server:
 
 
 if __name__ == '__main__':
-    my_server = main_server('localhost', 55557, 55558)
+    my_server = main_server('localhost', 55557, 55558 , 55559)
     print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
     obj_thread.start()
