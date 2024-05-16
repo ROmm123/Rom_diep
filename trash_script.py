@@ -6,6 +6,7 @@ import threading
 from enemy_main import *
 from moviepy.editor import VideoFileClip
 from Network_chat import *
+from Static_Obj import *
 import os
 from chat_client import *
 from npc import *

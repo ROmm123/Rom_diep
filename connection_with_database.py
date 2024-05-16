@@ -1,13 +1,17 @@
 import mysql.connector
-import logging
+import queue
+import threading
+import time
 import os
-
+import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def handle_data_for_signin(username, password):
     logger.info("Attempting to connect to the database...")
     try:
+
         # Connect to MySQL database
         conn = mysql.connector.connect(
             host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
@@ -18,7 +22,7 @@ def handle_data_for_signin(username, password):
         )
 
         if conn.is_connected():
-            print('Connected to the database', flush=True)
+            print('Connected to the database')
 
             cursor = conn.cursor()
 
@@ -36,7 +40,7 @@ def handle_data_for_signin(username, password):
 
                 print("Sign-in successful!",flush=True)
             else:
-                print("This name is already taken. Try another.",flush=True)
+                print("this name is already taken try another..",flush=True)
 
             # Close the cursor and connection
             cursor.close()
@@ -44,10 +48,11 @@ def handle_data_for_signin(username, password):
             print('Connection closed')
 
         else:
-            print('Failed to connect to MySQL database')
+            print('Failed to connect to MySQL database', flush=True)
 
     except mysql.connector.Error as e:
-        print(f"Error: {e}", flush=True)
+        print(f"Error: {e}")
+
 
 def handle_data_forLogin(username, password):
     try:
@@ -60,7 +65,7 @@ def handle_data_forLogin(username, password):
         )
 
         if conn.is_connected():
-            print('Connected to the database')
+            print('Connected to the database',flush=True)
 
             # Create a cursor object to execute SQL queries
             cursor = conn.cursor()
@@ -73,13 +78,13 @@ def handle_data_forLogin(username, password):
                 print("Login successful!")
                 print(result)
                 if result[12] == 0 or result[12] == None:
-                    # Update the state in the 'data' table
+                    # Delete the record from the 'data' table
                     update_state_query = "UPDATE data SET state = 1 WHERE username = %s AND password = %s"
                     cursor.execute(update_state_query, (username, password))
                     conn.commit()
-                    print("State updated")
+                    print("State updated ")
                 else:
-                    print("User in game")
+                    print("user in game")
                     result = None
             else:
                 print("Invalid username or password. Please try again.")
@@ -90,13 +95,17 @@ def handle_data_forLogin(username, password):
             print('Connection closed')
             return result
         else:
-            print('Failed to connect to MySQL database')
+            print('Failed to connect to MySQL database',flush=True)
 
     except mysql.connector.Error as e:
-        print(f"Error: {e}")
+        print(f"Error: {e}",flush=True)
 
-def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60, HPCounter_30, HPCounter_15, HPCounter_5, username, password):
+
+def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60,
+                           HPCounter_30, HPCounter_15, HPCounter_5 ,state, username, password):
+    print("log out func:",flush=True)
     try:
+        print("try entry:", flush=True)
         conn = mysql.connector.connect(
             host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
             port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
@@ -106,28 +115,25 @@ def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCou
         )
 
         if conn.is_connected():
-            print('Connected to the database')
+            print('Connected to the database',flush=True)
 
             cursor = conn.cursor()
 
-            query_for_insert = """UPDATE data SET x = %s, y = %s, speed_counter = %s, size_counter = %s, 
-                                  shield_counter = %s, hp_counter_60 = %s, hp_counter_30 = %s, 
-                                  hp_counter_15 = %s, hp_counter_5 = %s, state = 0 
-                                  WHERE username = %s AND password = %s"""
+            query_for_insert = "UPDATE data set x = %s , y = %s , speed_counter = %s , size_counter = %s , shield_counter = %s , hp_counter_60 = %s,  hp_counter_30 = %s , hp_counter_15 = %s , hp_counter_5 = %s , state = 0 WHERE username = %s and password = %s "
             cursor.execute(query_for_insert,
-                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60, HPCounter_30, HPCounter_15, HPCounter_5, username, password))
+                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60 , HPCounter_30 , HPCounter_15 ,HPCounter_5 ,state, username, password))
 
-            # Commit the transaction to apply the changes
+            # commit the transaction to apply the changes
             conn.commit()
 
-            print("Sign-out successful!")
+            print("Sign-out successful!",flush=True)
 
-            # Close the cursor and connection
+            # close the cursor and connection
             cursor.close()
             conn.close()
             print('Connection closed')
         else:
-            print('Failed to connect to MySQL database')
+            print('Failed to connect to MySQL database',flush=True)
 
     except mysql.connector.Error as e:
         print(f"Error: {e}")

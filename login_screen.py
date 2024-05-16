@@ -5,6 +5,7 @@ from trash_script import *
 import signin_screan
 from keybinds import *
 from database_manager import socket_data
+import random
 
 # Initialize Pygame
 pygame.init()

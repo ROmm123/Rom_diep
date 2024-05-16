@@ -9,20 +9,20 @@ from login_screen import socket_data
 
 class Player:
 
-    def __init__(self, username, password, x, y, radius, color, settings, speed_c, size_c, shield_c, hp_c_60, hp_c_30,
+    def __init__(self, username, password, x, y, radius, color, setting, speed_c, size_c, shield_c, hp_c_60, hp_c_30,
                  hp_c_15, hp_c_5):
         self.socket_data_base_main = socket_data().data_base_socket
         self.username = username
         self.password = password
-        self.surface = settings.surface  # player surface
+        self.surface = setting.surface  # player surface
         self.screen_position = [x, y]  # top left screen position
         self.radius = radius  # player radius
         self.color = color  # player color
-        self.setting = settings  # game settings
+        self.setting = setting  # game setting
         self.player_id = 0  # player id
         self.speed = 5  # player speed
         self.acceleration = 0.1  # player acceleration (NOT USED)
-        self.center = [settings.screen_width / 2, settings.screen_height / 2]  # player's center relative to the screen
+        self.center = [setting.screen_width / 2, setting.screen_height / 2]  # player's center relative to the screen
         self.triangle_points = (self.center[0], self.center[1] - self.radius * 1.5), (
             self.center[0] - self.radius, self.center[1]), (
             self.center[0] + self.radius, self.center[1])  # triangle player shape points on screen
