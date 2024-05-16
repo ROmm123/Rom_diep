@@ -1,9 +1,6 @@
-import pygame
-import sys
 import keybinds
 import trash_script
 from database_manager import socket_data
-from keybinds import *
 import login_screen
 import opening_screen
 from opening_screen import *
@@ -78,8 +75,8 @@ def draw_signin_screen():
 
 def perform_signin():
     global username, password
-    print("Username:", username)
-    print("Password:", password)
+    print("Username:", username, flush=True)
+    print("Password:", password, flush=True)
 
 
 def switch_to_login_screen(socket_database):

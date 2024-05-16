@@ -1,6 +1,4 @@
 import pygame
-import random
-from HP import HP
 
 
 class StaticObject():
@@ -9,8 +7,6 @@ class StaticObject():
         self.width = width_ract  # Width of the rectangle
         self.height = height_ract  # Height of the rectangle
         self.position = [x, y]
-        #self.HP = HP((self.position[0] + self.width // 2), (self.position[1] + self.height // 2), self.width // 2,
-                     #setting,damage)
         # pass the.... center.... pos of the obj ,halfbase , setting object
         self.rect_static_obj = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
         self.collision_flag = False
@@ -133,32 +129,6 @@ class StaticObjects():
             static_obj.rect_static_obj = pygame.Rect(static_obj.position[0], static_obj.position[1], static_obj.width,
                                                      static_obj.height)
 
-            # checks collision with the shots
-            '''
-            normal_shot_collision_result = self.normal_shot_collisions(normal_shots_rects, static_obj)
-            big_shot_collision_result = self.big_shot_collisions(big_shots_rects, static_obj)
-            ultimate_shot_collision_result = self.ultimate_shot_collisions(ultimate_shots_rects, static_obj)
-
-#            npc_shot_collision_result = self.npc_shot_collisions(npc_shots_rects, static_obj)
-
-            if normal_shot_collision_result is not None:
-                normal_position_collision = static_obj.position
-                collision_list.append(normal_shot_collision_result)
-
-            if big_shot_collision_result is not None:
-                big_position_collision = static_obj.position
-                collision_list.append(big_shot_collision_result)
-                
-            if ultimate_shot_collision_result is not None:
-                ultimate_position_collision = static_obj.position
-                collision_list.append(ultimate_shot_collision_result)
-            '''
-
-            #if npc_shot_collision_result is not None:
-             #   npc_position_collision = static_obj.position
-              #  collision_list.append(npc_shot_collision_result)
-
-            # checks if the object needs to be drawn
             if static_obj.isAlive:
                 if -25 <= obj_x <= setting.screen_width + 20 and -25 <= obj_y <= setting.screen_height + 20:
                     self.surface.blit(static_obj.image, (obj_x - 4, obj_y - 4))
@@ -170,15 +140,7 @@ class StaticObjects():
                         static_obj.isAlive = False
                         position_collision = static_obj.position
 
-#<<<<<<< HEAD
         return collision_list, position_collision
-#=======
-                    #if static_obj.rect_static_obj.colliderect(npc_rect):
-                    #    print("Collision detected")
-                    #    self.hurt(static_obj)
-
-#        return collision_list, normal_position_collision, big_position_collision #, npc_position_collision
-#>>>>>>> npc1
 
     def npc_collision(self, npc_shots_rects):
         collision_list = []
@@ -229,41 +191,6 @@ class StaticObjects():
         else:
             static_obj.collision_flag = False
 
-    '''
-    def normal_shot_collisions(self, normal_shots_rects, static_obj):
-        for index, shot_rect in enumerate(normal_shots_rects):
-            if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj, 5)
-                return "normal shot index", index
-
-    def big_shot_collisions(self, big_shots_rects, static_obj):
-        for index, shot_rect in enumerate(big_shots_rects):
-            if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj, 8.5)
-                return "big shot index", index
-
-    def ultimate_shot_collisions(self, ultimate_shots_rects, static_obj):
-        for index, shot_rect in enumerate(ultimate_shots_rects):
-            if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj, 60)
-                return "ultimate shot index", index
-                
-    '''
-
-    '''
-    def npc_shot_collisions(self, npc_shots_rects, static_obj):
-        for index, shot_rect in enumerate(npc_shots_rects):
-            if static_obj.rect_static_obj.colliderect(shot_rect):
-                self.hurt(static_obj, 5)
-                return "npc shot index", index
-
-    def hurt(self, static_obj, damage):
-        if static_obj in self.Static_objects:
-            static_obj.HP.Damage += damage
-            if static_obj.HP.Damage >= 2 * static_obj.width:
-                static_obj.HP.ISAlive = False
-    '''
-
     def give_ability(self):
         for static_obj in self.Static_objects:
             if not static_obj.isAlive:
@@ -272,51 +199,7 @@ class StaticObjects():
 
     def extract_values_from_dict(self,dictionary):
         values = []
-        print(dictionary)
+        print(dictionary, flush=True)
         for key in dictionary:
             values.append(dictionary[key])
         return values
-
-    '''
-    def move(self, static_obj):
-        # Check if the speed condition is met
-        if static_obj.speed > 0.3:
-            # Apply movement based on the direction
-            if static_obj.move_button[0]:
-                static_obj.position[0] += static_obj.speed
-            elif static_obj.move_button[1]:
-                static_obj.position[0] -= static_obj.speed
-            elif static_obj.move_button[2]:
-                static_obj.position[1] += static_obj.speed
-            elif static_obj.move_button[3]:
-                static_obj.position[1] -= static_obj.speed
-
-            # Decrease the speed
-            static_obj.speed *= 0.99
-
-        # Check if there was a collision
-        if static_obj.collision_flag:
-            # Reset the collision flag to avoid re-checking in subsequent frames
-            static_obj.collision_flag = False
-
-            # Apply movement based on the direction
-            if static_obj.move_button[0]:
-                static_obj.position[0] += static_obj.speed
-            elif static_obj.move_button[1]:
-                static_obj.position[0] -= static_obj.speed
-            elif static_obj.move_button[2]:
-                static_obj.position[1] += static_obj.speed
-            elif static_obj.move_button[3]:
-                static_obj.position[1] -= static_obj.speed
-
-            # Decrease the speed
-            static_obj.speed *= 0.99
-
-            # Check if the speed condition is no longer met
-            if static_obj.speed <= 0.3:
-                # Reset the speed to avoid slowing down further
-                static_obj.speed = 7
-        '''
-# Example usage:
-# setting = pygame.display.set_mode((800, 600))  # Example of creating a Pygame surface
-# static_obj = StaticObject(setting, map_width, map_height, side_length, color)

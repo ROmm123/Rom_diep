@@ -1,11 +1,9 @@
 import sys
-import pygame
 import math
 from inventory import inventory
 from map import *
 from HP import *
 from normal_shot import NormalShot
-from weapon import Weapon
 import socket
 from login_screen import socket_data
 
@@ -270,7 +268,7 @@ class Player:
                 dict_of_logout = self.build_dict_logout()
                 self.socket_data_base_main.connect()
                 self.socket_data_base_main.send_database_data(dict_of_logout)
-                print("Sent data")
+                print("Sent data", flush=True)
                 self.socket_data_base_main.close()
                 socket.close_enemies_Am()
                 socket.close()

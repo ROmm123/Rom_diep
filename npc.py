@@ -1,12 +1,5 @@
 import math
-import random
-import pygame
-import settings
-import player
-from Static_Obj import StaticObjects
-from Static_Obj import StaticObject
 from HP import HP
-from weapon import Weapon
 from normal_shot import NormalShot
 from inventory import *
 
@@ -67,16 +60,11 @@ class NPC:
                          (self.rect_center_x - self.radius, (self.rect_center_y + self.radius + 10),
                           self.hp.Damage, 10))
 
-        # print(self.rect_center_x, self.rect_center_y, 'npcccc')
-
         player_rect[0] = player_rect[0]
         player_rect[1] = player_rect[1]
         if self.rect_npc.colliderect(player_rect):
-            # print("Collision detected")
             damage = 20
             self.hurt(damage)
-        # print(self.rect_npc)
-        # print(player_rect)
 
         for index, shot_rect in enumerate(normal_shots_rects):
             if self.rect_npc.colliderect(shot_rect):
@@ -274,7 +262,6 @@ class NPCS:
 
                 NPC.draw(player_rect, normal_shots_rects, big_shots_rects, ultimate_shots_rects)
             else:
-                print("else")
                 self.NPCs.remove(NPC)
                 ability1 = random.choice(self.abilities)
                 ability2 = random.choice(self.abilities)

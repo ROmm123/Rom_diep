@@ -16,7 +16,7 @@ class Client_chat:
             self.socket_chat.connect((self.host, self.port))
 
         except ConnectionRefusedError:
-            print("Connection refused.")
+            print("Connection refused.", flush=True)
             # Handle the error as needed
 
     def send_data(self, clientMessage):
@@ -24,13 +24,13 @@ class Client_chat:
             self.socket_chat.send(clientMessage.encode("utf-8"))
 
         except Exception as e:
-            print(f"Error sending data: {e}")
+            print(f"Error sending data: {e}", flush=True)
 
     def send_to_Enemies_Am(self):
         try:
             self.socket_chat.send("0".encode())
         except Exception as e:
-            print(f"Error sending to enemy: {e}")
+            print(f"Error sending to enemy: {e}", flush=True)
 
     def receive_data_EnemiesAm(self):
         data_str = self.socket_chat.recv(2048).decode("utf-8")
@@ -39,12 +39,12 @@ class Client_chat:
 
     def send_database_data(self, data_dict):
         try:
-            print(data_dict)
+            print(data_dict, flush=True)
             data_str = json.dumps(data_dict)
             self.socket_chat.send(data_str.encode("utf-8"))
-            print("data sent")
+            print("data sent", flush=True)
         except Exception as e:
-            print(f"Error sending data: {e}")
+            print(f"Error sending data: {e}", flush=True)
 
     def recevie_data(self):
         clientsMessages = self.socket_chat.recv(2048).decode("utf-8")
@@ -52,9 +52,9 @@ class Client_chat:
 
     def receive_database_data(self):
         while True:
-            print("before receive in receive_database_data")
+            print("before receive in receive_database_data", flush=True)
             data = self.socket_chat.recv(2048).decode("utf-8")
-            print(data)
+            print(data, flush=True)
             if not data:
                 break
             if "sign" in data:
@@ -89,7 +89,7 @@ class Client_chat:
             data_dict = json.loads(data_str)  # Parse the JSON string into a dictionary
             return data_dict
         except Exception as e:
-            print(f"Error receiving data: {e}")
+            print(f"Error receiving data: {e}", flush=True)
             return None
 
     def close(self):
@@ -97,4 +97,4 @@ class Client_chat:
             self.socket_chat.close()
 
         except Exception as e:
-            print(f"Error closing sockets: {e}")
+            print(f"Error closing sockets: {e}", flush=True)

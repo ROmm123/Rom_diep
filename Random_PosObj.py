@@ -1,6 +1,5 @@
-import pygame
+
 import random
-from HP import HP
 
 
 class StaticObject():
