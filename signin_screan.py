@@ -1,31 +1,31 @@
-
 import pygame
 import sys
-
+import keybinds
 import trash_script
 from database_manager import socket_data
-# add text removing after login pressed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Initialize Pygame
+from keybinds import *
 import login_screen
+import opening_screen
+from opening_screen import *
+
 pygame.init()
 
-
 # Constants
-WIDTH, HEIGHT = 400, 300
+WIDTH, HEIGHT = 800, 600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-FONT_SIZE = 24
+FONT_SIZE = 30  # Adjusted font size for better visibility on the smaller screen
 
 # Create the display surface
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("signin Screen")
+pygame.display.set_caption("Signin Screen")
 
 # Fonts
 font = pygame.font.Font(None, FONT_SIZE)
 
 # Text input fields
-username_input = pygame.Rect(150, 100, 200, 30)
-password_input = pygame.Rect(150, 150, 200, 30)
+username_input = pygame.Rect(300, 200, 200, 40)
+password_input = pygame.Rect(300, 280, 200, 40)
 username = ""
 password = ""
 
@@ -36,14 +36,15 @@ username_color = input_color_inactive
 password_color = input_color_inactive
 
 # Login button
-login_button = pygame.Rect(150, 200, 100, 40)
+login_button = pygame.Rect(300, 360, 100, 50)
 login_button_color = pygame.Color("dodgerblue2")
-login_text = font.render("sign-in", True, BLACK)
+login_text = font.render("Sign-in", True, BLACK)
 login_text_rect = login_text.get_rect(center=login_button.center)
 
-switch_button = pygame.Rect(275, 250, 100, 40)
+# Switch button
+switch_button = pygame.Rect(425, 450, 100, 50)
 switch_button_color = pygame.Color("darkorange1")
-switch_text = font.render("toLogin-in", True, BLACK)
+switch_text = font.render("To Login", True, BLACK)
 switch_text_rect = switch_text.get_rect(center=switch_button.center)
 
 
@@ -58,20 +59,21 @@ def draw_signin_screen():
     screen.fill(WHITE)
 
     # Add title
-    title_text = font.render("sign-in", True, BLACK)
-    title_text_rect = title_text.get_rect(center=(WIDTH // 2, 50))
+    title_text = font.render("Sign-in", True, BLACK)
+    title_text_rect = title_text.get_rect(center=(WIDTH // 2, 100))
     screen.blit(title_text, title_text_rect)
 
     pygame.draw.rect(screen, username_color, username_input)
     pygame.draw.rect(screen, password_color, password_input)
     pygame.draw.rect(screen, login_button_color, login_button)
-    pygame.draw.rect(screen, switch_button_color, switch_button)  # Draw the switch button
-    draw_text("Username:", font, BLACK, screen, 50, 100)
-    draw_text("Password:", font, BLACK, screen, 50, 150)
+    pygame.draw.rect(screen, switch_button_color, switch_button)
+
+    draw_text("Username:", font, BLACK, screen, 150, 210)
+    draw_text("Password:", font, BLACK, screen, 150, 290)
     draw_text(username, font, BLACK, screen, username_input.x + 5, username_input.y + 5)
     draw_text("*" * len(password), font, BLACK, screen, password_input.x + 5, password_input.y + 5)
     screen.blit(login_text, login_text_rect)
-    screen.blit(switch_text, switch_text_rect)  # Display text on the switch button
+    screen.blit(switch_text, switch_text_rect)
 
 
 def perform_signin():
@@ -84,7 +86,6 @@ def switch_to_login_screen(socket_database):
     socket_database.close()
     username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5 = login_screen.main()
     trash_script.main(username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
-
 
 
 def main():
@@ -114,19 +115,15 @@ def main():
                     username_color = input_color_inactive
                 elif login_button.collidepoint(event.pos):
                     perform_signin()
-                    print(username + "," + password)
                     database_data = {
                         "username": username,
                         "password": password,
                         "query": "signin"
                     }
-
                     socket_database.send_database_data(database_data)
                     switch_to_login_screen(socket_database)
-
-                elif switch_button.collidepoint(event.pos):  # Check if the switch button is clicked
-                    switch_to_login_screen(socket_database)  # Call the function to switch screens
-
+                elif switch_button.collidepoint(event.pos):
+                    switch_to_login_screen(socket_database)
                 else:
                     input_active = False
                     username_color = input_color_inactive
@@ -139,17 +136,13 @@ def main():
                         username_color = input_color_inactive
                         password_color = input_color_inactive
                         perform_signin()
-                        print(username + "," + password)
-
                         database_data = {
                             "username": username,
                             "password": password,
                             "query": "signin"
                         }
-
                         socket_database.send_database_data(database_data)
                         switch_to_login_screen(socket_database)
-
                     elif event.key == pygame.K_BACKSPACE:
                         if username_input.collidepoint(pygame.mouse.get_pos()):
                             username = username[:-1]
@@ -167,4 +160,7 @@ def main():
 
 
 if __name__ == "__main__":
+    result = opening_screen.show_opening_screen()
+    if result:
+        keybinds.run()
     main()
