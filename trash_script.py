@@ -358,7 +358,7 @@ class Game():
             if len(self.NPCs.NPCs) < 25:  # if the npc is dead repawn a new one (need to be 100 enemies)
                 self.NPCs.add_player(self.player.position, self.number_of_server)
 
-
+            print("SCREEN POSITION_X : "+str(self.player.screen_position[0])+" SCREEN_POSITION_Y : "+str(self.player.screen_position[1]))
 
             if self.num_enemies > 0:
                 hit_result = self.player.hit()
@@ -475,19 +475,7 @@ class Game():
         self.close_connections()
         pygame.quit()
 
-    def generate_random_with_condition_x(self):
-        # Generate a random x position for player/enemy with specific condition
-        while True:
-            random_number_x = random.randint(0, 30000)
-            if random_number_x < 267 * 64 or random_number_x > 320 * 64:
-                return random_number_x
 
-    def generate_random_with_condition_y(self):
-        # Generate a random y position for player/enemy with specific condition
-        while True:
-            random_number_y = random.randint(0, 37000)
-            if random_number_y < (294 * 64 + 32) or random_number_y > 398 * 64:
-                return random_number_y
 
 
     #def add_npc(self, static_objects):  # enemy,
