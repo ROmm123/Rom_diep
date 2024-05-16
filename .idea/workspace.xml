@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="docker files + removed redundant prints">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network_chat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/normal_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/normal_shot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/npc.py" beforeDir="false" afterPath="$PROJECT_DIR$/npc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="no prints and deleted unused files">
+      <change beforePath="$PROJECT_DIR$/server_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_chat.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -578,7 +574,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715888506280</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="no prints and deleted unused files">
+      <option name="closed" value="true" />
+      <created>1715889576371</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1715889576371</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -600,7 +604,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="almost work" />
     <MESSAGE value="only need to draw the shot every time in enemy and main" />
     <MESSAGE value="shot online" />
     <MESSAGE value="shot online with weapon" />
@@ -625,15 +628,12 @@
     <MESSAGE value="abilities out of bounds fixed" />
     <MESSAGE value="opening screen and instructions screen added" />
     <MESSAGE value="docker files + removed redundant prints" />
-    <option name="LAST_COMMIT_MESSAGE" value="docker files + removed redundant prints" />
+    <MESSAGE value="no prints and deleted unused files" />
+    <option name="LAST_COMMIT_MESSAGE" value="no prints and deleted unused files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/screen.py</url>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/../diep-2.0/test.py</url>
           <line>173</line>

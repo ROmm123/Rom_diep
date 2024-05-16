@@ -58,7 +58,7 @@ def receive():
     while True:
         # Accept Connection
         client, address = server.accept()
-        print("Connected with {}".format(str(address)))
+        print("Connected with {}".format(str(address)), flush=True)
 
         # Request And Store Nickname
         client.send('NICK'.encode())
@@ -67,7 +67,7 @@ def receive():
         clients.append(client)
 
         # Print And Broadcast Nickname
-        print("Nickname is {}".format(nickname))
+        print("Nickname is {}".format(nickname), flush=True)
         broadcast("{} joined!".format(nickname).encode()) #send everyone
         client.send('Connected to server!'.encode())
 
