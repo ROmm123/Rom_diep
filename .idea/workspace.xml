@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="abilities out of bounds fixed">
-      <change afterPath="$PROJECT_DIR$/keybinds.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/opening_screen.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pictures/Keybinds.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pictures/Opening_Screen.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_by_Kidan_.xml" beforeDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="opening screen and instructions screen added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connection_with_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection_with_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signin_screan.py" beforeDir="false" afterPath="$PROJECT_DIR$/signin_screan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -240,10 +232,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.signin_screan" />
-        <item itemvalue="Python.login_screen" />
-        <item itemvalue="Python.SERVER2" />
         <item itemvalue="Python.SERVER1" />
         <item itemvalue="Python.$RS1TBVV" />
+        <item itemvalue="Python.login_screen" />
+        <item itemvalue="Python.SERVER2" />
       </list>
     </recent_temporary>
   </component>
@@ -568,7 +560,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715795343804</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="opening screen and instructions screen added">
+      <option name="closed" value="true" />
+      <created>1715859834381</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1715859834381</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -587,7 +587,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="without shot" />
     <MESSAGE value="doesnt work" />
     <MESSAGE value="almost work" />
     <MESSAGE value="only need to draw the shot every time in enemy and main" />
@@ -612,7 +611,8 @@
     <MESSAGE value="new abilities photos" />
     <MESSAGE value="new transition" />
     <MESSAGE value="abilities out of bounds fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="abilities out of bounds fixed" />
+    <MESSAGE value="opening screen and instructions screen added" />
+    <option name="LAST_COMMIT_MESSAGE" value="opening screen and instructions screen added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
