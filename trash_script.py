@@ -211,7 +211,7 @@ class Game():
                     # Connect to server 1 if not already connected
                     self.client.close()
                     self.enemies_socket.close()
-                    # self.transition()
+                    self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
                     self.client.host = 'localhost'
@@ -345,12 +345,18 @@ class Game():
 
 
 
-            self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
-                          self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
-                          self.static_object.Static_objects, self.player.position)
+            abilities = self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
+                          self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(self.player.screen_position),
+                                      self.player.ULTIMATE_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects, self.player.position)
+
+            if abilities:
+                for ability in abilities:
+                    self.player.stored_abilities.append(ability)
+                    self.player.inventory.add_to_inventory(ability)
+
 
             if len(self.NPCs.NPCs) < 25:  # if the npc is dead repawn a new one (need to be 100 enemies)
-                self.NPCs.add_player(self.player.position)
+                self.NPCs.add_player(self.player.position, self.number_of_server)
 
 
 
@@ -401,7 +407,7 @@ class Game():
                     NPC.SHOT.update()
                     NPC.SHOT.reset()
 
-                #self.player.hurt(hit_result)
+
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.ULTIMATE_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)

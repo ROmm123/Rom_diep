@@ -19,9 +19,9 @@ class NPC:
         self.color = color
         self.setting = setting
         self.surface = self.setting.surface
-        self.speed = 1
-        self.rect_center_x = 0  # random.randint(0, total screen_width)
-        self.rect_center_y = 0  # random.randint(0, total screen_height)
+        self.speed = 2
+        self.rect_center_x = 0 #random.randint(0, total screen_width)
+        self.rect_center_y = 0 #random.randint(0, total screen_height)
         self.position_map_x = x
         self.position_map_y = y
         self.set = set
@@ -55,7 +55,7 @@ class NPC:
         self.position_map_x = random.randint(12070, 12600)
         self.position_map_y = random.randint(480, 780)
 
-    def draw(self, player_rect, shots_rects):
+    def draw(self, player_rect, normal_shots_rects, big_shots_rects, ultimate_shots_rects):
         image_rect = self.image.get_rect(center=(self.rect_center_x, self.rect_center_y))
         self.surface.blit(self.image, image_rect)
 
@@ -73,14 +73,25 @@ class NPC:
         player_rect[1] = player_rect[1]
         if self.rect_npc.colliderect(player_rect):
             # print("Collision detected")
-            self.hurt()
+            damage = 20
+            self.hurt(damage)
         # print(self.rect_npc)
         # print(player_rect)
 
-        for index, shot_rect in enumerate(shots_rects):
+        for index, shot_rect in enumerate(normal_shots_rects):
             if self.rect_npc.colliderect(shot_rect):
-                self.hurt()
-                return
+                damage = 0.5
+                self.hurt(damage)
+
+        for index, shot_rect in enumerate(big_shots_rects):
+            if self.rect_npc.colliderect(shot_rect):
+                damage = 1
+                self.hurt(damage)
+
+        for index, shot_rect in enumerate(ultimate_shots_rects):
+            if self.rect_npc.colliderect(shot_rect):
+                damage = 60
+                self.hurt(damage)
 
     def get_rect(self):
         rect_width = self.radius * 2
@@ -108,15 +119,6 @@ class NPC:
 
     def get_angel_to_x_y(self, x, y):
         return math.atan2((y - self.rect_center_y), (x - self.rect_center_x))
-
-    def player_collisions(self, static_obj, player_rect):
-        if static_obj.rect_static_obj.colliderect(player_rect):
-            if not static_obj.collision_flag:
-                static_obj.collision_flag = True
-                self.hurt()
-                # Calculate the centers of both the player's and static object's rectangles
-                player_center_x, player_center_y = player_rect.center
-                static_obj_center_x, static_obj_center_y = static_obj.rect_static_obj.center
 
     def is_alive(self):
         if self.hp.ISAlive:
@@ -154,9 +156,9 @@ class NPC:
         y = self.goal_y + math.sin(a) * self.distance
         self.moveTowardLocation(x, y)
 
-    def hurt(self):
+    def hurt(self, damage):
         # reduces the player's HP and checks if he's dead
-        self.hp.Damage += 5
+        self.hp.Damage += damage
         self.hp.FullHP = False
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
@@ -210,6 +212,7 @@ class NPCS:
             self.setting = setting
             self.surface = setting.surface
             self.NPCs = []  # the NPCs list
+            self.abilities = ("Speed", "Size", "Full HP", "Shield", "30 HP", "15 HP", "5 HP")
 
             if which_server == 1:
                 values_subset = [position_npc[f'pos_{i}'] for i in range(0, 24)]
@@ -227,12 +230,25 @@ class NPCS:
         else:
             pass
 
-    def add_player(self, player_position):
-        npc = NPC(0, 0, 30, self.setting.red, self.setting, 300, player_position)
+    def add_player(self, player_position, which_server):
+        if which_server == 1:
+            position = [random.randint(0, 240 * 64 - 430)  # Random x-coordinate
+                , random.randint(0, 177 * 64 - 330)]  # Random y-coordinate
+        elif which_server == 2:
+            position = [random.randint (261 * 64 - 430 , 30784)  # Random x-coordinate
+                , random.randint(0, 177 * 64 - 330)]  # Random y-coordinate
+        elif which_server == 3:
+            position = [random.randint(0, 240 * 64 - 430)  # Random x-coordinate
+                , random.randint(198 * 64 - 330, 22724)]  # Random y-coordinate
+        else:
+            position = [random.randint(261 * 64 - 430 , 30784)  # Random x-coordinate
+                , random.randint(198 * 64 - 330, 22724)]  # Random y-coordinate
+        npc = NPC(position[0], position[1], 30, self.setting.red, self.setting, 300, player_position)
         self.NPCs.append(npc)
 
-    def run(self, screen_pos_x, screen_pos_y, player_rect, shots_rects, static_objects, player_positions):
-        # self.can_move = True
+    def run(self, screen_pos_x, screen_pos_y, player_rect, normal_shots_rects, big_shots_rects, ultimate_shots_rects, static_objects, player_positions):
+        npcs_dead = []
+        i = 0
         for NPC in self.NPCs:
             if NPC.hp.ISAlive:
                 NPC.get_target(static_objects, screen_pos_x, screen_pos_y, player_positions)
@@ -243,6 +259,11 @@ class NPCS:
                 NPC.rect_center_y = NPC.position_map_y - screen_pos_y
 
                 NPC.move()
+                for j in range(int(len(self.NPCs) - i - 1)):
+                    Npc = self.NPCs[j + i + 1]
+                    if NPC.rect_npc.colliderect(Npc.rect_npc):
+                        NPC.moveTowardLocation(Npc.rect_center_x - 2*(Npc.rect_center_x - NPC.rect_center_x - 1), Npc.rect_center_y - 2*(Npc.rect_center_y - NPC.rect_center_y - 1))
+                i += 1
                 # NPC.flee(NPC.goal_x, NPC.goal_y)
                 # NPC.orbitClockwise()
 
@@ -251,6 +272,13 @@ class NPCS:
 
                 NPC.handle_events_shots(screen_pos_x, screen_pos_y)
 
-                NPC.draw(player_rect, shots_rects)
+                NPC.draw(player_rect, normal_shots_rects, big_shots_rects, ultimate_shots_rects)
             else:
+                print("else")
                 self.NPCs.remove(NPC)
+                ability1 = random.choice(self.abilities)
+                ability2 = random.choice(self.abilities)
+                npcs_dead.append(ability1)
+                npcs_dead.append(ability2)
+
+        return npcs_dead

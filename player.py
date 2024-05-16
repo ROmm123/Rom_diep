@@ -361,8 +361,6 @@ class Player():
 
 
     def handle_events_abilities(self, key_state):
-        #print(self.stored_abilities)
-        print(self.ability_key_state)
         to_remove = []
         if key_state[pygame.K_1] and "Speed" in self.stored_abilities and not self.ability_key_state[pygame.K_1]:
             print("here")
