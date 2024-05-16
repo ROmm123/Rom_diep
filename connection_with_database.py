@@ -13,8 +13,8 @@ def handle_data_for_signin(username, password):
             host='127.0.0.1',  # Host address
             port='3306',  # Port number
             user='root',
-            password='1234',
-            database="datab"
+            password='469625kw469625KW!',
+            database='kidan'
         )
 
         if conn.is_connected():
@@ -56,8 +56,8 @@ def handle_data_forLogin(username, password):
             host='127.0.0.1',  # Host address
             port='3306',  # Port number
             user='root',
-            password='1234',
-            database="datab"
+            password='469625kw469625KW!',
+            database='kidan'
 
         )
 
@@ -105,8 +105,8 @@ def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCou
             host='127.0.0.1',  # Host address
             port='3306',  # Port number
             user='root',
-            password='1234',
-            database="datab"
+            password='469625kw469625KW!',
+            database='kidan'
         )
 
         if conn.is_connected():
