@@ -1,9 +1,7 @@
 import sys
-
 import pygame
 import math
 from inventory import inventory
-
 from map import *
 from HP import *
 from normal_shot import NormalShot
@@ -11,27 +9,22 @@ from weapon import Weapon
 import socket
 from login_screen import socket_data
 
+class Player:
 
-# from inventory import *
-
-
-class Player():
-
-    def __init__(self, username, password, x, y, radius, color, setting, speed_c, size_c, shield_c, hp_c_60, hp_c_30,
+    def __init__(self, username, password, x, y, radius, color, settings, speed_c, size_c, shield_c, hp_c_60, hp_c_30,
                  hp_c_15, hp_c_5):
         self.socket_data_base_main = socket_data().data_base_socket
         self.username = username
         self.password = password
-
-        self.surface = setting.surface  # player surface
+        self.surface = settings.surface  # player surface
         self.screen_position = [x, y]  # top left screen position
         self.radius = radius  # player radius
         self.color = color  # player color
-        self.setting = setting  # game settings
+        self.setting = settings  # game settings
         self.player_id = 0  # player id
         self.speed = 5  # player speed
         self.acceleration = 0.1  # player acceleration (NOT USED)
-        self.center = [setting.screen_width / 2, setting.screen_height / 2]  # player's center relative to the screen
+        self.center = [settings.screen_width / 2, settings.screen_height / 2]  # player's center relative to the screen
         self.triangle_points = (self.center[0], self.center[1] - self.radius * 1.5), (
             self.center[0] - self.radius, self.center[1]), (
             self.center[0] + self.radius, self.center[1])  # triangle player shape points on screen
@@ -85,7 +78,6 @@ class Player():
         rect_y = int(position2 - radius)
         return pygame.Rect(rect_x, rect_y, rect_width, rect_height)
 
-
     def hurt(self, hit_type):
         small_hit_damage = self.setting.hit_damage["normal shot"]
         big_hit_damage = self.setting.hit_damage["big shot"]
@@ -102,8 +94,6 @@ class Player():
             self.hp.Damage += ultimate_hit_damage * shield_effect
         if "npc shot" in hit_type:
             self.hp.Damage += small_hit_damage * shield_effect
-        # if "coll" in hit_type:
-        # self.hp.Damage += coll_hit_damage * shield_effect
 
         # reduces the player's HP and checks if he's dead
         if self.hp.Damage >= self.radius * 2:
@@ -117,7 +107,6 @@ class Player():
         current_time = pygame.time.get_ticks()
         self.ability[ability] = current_time + self.setting.ability_duration
 
-
     def update_ability(self):
         # update the ability timer
         to_remove = []
@@ -128,7 +117,6 @@ class Player():
 
         for ability in to_remove:
             del self.ability[ability]
-
 
     def hit(self):
         to_remove = []
@@ -161,7 +149,6 @@ class Player():
         self.ULTIMATE_SHOT.remove()
         return to_remove
 
-
     def npc_hit(self, npc_shots_rects):
         to_remove = []
         player_rect = self.get_rect_player(self.radius, self.position[0], self.position[1])
@@ -173,7 +160,6 @@ class Player():
                     to_remove.append("npc shot")
                     to_remove.append(i)
         return to_remove
-
 
     def hit_online(self, radius, enemy_position_x, enemy_position_y):
         to_remove = []
@@ -190,9 +176,6 @@ class Player():
                 length = len(all_shot_rects)
                 if i < length:
                     shot_rect = all_shot_rects[i]
-                else:
-                    print("ERROR")
-
                 if enemy_rect.colliderect(shot_rect):
                     self.NORMAL_SHOT.remove_shots.append(i)
                     to_remove.append("normal shot")
@@ -204,9 +187,6 @@ class Player():
                 length = len(all_shot_rects)
                 if i < length:
                     shot_rect = all_shot_rects[i]
-                else:
-                    print("ERROR")
-
                 if enemy_rect.colliderect(shot_rect):
                     self.BIG_SHOT.remove_shots.append(i)
                     to_remove.append("big shot")
@@ -218,9 +198,6 @@ class Player():
                 length = len(all_shot_rects)
                 if i < length:
                     shot_rect = all_shot_rects[i]
-                else:
-                    print("ERROR")
-
                 if enemy_rect.colliderect(shot_rect):
                     self.ULTIMATE_SHOT.remove_shots.append(i)
                     to_remove.append("ultimate shot")
@@ -230,14 +207,12 @@ class Player():
         self.ULTIMATE_SHOT.remove()
         return to_remove
 
-
     def isAlive(self):
         # exits the game if the player dies (NEEDS TO RESPAWN INSTEAD)
         if not self.hp.ISAlive:
             return True
         else:
             return False
-
 
     def build_dict_logout(self):
         data_for_logout = {
@@ -256,13 +231,11 @@ class Player():
         }
         return data_for_logout
 
-
     def update_angle(self, mouse_pos):
         if isinstance(mouse_pos, tuple) and len(mouse_pos) == 2:
             dx = mouse_pos[0] - self.rect.centerx
             dy = mouse_pos[1] - self.rect.centery
             self.angle = math.atan2(dy, dx)  # Calculate angle between player and mouse
-
 
     def draw(self, mouse_pos):
         self.image = self.setting.list_of_images[self.num_of_image]
@@ -289,7 +262,6 @@ class Player():
             pygame.draw.rect(self.surface, self.hp.LifeColor, self.hp.HealthBar)
             pygame.draw.rect(self.surface, self.hp.DamageColor,
                              (self.center[0] - radius, self.center[1] + radius + 10, self.hp.Damage, 10))
-
 
     def handle_events_movement(self, socket) -> socket.socket(socket.AF_INET, socket.SOCK_STREAM):
         # checks for if any of the movement keys are pressed
@@ -343,7 +315,6 @@ class Player():
                 if event.key == pygame.K_l:
                     self.move_button[5] = False
 
-
     def handle_events_shapes(self, key_state):
         # checks for if any of the shapeshift keys are pressed
         if key_state[pygame.K_v]:
@@ -359,26 +330,21 @@ class Player():
             self.ultimate_weapon = False
             self.small_weapon = True
 
-
     def handle_events_abilities(self, key_state):
         to_remove = []
         if key_state[pygame.K_1] and "Speed" in self.stored_abilities and not self.ability_key_state[pygame.K_1]:
-            print("here")
             self.add_ability("Speed")
             self.stored_abilities.remove("Speed")
             to_remove.append("Speed")
         elif key_state[pygame.K_2] and "Size" in self.stored_abilities and not self.ability_key_state[pygame.K_2]:
-            print("here")
             self.add_ability("Size")
             self.stored_abilities.remove("Size")
             to_remove.append("Size")
         elif key_state[pygame.K_3] and "Shield" in self.stored_abilities and not self.ability_key_state[pygame.K_3]:
-            print("here")
             self.add_ability("Shield")
             self.stored_abilities.remove("Shield")
             to_remove.append("Shield")
         elif key_state[pygame.K_4] and "Full HP" in self.stored_abilities and not self.ability_key_state[pygame.K_4]:
-            print("here")
             if self.hp.Damage > 0:
                 self.add_ability("Full HP")
                 self.stored_abilities.remove("Full HP")
@@ -387,7 +353,6 @@ class Player():
                     self.hp.Damage = 0
                 to_remove.append("Full HP")
         elif key_state[pygame.K_5] and "30 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_5]:
-            print("here")
             if self.hp.Damage > 0:
                 self.add_ability("30 HP")
                 self.stored_abilities.remove("30 HP")
@@ -396,7 +361,6 @@ class Player():
                     self.hp.Damage = 0
                 to_remove.append("30 HP")
         elif key_state[pygame.K_6] and "15 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_6]:
-            print("here")
             if self.hp.Damage > 0:
                 self.add_ability("15 HP")
                 self.stored_abilities.remove("15 HP")
@@ -405,7 +369,6 @@ class Player():
                     self.hp.Damage = 0
                 to_remove.append("15 HP")
         elif key_state[pygame.K_7] and "5 HP" in self.stored_abilities and not self.ability_key_state[pygame.K_7]:
-            print("here")
             if self.hp.Damage > 0:
                 self.add_ability("5 HP")
                 self.stored_abilities.remove("5 HP")
@@ -416,7 +379,6 @@ class Player():
 
         self.ability_key_state = key_state
         self.inventory.remove_from_inventory(to_remove)
-
 
     def handle_events_shots(self, key_state):
         # checks for if any of the attack keys are pressed
@@ -458,7 +420,6 @@ class Player():
             elif not key_state[pygame.K_SPACE] and self.NORMAL_SHOT.prev_key:
                 self.NORMAL_SHOT.shot_button[2] = False
             self.NORMAL_SHOT.prev_key = key_state[pygame.K_SPACE]
-
 
     def move(self, ability, collision_side):
         speed = self.speed
@@ -514,5 +475,4 @@ class Player():
         self.inventory.add_to_inventory(ability)
 
         self.position = [(self.screen_position[0] + self.center[0]), (self.screen_position[1] + self.center[1])]
-
         return speed

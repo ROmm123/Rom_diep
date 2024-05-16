@@ -47,7 +47,7 @@ class ChatClient:
     def recvMessage(self):
         while self.player.chat_flag:
             serverMessage = self.chat.recevie_data()
-            print(serverMessage)
+            print(serverMessage, flush=True)
             self.txtMessages.insert(END, "\n" + serverMessage)
 
     def check_sit(self):

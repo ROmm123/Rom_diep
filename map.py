@@ -1,16 +1,17 @@
 import pygame
 from pytmx import load_pygame
-from  settings import *
+from settings import *
+
 
 class Map():
-    def __init__(self , Player1 ,  setting):
+    def __init__(self, Player1, settings):
         self.map = load_pygame("map.tmx")
         self.chunk_size = 20
         self.player = Player1
-        self.screen = setting.surface
-        self.setting = setting
+        self.screen = settings.surface
+        self.setting = settings
 
-    def load_chunk(self, chunk_x, chunk_y,layer):
+    def load_chunk(self, chunk_x, chunk_y, layer):
         chunk_group = pygame.sprite.Group()
         chunk_size = 20
         for x in range(chunk_x, chunk_x + chunk_size):
@@ -25,7 +26,7 @@ class Map():
                     chunk_group.add(sprite)
         return chunk_group
 
-    def calc_chunk(self,layer):
+    def calc_chunk(self, layer):
         player_x = self.player.screen_position[0]
         player_y = self.player.screen_position[1]
 
@@ -33,10 +34,10 @@ class Map():
         COUNT_X = int(player_x // 64)
         COUNT_Y = int(player_y // 64)
 
-        current_chunk = self.load_chunk(COUNT_X, COUNT_Y,layer)
+        current_chunk = self.load_chunk(COUNT_X, COUNT_Y, layer)
         return current_chunk
 
-    def draw_map(self , current_chunk):
+    def draw_map(self, current_chunk):
         for sprite in current_chunk:
             sprite.rect.x = sprite.rect.x - self.player.screen_position[0]
             sprite.rect.y = sprite.rect.y - self.player.screen_position[1]

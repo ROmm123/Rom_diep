@@ -1,24 +1,24 @@
-
 import mysql.connector
-import queue
-import threading
-import time
+import logging
+import os
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def handle_data_for_signin(username, password):
+    logger.info("Attempting to connect to the database...")
     try:
-
         # Connect to MySQL database
         conn = mysql.connector.connect(
-            host='127.0.0.1',  # Host address
-            port='3306',  # Port number
-            user='root',
-            password='1234',
-            database="datab"
+            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
+            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
+            database=os.getenv('DB_NAME', 'db')
         )
 
         if conn.is_connected():
-            print('Connected to the database')
+            print('Connected to the database', flush=True)
 
             cursor = conn.cursor()
 
@@ -34,9 +34,9 @@ def handle_data_for_signin(username, password):
                 # Commit the transaction to apply the changes
                 conn.commit()
 
-                print("Sign-in successful!")
+                print("Sign-in successful!",flush=True)
             else:
-                print("this name is already taken try another..")
+                print("This name is already taken. Try another.",flush=True)
 
             # Close the cursor and connection
             cursor.close()
@@ -47,18 +47,16 @@ def handle_data_for_signin(username, password):
             print('Failed to connect to MySQL database')
 
     except mysql.connector.Error as e:
-        print(f"Error: {e}")
-
+        print(f"Error: {e}", flush=True)
 
 def handle_data_forLogin(username, password):
     try:
         conn = mysql.connector.connect(
-            host='127.0.0.1',  # Host address
-            port='3306',  # Port number
-            user='root',
-            password='1234',
-            database="datab"
-
+            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
+            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
+            database=os.getenv('DB_NAME', 'db')
         )
 
         if conn.is_connected():
@@ -75,13 +73,13 @@ def handle_data_forLogin(username, password):
                 print("Login successful!")
                 print(result)
                 if result[12] == 0 or result[12] == None:
-                    # Delete the record from the 'data' table
+                    # Update the state in the 'data' table
                     update_state_query = "UPDATE data SET state = 1 WHERE username = %s AND password = %s"
                     cursor.execute(update_state_query, (username, password))
                     conn.commit()
-                    print("State updated ")
+                    print("State updated")
                 else:
-                    print("user in game")
+                    print("User in game")
                     result = None
             else:
                 print("Invalid username or password. Please try again.")
@@ -97,16 +95,14 @@ def handle_data_forLogin(username, password):
     except mysql.connector.Error as e:
         print(f"Error: {e}")
 
-
-def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60,
-                           HPCounter_30, HPCounter_15, HPCounter_5 , username, password):
+def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60, HPCounter_30, HPCounter_15, HPCounter_5, username, password):
     try:
         conn = mysql.connector.connect(
-            host='127.0.0.1',  # Host address
-            port='3306',  # Port number
-            user='root',
-            password='1234',
-            database="datab"
+            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
+            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
+            database=os.getenv('DB_NAME', 'db')
         )
 
         if conn.is_connected():
@@ -114,16 +110,19 @@ def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCou
 
             cursor = conn.cursor()
 
-            query_for_insert = "UPDATE data set x = %s , y = %s , speed_counter = %s , size_counter = %s , shield_counter = %s , hp_counter_60 = %s,  hp_counter_30 = %s , hp_counter_15 = %s , hp_counter_5 = %s , state = 0 WHERE username = %s and password = %s "
+            query_for_insert = """UPDATE data SET x = %s, y = %s, speed_counter = %s, size_counter = %s, 
+                                  shield_counter = %s, hp_counter_60 = %s, hp_counter_30 = %s, 
+                                  hp_counter_15 = %s, hp_counter_5 = %s, state = 0 
+                                  WHERE username = %s AND password = %s"""
             cursor.execute(query_for_insert,
-                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60 , HPCounter_30 , HPCounter_15 ,HPCounter_5 , username, password))
+                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60, HPCounter_30, HPCounter_15, HPCounter_5, username, password))
 
-            # commit the transaction to apply the changes
+            # Commit the transaction to apply the changes
             conn.commit()
 
             print("Sign-out successful!")
 
-            # close the cursor and connection
+            # Close the cursor and connection
             cursor.close()
             conn.close()
             print('Connection closed')

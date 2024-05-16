@@ -1,20 +1,13 @@
-import threading
 import time
-import queue  # Import the queue module
-import random
-import pygame
-
 from player import *
-from npc import NPC
-from npc import NPCS
 from map import Map
-from settings import setting
 from Network import Client
+import threading
 from enemy_main import *
 from moviepy.editor import VideoFileClip
 from Network_chat import *
 import os
-from Static_Obj import StaticObjects
+from chat_client import *
 from npc import *
 
 
@@ -34,7 +27,7 @@ class Game():
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
         self.client = Client(None, None)
-        self.enemies_socket = Client_chat(None , None)
+        self.enemies_socket = Client_chat(None, None)
         self.running = True
         self.speed_start_time = 0
         self.size_start_time = 0
@@ -45,35 +38,23 @@ class Game():
         self.FLAG_SERVER_4 = False
         self.flag_obj = False
         self.list_position_clients = []
-
-        #npc init
-        self.client_npc_socket = Client_chat('localhost',55558)
+        self.chat = None
+        self.client_npc_socket = Client_chat('localhost', 55558)
         self.client_npc_socket.connect()
         self.npc_positions = self.client_npc_socket.receive_npc_posiyions_dict()
         self.array_damage_list = self.client_npc_socket.receive_npc_posiyions_dict()
-        print(self.npc_positions)
-        print(self.array_damage_list)
-        print(type(self.npc_positions))
-        print(type(self.array_damage_list))
 
-
-
-        self.NPCs = NPCS(None,None,None,None)
-
+        self.NPCs = NPCS(None, None, None, None)
 
     def run_therad(self, count):
-        print("in draw thread")
         self.list_position_clients.append(self.player.screen_position)  # defult [x,y] for first time
         while True:
             try:
                 data = self.client.receive_data()
-                # print(data)
             except:
-                print("socket is close")
                 break
 
             if data == -1:
-                print("socket is close")
                 break
 
             if data != '0' and data:
@@ -83,14 +64,10 @@ class Game():
                 enemy_instance.main()
 
     def obj_recv(self):
-        print("in draw obj")
-
         while True:
             try:
                 data = self.client_main.receive_obj_prameters()
-                # print(data)
             except:
-                print("socket obj is close")
                 break
 
             if data["position_collision"] != None:
@@ -98,10 +75,7 @@ class Game():
                 # call prozedora hurt in class obj
                 for static_obj in self.static_object.Static_objects:
                     if static_obj.position == data["position_collision"]:
-                            static_obj.isAlive = False
-
-
-
+                        static_obj.isAlive = False
 
     def run(self):
         self.speed_start_time = 0
@@ -109,15 +83,14 @@ class Game():
         self.shield_start_time = 0
         collisions = None
 
-
         while self.running:
             key_state = pygame.key.get_pressed()
             player_rect = self.player.get_rect_player(self.player.radius, self.player.position[0],
                                                       self.player.position[1])
             self.player.handle_events_movement(self.client)
             self.chat = None
-            #if self.player.chat_flag:
-                #self.chat = ChatClient("localhost", 55557, self.player)
+            if self.player.chat_flag:
+                self.chat = ChatClient("localhost", 55557, self.player)
             if not self.player.chat_flag:
                 if self.chat is not None:  # Check if self.chat exists before deleting
                     del self.chat
@@ -128,7 +101,6 @@ class Game():
 
             mouse_pos = pygame.mouse.get_pos()
             self.player.draw(mouse_pos)
-
 
             """self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
                           self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
@@ -149,7 +121,6 @@ class Game():
 
             speed = self.player.move(ability, collisions)
             self.player.update_ability()  # Update ability timers
-
 
             if position_collision is not None:
                 data_for_obj = {
@@ -227,9 +198,6 @@ class Game():
                     self.FLAG_SERVER_4 = False
 
                     self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 1)
-                    #TODO update the list pos from server if i want to go to another server
-
-
                     # Start handling enemies for server 1
                     threading.Thread(target=self.EnemiesAm_handling).start()
 
@@ -260,7 +228,6 @@ class Game():
                     self.FLAG_SERVER_4 = False
 
                     self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 2)
-                    #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 2
                     threading.Thread(target=self.EnemiesAm_handling).start()
@@ -292,7 +259,6 @@ class Game():
                     self.FLAG_SERVER_4 = False
 
                     self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 3)
-                    #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 3
                     threading.Thread(target=self.EnemiesAm_handling).start()
@@ -324,7 +290,6 @@ class Game():
                     self.FLAG_SERVER_4 = True
 
                     self.NPCs = NPCS(self.setting, self.player.position, self.npc_positions, 4)
-                    #TODO update the list pos from server if i want to go to another server
 
                     # Start handling enemies for server 4
                     threading.Thread(target=self.EnemiesAm_handling).start()
@@ -337,28 +302,24 @@ class Game():
 
             if data_for_obj["position_collision"] is not None:
                 self.client_main.send_data_obj_parmetrs(data_for_obj)
-                print(data_for_obj)
 
             if not self.flag_obj:
                 threading.Thread(target=self.obj_recv).start()
                 self.flag_obj = True
 
-
-
             abilities = self.NPCs.run(self.player.screen_position[0], self.player.screen_position[1], player_rect,
-                          self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position), self.player.BIG_SHOT.get_shot_rects(self.player.screen_position),
-                                      self.player.ULTIMATE_SHOT.get_shot_rects(self.player.screen_position), self.static_object.Static_objects, self.player.position)
+                                      self.player.NORMAL_SHOT.get_shot_rects(self.player.screen_position),
+                                      self.player.BIG_SHOT.get_shot_rects(self.player.screen_position),
+                                      self.player.ULTIMATE_SHOT.get_shot_rects(self.player.screen_position),
+                                      self.static_object.Static_objects, self.player.position)
 
             if abilities:
                 for ability in abilities:
                     self.player.stored_abilities.append(ability)
                     self.player.inventory.add_to_inventory(ability)
 
-
-            if len(self.NPCs.NPCs) < 25:  # if the npc is dead repawn a new one (need to be 100 enemies)
+            if len(self.NPCs.NPCs) < 25:  # if the npc is dead respawn a new one (need to be 100 enemies)
                 self.NPCs.add_player(self.player.position, self.number_of_server)
-
-            print("SCREEN POSITION_X : "+str(self.player.screen_position[0])+" SCREEN_POSITION_Y : "+str(self.player.screen_position[1]))
 
             if self.num_enemies > 0:
                 hit_result = self.player.hit()
@@ -374,7 +335,6 @@ class Game():
                     NPC.SHOT.calc_relative(self.player.screen_position, self.player.move_button, self.player.speed)
                     NPC.SHOT.update()
                     NPC.SHOT.reset()
-
 
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button,
                                                       speed)
@@ -407,7 +367,6 @@ class Game():
                     NPC.SHOT.update()
                     NPC.SHOT.reset()
 
-
                 self.player.NORMAL_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.BIG_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
                 self.player.ULTIMATE_SHOT.calc_relative(self.player.screen_position, self.player.move_button, speed)
@@ -436,22 +395,17 @@ class Game():
                 enemies = self.num_enemies - 1
                 diff = enemies - self.num_enemies
                 self.num_enemies = enemies
-                print(diff)
                 if diff < 0:
                     for _ in range(-diff):
-                        print("join th")
                         if self.enemy_threads:
                             thread = self.enemy_threads.pop()
                             thread.join()
                 self.num_enemies = 0
-                print("close thread handeling")
                 break
 
             enemies = int(enemies)
             diff = enemies - self.num_enemies
             self.num_enemies = enemies
-
-            print(diff)
 
             if diff > 0:
                 for _ in range(diff):
@@ -461,7 +415,6 @@ class Game():
                     self.enemy_threads.append(enemy_thread)
             elif diff < 0:
                 for _ in range(-diff):
-                    print("join th")
                     if self.enemy_threads:
                         thread = self.enemy_threads.pop()
                         thread.join()
@@ -475,16 +428,6 @@ class Game():
         self.close_connections()
         pygame.quit()
 
-
-
-
-    #def add_npc(self, static_objects):  # enemy,
-     #   npc_id = self.npc_counter
-      #  self.npc_counter += 1
-       # self.NPC = NPC(npc_id, 0, 0, 30, self.setting.red, self.setting, 400, static_objects)   # Enemy.get_positions(enemy),
-        #self.npcs.append(self.NPC)
-        #return self.NPC
-
     def transition(self):
         # makes sure the player doesn't keep moving in the direction of the transition
         for i in range(len(self.player.move_button)):
@@ -492,18 +435,15 @@ class Game():
         # transition between servers
         video_path = "shmulik2.mp4"
         if not os.path.exists(video_path):
-            print("Video file not found.")
             return
         clip = VideoFileClip(video_path)
         clip.preview()
         clip.close()
 
 
-def main(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
-    print("x : "+str(x))
-    game = Game(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+def main(username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
+    game = Game(username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5)
     try:
-        print("starting game.run")
         game.run()
     finally:
         game.stop()
@@ -511,7 +451,5 @@ def main(username , password , x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30
         pygame.quit()
 
 
-
 if __name__ == '__main__':
-
     main()

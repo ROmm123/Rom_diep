@@ -1,5 +1,4 @@
 import pygame
-import sys
 
 def run():
     # Initialize Pygame

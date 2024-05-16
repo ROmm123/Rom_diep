@@ -1,8 +1,5 @@
 import pygame
-import threading
 import re  # Import re module for regular expressions
-import json
-from weapon import Weapon
 import math
 
 
@@ -36,9 +33,9 @@ class enemy_main():
                 try:
                     self.angle = float(angle_str)
                 except ValueError:
-                    print(f"Invalid angle value: {angle_str}")
+                    print(f"Invalid angle value: {angle_str}", flush=True)
             else:
-                print("Invalid weapon_angle data type")
+                print("Invalid weapon_angle data type", flush=True)
 
             self.draw_enemy(b1, b2, radius)
 

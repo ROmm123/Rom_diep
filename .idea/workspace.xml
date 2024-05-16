@@ -4,12 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="opening screen and instructions screen added">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="docker files + removed redundant prints">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/$RS1TBVV.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_0_30__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Network.py" beforeDir="false" afterPath="$PROJECT_DIR$/Network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER1.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER2.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER3.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SERVER4.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_with_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection_with_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_calculate.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/enemy_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/enemy_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keybinds.py" beforeDir="false" afterPath="$PROJECT_DIR$/keybinds.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/map.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
@@ -114,29 +128,7 @@
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.SERVER3">
-    <configuration name="SERVER1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Rom_diep" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SERVER1.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.signin_screan">
     <configuration name="SERVER2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
@@ -225,27 +217,49 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="signin_screan" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Rom_diep" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/signin_screan.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Python.signin_screan" />
       <item itemvalue="Python.SERVER3" />
       <item itemvalue="Python.SERVER4" />
       <item itemvalue="Python.SERVER2" />
       <item itemvalue="Python.login_screen" />
-      <item itemvalue="Python.SERVER1" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.SERVER3" />
+        <item itemvalue="Python.signin_screan" />
         <item itemvalue="Python.SERVER4" />
+        <item itemvalue="Python.SERVER3" />
         <item itemvalue="Python.SERVER2" />
         <item itemvalue="Python.login_screen" />
-        <item itemvalue="Python.SERVER1" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
+        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
       </set>
     </attachedChunks>
   </component>
@@ -577,6 +591,9 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="docker-compose.yml" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -590,7 +607,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="doesnt work" />
     <MESSAGE value="almost work" />
     <MESSAGE value="only need to draw the shot every time in enemy and main" />
     <MESSAGE value="shot online" />
@@ -615,7 +631,8 @@
     <MESSAGE value="new transition" />
     <MESSAGE value="abilities out of bounds fixed" />
     <MESSAGE value="opening screen and instructions screen added" />
-    <option name="LAST_COMMIT_MESSAGE" value="opening screen and instructions screen added" />
+    <MESSAGE value="docker files + removed redundant prints" />
+    <option name="LAST_COMMIT_MESSAGE" value="docker files + removed redundant prints" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

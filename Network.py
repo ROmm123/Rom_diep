@@ -1,6 +1,5 @@
 import socket
 import json
-import errno
 
 class Client:
     def __init__(self, host, port, enemies_or_obj_Am_port=None):
@@ -22,7 +21,7 @@ class Client:
                 self.another_socket_for_enemies_or_obj.connect((self.host, self.enemies_or_obj_Am_port))
 
         except ConnectionRefusedError:
-            print("Connection refused.")
+            print("Connection refused.", flush=True)
             # Handle the error as needed
 
     def send_data(self, data_dict):
@@ -30,20 +29,20 @@ class Client:
             data_str = json.dumps(data_dict)
             self.client_socket.send(data_str.encode("utf-8"))
         except Exception as e:
-            print(f"Error sending data: {e}")
+            print(f"Error sending data: {e}", flush=True)
 
     def send_data_obj_parmetrs(self, data_dict):
         try:
             data_str = json.dumps(data_dict)
             self.another_socket_for_enemies_or_obj.send(data_str.encode("utf-8"))
         except Exception as e:
-            print(f"Error sending data: {e}")
+            print(f"Error sending data: {e}", flush=True)
 
     def send_to_Enemies_Am(self):
         try:
             self.another_socket_for_enemies_or_obj.send("0".encode())
         except Exception as e:
-            print(f"Error sending to enemy: {e}")
+            print(f"Error sending to enemy: {e}", flush=True)
 
 
     def receive_obj_prameters(self):
@@ -86,7 +85,7 @@ class Client:
             data_dict = json.loads(data_str)  # Parse the JSON string into a dictionary
             return data_dict
         except Exception as e:
-            print(f"Error receiving data: {e}")
+            print(f"Error receiving data: {e}", flush=True)
             return None
 
     def recevie_only_data_from_main(self):
@@ -132,10 +131,10 @@ class Client:
             self.client_socket.close()
 
         except Exception as e:
-            print(f"Error closing sockets: {e}")
+            print(f"Error closing sockets: {e}", flush=True)
 
     def close_enemies_Am(self):
         try:
             self.another_socket_for_enemies_or_obj.close()
         except Exception as e:
-            print(f"Error closing enemy socket: {e}")
+            print(f"Error closing enemy socket: {e}", flush=True)
