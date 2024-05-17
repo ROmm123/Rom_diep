@@ -75,7 +75,7 @@ class Server:
             while True:
                 print("Waiting for new client...", flush=True)
                 client_socket, addr = self.server_socket.accept()
-                print(addr)
+                print(addr, flush=True)
 
                 count+=1
                 print(f"New client connected: {addr}", flush=True)
