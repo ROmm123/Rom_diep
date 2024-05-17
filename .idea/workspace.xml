@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="no prints and deleted unused files">
-      <change beforePath="$PROJECT_DIR$/$RS1TBVV.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_server.py" afterDir="false" />
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="doent work save data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SERVER1.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SERVER2.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SERVER3.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SERVER4.py" beforeDir="false" afterPath="$PROJECT_DIR$/SERVER4.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connection_with_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection_with_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_server.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -208,7 +200,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="signin_screan" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="signin_screan" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -592,7 +584,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715889576371</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="doent work save data">
+      <option name="closed" value="true" />
+      <created>1715899955248</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1715899955248</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -614,7 +614,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="only need to draw the shot every time in enemy and main" />
     <MESSAGE value="shot online" />
     <MESSAGE value="shot online with weapon" />
     <MESSAGE value="hit_online" />
@@ -639,7 +638,8 @@
     <MESSAGE value="opening screen and instructions screen added" />
     <MESSAGE value="docker files + removed redundant prints" />
     <MESSAGE value="no prints and deleted unused files" />
-    <option name="LAST_COMMIT_MESSAGE" value="no prints and deleted unused files" />
+    <MESSAGE value="doent work save data" />
+    <option name="LAST_COMMIT_MESSAGE" value="doent work save data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -102,7 +102,7 @@ def handle_data_forLogin(username, password):
 
 
 def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60,
-                           HPCounter_30, HPCounter_15, HPCounter_5 ,state, username, password):
+                           HPCounter_30, HPCounter_15, HPCounter_5 , username, password):
     print("log out func:",flush=True)
     try:
         print("try entry:", flush=True)
@@ -117,11 +117,16 @@ def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCou
         if conn.is_connected():
             print('Connected to the database',flush=True)
 
-            cursor = conn.cursor()
+            query_for_insert = """UPDATE data SET x = %s, y = %s, speed_counter = %s, size_counter = %s, 
+                                              shield_counter = %s, hp_counter_60 = %s, hp_counter_30 = %s, 
+                                              hp_counter_15 = %s, hp_counter_5 = %s, state = 0 
+                                              WHERE username = %s AND password = %s"""
+            print("qur:"+query_for_insert,flush=True)
+            conn.cursor().execute(query_for_insert,
+                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60 , HPCounter_30 , HPCounter_15 ,HPCounter_5 , username, password))
 
-            query_for_insert = "UPDATE data set x = %s , y = %s , speed_counter = %s , size_counter = %s , shield_counter = %s , hp_counter_60 = %s,  hp_counter_30 = %s , hp_counter_15 = %s , hp_counter_5 = %s , state = 0 WHERE username = %s and password = %s "
-            cursor.execute(query_for_insert,
-                           (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60 , HPCounter_30 , HPCounter_15 ,HPCounter_5 ,state, username, password))
+            print (x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60 , HPCounter_30 , HPCounter_15 ,HPCounter_5 , username, password, flush=True)
+            print(conn.cursor())
 
             # commit the transaction to apply the changes
             conn.commit()
@@ -129,7 +134,7 @@ def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCou
             print("Sign-out successful!",flush=True)
 
             # close the cursor and connection
-            cursor.close()
+            conn.cursor().close()
             conn.close()
             print('Connection closed')
         else:
