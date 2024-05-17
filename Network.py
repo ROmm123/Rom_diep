@@ -77,7 +77,7 @@ class Client:
 
     def receive_list_obj_once(self):
         try:
-            chunk = self.another_socket_for_enemies_or_obj.recv(2**20)  # Receive a chunk of data
+            chunk = self.another_socket_for_enemies_or_obj.recv(2**30)  # Receive a chunk of data
             data_str = chunk.decode("utf-8")  # Decode the byte string to UTF-8 string
             last_bracket_index = data_str.rfind('}')
             if last_bracket_index != -1:
