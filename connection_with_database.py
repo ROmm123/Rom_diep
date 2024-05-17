@@ -2,6 +2,8 @@ import mysql.connector
 import queue
 import threading
 import time
+import os
+import logging
 
 
 def handle_data_for_signin(username, password):
@@ -9,15 +11,15 @@ def handle_data_for_signin(username, password):
 
         # Connect to MySQL database
         conn = mysql.connector.connect(
-            host='127.0.0.1',  # Host address
-            port='3306',  # Port number
-            user='root',
-            password='Ab9919Ab@',
-            database='db'
+            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
+            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
+            database=os.getenv('DB_NAME', 'db')
         )
 
         if conn.is_connected():
-            print('Connected to the database')
+            print('Connected to the database',flush=True)
 
             cursor = conn.cursor()
 
@@ -33,34 +35,34 @@ def handle_data_for_signin(username, password):
                 # Commit the transaction to apply the changes
                 conn.commit()
 
-                print("Sign-in successful!")
+                print("Sign-in successful!", flush=True)
             else:
-                print("this name is already taken try another..")
+                print("this name is already taken try another..",flush=True)
 
             # Close the cursor and connection
             cursor.close()
             conn.close()
-            print('Connection closed')
+            print('Connection closed',flush=True)
 
         else:
             print('Failed to connect to MySQL database')
 
     except mysql.connector.Error as e:
-        print(f"Error: {e}")
+        print(f"Error: {e}",flush=True)
 
 
 def handle_data_forLogin(username, password):
     try:
         conn = mysql.connector.connect(
-            host='127.0.0.1',  # Host address
-            port='3306',  # Port number
-            user='root',
-            password='Ab9919Ab@',
-            database='db'
+            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
+            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
+            database=os.getenv('DB_NAME', 'db')
         )
 
         if conn.is_connected():
-            print('Connected to the database')
+            print('Connected to the database', flush=True)
 
             # Create a cursor object to execute SQL queries
             cursor = conn.cursor()
@@ -77,38 +79,38 @@ def handle_data_forLogin(username, password):
                     update_state_query = "UPDATE data SET state = 1 WHERE username = %s AND password = %s"
                     cursor.execute(update_state_query, (username, password))
                     conn.commit()
-                    print("State updated ")
+                    print("State updated ",flush=True)
                 else:
-                    print("user in game")
+                    print("user in game",flush=True)
                     result = None
             else:
-                print("Invalid username or password. Please try again.")
+                print("Invalid username or password. Please try again.",flush=True)
 
             # Close the cursor and connection
             cursor.close()
             conn.close()
-            print('Connection closed')
+            print('Connection closed',flush=True)
             return result
         else:
-            print('Failed to connect to MySQL database')
+            print('Failed to connect to MySQL database',flush=True)
 
     except mysql.connector.Error as e:
-        print(f"Error: {e}")
+        print(f"Error: {e}",flush=True)
 
 
 def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCounter_60,
                            HPCounter_30, HPCounter_15, HPCounter_5 , username, password):
     try:
         conn = mysql.connector.connect(
-            host='127.0.0.1',  # Host address
-            port='3306',  # Port number
-            user='root',
-            password='Ab9919Ab@',
-            database='db'
+            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
+            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
+            database=os.getenv('DB_NAME', 'db')
         )
 
         if conn.is_connected():
-            print('Connected to the database')
+            print('Connected to the database',flush=True)
 
             cursor = conn.cursor()
 
@@ -119,14 +121,14 @@ def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCou
             # commit the transaction to apply the changes
             conn.commit()
 
-            print("Sign-out successful!")
+            print("Sign-out successful!",flush=True)
 
             # close the cursor and connection
             cursor.close()
             conn.close()
-            print('Connection closed')
+            print('Connection closed',flush=True)
         else:
-            print('Failed to connect to MySQL database')
+            print('Failed to connect to MySQL database',flush=True)
 
     except mysql.connector.Error as e:
-        print(f"Error: {e}")
+        print(f"Error: {e}",flush=True)

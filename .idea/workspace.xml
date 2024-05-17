@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="work 2 clients with docker and random pos">
+    <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="player id in player">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_with_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection_with_database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trash_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash_script.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -201,7 +202,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="signin_screan" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="signin_screan" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="Rom_diep" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -234,9 +235,9 @@
       <list>
         <item itemvalue="Python.signin_screan" />
         <item itemvalue="Python.main_server" />
+        <item itemvalue="Python.SERVER2" />
         <item itemvalue="Python.SERVER4" />
         <item itemvalue="Python.SERVER3" />
-        <item itemvalue="Python.SERVER2" />
       </list>
     </recent_temporary>
   </component>
@@ -617,7 +618,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715948900385</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="player id in player">
+      <option name="closed" value="true" />
+      <created>1715954326662</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1715954326662</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -639,7 +648,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="hit_online" />
     <MESSAGE value="big server" />
     <MESSAGE value="borders" />
     <MESSAGE value="borders fixed" />
@@ -664,7 +672,8 @@
     <MESSAGE value="doent work save data" />
     <MESSAGE value="doesnt work fro 2 clieants with docker" />
     <MESSAGE value="work 2 clients with docker" />
-    <option name="LAST_COMMIT_MESSAGE" value="work 2 clients with docker" />
+    <MESSAGE value="player id in player" />
+    <option name="LAST_COMMIT_MESSAGE" value="player id in player" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

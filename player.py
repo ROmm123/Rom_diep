@@ -65,40 +65,8 @@ class Player:
         self.num_server_dead = None
         self.chat_flag = False
 
-        self.player_id = self.get_player_id()
 
-    def get_player_id(self):
-        try:
-            # Connect to the MySQL database
-            connection = mysql.connector.connect(
-                host='127.0.0.1',  # Host address
-                port='3306',  # Port number
-                user='root',
-                password='Ab9919Ab@',
-                database='db'
-            )
 
-            # Create a cursor object to execute SQL queries
-            cursor = connection.cursor()
-
-            # Execute the SELECT query to fetch player's ID
-            query = "SELECT id FROM data WHERE username = %s AND password = %s"
-            cursor.execute(query, (self.username, self.password))
-
-            # Fetch the result
-            player_id = cursor.fetchone()
-
-            # Close cursor and connection
-            cursor.close()
-            connection.close()
-
-            print("PLAYER IDDDDDDDD",player_id)
-            # Return the player's ID
-            return player_id[0] if player_id else None
-
-        except mysql.connector.Error as error:
-            print("Error while connecting to MySQL:", error)
-            return None
 
     def initiate_abilities(self, ability_name, count):
         for _ in range(count):
