@@ -61,6 +61,7 @@ class Player:
         self.rect.center = (self.setting.screen_width//2, self.setting.screen_height//2)  # Initial position
         self.angle = 0
         self.auto = 0
+        self.num_server_dead = None
         self.chat_flag = False
 
 
@@ -97,8 +98,25 @@ class Player:
         if self.hp.Damage >= self.radius * 2:
             self.hp.ISAlive = False
             self.hp.Damage = 0
-            self.screen_position = [0, 0]
+            pos = self.pos_after_dead(self.num_server_dead)
+            self.screen_position = pos
 
+    def pos_after_dead(self , num_server):
+
+        if (num_server == 1):
+            position = [random.randint(0, 240 * 64 - 430)  # Random x-coordinate
+                , random.randint(0, 177 * 64 - 330)]  # Random y-coordinate
+        elif (num_server == 2):
+            position = [random.randint (261 * 64 - 430 , 30784)  # Random x-coordinate
+                , random.randint(0, 177 * 64 - 330)]  # Random y-coordinate
+        elif (num_server == 3):
+            position = [random.randint(0, 240 * 64 - 430)  # Random x-coordinate
+                , random.randint(198 * 64 - 330, 22724)]  # Random y-coordinate
+        else:
+            position = [random.randint(261 * 64 - 430 , 30784)  # Random x-coordinate
+                , random.randint(198 * 64 - 330, 22724)]  # Random y-coordinate
+
+        return position
 
     def add_ability(self, ability):
         # sets the end time of the ability

@@ -10,6 +10,7 @@ from Static_Obj import *
 import os
 from chat_client import *
 from npc import *
+from random_dead import *
 
 
 # game almost done
@@ -17,8 +18,9 @@ class Game():
     def __init__(self, username, password, x, y, speed_c, size_c, shield_c, hp_c_60, hp_c_30, hp_c_15, hp_c_5):
         pygame.init()
         self.setting = setting()
+        self.dead_pos = RandomDead(None)
         self.player = Player(username, password, x, y, 30, self.setting.red, self.setting, speed_c, size_c, shield_c,
-                             hp_c_60, hp_c_30, hp_c_15, hp_c_5)
+                             hp_c_60, hp_c_30, hp_c_15, hp_c_5,self.dead_pos)
 
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
@@ -181,6 +183,7 @@ class Game():
             if self.number_of_server == 1:
                 if self.FLAG_SERVER_1 == False:
                     # Connect to server 1 if not already connected
+                    self.player.num_server_dead = self.number_of_server
                     self.client.close()
                     self.enemies_socket.close()
                     self.transition()
@@ -211,6 +214,7 @@ class Game():
             elif self.number_of_server == 2:
                 if self.FLAG_SERVER_2 == False:
                     # Connect to server 1 if not already connected
+                    self.player.num_server_dead = self.number_of_server
                     self.client.close()
                     self.enemies_socket.close()
                     self.transition()
@@ -242,6 +246,7 @@ class Game():
             elif self.number_of_server == 3:
                 if self.FLAG_SERVER_3 == False:
                     # Connect to server 1 if not already connected
+                    self.player.num_server_dead = self.number_of_server
                     self.client.close()
                     self.enemies_socket.close()
                     self.transition()
@@ -273,6 +278,7 @@ class Game():
             elif self.number_of_server == 4:
                 if self.FLAG_SERVER_4 == False:
                     # Connect to server 1 if not already connected
+                    self.player.num_server_dead = self.number_of_server
                     self.client.close()
                     self.enemies_socket.close()
                     self.transition()
