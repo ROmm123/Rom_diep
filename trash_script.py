@@ -20,7 +20,7 @@ class Game():
         self.setting = setting()
         self.dead_pos = RandomDead(None)
         self.player = Player(username, password, x, y, 30, self.setting.red, self.setting, speed_c, size_c, shield_c,
-                             hp_c_60, hp_c_30, hp_c_15, hp_c_5,self.dead_pos)
+                             hp_c_60, hp_c_30, hp_c_15, hp_c_5)
 
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0

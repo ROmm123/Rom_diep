@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f3fe4892-7098-4df8-b908-7f187ce2f097" name="Changes" comment="work 2 clients with docker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_screen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_server.py" afterDir="false" />
     </list>
     <list id="2cb768f9-98dc-4d6b-bb9b-ade77f2e70bf" name="Changes by Kidan" comment="" />
     <list id="5e995935-b6e6-4ed6-9cc7-a39be6129180" name="Changes by User" comment="" />
@@ -53,58 +51,58 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.$RS1TBVV.executor": "Run",
-    "Python.Network.executor": "Run",
-    "Python.SERVER1.executor": "Run",
-    "Python.SERVER2.executor": "Run",
-    "Python.SERVER3.executor": "Run",
-    "Python.SERVER4.executor": "Run",
-    "Python.Static_Obj.executor": "Run",
-    "Python.client_chat.executor": "Run",
-    "Python.enemy_calculate.executor": "Run",
-    "Python.enemy_main.executor": "Run",
-    "Python.enemy_player.executor": "Run",
-    "Python.example.executor": "Run",
-    "Python.game.executor": "Run",
-    "Python.game_to_funcs.executor": "Run",
-    "Python.login_screen.executor": "Run",
-    "Python.main (1).executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.main_server.executor": "Run",
-    "Python.main_to_funcs.executor": "Run",
-    "Python.npc.executor": "Run",
-    "Python.old_main.executor": "Run",
-    "Python.player.executor": "Run",
-    "Python.server.executor": "Run",
-    "Python.server_chat.executor": "Run",
-    "Python.server_oop.executor": "Run",
-    "Python.settings.executor": "Run",
-    "Python.signin_screan.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test_game.executor": "Debug",
-    "Python.test_server_new.executor": "Debug",
-    "Python.trash_script.executor": "Run",
-    "Python.trash_script2.executor": "Run",
-    "Python.trash_scripts.executor": "Run",
-    "Python.try_font.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "finally__add__game__with__database",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Program Files (x86)/Python38-32/python.exe",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.$RS1TBVV.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Network.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SERVER1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SERVER2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SERVER3.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SERVER4.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Static_Obj.executor&quot;: &quot;Run&quot;,
+    &quot;Python.client_chat.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enemy_calculate.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enemy_main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enemy_player.executor&quot;: &quot;Run&quot;,
+    &quot;Python.example.executor&quot;: &quot;Run&quot;,
+    &quot;Python.game.executor&quot;: &quot;Run&quot;,
+    &quot;Python.game_to_funcs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.login_screen.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_server.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_to_funcs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.npc.executor&quot;: &quot;Run&quot;,
+    &quot;Python.old_main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.player.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server_chat.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server_oop.executor&quot;: &quot;Run&quot;,
+    &quot;Python.settings.executor&quot;: &quot;Run&quot;,
+    &quot;Python.signin_screan.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_game.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.test_server_new.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.trash_script.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trash_script2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trash_scripts.executor&quot;: &quot;Run&quot;,
+    &quot;Python.try_font.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;finally__add__game__with__database&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Program Files (x86)/Python38-32/python.exe&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\alonb\OneDrive\שולחן העבודה\Rom_diep" />
