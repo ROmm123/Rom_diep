@@ -11,11 +11,12 @@ def handle_data_for_signin(username, password):
 
         # Connect to MySQL database
         conn = mysql.connector.connect(
-            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
-            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
-            user=os.getenv('DB_USER', 'root'),
-            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
-            database=os.getenv('DB_NAME', 'db')
+            host='127.0.0.1',  # host address
+            port='3306',  # port number
+            user='root',
+            password='1234',
+            database="datab"
+
         )
 
         if conn.is_connected():
@@ -54,11 +55,12 @@ def handle_data_for_signin(username, password):
 def handle_data_forLogin(username, password):
     try:
         conn = mysql.connector.connect(
-            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
-            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
-            user=os.getenv('DB_USER', 'root'),
-            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
-            database=os.getenv('DB_NAME', 'db')
+            host='127.0.0.1',  # host address
+            port='3306',  # port number
+            user='root',
+            password='1234',
+            database="datab"
+
         )
 
         if conn.is_connected():
@@ -102,11 +104,12 @@ def handle_data_for_logout(x, y, speedCounter, sizeCounter, shieldCounter, HPCou
                            HPCounter_30, HPCounter_15, HPCounter_5 , username, password):
     try:
         conn = mysql.connector.connect(
-            host=os.getenv('DB_HOST', 'db'),  # Use the environment variable
-            port=os.getenv('DB_PORT', '3306'),  # Use the environment variable
-            user=os.getenv('DB_USER', 'root'),
-            password=os.getenv('DB_PASSWORD', 'Ab9919Ab@'),
-            database=os.getenv('DB_NAME', 'db')
+            host='127.0.0.1',  # host address
+            port='3306',  # port number
+            user='root',
+            password='1234',
+            database="datab"
+
         )
 
         if conn.is_connected():

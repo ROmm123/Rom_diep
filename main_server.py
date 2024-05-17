@@ -1,6 +1,8 @@
 import socket
 import json
 import threading
+import random
+
 from Random_PosObj import Random_Position
 from random_pos_npc import Random_Position_npc
 from connection_with_database import *
@@ -53,6 +55,32 @@ class main_server:
         self.array_demage = [0] * 2000
         self.positions_data = self.static_objects.crate_position_dst_data()
 
+        self.spread_new_clients = 1
+
+    def generate_random_with_condition_x(self , num_of_server):
+        # Generate a random x position for player/enemy with specific condition
+        while True:
+            server_chosen = num_of_server
+            if server_chosen == 1 or server_chosen == 3:
+                random_number_x = random.randint(0, 14930)
+
+            if server_chosen == 2 or server_chosen == 4:
+                random_number_x = random.randint(16279, 30000)
+
+            return random_number_x
+
+    def generate_random_with_condition_y(self , num_of_server):
+        # Generate a random y position for player/enemy with specific condition
+        while True:
+            server_chosen = num_of_server
+            if server_chosen == 1 or server_chosen == 2:
+                random_number_y = random.randint(0, 10995)  #
+
+            if server_chosen == 3 or server_chosen == 4:
+                random_number_y = random.randint(12344, 22000)
+
+            return random_number_y
+
     def handle_database_clients(self):
         # MAKE IT A DIFFERENT THREAD , MULTITHREADING
         #("join handle database")
@@ -91,6 +119,24 @@ class main_server:
                 print("info : " + str(info))
                 if info:
                     string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"  # NEED TO INSERT 0 TO ABILITIES INSTEAD OF NONE
+                    if info[2] == None:
+                        gener_x = self.generate_random_with_condition_x(self.spread_new_clients)
+                        gener_y = self.generate_random_with_condition_y(self.spread_new_clients)
+                        gener_x = str(gener_x)
+                        gener_y = str(gener_y)
+                        elements = string_tuple.strip("()").split(", ")
+
+                        # Modify the desired elements
+                        elements[2] = gener_x
+                        elements[3] = gener_y
+
+                        # Join the elements back into a string with the original format
+                        string_tuple = f"({', '.join(elements)})"
+                        print(f"generated location at server : {self.spread_new_clients}")
+                        self.spread_new_clients += 1
+                        if self.spread_new_clients == 5:
+                            self.spread_new_clients = 1
+
                     print("STRING TUPLE : "+str(string_tuple), flush=True)
                     print("TYPE : "+str(type(string_tuple)), flush=True)
                     client_database_socket.send(string_tuple.encode("utf-8"))

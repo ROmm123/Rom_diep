@@ -54,23 +54,7 @@ def draw_text(text, font, color, surface, x, y):
     text_rect.topleft = (x, y)
     surface.blit(text_obj, text_rect)
 
-def generate_random_with_condition_x():
-    # Generate a random x position for player/enemy with specific condition
-    while True:
-        random_number_x = random.randint(0, 30000)
-        if random_number_x > 14930 and random_number_x < 16279:
-            pass
-        else:
-            return random_number_x
 
-def generate_random_with_condition_y():
-    # Generate a random y position for player/enemy with specific condition
-    while True:
-        random_number_y = random.randint(0, 22000)
-        if random_number_y > 10995 and random_number_y < 12344:
-            pass
-        else:
-            return random_number_y
 
 
 def draw_login_screen():
@@ -153,9 +137,7 @@ def main():
                         hp_c_30 = tuple_data[8]
                         hp_c_15 = tuple_data[9]
                         hp_c_5 = tuple_data[10]
-                        if x is None or y is None:
-                            x = generate_random_with_condition_x()
-                            y = generate_random_with_condition_y()
+                        if speed_c is None:
                             speed_c = 0
                             size_c = 0
                             shield_c = 0
@@ -201,9 +183,7 @@ def main():
                             hp_c_30 = tuple_data[8]
                             hp_c_15 = tuple_data[9]
                             hp_c_5 = tuple_data[10]
-                            if x is None or y is None:
-                                x = generate_random_with_condition_x()
-                                y = generate_random_with_condition_y()
+                            if speed_c is None or y is None:
                                 speed_c = 0
                                 size_c = 0
                                 shield_c = 0
