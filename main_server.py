@@ -107,7 +107,7 @@ class main_server:
                 handle_data_for_logout(loadedPacket["x"], loadedPacket["y"], loadedPacket["speed_c"],
                                        loadedPacket["size_c"],
                                        loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
-                                       loadedPacket["hp_c_15"], loadedPacket["hp_c_5"],"0", loadedPacket["username"],
+                                       loadedPacket["hp_c_15"], loadedPacket["hp_c_5"], loadedPacket["username"],
                                        loadedPacket["password"])
 
     def handle_pos_obj(self, obj_socket, i):
