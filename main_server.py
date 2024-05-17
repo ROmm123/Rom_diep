@@ -103,7 +103,7 @@ class main_server:
                 print("logged out packet: "+str(signout_packet), flush=True)
                 loadedPacket = json.loads(signout_packet[0])
                 print("USERNAME IN LOADEDPACKET = "+str(loadedPacket["username"]), flush=True)
-                print("TYPE USERNAME = "+str(type(loadedPacket["username"])))
+                print("TYPE USERNAME = "+str(type(loadedPacket["username"])), flush=True)
                 handle_data_for_logout(loadedPacket["x"], loadedPacket["y"], loadedPacket["speed_c"],
                                        loadedPacket["size_c"],
                                        loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
