@@ -4,6 +4,7 @@ import threading
 from Random_PosObj import Random_Position
 from random_pos_npc import Random_Position_npc
 from connection_with_database import *
+from settings import setting
 import queue
 
 
@@ -59,10 +60,10 @@ class main_server:
         while True:
             client_database_socket, addr = self.database_socket.accept()
             threading.Thread(target=self.insert_to_queue_database , args=(client_database_socket,)).start()
-            print("started thread", flush=True)
+            print("started thread")
 
     def insert_to_queue_database(self , client_database_socket):
-        print("in thread in main class, socket is : "+str(client_database_socket), flush=True)
+        print("in thread in main class, socket is : "+str(client_database_socket))
         Quary = ("login", "signin" , "logout")
         running = True
         while running:
@@ -74,7 +75,7 @@ class main_server:
                 self.queue_for_login_req.put(
                     (data_from_database, client_database_socket))  # Queue for clients that want to join the game
             elif Quary[2] in data_from_database:
-                print("log out packet , adding to flipin queue init", flush=True)
+                print("log out packet , adding to flipin queue init")
                 self.queue_for_logout_req.put(
                     (data_from_database, client_database_socket))
                 running = False
@@ -91,8 +92,8 @@ class main_server:
                 #("info : " + str(info))
                 if info:
                     string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"  # NEED TO INSERT 0 TO ABILITIES INSTEAD OF NONE
-                    print("STRING TUPLE : "+str(string_tuple), flush=True)
-                    print("TYPE : "+str(type(string_tuple)), flush=True)
+                    print("STRING TUPLE : "+str(string_tuple))
+                    print("TYPE : "+str(type(string_tuple)))
                     client_database_socket.send(string_tuple.encode("utf-8"))
                     #("data sent")
                 else:
@@ -100,9 +101,9 @@ class main_server:
 
             if not self.queue_for_logout_req.empty():
                 signout_packet = self.queue_for_logout_req.get()
-                print("logged out packet: "+str(signout_packet), flush=True)
+                print("logged out packet: "+str(signout_packet))
                 loadedPacket = json.loads(signout_packet[0])
-                print("USERNAME IN LOADEDPACKET = "+str(loadedPacket["username"]), flush=True)
+                print("USERNAME IN LOADEDPACKET = "+str(loadedPacket["username"]))
                 print("TYPE USERNAME = "+str(type(loadedPacket["username"])))
                 handle_data_for_logout(loadedPacket["x"], loadedPacket["y"], loadedPacket["speed_c"],
                                        loadedPacket["size_c"],
@@ -110,15 +111,50 @@ class main_server:
                                        loadedPacket["hp_c_15"], loadedPacket["hp_c_5"], loadedPacket["username"],
                                        loadedPacket["password"])
 
+
+    '''def handle_queue_database(self):
+        while True:
+            if not self.queue_for_Sign_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_Sign_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                handle_data_for_signin(raw_signin_packet["username"], raw_signin_packet["password"])
+            if not self.queue_for_login_req.empty():
+                raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
+                raw_signin_packet = json.loads(raw_signin_packet)
+                info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
+                #("info : " + str(info))
+                if info:
+                    string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"
+                    print("STRING TUPLE : "+str(string_tuple))
+                    print("TYPE : "+str(type(string_tuple)))
+                    client_database_socket.send(string_tuple.encode("utf-8"))
+                    #("data sent")
+                else:
+                    client_database_socket.send("sign again".encode("utf-8"))
+
+            if not self.queue_for_logout_req.empty():
+                signout_packet = self.queue_for_logout_req.get()
+                print("logged out packet: "+str(signout_packet))
+                loadedPacket = json.loads(signout_packet[0])
+                print("USERNAME IN LOADEDPACKET = "+str(loadedPacket["username"]))
+                print("TYPE USERNAME = "+str(type(loadedPacket["username"])))
+                handle_data_for_logout(loadedPacket["x"], loadedPacket["y"], loadedPacket["speed_c"],
+                                       loadedPacket["size_c"],
+                                       loadedPacket["shield_c"], loadedPacket["hp_c_60"], loadedPacket["hp_c_30"],
+                                       loadedPacket["hp_c_15"], loadedPacket["hp_c_5"], loadedPacket["username"],
+                                       loadedPacket["password"])'''
+
+
+
     def handle_pos_obj(self, obj_socket, i):
         while True:
             data = self.recive_from_client(obj_socket)
 
             if not data:
-                print(f"Client {obj_socket.getpeername()} disconnected", flush=True)
+                print(f"Client {obj_socket.getpeername()} disconnected")
                 with self.clients_lock:
                     self.clients.remove((obj_socket, obj_socket.getpeername()))
-                    print("not in list", flush=True)
+                    print("not in list")
                     obj_socket.close()
                     break
 
@@ -173,9 +209,9 @@ class main_server:
         except json.JSONDecodeError:
             client_socket.send("0".encode())  # Handle JSON decode error
         except Exception as e:
-            print(f"An error occurred: {e}", flush=True)
+            print(f"An error occurred: {e}")
         finally:
-            print("Connection closed.", flush=True)
+            print("Connection closed.")
             client_socket.close()
 
     def handle_obj_conection(self):
@@ -186,6 +222,7 @@ class main_server:
                 data_to_send = {
                     "crate_positions": self.positions_data
                 }
+                #print(data_to_send)  # Print the data to send
                 # Convert the dictionary to a JSON string
                 json_data = json.dumps(data_to_send)
                 # Encode the JSON string to bytes
@@ -199,13 +236,14 @@ class main_server:
                 npc_thread = threading.Thread(target=self.handle_pos_obj, args=(obj_socket, len(self.clients, )))
                 npc_thread.start()
         except:
-            print("handle_obj_conection function", flush=True)
+            print("hello")
 
     def handle_npc_conection(self):
         try:
             while True:
                 npc_socket, addr_npc = self.npc_socket.accept()
                 # Construct the data to send to the client
+                print(self.npc_positions)  # Print the data to send
                 # Convert the dictionary to a JSON string
                 json_data = json.dumps(self.npc_positions)
                 # Encode the JSON string to bytes
@@ -221,14 +259,14 @@ class main_server:
                 npc_socket.send(encoded_data)
 
         except:
-            print("handle_npc_conection function", flush=True)
+            print("hello")
 
     def main_for_clients(self):
         while True:
-            print("Waiting for new client...", flush=True)
+            print("Waiting for new client...")
             client_socket, addr = self.main_server_socket.accept()
             self.obj_client += 1
-            print(f"New client connected: {addr}", flush=True)
+            print(f"New client connected: {addr}")
 
             # Start a new thread to handle the client
             client_thread = threading.Thread(target=self.handle_client_main, args=(client_socket,))
@@ -242,14 +280,14 @@ class main_server:
         while True:
             clientSocket, clientAddress = self.hostSocket.accept()
             self.clients_chat.add(clientSocket)
-            print("Connection established with: ", clientAddress[0] + ":" + str(clientAddress[1]), flush=True)
+            print("Connection established with: ", clientAddress[0] + ":" + str(clientAddress[1]))
             thread = threading.Thread(target=self.clientThread_chat, args=(clientSocket, clientAddress,))
             thread.start()
 
     def clientThread_chat(self, clientSocket, clientAddress):
         while True:
             message = clientSocket.recv(1024).decode("utf-8")
-            print(clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message, flush=True)
+            print(clientAddress[0] + ":" + str(clientAddress[1]) + " says: " + message)
             for client_chat in self.clients_chat:
                 if client_chat is not clientSocket:
                     client_chat.send(
@@ -257,7 +295,7 @@ class main_server:
 
             if not message:
                 self.clients.remove(clientSocket)
-                print(clientAddress[0] + ":" + str(clientAddress[1]) + " disconnected", flush=True)
+                print(clientAddress[0] + ":" + str(clientAddress[1]) + " disconnected")
                 break
 
         clientSocket.close()
@@ -265,7 +303,7 @@ class main_server:
 
 if __name__ == '__main__':
     my_server = main_server('0.0.0.0', 55555, 55556, 55557, 64444,55558)
-    print("Starting server...", flush=True)
+    print("Starting server...")
     obj_thread = threading.Thread(target=my_server.handle_obj_conection)
     npc_thread = threading.Thread(target=my_server.handle_npc_conection)
     chat_thread = threading.Thread(target=my_server.start_chat)
@@ -274,4 +312,5 @@ if __name__ == '__main__':
     npc_thread.start()
     chat_thread.start()
     database_thread.start()
+    #threading.Thread(target=my_server.handle_queue_database).start()
     my_server.main_for_clients()

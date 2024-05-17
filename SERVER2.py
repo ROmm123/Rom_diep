@@ -53,7 +53,7 @@ class Server:
             if len(self.clients) > 1:
                 for receiver_socket , addr  in self.clients:
                     if receiver_socket != client_socket:
-                        receiver_socket.send(data.encode("utf-8"), flush=True)
+                        receiver_socket.send(data.encode("utf-8"))
 
 
     def handle_Enemies_Am(self):
