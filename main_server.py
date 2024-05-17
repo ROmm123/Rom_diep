@@ -88,7 +88,7 @@ class main_server:
                 raw_signin_packet, client_database_socket = self.queue_for_login_req.get()
                 raw_signin_packet = json.loads(raw_signin_packet)
                 info = handle_data_forLogin(raw_signin_packet["username"], raw_signin_packet["password"])
-                #("info : " + str(info))
+                print("info : " + str(info))
                 if info:
                     string_tuple = "(" + ", ".join(str(item) if item is not None else "None" for item in info) + ")"  # NEED TO INSERT 0 TO ABILITIES INSTEAD OF NONE
                     print("STRING TUPLE : "+str(string_tuple), flush=True)
