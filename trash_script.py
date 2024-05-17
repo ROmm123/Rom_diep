@@ -85,6 +85,7 @@ class Game():
         self.size_start_time = 0
         self.shield_start_time = 0
         collisions = None
+        print("PLAYER IDDDDDDDD", self.player.player_id)
 
         while self.running:
             key_state = pygame.key.get_pressed()

@@ -82,7 +82,7 @@ class Player:
             cursor = connection.cursor()
 
             # Execute the SELECT query to fetch player's ID
-            query = "SELECT id FROM players WHERE username = %s AND password = %s"
+            query = "SELECT id FROM data WHERE username = %s AND password = %s"
             cursor.execute(query, (self.username, self.password))
 
             # Fetch the result
