@@ -12,6 +12,11 @@ from chat_client import *
 from npc import *
 from random_dead import *
 
+def load_config():
+    with open('config.json', 'r') as f:
+        return json.load(f)
+
+config = load_config()
 
 # game almost done
 class Game():
@@ -25,7 +30,7 @@ class Game():
         self.map = Map(self.player, self.setting)
         self.num_enemies = 0
         self.enemy_threads = []
-        self.client_main = Client('localhost', 55555, 55556)
+        self.client_main = Client(config['main_server_ip'], 55555, 55556)
         self.client_main.connect()
         self.crate_positions = self.client_main.receive_list_obj_once()
         self.static_object = StaticObjects(self.setting, 600 * 64, 675 * 64, self.crate_positions)
@@ -42,7 +47,7 @@ class Game():
         self.flag_obj = False
         self.list_position_clients = []
         self.chat = None
-        self.client_npc_socket = Client_chat('localhost', 55558)
+        self.client_npc_socket = Client_chat(config['main_server_ip'], 55558)
         self.client_npc_socket.connect()
         self.npc_positions = self.client_npc_socket.receive_npc_posiyions_dict()
         self.array_damage_list = self.client_npc_socket.receive_npc_posiyions_dict()
@@ -190,8 +195,8 @@ class Game():
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
-                    self.client.host = 'localhost'
-                    self.enemies_socket.host = 'localhost'
+                    self.client.host = config['server_1_ip']
+                    self.enemies_socket.host = config['server_1_ip']
                     self.enemies_socket.port = 11119
                     self.client.port = 11110
                     self.client.connect()
@@ -221,9 +226,9 @@ class Game():
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
-                    self.client.host = 'localhost'
+                    self.client.host = config['server_2_ip']
                     self.client.port = 22222
-                    self.enemies_socket.host = 'localhost'
+                    self.enemies_socket.host = config['server_2_ip']
                     self.enemies_socket.port = 22223
                     self.client.connect()
                     self.enemies_socket.connect()
@@ -253,8 +258,8 @@ class Game():
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
-                    self.client.host = 'localhost'
-                    self.enemies_socket.host = 'localhost'
+                    self.client.host = config['server_3_ip']
+                    self.enemies_socket.host = config['server_3_ip']
                     self.client.port = 33333
                     self.enemies_socket.port = 33334
                     self.client.connect()
@@ -285,8 +290,8 @@ class Game():
                     self.transition()
                     time.sleep(0.2)
                     self.list_position_clients = []
-                    self.client.host = 'localhost'
-                    self.enemies_socket.host = 'localhost'
+                    self.client.host = config['server_4_ip']
+                    self.enemies_socket.host = config['server_4_ip']
                     self.client.port = 44444
                     self.enemies_socket.port = 44445
                     self.client.connect()
